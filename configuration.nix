@@ -103,7 +103,7 @@
   
   home-manager = {
     # also pass inputs to home-manager modules
-    specialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs; };
     users = {
       "tk" = import ./home.nix;
     }; 
