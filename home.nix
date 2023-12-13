@@ -73,4 +73,12 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  # Testing
+  programs.bash = {
+    sessionVariables = {
+      PASTA = "spaghetti";
+    };
+  };
+  systemd.user.sessionVariables.PASTA2 = "spaghetti";
 }
