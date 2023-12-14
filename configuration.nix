@@ -50,6 +50,7 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
+
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
@@ -79,6 +80,9 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+
+  # Tailscale
+  services.tailscale.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
