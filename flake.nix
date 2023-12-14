@@ -20,15 +20,12 @@
     in
     {
       nixosConfigurations.default = nixpkgs.lib.nixosSystem {
-          # specialArgs = {inherit inputs;};
           modules = [ 
-            ./configuration.nix
+            ./hosts/default/configuration.nix
             home-manager.nixosModules.home-manager {
               home-manager.extraSpecialArgs  = { inherit inputs; };
-              home-manager.users.tk = import ./home.nix;
-
+              home-manager.users.tk = import ./hosts/default/home.nix;
             }
-            # inputs.home-manager.nixosModules.default
             vscode-server.nixosModules.default
             ({ config, pkgs, ... }: {
              services.vscode-server.enable = true;
