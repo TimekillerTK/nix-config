@@ -23,6 +23,7 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      # libx = import ./lib { inherit self inputs outputs stateVersion hmStateVersion; };
     in
     {
       nixosConfigurations.default = nixpkgs.lib.nixosSystem {
