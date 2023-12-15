@@ -11,6 +11,12 @@
     # For Home Manager
     home-manager.url = "github:nix-community/home-manager"; 
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # For managing KDE Plasma
+    plasma-manager.url = "github:pjones/plasma-manager";
+    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-manager.inputs.home-manager.follows = "home-manager";
+    
   };
 
   outputs = { self, nixpkgs, vscode-server, home-manager, ... }@inputs:

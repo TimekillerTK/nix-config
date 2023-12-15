@@ -2,7 +2,17 @@
 
 {
 
-  #services.vscode-server.enable = true;
+  # # KDE Settings
+  # programs.plasma = {
+  #   enable = true;
+  #   shortcuts = {
+  #   	"tdrop.desktop"."_launch" = "Alt+S";
+  #   };
+  #   configFile = {
+  #     "kglobalshortcutsrc"."tdrop.desktop"."_k_friendly_name" = "tdrop -a alacritty";
+  #   };
+  # };
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "tk";
