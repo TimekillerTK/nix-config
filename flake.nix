@@ -30,11 +30,23 @@
     in
     {
       nixosConfigurations = {
-        default = libx.mkHost { hostname = "nixos"; };
+        default = nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit inputs;};
+          modules = [
+            ./hosts/default/default.nix
+            home-manager.nixosModules.home-manager {
+              home-manager.extraSpecialArgs  = { inherit inputs; };
+              home-manager.users.tk = import ./hosts/default/home.nix;
+            }
+          ];
+        };
       };
-      homeConfigurations = {  
-        default = libx.mkHome { hostname = "nixos"; };
-      };
+      # nixosConfigurations = {
+      #   default = libx.mkHost { hostname = "nixos"; };
+      # };
+      # homeConfigurations = {  
+      #   default = libx.mkHome { hostname = "nixos"; };
+      # };
 
     };
 }

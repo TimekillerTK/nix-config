@@ -31,15 +31,6 @@
     ];
   };
 
-  # # VS Code
-  # mkVSCode = {
-  #   hostname, 
-  #   username ? "tk",
-  #   desktop  ? null, 
-  #   platform ? "x86_64-linux", 
-  #   theme    ? "default",
-  #   type     ? "default"
-  # }: inputs.vscode-server.nixosModules {
+  # My helper function
 
-  # }
 }
