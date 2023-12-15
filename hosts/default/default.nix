@@ -7,9 +7,13 @@
 {
   imports =
     [
+      inputs.vscode-server.nixosModules.default
       ./hardware-configuration.nix
       ./user.nix
     ];
+
+  # VS Code Server Module
+  services.vscode-server.enable = true;
 
   # Bootloader.
   boot.loader.grub.enable = true;

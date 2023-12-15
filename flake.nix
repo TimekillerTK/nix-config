@@ -21,31 +21,20 @@
 
   outputs = { self, nixpkgs, vscode-server, home-manager, ... }@inputs:
     let
+      inherit (self) outputs;
+      stateVersion = "23.11";
+      hmStateVersion = "23.11";
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
       libx = import ./lib { inherit self inputs outputs stateVersion hmStateVersion; };
     in
     {
-      nixosConfigurations.default = nixpkgs.lib.nixosSystem {
-          modules = [
-
-            # configuration.nix
-            ./hosts/default/default.nix
-
-            # Home Manager
-            home-manager.nixosModules.home-manager {
-              home-manager.extraSpecialArgs  = { inherit inputs; };
-              home-manager.users.tk = import ./hosts/default/home.nix;
-            }
-
-            # VS Code Server module
-            vscode-server.nixosModules.default
-            ({ config, pkgs, ... }: {
-             services.vscode-server.enable = true;
-            })
-
-          ];
-        };
+      nixosConfigurations = {
+        default = libx.mkHost { hostname = "nixos"; };
+      };
+      homeConfigurations = {  
+        default = libx.mkHome { hostname = "nixos"; };
+      };
 
     };
 }
