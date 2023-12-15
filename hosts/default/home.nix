@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 {
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   
@@ -41,9 +42,9 @@
   # ];
 
   # Testing
-  # home.file."/home/tk/testfile".text = ''
-  #   SOME FILE WITH SOME CONTENT
-  # '';
+  home.file."/home/tk/Atestfile".text = ''
+    SOME FILE WITH SOME CONTENT
+  '';
 
   # home.sessionVariables = {
   #   EDITOR = "vim";
