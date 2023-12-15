@@ -1,5 +1,5 @@
 {
-  description = "Nixos config flake";
+  description = "NixOS config flake";
 
   inputs = {
     # Unstable nixpkgs
@@ -20,8 +20,8 @@
     in
     {
       nixosConfigurations.default = nixpkgs.lib.nixosSystem {
-          modules = [ 
-            ./hosts/default/configuration.nix
+          modules = [
+            ./hosts/default/default.nix
             home-manager.nixosModules.home-manager {
               home-manager.extraSpecialArgs  = { inherit inputs; };
               home-manager.users.tk = import ./hosts/default/home.nix;

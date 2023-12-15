@@ -1,10 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  #imports = [
-  #  "${fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master"}/modules/vscode-server/home.nix"
-  #]
-  
+
   #services.vscode-server.enable = true;
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -23,6 +20,9 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
+    pkgs.tmux
+    pkgs.alacritty
+    pkgs.tdrop # WM-Independent Dropdown Creator (terminal)
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
