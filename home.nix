@@ -28,21 +28,11 @@
     EDITOR = "vim";
   };
 
-  # ISSUE: This doesn't work too
   programs.bash = {
+    enable = true;
     sessionVariables = {
       PASTA = "Spaghetti";
     };
   };
-
-  # ISSUE: This doesn't work either
-  # Testing
-  # programs.bash = {
-  #   sessionVariables = {
-  #     PASTA = "spaghetti";
-  #   };
-  # };
-
-  # ISSUE: Neither does this
-  # systemd.user.sessionVariables.PASTA2 = "spaghetti";
+  
 }
