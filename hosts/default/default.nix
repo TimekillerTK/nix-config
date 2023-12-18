@@ -12,6 +12,10 @@
       ./user.nix
     ];
 
+  # Enable ZSH
+  programs.zsh.enable = true;
+  
+
   # VS Code Server Module
   services.vscode-server.enable = true;
 
@@ -85,7 +89,7 @@
     #media-session.enable = true;
   };
 
-  # Tailscale
+  # Tailscale, needs to have a systemd unit to start the connection (?)
   services.tailscale.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -100,6 +104,7 @@
     isNormalUser = true;
     description = "tk";
     extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.zsh;
     packages = with pkgs; [
       firefox
       kate

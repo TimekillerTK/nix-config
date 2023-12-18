@@ -46,16 +46,21 @@
     SOME FILE WITH SOME CONTENT
   '';
 
-  # home.sessionVariables = {
-  #   EDITOR = "vim";
-  # };
+  home.sessionVariables = {
+    EDITOR = "vim";
+  };
 
-
-  # Testing
-  programs.bash = {
+  programs.zsh = {
     sessionVariables = {
-      PASTA = "spaghetti";
+      PASTA = "Spaghetti";
     };
   };
-  systemd.user.sessionVariables.PASTA2 = "spaghetti";
+
+  # Testing
+  # programs.bash = {
+  #   sessionVariables = {
+  #     PASTA = "spaghetti";
+  #   };
+  # };
+  # systemd.user.sessionVariables.PASTA2 = "spaghetti";
 }
