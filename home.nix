@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./sh.nix
+  ];
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -17,22 +20,14 @@
       pkgs.tdrop # WM-Independent Dropdown Creator (terminal)
     ];
   };
-
-  # Testing
+  
+  #########################
+  # Testing Section below #
+  #########################
+  # -------------------------------------------#
   home.file."/home/tk/Btestfile".text = ''
     SOME FILE WITH SOME CONTENT
   '';
+  # -------------------------------------------#
 
-  # ISSUE: This doesn't work
-  home.sessionVariables = {
-    EDITOR = "vim";
-  };
-
-  programs.bash = {
-    enable = true;
-    sessionVariables = {
-      PASTA = "Spaghetti";
-    };
-  };
-  
 }
