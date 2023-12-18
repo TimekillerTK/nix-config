@@ -15,6 +15,7 @@ in
 
   programs.bash = {
     enable = true;
+    enable = false;
     shellAliases = myAliases;
   };
 
