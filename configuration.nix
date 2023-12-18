@@ -9,12 +9,10 @@
     [
       inputs.vscode-server.nixosModules.default
       ./hardware-configuration.nix
-      ./user.nix
     ];
 
-  # Enable ZSH
-  programs.zsh.enable = true;
-  
+  # Enabling Flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # VS Code Server Module
   services.vscode-server.enable = true;
@@ -30,9 +28,6 @@
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enabling Flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -57,7 +52,6 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-
 
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
@@ -89,9 +83,6 @@
     #media-session.enable = true;
   };
 
-  # Tailscale, needs to have a systemd unit to start the connection (?)
-  services.tailscale.enable = true;
-
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -104,25 +95,13 @@
     isNormalUser = true;
     description = "tk";
     extraGroups = [ "networkmanager" "wheel" ];
-    shell = pkgs.zsh;
+    shell = pkgs.bash;
     packages = with pkgs; [
       firefox
       kate
-      git
+      # git
     ];
   };
-
-  # Creating test user 
-  desktop-user.enable = true;
-  desktop-user.userName = "mytestuser";
-  
-  # home-manager = {
-  #   # also pass inputs to home-manager modules
-  #   extraSpecialArgs = { inherit inputs; };
-  #   users = {
-  #     "tk" = import ./home.nix;
-  #   }; 
-  # };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -131,7 +110,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    #  wget
+    git
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

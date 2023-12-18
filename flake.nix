@@ -13,40 +13,29 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # For managing KDE Plasma
-    plasma-manager.url = "github:pjones/plasma-manager";
-    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
-    plasma-manager.inputs.home-manager.follows = "home-manager";
+    # plasma-manager.url = "github:pjones/plasma-manager";
+    # plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
+    # plasma-manager.inputs.home-manager.follows = "home-manager";
 
   };
 
   outputs = { self, nixpkgs, vscode-server, home-manager, ... }@inputs:
     let
-      inherit (self) outputs;
-      stateVersion = "23.11";
-      hmStateVersion = "23.11";
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-      libx = import ./lib { inherit self inputs outputs stateVersion hmStateVersion; };
     in
     {
       nixosConfigurations = {
         default = nixpkgs.lib.nixosSystem {
           specialArgs = {inherit inputs;};
           modules = [
-            ./hosts/default/default.nix
+            ./configuration.nix
             home-manager.nixosModules.home-manager {
               home-manager.extraSpecialArgs  = { inherit inputs; };
-              home-manager.users.tk = import ./hosts/default/home.nix;
+              home-manager.users.tk = import ./home.nix;
             }
           ];
         };
       };
-      # nixosConfigurations = {
-      #   default = libx.mkHost { hostname = "nixos"; };
-      # };
-      # homeConfigurations = {  
-      #   default = libx.mkHome { hostname = "nixos"; };
-      # };
-
     };
 }

@@ -18,49 +18,31 @@
     ];
   };
 
-  # # KDE Settings
-  # programs.plasma = {
-  #   enable = true;
-  #   shortcuts = {
-  #   	"tdrop.desktop"."_launch" = "Alt+S";
-  #   };
-  #   configFile = {
-  #     "kglobalshortcutsrc"."tdrop.desktop"."_k_friendly_name" = "tdrop -a alacritty";
-  #   };
-  # };
-
-  # home.username = "tk";
-  # home.homeDirectory = "/home/tk";
-  # home.stateVersion = "23.11"; # Please read the comment before changing.
-
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
-  # home.packages = [
-  #   pkgs.tmux
-  #   pkgs.alacritty
-  #   pkgs.tdrop # WM-Independent Dropdown Creator (terminal)
-  # ];
-
   # Testing
-  home.file."/home/tk/Atestfile".text = ''
+  home.file."/home/tk/Btestfile".text = ''
     SOME FILE WITH SOME CONTENT
   '';
 
+  # ISSUE: This doesn't work
   home.sessionVariables = {
     EDITOR = "vim";
   };
 
-  programs.zsh = {
+  # ISSUE: This doesn't work too
+  programs.bash = {
     sessionVariables = {
       PASTA = "Spaghetti";
     };
   };
 
+  # ISSUE: This doesn't work either
   # Testing
   # programs.bash = {
   #   sessionVariables = {
   #     PASTA = "spaghetti";
   #   };
   # };
+
+  # ISSUE: Neither does this
   # systemd.user.sessionVariables.PASTA2 = "spaghetti";
 }
