@@ -17,10 +17,23 @@
     packages = [
       pkgs.tmux
       pkgs.ripgrep
-      pkgs.alacritty # Fast GPU-Accelerated Terminal
+      # pkgs.alacritty # Fast GPU-Accelerated Terminal
       pkgs.tdrop # WM-Independent Dropdown Creator (terminal)
+      (pkgs.nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
     ];
   };
+
+  # Enable managing 
+  fonts.fontconfig.enable = true;
+
+  # Alacritty Config
+  programs.alacritty = {
+    enable = true;
+    settings = {
+
+    };
+  };
+
 
   # Enable Starship for Terminal
   programs.starship.enable = true;
