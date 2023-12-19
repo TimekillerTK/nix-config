@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports = [
@@ -20,6 +20,17 @@
       pkgs.tdrop # WM-Independent Dropdown Creator (terminal)
     ];
   };
+
+  # KDE Plasma Config
+  # programs.plasma = {
+  #   enable = true;
+  #   shortcuts = {
+  #     "tdrop.desktop"."_launch" = "Alt+S";
+  #   };
+  #   configFile = {
+  #     "kglobalshortcutsrc"."tdrop.desktop"."_k_friendly_name" = "tdrop -a alacritty";
+  #   };
+  # };
   
   #########################
   # Testing Section below #
@@ -28,6 +39,7 @@
   home.file."/home/tk/Btestfile".text = ''
     SOME FILE WITH SOME CONTENT
   '';
+  home.file."/home/tk/Ctestfile".source = ./Ctestfile;
   # -------------------------------------------#
 
 }

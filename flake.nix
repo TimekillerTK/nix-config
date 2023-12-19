@@ -13,12 +13,12 @@
     vscode-server.url = "github:nix-community/nixos-vscode-server";
 
     # For managing KDE Plasma
-    # plasma-manager.url = "github:pjones/plasma-manager";
-    # plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
-    # plasma-manager.inputs.home-manager.follows = "home-manager";
+    plasma-manager.url = "github:pjones/plasma-manager";
+    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-manager.inputs.home-manager.follows = "home-manager";
   };
 
-  outputs = { self, nixpkgs, vscode-server, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, vscode-server, home-manager, plasma-manager, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
