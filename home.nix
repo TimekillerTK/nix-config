@@ -3,6 +3,7 @@
 {
   imports = [
     ./sh.nix
+    inputs.plasma-manager.homeManagerModules.plasma-manager
   ];
 
   # Let Home Manager install and manage itself.
@@ -25,7 +26,7 @@
   programs.plasma = {
     enable = true;
     shortcuts = {
-      "tdrop.desktop"."_launch" = "Alt+S";
+      "tdrop.desktop"."_launch" = "Alt+F";
     };
     configFile = {
       "kglobalshortcutsrc"."tdrop.desktop"."_k_friendly_name" = "tdrop -a alacritty";

@@ -20,25 +20,34 @@
 
   outputs = { self, nixpkgs, vscode-server, home-manager, plasma-manager, ... }@inputs:
     let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      # system = "x86_64-linux";
+      # pkgs = nixpkgs.legacyPackages.${system};
+      # specialArgs = {
+      #   inherit plasma-manager;
+      # };
+      inherit (self) outputs;
+      stateVersion = "23.11";
+      hmStateVersion = "23.11";
+      libx = import ./lib { inherit self inputs outputs stateVersion hmStateVersion plasma-manager; };
     in
     {
       nixosConfigurations = {
-        default = nixpkgs.lib.nixosSystem {
-          specialArgs = {inherit inputs;};
-          modules = [
-            ./configuration.nix
-          ];
-        };
+        default = libx.mkHost { hostname = "test-nix"; };
+        # default = nixpkgs.lib.nixosSystem {
+        #   specialArgs = {inherit inputs;};
+        #   modules = [
+        #     ./configuration.nix
+        #   ];
+        # };
       };
       homeConfigurations = {
-        tk = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [
-            ./home.nix
-          ];
-        };
+        tk  = libx.mkHome { hostname = "test-nix"; };
+        # tk = home-manager.lib.homeManagerConfiguration {
+        #   inherit pkgs;
+        #   modules = [
+        #     ./home.nix
+        #   ];
+        # };
       };
     };
 }
