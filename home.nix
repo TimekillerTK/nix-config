@@ -16,7 +16,7 @@
     homeDirectory = "/home/tk";
     packages = [
       pkgs.tmux
-      pkgs.alacritty
+      pkgs.alacritty # Fast GPU-Accelerated Terminal
       pkgs.tdrop # WM-Independent Dropdown Creator (terminal)
     ];
   };

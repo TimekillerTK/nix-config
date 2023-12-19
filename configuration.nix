@@ -86,16 +86,17 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  # Define another user
-  #main-user.enable = true;
-  #main-user.userName = "spaghetti";
-
+  # Switching Default Shell to ZSH
+  environment.shells = with pkgs; [ zsh ];
+  users.defaultUserShell = pkgs.zsh;
+  programs.zsh.enable = true;
+  
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tk = {
     isNormalUser = true;
     description = "tk";
     extraGroups = [ "networkmanager" "wheel" ];
-    shell = pkgs.bash;
+    shell = pkgs.zsh;
     packages = with pkgs; [
       firefox
       kate
