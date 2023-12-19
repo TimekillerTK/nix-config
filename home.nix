@@ -22,6 +22,9 @@
     ];
   };
 
+  # Enable Starship for Terminal
+  programs.starship.enable = true;
+
   # KDE Plasma Config
   programs.plasma = {
     enable = true;
