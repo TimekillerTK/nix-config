@@ -22,15 +22,15 @@
   };
 
   # KDE Plasma Config
-  # programs.plasma = {
-  #   enable = true;
-  #   shortcuts = {
-  #     "tdrop.desktop"."_launch" = "Alt+S";
-  #   };
-  #   configFile = {
-  #     "kglobalshortcutsrc"."tdrop.desktop"."_k_friendly_name" = "tdrop -a alacritty";
-  #   };
-  # };
+  programs.plasma = {
+    enable = true;
+    shortcuts = {
+      "tdrop.desktop"."_launch" = "Alt+S";
+    };
+    configFile = {
+      "kglobalshortcutsrc"."tdrop.desktop"."_k_friendly_name" = "tdrop -a alacritty";
+    };
+  };
   
   #########################
   # Testing Section below #
