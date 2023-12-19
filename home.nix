@@ -29,7 +29,13 @@
   programs.alacritty = {
     enable = true;
     settings = {
-
+      window.decorations = "None"; # buttonless on MacOS
+      window.opacity = 0.85;
+      font.normal.family = "CaskaydiaCove Nerd Font Mono";
+      font.normal.style = "Regular";
+      font.size = 18.0;
+      shell.program = "/home/tk/.nix-profile/bin/tmux";
+      shell.args = [ "new-session" "-A" "-s" "general" ];
     };
   };
 
