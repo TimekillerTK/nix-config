@@ -3,7 +3,6 @@
 {
   imports = [
     ./sh.nix
-    inputs.plasma-manager.homeManagerModules.plasma-manager
   ];
 
   # Let Home Manager install and manage itself.
@@ -17,6 +16,7 @@
     homeDirectory = "/home/tk";
     packages = [
       pkgs.tmux
+      pkgs.ripgrep
       pkgs.alacritty # Fast GPU-Accelerated Terminal
       pkgs.tdrop # WM-Independent Dropdown Creator (terminal)
     ];
@@ -26,7 +26,7 @@
   programs.plasma = {
     enable = true;
     shortcuts = {
-      "tdrop.desktop"."_launch" = "Alt+F";
+      "tdrop.desktop"."_launch" = "Alt+G";
     };
     configFile = {
       "kglobalshortcutsrc"."tdrop.desktop"."_k_friendly_name" = "tdrop -a alacritty";
