@@ -15,7 +15,7 @@
     stateVersion = "23.11"; # Please read the comment before changing.
     homeDirectory = "/home/tk";
     packages = [
-      pkgs.tmux
+      # pkgs.tmux
       pkgs.ripgrep
       pkgs.tdrop # WM-Independent Dropdown Creator (terminal)
       (pkgs.nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
@@ -37,6 +37,12 @@
       shell.program = "/home/tk/.nix-profile/bin/tmux";
       shell.args = [ "new-session" "-A" "-s" "general" ];
     };
+  };
+
+  # tmux config (Terminal Multiplexer)
+  programs.tmux = {
+    enable = true;
+    baseIndex = 1;
   };
 
   # Enable Starship for Terminal
