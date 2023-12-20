@@ -15,8 +15,7 @@
     stateVersion = "23.11"; # Please read the comment before changing.
     homeDirectory = "/home/tk";
     packages = [
-      # pkgs.tmux
-      pkgs.ripgrep
+      pkgs.ripgrep # grep replacement
       pkgs.tdrop # WM-Independent Dropdown Creator (terminal)
       (pkgs.nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
     ];
@@ -37,6 +36,7 @@
       shell.program = "/home/tk/.nix-profile/bin/tmux";
       shell.args = [ "new-session" "-A" "-s" "general" ];
       key_bindings = [
+        # Rebind search to Ctrl+F ?
         { key = "T"; mods = "Control|Shift"; chars = "\\x02\\x63"; } # open tab
         { key = "W"; mods = "Control|Shift"; chars = "\\x02\\x26"; } # close tab
         { key = "Key1"; mods = "Control"; chars = "\\x02\\x31"; } # jump to tab 1
@@ -63,11 +63,14 @@
   # Enable Starship for Terminal
   programs.starship.enable = true;
 
-  # KDE Plasma Config
+  # KDE Plasma Config - https://github.com/pjones/plasma-manager
+  # Run to get current KDE config: 
+  # > nix run github:pjones/plasma-manager
   programs.plasma = {
     enable = true;
     shortcuts = {
-      "tdrop.desktop"."_launch" = "Alt+G";
+      "tdrop.desktop"."_launch" = "Alt+Space";
+      "org.kde.krunner.desktop"."_launch" = ["Ctrl+Space" "Alt+F2" "Search"];
     };
     configFile = {
       "kglobalshortcutsrc"."tdrop.desktop"."_k_friendly_name" = "tdrop -a alacritty";
