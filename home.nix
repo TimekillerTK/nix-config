@@ -73,8 +73,36 @@
     enable = true;
     enableUpdateCheck = false;
     enableExtensionUpdateCheck = false;
-    extensions = with vscode-pkgs; [ # <- ???
+
+    # To find an extension, click on extension in VS Code, it will open a link or use nix repl
+    extensions = with vscode-pkgs; [
+
+      # Rust
+      rust-lang.rust-analyzer
+
+      # Python
       ms-python.python
+      ms-python.black-formatter
+      ms-python.isort
+
+      # Powershell
+      ms-vscode.powershell
+
+      # Gitlab
+      gitlab.gitlab-workflow
+
+      # AWS
+      amazonwebservices.aws-toolkit-vscode
+
+      # Markdown
+      yzhang.markdown-all-in-one
+      davidanson.vscode-markdownlint
+
+      # Other
+      jnoortheen.nix-ide
+      mechatroner.rainbow-csv
+      redhat.vscode-yaml
+      donjayamanne.githistory
     ];
     # extensions = with pkgs.vscode-extensions; [
     #   tamasfe.even-better-toml # toml support
