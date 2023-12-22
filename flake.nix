@@ -16,13 +16,16 @@
     # For VS Code Remote to work on NixOS
     vscode-server.url = "github:nix-community/nixos-vscode-server";
 
+    # Community VS Code Extensions
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+
     # For managing KDE Plasma
     plasma-manager.url = "github:pjones/plasma-manager";
     plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
     plasma-manager.inputs.home-manager.follows = "home-manager";
   };
 
-  outputs = { self, nixpkgs, vscode-server, home-manager, plasma-manager, ... }@inputs:
+  outputs = { self, nixpkgs, vscode-server, home-manager, plasma-manager, nix-vscode-extensions, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -45,6 +48,7 @@
           modules = [
             ./home.nix
             inputs.plasma-manager.homeManagerModules.plasma-manager
+            inputs.nix-vscode-extensions.extensions.${system} # <- This is wrong?
           ];
         };
       };

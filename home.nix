@@ -73,6 +73,19 @@
     enable = true;
     enableUpdateCheck = false;
     enableExtensionUpdateCheck = false;
+    extensions = with extensions.vscode-marketplace; [ # <- ???
+      microsoft.python
+    ];
+    # extensions = with pkgs.vscode-extensions; [
+    #   tamasfe.even-better-toml # toml support
+
+    #   rust-lang.rust-analyzer # rust
+
+    #   # python
+    #   ms-python.python
+    #   ms-python.isort 
+    #   ms-python.black-formatter
+    # ];
   };
 
   # KDE Plasma Config - https://github.com/pjones/plasma-manager
