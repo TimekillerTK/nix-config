@@ -8,8 +8,19 @@
   imports =
     [
       inputs.vscode-server.nixosModules.default
+      inputs.sops-nix.nixosModules.sops
       ./hardware-configuration.nix
     ];
+
+  # Path to secrets file & format
+  sops.defaultSopsFile = ./secrets/tailscale.yaml;
+  sops.defaultSopsFormat = "yaml";
+
+  # Path to Age Private Key
+  sops.age.keyFile = "/home/tk/.config/sops/age/keys.txt";
+
+  # The actual key
+  sops.secrets.tailscale = { };
 
   # Enabling Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -63,6 +74,37 @@
     xkbVariant = "";
   };
 
+  # Enable tailscale
+  services.tailscale.enable = true;
+
+  # systemd units for tailscale - oneshot job to authenticate to Tailscale
+  systemd.services.tailscale-autoconnect = {
+    description = "Automatic connection to Tailscale";
+
+    # make sure tailscale is running before trying to connect to tailscale
+    after = [ "network-pre.target" "tailscale.service" ];
+    wants = [ "network-pre.target" "tailscale.service" ];
+    wantedBy = [ "multi-user.target" ];
+
+    # set this service as a oneshot job
+    serviceConfig.Type = "oneshot";
+
+    # have the job run this shell script
+    script = with pkgs; ''
+      # wait for tailscaled to settle
+      sleep 2
+
+      # check if we are already authenticated to tailscale
+      status="$(${tailscale}/bin/tailscale status -json | ${jq}/bin/jq -r .BackendState)"
+      if [ $status = "Running" ]; then # if so, then do nothing
+        exit 0
+      fi
+
+      # otherwise authenticate with tailscale
+      ${tailscale}/bin/tailscale up -authkey ${config.sops.secrets."tailscale".path}
+    '';
+  };
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -104,7 +146,7 @@
     ];
   };
 
-  # Allow unfree packages
+  # Allow unfree packages (Host)
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
@@ -112,6 +154,8 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     git
+    openssh
+    tailscale # Mesh VPN using Wireguard Protocol
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

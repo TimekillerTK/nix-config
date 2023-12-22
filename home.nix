@@ -5,6 +5,9 @@
     ./sh.nix
   ];
 
+  # Allow unfree packages (Home Manager)
+  nixpkgs.config.allowUnfree = true;
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   
@@ -15,6 +18,7 @@
     stateVersion = "23.11"; # Please read the comment before changing.
     homeDirectory = "/home/tk";
     packages = [
+      pkgs.sops # Tool for managing secrets 
       pkgs.ripgrep # grep replacement
       pkgs.tdrop # WM-Independent Dropdown Creator (terminal)
       (pkgs.nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
@@ -36,19 +40,20 @@
       shell.program = "/home/tk/.nix-profile/bin/tmux";
       shell.args = [ "new-session" "-A" "-s" "general" ];
       key_bindings = [
-        # Rebind search to Ctrl+F ?
-        { key = "T"; mods = "Control|Shift"; chars = "\\x02\\x63"; } # open tab
-        { key = "W"; mods = "Control|Shift"; chars = "\\x02\\x26"; } # close tab
-        { key = "Key1"; mods = "Control"; chars = "\\x02\\x31"; } # jump to tab 1
-        { key = "Key2"; mods = "Control"; chars = "\\x02\\x32"; } # jump to tab 2
-        { key = "Key3"; mods = "Control"; chars = "\\x02\\x33"; } # jump to tab 3
-        { key = "Key4"; mods = "Control"; chars = "\\x02\\x34"; } # jump to tab 4
-        { key = "Key5"; mods = "Control"; chars = "\\x02\\x35"; } # jump to tab 5
-        { key = "Key6"; mods = "Control"; chars = "\\x02\\x36"; } # jump to tab 6
-        { key = "Key7"; mods = "Control"; chars = "\\x02\\x37"; } # jump to tab 7
-        { key = "Key8"; mods = "Control"; chars = "\\x02\\x38"; } # jump to tab 8
-        { key = "Key9"; mods = "Control"; chars = "\\x02\\x39"; } # jump to tab 9
-        { key = "Key0"; mods = "Control"; chars = "\\x02\\x30"; } # jump to tab 0
+        { key = "F";      mods = "Control";       mode = "~Search";     action = "SearchForward"; }
+        # Rebind open to Ctrl+T
+        { key = "T";      mods = "Control|Shift";                       chars = "\\x02\\x63";     } # open tab
+        { key = "W";      mods = "Control";                             chars = "\\x02\\x26";     } # close tab
+        { key = "Key1";   mods = "Control";                             chars = "\\x02\\x31";     } # jump to tab 1
+        { key = "Key2";   mods = "Control";                             chars = "\\x02\\x32";     } # jump to tab 2
+        { key = "Key3";   mods = "Control";                             chars = "\\x02\\x33";     } # jump to tab 3
+        { key = "Key4";   mods = "Control";                             chars = "\\x02\\x34";     } # jump to tab 4
+        { key = "Key5";   mods = "Control";                             chars = "\\x02\\x35";     } # jump to tab 5
+        { key = "Key6";   mods = "Control";                             chars = "\\x02\\x36";     } # jump to tab 6
+        { key = "Key7";   mods = "Control";                             chars = "\\x02\\x37";     } # jump to tab 7
+        { key = "Key8";   mods = "Control";                             chars = "\\x02\\x38";     } # jump to tab 8
+        { key = "Key9";   mods = "Control";                             chars = "\\x02\\x39";     } # jump to tab 9
+        { key = "Key0";   mods = "Control";                             chars = "\\x02\\x30";     } # jump to tab 0
       ];
     };
   };
@@ -63,11 +68,23 @@
   # Enable Starship for Terminal
   programs.starship.enable = true;
 
+  # VS Code 
+  programs.vscode = {
+    enable = true;
+    enableUpdateCheck = false;
+    enableExtensionUpdateCheck = false;
+  };
+
   # KDE Plasma Config - https://github.com/pjones/plasma-manager
   # Run to get current KDE config: 
   # > nix run github:pjones/plasma-manager
   programs.plasma = {
     enable = true;
+    workspace = {
+      # NOTE: These theme/colour changes don't 100% work!
+      theme = "breeze-dark";
+      colorscheme = "BreezeDark";
+    };
     shortcuts = {
       "tdrop.desktop"."_launch" = "Alt+Space";
       "org.kde.krunner.desktop"."_launch" = ["Ctrl+Space" "Alt+F2" "Search"];

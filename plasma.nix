@@ -181,7 +181,7 @@
       "org.kde.konsole.desktop"."NewWindow" = [ ];
       "org.kde.konsole.desktop"."_launch" = "Ctrl+Alt+T";
       "org.kde.krunner.desktop"."RunClipboard" = "Alt+Shift+F2";
-      "org.kde.krunner.desktop"."_launch" = ["Alt+Space" "Alt+F2" "Search"];
+      "org.kde.krunner.desktop"."_launch" = ["Ctrl+Space" "Alt+F2" "Search"];
       "org.kde.plasma.emojier.desktop"."_launch" = ["Meta+." "Meta+Ctrl+Alt+Shift+Space"];
       "org.kde.spectacle.desktop"."ActiveWindowScreenShot" = "Meta+Print";
       "org.kde.spectacle.desktop"."CurrentMonitorScreenShot" = [ ];
@@ -233,7 +233,7 @@
       "systemsettings.desktop"."kcm-users" = [ ];
       "systemsettings.desktop"."powerdevilprofilesconfig" = [ ];
       "systemsettings.desktop"."screenlocker" = [ ];
-      "tdrop.desktop"."_launch" = "Alt+S";
+      "tdrop.desktop"."_launch" = "Alt+Space";
     };
     configFile = {
       "baloofilerc"."General"."dbVersion" = 2;
@@ -244,6 +244,8 @@
       "kcminputrc"."Mouse"."X11LibInputXAccelProfileFlat" = true;
       "kcminputrc"."Tmp"."update_info" = "delete_cursor_old_default_size.upd:DeleteCursorOldDefaultSize";
       "kded5rc"."Module-device_automounter"."autoload" = false;
+      "kdeglobals"."General"."AllowKDEAppsToRememberWindowPositions" = true;
+      "kdeglobals"."KDE"."SingleClick" = true;
       "kdeglobals"."KFileDialog Settings"."Allow Expansion" = false;
       "kdeglobals"."KFileDialog Settings"."Automatically select filename extension" = true;
       "kdeglobals"."KFileDialog Settings"."Breadcrumb Navigation" = true;
@@ -261,12 +263,12 @@
       "kdeglobals"."KFileDialog Settings"."Sort reversed" = false;
       "kdeglobals"."KFileDialog Settings"."Speedbar Width" = 138;
       "kdeglobals"."KFileDialog Settings"."View Style" = "DetailTree";
-      "kdeglobals"."WM"."activeBackground" = "227,229,231";
-      "kdeglobals"."WM"."activeBlend" = "227,229,231";
-      "kdeglobals"."WM"."activeForeground" = "35,38,41";
-      "kdeglobals"."WM"."inactiveBackground" = "239,240,241";
-      "kdeglobals"."WM"."inactiveBlend" = "239,240,241";
-      "kdeglobals"."WM"."inactiveForeground" = "112,125,138";
+      "kdeglobals"."WM"."activeBackground" = "49,54,59";
+      "kdeglobals"."WM"."activeBlend" = "252,252,252";
+      "kdeglobals"."WM"."activeForeground" = "252,252,252";
+      "kdeglobals"."WM"."inactiveBackground" = "42,46,50";
+      "kdeglobals"."WM"."inactiveBlend" = "161,169,177";
+      "kdeglobals"."WM"."inactiveForeground" = "161,169,177";
       "kglobalshortcutsrc"."ActivityManager"."_k_friendly_name" = "Activity Manager";
       "kglobalshortcutsrc"."KDE Keyboard Layout Switcher"."_k_friendly_name" = "Keyboard Layout Switcher";
       "kglobalshortcutsrc"."kaccess"."_k_friendly_name" = "Accessibility";
@@ -767,6 +769,7 @@
       "khotkeysrc"."Data_3_9Triggers"."TriggersCount" = 1;
       "khotkeysrc"."Data_3_9Triggers0"."GesturePointData" = "0,0.0625,-0.5,0.5,1,0.0625,0.0625,-0.5,0.5,0.875,0.125,0.0625,-0.5,0.5,0.75,0.1875,0.0625,-0.5,0.5,0.625,0.25,0.0625,-0.5,0.5,0.5,0.3125,0.0625,-0.5,0.5,0.375,0.375,0.0625,-0.5,0.5,0.25,0.4375,0.0625,-0.5,0.5,0.125,0.5,0.0625,0.5,0.5,0,0.5625,0.0625,0.5,0.5,0.125,0.625,0.0625,0.5,0.5,0.25,0.6875,0.0625,0.5,0.5,0.375,0.75,0.0625,0.5,0.5,0.5,0.8125,0.0625,0.5,0.5,0.625,0.875,0.0625,0.5,0.5,0.75,0.9375,0.0625,0.5,0.5,0.875,1,0,0,0.5,1";
       "khotkeysrc"."Data_3_9Triggers0"."Type" = "GESTURE";
+      "khotkeysrc"."General"."AllowKDEAppsToRememberWindowPositions[$d]" = "";
       "khotkeysrc"."General"."ColorSchemeHash[$d]" = "";
       "khotkeysrc"."General"."ColorScheme[$d]" = "";
       "khotkeysrc"."Gestures"."Disabled" = true;
@@ -775,6 +778,8 @@
       "khotkeysrc"."GesturesExclude"."Comment" = "";
       "khotkeysrc"."GesturesExclude"."WindowsCount" = 0;
       "khotkeysrc"."Icons"."Theme[$d]" = "";
+      "khotkeysrc"."KDE"."LookAndFeelPackage[$d]" = "";
+      "khotkeysrc"."KDE"."SingleClick[$d]" = "";
       "khotkeysrc"."KDE"."widgetStyle[$d]" = "";
       "khotkeysrc"."KFileDialog Settings"."Allow Expansion[$d]" = "";
       "khotkeysrc"."KFileDialog Settings"."Automatically select filename extension[$d]" = "";

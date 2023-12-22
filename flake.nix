@@ -9,6 +9,10 @@
     home-manager.url = "github:nix-community/home-manager/release-23.11"; 
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Atomic, declarative, and reproducible secret provisioning for NixOS based on sops.
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
     # For VS Code Remote to work on NixOS
     vscode-server.url = "github:nix-community/nixos-vscode-server";
 
@@ -25,7 +29,6 @@
       inherit (self) outputs;
       stateVersion = "23.11";
       hmStateVersion = "23.11";
-      # libx = import ./lib { inherit self inputs outputs stateVersion hmStateVersion plasma-manager; };
     in
     {
       nixosConfigurations = {
