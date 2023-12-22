@@ -32,6 +32,7 @@
       inherit (self) outputs;
       stateVersion = "23.11";
       hmStateVersion = "23.11";
+      vscode-pkgs = inputs.nix-vscode-extensions.extensions.${system}.vscode-marketplace;
     in
     {
       nixosConfigurations = {
@@ -45,10 +46,10 @@
       homeConfigurations = {
         tk = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
+          extraSpecialArgs = {inherit vscode-pkgs;};
           modules = [
             ./home.nix
             inputs.plasma-manager.homeManagerModules.plasma-manager
-            inputs.nix-vscode-extensions.extensions.${system} # <- This is wrong?
           ];
         };
       };

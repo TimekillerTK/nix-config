@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, vscode-pkgs, ... }:
 
 {
   imports = [
@@ -73,8 +73,8 @@
     enable = true;
     enableUpdateCheck = false;
     enableExtensionUpdateCheck = false;
-    extensions = with extensions.vscode-marketplace; [ # <- ???
-      microsoft.python
+    extensions = with vscode-pkgs; [ # <- ???
+      ms-python.python
     ];
     # extensions = with pkgs.vscode-extensions; [
     #   tamasfe.even-better-toml # toml support
