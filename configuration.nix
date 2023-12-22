@@ -101,7 +101,10 @@
       fi
 
       # otherwise authenticate with tailscale
-      ${tailscale}/bin/tailscale up -authkey file:${config.sops.secrets."tailscale".path}
+      # NOTE: In case machine refuses to be added with the following error:
+      #   backend error: invalid key: API key XXXXXXXXX not valid
+      # Delete the file /var/lib/tailscale/tailscaled.state
+      ${tailscale}/bin/tailscale up --authkey file:${config.sops.secrets."tailscale".path} --force-reauth --reset
     '';
   };
 
