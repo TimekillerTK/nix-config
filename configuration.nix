@@ -101,7 +101,7 @@
       fi
 
       # otherwise authenticate with tailscale
-      ${tailscale}/bin/tailscale up -authkey ${config.sops.secrets."tailscale".path}
+      ${tailscale}/bin/tailscale up -authkey file:${config.sops.secrets."tailscale".path}
     '';
   };
 
