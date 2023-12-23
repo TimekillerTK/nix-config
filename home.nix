@@ -107,6 +107,30 @@
       donjayamanne.githistory     # git history
       ms-vscode-remote.remote-ssh
     ];
+
+    keybindings = [
+
+      # Enable Custom Keybinds
+      { key = "ctrl+alt+up"; command = "editor.action.insertCursorAbove"; when = "editorTextFocus"; }
+      { key = "ctrl+alt+down"; command = "editor.action.insertCursorBelow"; when = "editorTextFocus"; }
+      { key = "shift+alt+up"; command = "editor.action.copyLinesUpAction"; when = "editorTextFocus && !editorReadonly"; }
+      { key = "shift+alt+down"; command = "editor.action.copyLinesDownAction"; when = "editorTextFocus && !editorReadonly"; }
+
+      # Disable Default Keybinds
+      { key = "ctrl+shift+up"; command = "-editor.action.insertCursorAbove"; when = "editorTextFocus"; }
+      { key = "ctrl+shift+down"; command = "-editor.action.insertCursorBelow"; when = "editorTextFocus"; }
+      { key = "ctrl+shift+alt+up"; command = "-editor.action.copyLinesUpAction"; when = "editorTextFocus && !editorReadonly"; }
+      { key = "ctrl+shift+alt+down"; command = "-editor.action.copyLinesDownAction"; when = "editorTextFocus && !editorReadonly"; }
+    
+    ];
+
+    userSettings = { 
+      "files.autoSave" = "afterDelay"; 
+      "editor.fontFamily" = "'CaskaydiaCove Nerd Font', 'monospace', monospace";
+    };
+     
+
+
   };
 
   # KDE Plasma Config - https://github.com/pjones/plasma-manager
