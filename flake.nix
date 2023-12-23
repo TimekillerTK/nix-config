@@ -32,8 +32,10 @@
       inherit (self) outputs;
       stateVersion = "23.11";
       hmStateVersion = "23.11";
-      # Pinned to a specific version of VS Code - change to be dynamic later
-      vscode-pkgs = inputs.nix-vscode-extensions.extensions.${system}.forVSCodeVersion "1.84.2";
+      # Gets the same version of VS Code being installed by hmStateVersion
+      # some extensions require specific versions of VS Code
+      vscodeVersion = (builtins.parseDrvName pkgs.vscode.meta.name).version;
+      vscode-pkgs = inputs.nix-vscode-extensions.extensions.${system}.forVSCodeVersion vscodeVersion;
     in
     {
       nixosConfigurations = {
