@@ -75,13 +75,14 @@
     enableExtensionUpdateCheck = false;
 
     # To find an extension, click on extension in VS Code, it will open a link or use nix repl
-    extensions = with vscode-pkgs; [
+    extensions = with vscode-pkgs.vscode-marketplace; [
 
       # Rust
       rust-lang.rust-analyzer
 
       # Python
       ms-python.python
+      ms-python.vscode-pylance
       ms-python.black-formatter
       ms-python.isort
 
@@ -99,21 +100,13 @@
       davidanson.vscode-markdownlint
 
       # Other
-      jnoortheen.nix-ide
-      mechatroner.rainbow-csv
-      redhat.vscode-yaml
-      donjayamanne.githistory
+      jnoortheen.nix-ide          # Nix Language
+      mechatroner.rainbow-csv     # CSV 
+      redhat.vscode-yaml          # YAML
+      tamasfe.even-better-toml    # TOML
+      donjayamanne.githistory     # git history
+      ms-vscode-remote.remote-ssh
     ];
-    # extensions = with pkgs.vscode-extensions; [
-    #   tamasfe.even-better-toml # toml support
-
-    #   rust-lang.rust-analyzer # rust
-
-    #   # python
-    #   ms-python.python
-    #   ms-python.isort 
-    #   ms-python.black-formatter
-    # ];
   };
 
   # KDE Plasma Config - https://github.com/pjones/plasma-manager

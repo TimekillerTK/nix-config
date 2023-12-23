@@ -32,7 +32,8 @@
       inherit (self) outputs;
       stateVersion = "23.11";
       hmStateVersion = "23.11";
-      vscode-pkgs = inputs.nix-vscode-extensions.extensions.${system}.vscode-marketplace;
+      # Pinned to a specific version of VS Code - change to be dynamic later
+      vscode-pkgs = inputs.nix-vscode-extensions.extensions.${system}.forVSCodeVersion "1.84.2";
     in
     {
       nixosConfigurations = {
