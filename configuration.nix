@@ -76,37 +76,7 @@
 
   # Enable tailscale
   services.tailscale.enable = true;
-
-  # systemd units for tailscale - oneshot job to authenticate to Tailscale
-  systemd.services.tailscale-autoconnect = {
-    description = "Automatic connection to Tailscale";
-
-    # make sure tailscale is running before trying to connect to tailscale
-    after = [ "network-pre.target" "tailscale.service" ];
-    wants = [ "network-pre.target" "tailscale.service" ];
-    wantedBy = [ "multi-user.target" ];
-
-    # set this service as a oneshot job
-    serviceConfig.Type = "oneshot";
-
-    # have the job run this shell script
-    script = with pkgs; ''
-      # wait for tailscaled to settle
-      sleep 2
-
-      # check if we are already authenticated to tailscale
-      status="$(${tailscale}/bin/tailscale status -json | ${jq}/bin/jq -r .BackendState)"
-      if [ $status = "Running" ]; then # if so, then do nothing
-        exit 0
-      fi
-
-      # otherwise authenticate with tailscale
-      # NOTE: In case machine refuses to be added with the following error:
-      #   backend error: invalid key: API key XXXXXXXXX not valid
-      # Delete the file /var/lib/tailscale/tailscaled.state
-      ${tailscale}/bin/tailscale up --authkey file:${config.sops.secrets."tailscale".path} --force-reauth --reset
-    '';
-  };
+  services.tailscale.authKeyFile = config.sops.secrets."tailscale".path;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
