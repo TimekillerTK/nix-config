@@ -34,7 +34,7 @@
       hmStateVersion = "23.11";
       # Gets the same version of VS Code being installed by hmStateVersion
       # some extensions require specific versions of VS Code
-      vscodeVersion = (builtins.parseDrvName pkgs.vscode.meta.name).version;
+      vscodeVersion = pkgs.vscode.version;
       vscode-pkgs = inputs.nix-vscode-extensions.extensions.${system}.forVSCodeVersion vscodeVersion;
     in
     {
@@ -53,6 +53,7 @@
           modules = [
             ./home.nix
             inputs.plasma-manager.homeManagerModules.plasma-manager
+            inputs.sops-nix.homeManagerModule
           ];
         };
       };

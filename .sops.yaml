@@ -1,7 +1,7 @@
 keys:
   - &primary age14d5ccm42qxp6jufsr02j9n56ff4daaa2qqv2uft8klujdz79yegsdtwkdf
 creation_rules:
-  - path_regex: secrets/tailscale.yaml$
+  - path_regex: secrets/secrets.yaml$
     key_groups:
     - age:
       - *primary

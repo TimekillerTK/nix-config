@@ -13,13 +13,13 @@
     ];
 
   # Path to secrets file & format
-  sops.defaultSopsFile = ./secrets/tailscale.yaml;
+  sops.defaultSopsFile = ./secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";
 
   # Path to Age Private Key
   sops.age.keyFile = "/home/tk/.config/sops/age/keys.txt";
 
-  # The actual key
+  # The actual keys
   sops.secrets.tailscale = { };
 
   # Enabling Flakes
