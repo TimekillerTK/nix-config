@@ -3,6 +3,8 @@
 {
   imports = [
     ./sh.nix
+    inputs.plasma-manager.homeManagerModules.plasma-manager
+    inputs.sops-nix.homeManagerModule
   ];
 
   # Path to secrets file & format

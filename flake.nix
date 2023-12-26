@@ -49,11 +49,9 @@
       homeConfigurations = {
         tk = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-          extraSpecialArgs = {inherit vscode-pkgs;};
+          extraSpecialArgs = {inherit vscode-pkgs inputs outputs;};
           modules = [
             ./home.nix
-            inputs.plasma-manager.homeManagerModules.plasma-manager
-            inputs.sops-nix.homeManagerModule
           ];
         };
       };
