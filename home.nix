@@ -7,33 +7,12 @@
     inputs.sops-nix.homeManagerModule
   ];
 
-  # Path to secrets file & format
-  sops.defaultSopsFile = ./secrets/secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
-
-  # Path to Age Private Key
-  sops.age.keyFile = "/home/tk/.config/sops/age/keys.txt";
-
-  # Change to non-hardcoded value later
-  # sops.defaultSymlinkPath = "/run/user/${toString user.uid}/secrets";
-  # sops.defaultSecretsMountPoint = "/run/user/${toString user.uid}/secrets.d";
-  sops.defaultSymlinkPath = "/run/user/1000/secrets";
-  sops.defaultSecretsMountPoint = "/run/user/1000/secrets.d";
-
-  # The actual keys
-  sops.secrets.git_username = {
-    path = "${config.home.homeDirectory}/secrets/git_username";
-  };
-  sops.secrets.git_email = {
-    path = "${config.home.homeDirectory}/secrets/git_email";
-  };
-
   # Git Config
-  # programs.git = {
-  #   enable = true;
-  #   userName = config.sops.secrets."git_username";
-  #   userEmail = config.sops.secrets."git_email";
-  # }; 
+  programs.git = {
+    enable = true;
+    userName = "TimekillerTK";
+    userEmail = "erwartungen@protonmail.com";
+  }; 
 
   # Allow unfree packages (Home Manager)
   nixpkgs.config.allowUnfree = true;
@@ -150,7 +129,7 @@
       { key = "ctrl+shift+up"; command = "-editor.action.insertCursorAbove"; when = "editorTextFocus"; }
       { key = "ctrl+shift+down"; command = "-editor.action.insertCursorBelow"; when = "editorTextFocus"; }
       { key = "ctrl+shift+alt+up"; command = "-editor.action.copyLinesUpAction"; when = "editorTextFocus && !editorReadonly"; }
-      { key = "ctrl+shift+alt+down"; command = "-editor.action.copyLinesDownAction${config.sops.secrets."git_username".path} // ${config.sops.secrets."git_email".path}"; when = "editorTextFocus && !editorReadonly"; }
+      { key = "ctrl+shift+alt+down"; command = "-editor.action.copyLinesDownAction"; when = "editorTextFocus && !editorReadonly"; }
     
     ];
 
