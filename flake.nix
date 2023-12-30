@@ -2,8 +2,11 @@
   description = "NixOS config flake";
 
   inputs = {
-    # Nixpkgs - https://github.com/NixOS/nixpkgs
+    # Nixpkgs Stable - https://github.com/NixOS/nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+
+    # Nixpkgs Unstable
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
     # Home Manager - https://github.com/nix-community/home-manager
     home-manager.url = "github:nix-community/home-manager/release-23.11"; 
@@ -25,10 +28,15 @@
     plasma-manager.inputs.home-manager.follows = "home-manager";
   };
 
-  outputs = { self, nixpkgs, vscode-server, home-manager, plasma-manager, nix-vscode-extensions, ... }@inputs:
+  outputs = { self, nixpkgs, vscode-server, home-manager, plasma-manager, nix-vscode-extensions, nixpkgs-unstable, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+
+      # Overlay
+      overlay-unstable = final: prev: {
+        unstable = nixpkgs-unstable.legacyPackages.${prev.system};
+      };
       inherit (self) outputs;
       stateVersion = "23.11";
       hmStateVersion = "23.11";
@@ -42,6 +50,7 @@
         default = nixpkgs.lib.nixosSystem {
           specialArgs = {inherit inputs;};
           modules = [
+            ({ config, pkgs, ... }: {nixpkgs.overlays = [ overlay-unstable ]; }) # Overlay
             ./configuration.nix
           ];
         };
@@ -51,6 +60,7 @@
           inherit pkgs;
           extraSpecialArgs = {inherit vscode-pkgs inputs outputs;};
           modules = [
+            ({ config, pkgs, ... }: {nixpkgs.overlays = [ overlay-unstable ]; }) # Overlay
             ./home.nix
           ];
         };
