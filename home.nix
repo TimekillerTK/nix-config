@@ -26,12 +26,16 @@
     username = "tk";
     stateVersion = "23.11"; # Please read the comment before changing.
     homeDirectory = "/home/tk";
-    packages = [
-      pkgs.unstable.eza # ls replacement
-      pkgs.sops # Tool for managing secrets 
-      pkgs.ripgrep # grep replacement
-      pkgs.tdrop # WM-Independent Dropdown Creator (terminal)
-      (pkgs.nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
+    packages = with pkgs; [
+      unstable.eza     # ls replacement
+      ripgrep          # grep replacement
+      du-dust          # du replacement
+      bat              # cat replacement
+      tdrop            # WM-Independent Dropdown Creator (terminal)
+      htop             # better top
+      sops             # secrets management 
+      unstable.awscli2 # AWS CLI
+      (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
     ];
   };
 
