@@ -13,6 +13,7 @@ let
   myEnvVars = {
     PASTA = "Spaghetti";
     EDITOR = "vim";
+    AWS_CONFIG_FILE = "${config.sops.templates."aws_config.toml"}";
   };
 in
 {

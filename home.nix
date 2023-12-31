@@ -7,6 +7,22 @@
     inputs.sops-nix.homeManagerModule
   ];
 
+  # # Path to secrets file & format
+  # sops.defaultSopsFile = ./secrets/secrets.yaml;
+  # sops.defaultSopsFormat = "yaml";
+
+  # # Path to Age Private Key
+  # sops.age.keyFile = "/home/tk/.config/sops/age/keys.txt";
+
+  # # The actual keys
+  # sops.secrets.aws_config = { };
+ 
+  # # AWS CLI Config
+  # sops.templates."aws_config.toml".content = ''
+  #   mysupersecretvalue = "${config.sops.placeholder.aws_config}"
+  # '';
+  # sops.templates."aws_config.toml".owner = "tk";
+
   # Git Config
   programs.git = {
     enable = true;

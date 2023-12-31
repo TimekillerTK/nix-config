@@ -21,6 +21,13 @@
 
   # The actual keys
   sops.secrets.tailscale = { };
+  sops.secrets.aws_config = { };
+ 
+  # AWS CLI Config
+  sops.templates."aws_config.toml".content = ''
+    mysupersecretvalue = "${config.sops.placeholder.aws_config}"
+  '';
+  sops.templates."aws_config.toml".owner = "tk";
 
   # Enabling Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
