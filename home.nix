@@ -3,6 +3,7 @@
 {
   imports = [
     ./sh.nix
+    ./starship_theme.nix
     inputs.plasma-manager.homeManagerModules.plasma-manager
     # inputs.sops-nix.homeManagerModule
   ];
