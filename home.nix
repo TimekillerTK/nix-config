@@ -4,24 +4,8 @@
   imports = [
     ./sh.nix
     inputs.plasma-manager.homeManagerModules.plasma-manager
-    inputs.sops-nix.homeManagerModule
+    # inputs.sops-nix.homeManagerModule
   ];
-
-  # # Path to secrets file & format
-  # sops.defaultSopsFile = ./secrets/secrets.yaml;
-  # sops.defaultSopsFormat = "yaml";
-
-  # # Path to Age Private Key
-  # sops.age.keyFile = "/home/tk/.config/sops/age/keys.txt";
-
-  # # The actual keys
-  # sops.secrets.aws_config = { };
- 
-  # # AWS CLI Config
-  # sops.templates."aws_config.toml".content = ''
-  #   mysupersecretvalue = "${config.sops.placeholder.aws_config}"
-  # '';
-  # sops.templates."aws_config.toml".owner = "tk";
 
   # Git Config
   programs.git = {
@@ -43,6 +27,8 @@
     stateVersion = "23.11"; # Please read the comment before changing.
     homeDirectory = "/home/tk";
     packages = with pkgs; [
+      
+      # CLI
       unstable.eza     # ls replacement
       ripgrep          # grep replacement
       du-dust          # du replacement
@@ -51,6 +37,16 @@
       htop             # better top
       sops             # secrets management 
       unstable.awscli2 # AWS CLI
+
+      # Desktop
+      # rustdesk         # TeamViewer alternative
+      # discord
+      # slack
+
+
+
+
+      # Fonts
       (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
     ];
   };
@@ -96,7 +92,10 @@
   };
 
   # Enable Starship for Terminal
-  programs.starship.enable = true;
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 
   # VS Code 
   programs.vscode = {

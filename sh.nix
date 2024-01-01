@@ -3,7 +3,7 @@
 let
   myAliases = {
     top = "${pkgs.htop}/bin/htop";
-    ls = "${pkgs.eza}/bin/eza";
+    ls = "${pkgs.eza}/bin/eza --icons -F --group-directories-first --git";
     cat = "${pkgs.bat}/bin/bat";
     du = "${pkgs.du-dust}/bin/dust";
     grep = "${pkgs.ripgrep}/bin/rg";
@@ -13,7 +13,6 @@ let
   myEnvVars = {
     PASTA = "Spaghetti";
     EDITOR = "vim";
-    AWS_CONFIG_FILE = "${config.sops.templates."aws_config.toml"}";
   };
 in
 {

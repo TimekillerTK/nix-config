@@ -21,16 +21,14 @@
 
   # The actual keys
   sops.secrets.tailscale = { };
-  sops.secrets.aws_config = { };
- 
-  # AWS CLI Config
-  sops.templates."aws_config.toml".content = ''
-    mysupersecretvalue = "${config.sops.placeholder.aws_config}"
-  '';
-  sops.templates."aws_config.toml".owner = "tk";
 
   # Enabling Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Enabling Flatpaks
+  services.flatpak.enable = true;
+  # NOTE: After enabling, needs manual step to add flathub:
+  # > flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
   # VS Code Server Module
   services.vscode-server.enable = true;
