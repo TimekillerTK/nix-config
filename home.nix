@@ -8,6 +8,16 @@
     # inputs.sops-nix.homeManagerModule
   ];
 
+  # DirEnv configuration
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
+
+  # Allow Home Manager to manage Zsh
+  programs.zsh.enable = true;
+
   # Git Config
   programs.git = {
     enable = true;
@@ -43,9 +53,6 @@
       # rustdesk         # TeamViewer alternative
       # discord
       # slack
-
-
-
 
       # Fonts
       (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font

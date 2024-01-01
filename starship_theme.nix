@@ -8,7 +8,6 @@ let
   blackColor = "#2f312e";
 in 
 {
-  # Pastel Powerline Preset: https://starship.rs/presets/pastel-powerline.html
   programs.starship.settings = {
       format = lib.concatStrings [
         "[](${orangeColor})"

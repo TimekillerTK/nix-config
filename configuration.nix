@@ -25,6 +25,18 @@
   # Enabling Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # Enabling use of binary cache (Cachix)
+  # NOTE: Adding this prevents warning:
+  # warning: ignoring untrusted substituter 'https://devenv.cachix.org', you are not a trusted user.
+  nix.settings = {
+    substituters = [
+      "https://devenv.cachix.org"
+    ];
+    trusted-public-keys = [
+      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+    ];
+  };
+
   # Enabling Flatpaks
   services.flatpak.enable = true;
   # NOTE: After enabling, needs manual step to add flathub:
