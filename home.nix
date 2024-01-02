@@ -23,7 +23,7 @@
     enable = true;
     userName = "TimekillerTK";
     userEmail = "erwartungen@protonmail.com";
-  }; 
+  };
 
   # Allow unfree packages (Home Manager)
   nixpkgs.config.allowUnfree = true;
@@ -46,6 +46,7 @@
       bat              # cat replacement
       tdrop            # WM-Independent Dropdown Creator (terminal)
       htop             # better top
+      bottom           # top replacement
       sops             # secrets management 
       unstable.awscli2 # AWS CLI
 
