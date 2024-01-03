@@ -2,7 +2,8 @@
 
 let
   myAliases = {
-    top = "${pkgs.htop}/bin/htop";
+    top = "${pkgs.bottom}/bin/btm";
+    htop = "${pkgs.bottom}/bin/btm";
     ls = "${pkgs.eza}/bin/eza --icons -F --group-directories-first --git";
     cat = "${pkgs.bat}/bin/bat";
     du = "${pkgs.du-dust}/bin/dust";

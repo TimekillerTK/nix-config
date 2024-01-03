@@ -45,7 +45,6 @@
       du-dust          # du replacement
       bat              # cat replacement
       tdrop            # WM-Independent Dropdown Creator (terminal)
-      htop             # better top
       bottom           # top replacement
       sops             # secrets management 
       unstable.awscli2 # AWS CLI
@@ -165,6 +164,7 @@
     userSettings = { 
       "files.autoSave" = "afterDelay"; 
       "editor.fontFamily" = "'CaskaydiaCove Nerd Font', 'monospace', monospace";
+      "aws.samcli.lambdaTimeout" = 91234; # AWS Toolkit complains if this is missing
     };
      
   };
