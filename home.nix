@@ -3,6 +3,7 @@
 {
   imports = [
     ./sh.nix
+    ./vscode.nix
     ./starship_theme.nix
     inputs.plasma-manager.homeManagerModules.plasma-manager
     # inputs.sops-nix.homeManagerModule
@@ -103,70 +104,6 @@
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
-  };
-
-  # VS Code 
-  programs.vscode = {
-    enable = true;
-    enableUpdateCheck = false;
-    enableExtensionUpdateCheck = false;
-
-    # To find an extension, click on extension in VS Code, it will open a link or use nix repl
-    extensions = with vscode-pkgs.vscode-marketplace; [
-
-      # Rust
-      rust-lang.rust-analyzer
-
-      # Python
-      ms-python.python
-      ms-python.vscode-pylance
-      ms-python.black-formatter
-      ms-python.isort
-
-      # Powershell
-      ms-vscode.powershell
-
-      # Gitlab
-      gitlab.gitlab-workflow
-
-      # AWS
-      amazonwebservices.aws-toolkit-vscode
-
-      # Markdown
-      yzhang.markdown-all-in-one
-      davidanson.vscode-markdownlint
-
-      # Other
-      jnoortheen.nix-ide          # Nix Language
-      mechatroner.rainbow-csv     # CSV 
-      redhat.vscode-yaml          # YAML
-      tamasfe.even-better-toml    # TOML
-      donjayamanne.githistory     # git history
-      ms-vscode-remote.remote-ssh
-    ];
-
-    keybindings = [
-
-      # Enable Custom Keybinds
-      { key = "ctrl+alt+up"; command = "editor.action.insertCursorAbove"; when = "editorTextFocus"; }
-      { key = "ctrl+alt+down"; command = "editor.action.insertCursorBelow"; when = "editorTextFocus"; }
-      { key = "shift+alt+up"; command = "editor.action.copyLinesUpAction"; when = "editorTextFocus && !editorReadonly"; }
-      { key = "shift+alt+down"; command = "editor.action.copyLinesDownAction"; when = "editorTextFocus && !editorReadonly"; }
-
-      # Disable Default Keybinds
-      { key = "ctrl+shift+up"; command = "-editor.action.insertCursorAbove"; when = "editorTextFocus"; }
-      { key = "ctrl+shift+down"; command = "-editor.action.insertCursorBelow"; when = "editorTextFocus"; }
-      { key = "ctrl+shift+alt+up"; command = "-editor.action.copyLinesUpAction"; when = "editorTextFocus && !editorReadonly"; }
-      { key = "ctrl+shift+alt+down"; command = "-editor.action.copyLinesDownAction"; when = "editorTextFocus && !editorReadonly"; }
-    
-    ];
-
-    userSettings = { 
-      "files.autoSave" = "afterDelay"; 
-      "editor.fontFamily" = "'CaskaydiaCove Nerd Font', 'monospace', monospace";
-      "aws.samcli.lambdaTimeout" = 91234; # AWS Toolkit complains if this is missing
-    };
-     
   };
 
   # KDE Plasma Config - https://github.com/pjones/plasma-manager
