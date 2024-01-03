@@ -27,6 +27,7 @@
 
       # AWS
       amazonwebservices.aws-toolkit-vscode
+      kddejong.vscode-cfn-lint
 
       # Markdown
       yzhang.markdown-all-in-one

@@ -2,9 +2,9 @@
 
 {
   imports = [
-    ./sh.nix
-    ./vscode.nix
-    ./starship_theme.nix
+    ./sh.nix              # Shell Config
+    ./vscode.nix          # VS Code Config
+    ./starship_theme.nix  # Shell Prompt Config
     inputs.plasma-manager.homeManagerModules.plasma-manager
     # inputs.sops-nix.homeManagerModule
   ];
