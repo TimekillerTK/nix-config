@@ -5,6 +5,9 @@
     # Nixpkgs Stable - https://github.com/NixOS/nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
 
+    # Nixpkgs Version 2305 - https://github.com/NixOS/nixpkgs
+    nixpkgs-v2305.url = "github:nixos/nixpkgs/nixos-23.05";
+
     # Nixpkgs Unstable
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
@@ -37,6 +40,7 @@
     nix-vscode-extensions, 
     nixpkgs-unstable,
      ... } @ inputs: let
+    
     inherit (self) outputs;
 
     # Supported systems for your flake packages, shell, etc.
@@ -48,37 +52,39 @@
       "x86_64-darwin"
     ];
 
-    system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
+    # This is a function that generates an attribute by calling a function you
+    # pass to it, with each system as an argument
+    forAllSystems = nixpkgs.lib.genAttrs systems;
 
-    # Overlay
-    overlay-unstable = final: prev: {
-      unstable = nixpkgs-unstable.legacyPackages.${prev.system};
-    };
-    # stateVersion = "23.11";
-    # hmStateVersion = "23.11";
-    # Gets the same version of VS Code being installed by hmStateVersion
-    # some extensions require specific versions of VS Code
-    vscodeVersion = pkgs.vscode.version;
-    vscode-pkgs = inputs.nix-vscode-extensions.extensions.${system}.forVSCodeVersion vscodeVersion;
+    # Custom packages
+    # Accessible through 'nix build', 'nix shell', etc
+    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+
+    # Formatter for nix files, available through 'nix fmt'
+    # Options: nixpkgs-fmt, alejandra, nixfmt
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+
   in
   {
+    # Custom packages and modifications, exported as overlays
+    overlays = import ./overlays {inherit inputs;};
+
     nixosConfigurations = {
       default = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
+        specialArgs = {inherit inputs outputs;};
         modules = [
-          ({ config, pkgs, ... }: {nixpkgs.overlays = [ overlay-unstable ]; }) # Overlay
-          ./configuration.nix
+          # Main NixOS configuration file
+          ./nixos/configuration.nix
         ];
       };
     };
     homeConfigurations = {
       tk = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = {inherit vscode-pkgs inputs outputs;};
+        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {inherit inputs outputs;};
         modules = [
-          ({ config, pkgs, ... }: {nixpkgs.overlays = [ overlay-unstable ]; }) # Overlay
-          ./home.nix
+          # Main Home-Manager configuration file
+          ./home-manager/home.nix
         ];
       };
     };

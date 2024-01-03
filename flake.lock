@@ -140,6 +140,22 @@
         "type": "indirect"
       }
     },
+    "nixpkgs-v2305": {
+      "locked": {
+        "lastModified": 1704018918,
+        "narHash": "sha256-erjg/HrpC9liEfm7oLqb8GXCqsxaFwIIPqCsknW5aFY=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "2c9c58e98243930f8cb70387934daa4bc8b00373",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-23.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1702780907,
@@ -199,6 +215,7 @@
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "nixpkgs-v2305": "nixpkgs-v2305",
         "plasma-manager": "plasma-manager",
         "sops-nix": "sops-nix",
         "vscode-server": "vscode-server"

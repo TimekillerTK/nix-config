@@ -1,5 +1,11 @@
-{ config, pkgs, vscode-pkgs, ... }:
-
+{ inputs, config, pkgs, ... }:
+let
+  # Gets the same version of VS Code being installed by hmStateVersion
+  # some extensions require specific versions of VS Code
+  system = "x86_64-linux";
+  vscodeVersion = pkgs.vscode.version;
+  vscode-pkgs = inputs.nix-vscode-extensions.extensions.${system}.forVSCodeVersion vscodeVersion;
+in
 {
   # VS Code 
   programs.vscode = {

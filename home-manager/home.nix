@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, vscode-pkgs, ... }:
+{ inputs, outputs, config, pkgs, vscode-pkgs, ... }:
 
 {
   imports = [
@@ -8,6 +8,16 @@
     inputs.plasma-manager.homeManagerModules.plasma-manager
     # inputs.sops-nix.homeManagerModule
   ];
+
+  nixpkgs = {
+    overlays = [
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.other-packages
+    ];
+    # Allow unfree packages (Home Manager)
+    config.allowUnfree = true;
+  };
 
   # DirEnv configuration
   programs.direnv = {
@@ -25,9 +35,6 @@
     userName = "TimekillerTK";
     userEmail = "erwartungen@protonmail.com";
   };
-
-  # Allow unfree packages (Home Manager)
-  nixpkgs.config.allowUnfree = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -49,6 +56,7 @@
       bottom           # top replacement
       sops             # secrets management 
       unstable.awscli2 # AWS CLI
+      # v2305.fd # Alternative to find # FIXME TESTING
 
       # Desktop
       # rustdesk         # TeamViewer alternative
@@ -76,8 +84,7 @@
       shell.args = [ "new-session" "-A" "-s" "general" ];
       key_bindings = [
         { key = "F";      mods = "Control";       mode = "~Search";     action = "SearchForward"; }
-        # Rebind open to Ctrl+T
-        { key = "T";      mods = "Control|Shift";                       chars = "\\x02\\x63";     } # open tab
+        { key = "T";      mods = "Control";                             chars = "\\x02\\x63";     } # open tab
         { key = "W";      mods = "Control";                             chars = "\\x02\\x26";     } # close tab
         { key = "Key1";   mods = "Control";                             chars = "\\x02\\x31";     } # jump to tab 1
         { key = "Key2";   mods = "Control";                             chars = "\\x02\\x32";     } # jump to tab 2

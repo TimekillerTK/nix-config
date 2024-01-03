@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{ inputs, outputs, config, pkgs, ... }:
 
 {
   imports =
@@ -12,8 +12,18 @@
       ./hardware-configuration.nix
     ];
 
+  nixpkgs = {
+    overlays = [
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.other-packages
+    ];
+    # Allow unfree packages (Host)
+    config.allowUnfree = true;
+  };
+
   # Path to secrets file & format
-  sops.defaultSopsFile = ./secrets/secrets.yaml;
+  sops.defaultSopsFile = ../secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";
 
   # Path to Age Private Key
@@ -134,8 +144,7 @@
     ];
   };
 
-  # Allow unfree packages (Host)
-  nixpkgs.config.allowUnfree = true;
+
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -144,6 +153,7 @@
     git
     openssh
     tailscale # Mesh VPN using Wireguard Protocol
+
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
