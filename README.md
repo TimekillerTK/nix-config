@@ -1,17 +1,46 @@
 # My Nix Configs
 
-Run the following to apply a configuration:
+Run the following to apply a the configuration:
 
 * For a target System (flakes):
     * `sudo nixos-rebuild switch --flake .#default`
-* For a taget User (home-manager)
+* For a target User (home-manager)
     * `home-manager switch --flake .#tk`
+
+
+## Deploying a config on a new host
+
+For a `NixOS` config:
+
+1. Install NixOS
+2. Enable Flakes and enter a shell with `git` installed:
+   * `export NIX_CONFIG="experimental-features = nix-command flakes"`
+   * `nix shell nixpkgs#git`
+3. Clone this repository and `cd` into it:
+   * `git clone https://github.com/TimekillerTK/nix-test.git && cd nix-test`
+4. Overwrite hardware configuration:
+   * `sudo cp /etc/nixos/hardware-configuration.nix ./nixos/hardware-configuration.nix`
+5. ???
+6. Apply a NixOS configuration:
+   * `sudo nixos-rebuild switch --flake .#default`
+7. Install `home-manager`:
+   * `nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz home-manager` 
+   * `nix-channel --update`
+   * `nix-shell '<home-manager>' -A install`
+     * If this errors out, log out and log back in
+8. Apply a home-manager configuration:
+   * `home-manager switch --flake .#tk`
+
+
+## Updating
 
 To update the system:
 
 * `nix flake update`
 * `sudo nixos-rebuild switch --flake .#default`
 * `home-manager switch --flake .#tk`
+
+## Rollback
 
 To roll back to a previous home-manager configuration:
 
