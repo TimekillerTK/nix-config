@@ -11,6 +11,10 @@
     # Nixpkgs Unstable
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
+    # Disko (Disk Config)
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
     # Home Manager - https://github.com/nix-community/home-manager
     home-manager.url = "github:nix-community/home-manager/release-23.11"; 
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -66,9 +70,11 @@
 
     nixosConfigurations = {
       default = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
           # Main NixOS configuration file
+          inputs.disko.nixosModules.disko
           ./nixos/configuration.nix
         ];
       };

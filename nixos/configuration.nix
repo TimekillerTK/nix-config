@@ -9,7 +9,8 @@
     [
       inputs.vscode-server.nixosModules.default
       inputs.sops-nix.nixosModules.sops
-      ./hardware-configuration.nix
+      # ./hardware-configuration.nix
+      ./disk-config.nix
     ];
 
   nixpkgs = {
@@ -142,9 +143,18 @@
     packages = with pkgs; [
       firefox
     ];
+    # Add SSH Key to TK User
+    openssh.authorizedKeys.keys = [
+      (builtins.readFile ./mbp.pub)
+      (builtins.readFile ./anya.pub)
+    ];
   };
 
-
+  # Add same SSH Key to Root User
+  users.users.root.openssh.authorizedKeys.keys = [
+    (builtins.readFile ./mbp.pub)
+    (builtins.readFile ./anya.pub)
+  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
