@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ inputs, outputs, config, pkgs, ... }:
+{ modulesPath, inputs, outputs, config, pkgs, ... }:
 
 {
   imports =
@@ -10,6 +10,8 @@
       inputs.vscode-server.nixosModules.default
       inputs.sops-nix.nixosModules.sops
       # ./hardware-configuration.nix
+      (modulesPath + "/installer/scan/not-detected.nix")
+      (modulesPath + "/profiles/qemu-guest.nix")
       ./disk-config.nix
     ];
 
@@ -57,8 +59,10 @@
   # services.vscode-server.enable = true;
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.useOSProber = true;
+  boot.loader.grub = {
+    efiSupport = true;
+    efiInstallAsRemovable = true;
+  };
   # boot.loader.grub.device = "/dev/sda"; # Conflicts with Disko
 
   networking.hostName = "nixos-test"; # Define your hostname.
