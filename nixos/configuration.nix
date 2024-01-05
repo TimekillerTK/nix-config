@@ -23,15 +23,15 @@
     config.allowUnfree = true;
   };
 
-  # Path to secrets file & format
-  sops.defaultSopsFile = ../secrets/secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
+  # # Path to secrets file & format
+  # sops.defaultSopsFile = ../secrets/secrets.yaml;
+  # sops.defaultSopsFormat = "yaml";
 
-  # Path to Age Private Key
-  sops.age.keyFile = "/home/tk/.config/sops/age/keys.txt";
+  # # Path to Age Private Key
+  # sops.age.keyFile = "/home/tk/.config/sops/age/keys.txt";
 
-  # The actual keys
-  sops.secrets.tailscale = { };
+  # # The actual keys
+  # sops.secrets.tailscale = { };
 
   # Enabling Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -49,12 +49,12 @@
   };
 
   # Enabling Flatpaks
-  services.flatpak.enable = true;
+  # services.flatpak.enable = true;
   # NOTE: After enabling, needs manual step to add flathub:
   # > flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
   # VS Code Server Module
-  services.vscode-server.enable = true;
+  # services.vscode-server.enable = true;
 
   # Bootloader.
   boot.loader.grub.enable = true;
@@ -89,42 +89,42 @@
     LC_TIME = "nl_NL.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  # # Enable the X11 windowing system.
+  # services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  # # Enable the KDE Plasma Desktop Environment.
+  # services.xserver.displayManager.sddm.enable = true;
+  # services.xserver.desktopManager.plasma5.enable = true;
 
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
-  };
+  # # Configure keymap in X11
+  # services.xserver = {
+  #   layout = "us";
+  #   xkbVariant = "";
+  # };
 
-  # Enable tailscale
-  services.tailscale.enable = true;
-  services.tailscale.authKeyFile = config.sops.secrets."tailscale".path;
+  # # Enable tailscale
+  # services.tailscale.enable = true;
+  # services.tailscale.authKeyFile = config.sops.secrets."tailscale".path;
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
+  # # Enable CUPS to print documents.
+  # services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+  # sound.enable = true;
+  # hardware.pulseaudio.enable = false;
+  # security.rtkit.enable = true;
+  # services.pipewire = {
+  #   enable = true;
+  #   alsa.enable = true;
+  #   alsa.support32Bit = true;
+  #   pulse.enable = true;
+  #   # If you want to use JACK applications, uncomment this
+  #   #jack.enable = true;
 
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
+  #   # use the example session manager (no others are packaged yet so this is enabled by default,
+  #   # no need to redefine it in your config for now)
+  #   #media-session.enable = true;
+  # };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -141,7 +141,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
     packages = with pkgs; [
-      firefox
+      # firefox
     ];
     # Add SSH Key to TK User
     openssh.authorizedKeys.keys = [
