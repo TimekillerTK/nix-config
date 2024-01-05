@@ -24,20 +24,20 @@
             };
             root = {
               name = "root";
-              size = "100%";
+              end = "-6G";
               content = {
                 type = "filesystem";
                 format = "ext4";
                 mountpoint = "/";
               };
             };
-            # plainSwap = {
-            #   size = "100%";
-            #   content = {
-            #     type = "swap";
-            #     resumeDevice = true; # resume from hiberation from this device
-            #   };
-            # }; # plainSwap
+            plainSwap = {
+              size = "100%";
+              content = {
+                type = "swap";
+                resumeDevice = true; # resume from hiberation from this device
+              };
+            }; # plainSwap
           }; # partitions
         }; # content 
       }; # main

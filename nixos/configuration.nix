@@ -9,12 +9,11 @@
     [
       inputs.vscode-server.nixosModules.default
       inputs.sops-nix.nixosModules.sops
-      # ./hardware-configuration.nix
-      (modulesPath + "/installer/scan/not-detected.nix")
-      (modulesPath + "/profiles/qemu-guest.nix")
+      (modulesPath + "/profiles/qemu-guest.nix") # Required for QEMU Virtio VMs
       ./disk-config.nix
     ];
 
+  # Overlays from ../overlays
   nixpkgs = {
     overlays = [
       outputs.overlays.additions
@@ -25,15 +24,15 @@
     config.allowUnfree = true;
   };
 
-  # # Path to secrets file & format
-  # sops.defaultSopsFile = ../secrets/secrets.yaml;
-  # sops.defaultSopsFormat = "yaml";
+  # Path to secrets file & format
+  sops.defaultSopsFile = ../secrets/secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
 
-  # # Path to Age Private Key
-  # sops.age.keyFile = "/home/tk/.config/sops/age/keys.txt";
+  # Path to Age Private Key
+  sops.age.keyFile = "/home/tk/.config/sops/age/keys.txt";
 
-  # # The actual keys
-  # sops.secrets.tailscale = { };
+  # The actual keys
+  sops.secrets.tailscale = { };
 
   # Enabling Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -106,9 +105,9 @@
   #   xkbVariant = "";
   # };
 
-  # # Enable tailscale
-  # services.tailscale.enable = true;
-  # services.tailscale.authKeyFile = config.sops.secrets."tailscale".path;
+  # Enable tailscale
+  services.tailscale.enable = true;
+  services.tailscale.authKeyFile = config.sops.secrets."tailscale".path;
 
   # # Enable CUPS to print documents.
   # services.printing.enable = true;
