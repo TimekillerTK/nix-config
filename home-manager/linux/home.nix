@@ -56,7 +56,6 @@
       bottom           # top replacement
       sops             # secrets management 
       unstable.awscli2 # AWS CLI
-      # v2305.fd # Alternative to find # FIXME TESTING
 
       # Desktop
       firefox
@@ -133,14 +132,4 @@
     };
   };
   
-  #########################
-  # Testing Section below #
-  #########################
-  # -------------------------------------------#
-  home.file."/home/tk/Btestfile".text = ''
-    SOME FILE WITH SOME CONTENT
-  '';
-  home.file."/home/tk/Ctestfile".source = ./Ctestfile;
-  # -------------------------------------------#
-
 }
