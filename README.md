@@ -8,9 +8,27 @@ Run the following to apply a the configuration:
     * `home-manager switch --flake .#tk`
 
 
-## Deploying a config on a new host
+## Deploying config on a new host
 
-For a `NixOS` config:
+### With `nixos-anywhere` / `disko`:
+
+1. Ensure target host has **any** linux distribution installed and:
+   * has a static IP Address / Hostname
+   * OpenSSH is started
+   * `PermitRootLogin` is set to `yes`
+2. Run command to deploy:
+   * `nix run github:nix-community/nixos-anywhere -- --flake .#default root@<TARGET HOST IP ADDRESS>`
+3. Install `home-manager`:
+   * `nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz home-manager`
+   * `nix-channel --update`
+   * `nix-shell '<home-manager>' -A install`
+     * If this errors out, log out and log back in
+4. Apply a home-manager configuration:
+   * `home-manager switch --flake .#tk`
+
+> NOTE: If deploying from a Mac, add `--build-on-remote`.
+
+### Manual Deployment
 
 1. Install NixOS
 2. Enable Flakes and enter a shell with `git` installed:
