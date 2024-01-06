@@ -1,7 +1,9 @@
 keys:
-  - &primary age1ampggagplvarh46cn05esrlwsn5nj0t9he9n7dxjdtk0vaz99e0q66wp5g
+  - &mbp age1ampggagplvarh46cn05esrlwsn5nj0t9he9n7dxjdtk0vaz99e0q66wp5g
+  - &anya age14n2qzcnrs62xa7pskhp09m3mxapum3mpgh7mncs9nmcnzx2p3pcq8m08uq
 creation_rules:
   - path_regex: secrets/secrets.yaml$
     key_groups:
-    - age:
-      - *primary
+    - age: 
+      - *mbp
+      - *anya
