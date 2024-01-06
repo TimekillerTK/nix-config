@@ -59,6 +59,7 @@
       # v2305.fd # Alternative to find # FIXME TESTING
 
       # Desktop
+      firefox
       # rustdesk         # TeamViewer alternative
       # discord
       # slack
