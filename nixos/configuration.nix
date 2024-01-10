@@ -24,6 +24,13 @@
     config.allowUnfree = true;
   };
 
+  # Nix automatic Garbage Collect
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 14d";
+  };
+
   # Path to secrets file & format
   sops.defaultSopsFile = ../secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";
