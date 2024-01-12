@@ -36,7 +36,7 @@
   sops.defaultSopsFormat = "yaml";
 
   # Path to Age Private Key
-  sops.age.keyFile = "/home/tk/.config/sops/age/keys.txt";
+  sops.age.keyFile = "/home/tk/.secrets/sops/age/keys.txt";
 
   # The actual keys
   sops.secrets.tailscale = { };
@@ -135,6 +135,7 @@
   users.users.tk = {
     isNormalUser = true;
     description = "tk";
+    initialPassword = "Hello123!"; # Temp PW
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
     packages = with pkgs; [];
@@ -147,10 +148,13 @@
   };
 
   # Add same SSH Key to Root User
-  users.users.root.openssh.authorizedKeys.keys = [
-    (builtins.readFile ./mbp.pub)
-    (builtins.readFile ./anya.pub)
-  ];
+  users.users.root = {
+    initialPassword = "Hello123!"; # Temp PW
+    openssh.authorizedKeys.keys = [
+      (builtins.readFile ./mbp.pub)
+      (builtins.readFile ./anya.pub)
+    ];
+  };
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [

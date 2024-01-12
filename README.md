@@ -28,19 +28,22 @@ TBD...
    * `PermitRootLogin` is set to `yes`
 2. To pass `sops` secrets, create a temporary directory and insert the secret in the same path which is expected in target host (for example: `/home/tk/.config/sops/age/keys.txt`)
    * Create Temp: `temp=$(mktemp -d)`
-   * Create Dir: `install -d -m755 "$temp/home/tk/.config/sops/age"`
-   * Copy to Temp: `cat ~/.config/sops/age/keys.txt > $temp/home/tk/.config/sops/age/keys.txt`
-   * Set perms: `chmod 600 "$temp/home/tk/.config/sops/age/keys.txt"`
+   * Create Dir: `install -d -m755 "$temp/home/tk/.secrets/sops/age"`
+   * Copy to Temp: `cat ~/.config/sops/age/keys.txt > $temp/home/tk/.secrets/sops/age/keys.txt`
+   * Set perms: `chmod 600 "$temp/home/tk/.secrets/sops/age/keys.txt"`
 3. Run command to deploy:
    * (without secrets) `nix run github:nix-community/nixos-anywhere -- --flake .#default root@<TARGET HOST IP ADDRESS>`
    * (with secrets) `nix run github:nix-community/nixos-anywhere -- --extra-files "$temp" --flake .#default root@<TARGET HOST IP ADDRESS>`
-4. Install `home-manager`:
-   * `nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz home-manager`
-   * `nix-channel --update`
-   * `nix-shell '<home-manager>' -A install`
-     * If this errors out, log out and log back in
+4. Install `home-manager` with either:
+   * Using Flakes:
+     * `nix run home-manager/release-23.11 -- init --switch` 
+   * Regular Method: 
+     * `nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz home-manager`
+     * `nix-channel --update`
+     * `nix-shell '<home-manager>' -A install`
+       * If this errors out, log out and log back in
 5. Apply a home-manager configuration:
-   * `home-manager switch --flake .#tk`
+   * `home-manager switch --flake .#tk-linux`
 6. Clean up temporary secrets:
    * `rm -rf "$temp"`
 
