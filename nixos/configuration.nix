@@ -146,7 +146,12 @@
   security.sudo.extraRules = [
     {
       users = ["tk"];
-      commands = ["ALL" "NOPASSWD"];
+      commands = [
+        {
+          command = "ALL";
+          options = ["NOPASSWD"];
+        }
+      ];
     }
   ];
 
