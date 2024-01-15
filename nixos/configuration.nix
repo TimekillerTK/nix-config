@@ -132,7 +132,7 @@
     description = outputs.username;
     initialPassword = "Hello123!"; # Temp PW
     extraGroups = [ "networkmanager" "wheel" ];
-    shell = pkgs.bash;
+    shell = pkgs.zsh;
     packages = with pkgs; [];
 
     # Add SSH Key to the User
