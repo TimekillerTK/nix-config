@@ -36,7 +36,7 @@
   sops.defaultSopsFormat = "yaml";
 
   # Path to Age Private Key
-  sops.age.keyFile = "/home/tk/.secrets/sops/age/keys.txt";
+  sops.age.keyFile = "/home/${outputs.username}/.secrets/sops/age/keys.txt";
 
   # The actual keys
   sops.secrets.tailscale = { };
@@ -127,15 +127,15 @@
   };
   
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.tk = {
+  users.users.${outputs.username} = {
     isNormalUser = true;
-    description = "tk";
+    description = outputs.username;
     initialPassword = "Hello123!"; # Temp PW
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.bash;
     packages = with pkgs; [];
 
-    # Add SSH Key to TK User
+    # Add SSH Key to the User
     openssh.authorizedKeys.keys = [
       (builtins.readFile ./mbp.pub)
       (builtins.readFile ./anya.pub)
@@ -145,7 +145,7 @@
   # Passwordless Sudo
   security.sudo.extraRules = [
     {
-      users = ["tk"];
+      users = ["${outputs.username}"];
       commands = [
         {
           command = "ALL";

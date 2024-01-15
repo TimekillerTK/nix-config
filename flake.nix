@@ -68,8 +68,8 @@
     # Custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};
 
-    # For testing
-    username = "placeholder";
+    # The username
+    username = "tk";
 
     nixosConfigurations = {
       default = nixpkgs.lib.nixosSystem {
