@@ -68,13 +68,17 @@
     # Custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};
 
+    # For testing
+    username = "placeholder";
+
     nixosConfigurations = {
       default = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
-          # Main NixOS configuration file
+          # Disko
           inputs.disko.nixosModules.disko
+          # Main NixOS configuration file
           ./nixos/configuration.nix
         ];
       };
