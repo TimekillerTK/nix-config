@@ -56,6 +56,7 @@
       bottom           # top replacement
       sops             # secrets management 
       unstable.awscli2 # AWS CLI
+      # abcnewscript # TEST? 
 
       # Desktop
       firefox
