@@ -72,7 +72,7 @@
     efiInstallAsRemovable = true;
   };
 
-  networking.hostName = "nixos-test"; # Define your hostname.
+  networking.hostName = outputs.hostname; # Define your hostname.
 
   # Enable networking
   networking.networkmanager.enable = true;

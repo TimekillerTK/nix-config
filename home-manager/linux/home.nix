@@ -42,9 +42,9 @@
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home = {
-    username = "tk";
+    username = outputs.username;
     stateVersion = "23.11"; # Please read the comment before changing.
-    homeDirectory = "/home/tk";
+    homeDirectory = "/home/${outputs.username}";
     packages = with pkgs; [
       
       # CLI
@@ -80,7 +80,7 @@
       font.normal.family = "CaskaydiaCove Nerd Font Mono";
       font.normal.style = "Regular";
       font.size = 14.0;
-      shell.program = "/home/tk/.nix-profile/bin/tmux";
+      shell.program = "/home/${outputs.username}/.nix-profile/bin/tmux";
       shell.args = [ "new-session" "-A" "-s" "general" ];
       key_bindings = [
         { key = "F";      mods = "Control";       mode = "~Search";     action = "SearchForward"; }
