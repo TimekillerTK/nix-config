@@ -117,8 +117,8 @@
 
   # Enable sound with pipewire.
   sound.enable = true;
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
+  hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -141,6 +141,14 @@
       (builtins.readFile ./anya.pub)
     ];
   };
+
+  # Passwordless Sudo
+  security.sudo.extraRules = [
+    {
+      users = ["tk"];
+      commands = ["ALL"];
+    }
+  ];
 
   # Add same SSH Key to Root User
   users.users.root = {
