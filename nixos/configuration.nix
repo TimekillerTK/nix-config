@@ -125,11 +125,6 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
-
-  # Switching Default Shell to ZSH
-  environment.shells = with pkgs; [ zsh ];
-  users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true;
   
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tk = {
@@ -137,7 +132,7 @@
     description = "tk";
     initialPassword = "Hello123!"; # Temp PW
     extraGroups = [ "networkmanager" "wheel" ];
-    shell = pkgs.zsh;
+    shell = pkgs.bash;
     packages = with pkgs; [];
 
     # Add SSH Key to TK User
