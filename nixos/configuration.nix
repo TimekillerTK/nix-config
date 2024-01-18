@@ -11,6 +11,7 @@
       inputs.sops-nix.nixosModules.sops
       (modulesPath + "/profiles/qemu-guest.nix") # Required for QEMU Virtio VMs
       ./disk-config.nix
+      ../pkgs/mytestscript
     ];
 
   # Overlays from ../overlays
