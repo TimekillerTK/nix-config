@@ -74,7 +74,7 @@
   networking.hostName = "nix-test";
 
   # This is just an example, be sure to use whatever bootloader you prefer
-  boot.loader.systemd-boot.enable = true;
+  # boot.loader.systemd-boot.enable = true;
 
   # Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
