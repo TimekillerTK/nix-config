@@ -75,8 +75,8 @@
 
   # This is just an example, be sure to use whatever bootloader you prefer
   boot.loader.grub = {
-    efiSupport = true;
-    efiInstallAsRemovable = true;
+    # efiSupport = true;
+    # efiInstallAsRemovable = true;
     devices = [ "/dev/sda" ];
   };
 
