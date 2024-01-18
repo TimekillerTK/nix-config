@@ -1,28 +1,52 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ modulesPath, inputs, outputs, config, pkgs, lib, ... }:
-
+# This is your system's configuration file.
+# Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
-  imports =
-    [
-      inputs.vscode-server.nixosModules.default
-      inputs.sops-nix.nixosModules.sops
-      (modulesPath + "/profiles/qemu-guest.nix") # Required for QEMU Virtio VMs
-      ./disk-config.nix
-      ../pkgs/spaghetti
-    ];
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
+  # You can import other NixOS modules here
+  imports = [
+    # If you want to use modules your own flake exports (from modules/nixos):
+    # outputs.nixosModules.example
 
-  # Overlays from ../overlays
+    # Or modules from other flakes (such as nixos-hardware):
+    # inputs.hardware.nixosModules.common-cpu-amd
+    # inputs.hardware.nixosModules.common-ssd
+
+    # You can also split up your configuration and import pieces of it here:
+    # ./users.nix
+
+    # Import your generated (nixos-generate-config) hardware configuration
+    ./hardware-configuration.nix
+  ];
+
   nixpkgs = {
+    # You can add overlays here
     overlays = [
+      # Add overlays your own flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
       outputs.overlays.modifications
-      outputs.overlays.other-packages
+      outputs.overlays.unstable-packages
+
+      # You can also add overlays exported from other flakes:
+      # neovim-nightly-overlay.overlays.default
+
+      # Or define it inline, for example:
+      # (final: prev: {
+      #   hi = final.hello.overrideAttrs (oldAttrs: {
+      #     patches = [ ./change-hello-to-hi.patch ];
+      #   });
+      # })
     ];
-    # Allow unfree packages (Host)
-    config.allowUnfree = true;
+    # Configure your nixpkgs instance
+    config = {
+      # Disable if you don't want unfree packages
+      allowUnfree = true;
+    };
   };
 
   # This will add each flake input as a registry
@@ -47,163 +71,39 @@
     auto-optimise-store = true;
   };
 
-  # Nix automatic Garbage Collect
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 14d";
-  };
+  networking.hostName = "nix-test";
 
-  # Path to secrets file & format
-  sops.defaultSopsFile = ../secrets/secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
+  # This is just an example, be sure to use whatever bootloader you prefer
+  boot.loader.systemd-boot.enable = true;
 
-  # Path to Age Private Key
-  sops.age.keyFile = "/home/${outputs.username}/.secrets/sops/age/keys.txt";
-
-  # The actual keys
-  sops.secrets.tailscale = { };
-
-  # Enabling use of binary cache (Cachix)
-  # NOTE: Adding this prevents warning:
-  # warning: ignoring untrusted substituter 'https://devenv.cachix.org', you are not a trusted user.
-  nix.settings = {
-    substituters = [
-      "https://devenv.cachix.org"
-    ];
-    trusted-public-keys = [
-      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
-    ];
-  };
-
-  # Enabling Flatpaks
-  services.flatpak.enable = true;
-
-  # NOTE: After enabling, needs manual step to add flathub:
-  # > flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
-  # VS Code Server Module
-  services.vscode-server.enable = true;
-
-  # Bootloader.
-  # boot.loader.grub.device = "/dev/sda"; # Conflicts with Disko
-  boot.loader.grub = {
-    efiSupport = true;
-    efiInstallAsRemovable = true;
-  };
-
-  networking.hostName = outputs.hostname; # Define your hostname.
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-
-  # Set your time zone.
-  time.timeZone = "Europe/Amsterdam";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "nl_NL.UTF-8";
-    LC_IDENTIFICATION = "nl_NL.UTF-8";
-    LC_MEASUREMENT = "nl_NL.UTF-8";
-    LC_MONETARY = "nl_NL.UTF-8";
-    LC_NAME = "nl_NL.UTF-8";
-    LC_NUMERIC = "nl_NL.UTF-8";
-    LC_PAPER = "nl_NL.UTF-8";
-    LC_TELEPHONE = "nl_NL.UTF-8";
-    LC_TIME = "nl_NL.UTF-8";
-  };
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the KDE Plasma Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
-  };
-
-  # Enable tailscale
-  services.tailscale.enable = true;
-  services.tailscale.authKeyFile = config.sops.secrets."tailscale".path;
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  sound.enable = true;
-  security.rtkit.enable = true;
-  hardware.pulseaudio.enable = false;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  # Enable ZSH
-  programs.zsh.enable = true;
-  
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.${outputs.username} = {
-    isNormalUser = true;
-    description = outputs.username;
-    initialPassword = "Hello123!"; # Temp PW
-    extraGroups = [ "networkmanager" "wheel" ];
-    shell = pkgs.zsh;
-    packages = with pkgs; [];
-
-    # Add SSH Key to the User
-    openssh.authorizedKeys.keys = [
-      (builtins.readFile ./mbp.pub)
-      (builtins.readFile ./anya.pub)
-    ];
-  };
-
-  # Passwordless Sudo
-  security.sudo.extraRules = [
-    {
-      users = ["${outputs.username}"];
-      commands = [
-        {
-          command = "ALL";
-          options = ["NOPASSWD"];
-        }
+  # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
+  users.users = {
+    tk = {
+      # TODO: You can set an initial password for your user.
+      # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.
+      # Be sure to change it (using passwd) after rebooting!
+      initialPassword = "Hello123!";
+      isNormalUser = true;
+      openssh.authorizedKeys.keys = [
+        # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
       ];
-    }
-  ];
-
-  # Add same SSH Key to Root User
-  users.users.root = {
-    initialPassword = "Hello123!"; # Temp PW
-    openssh.authorizedKeys.keys = [
-      (builtins.readFile ./mbp.pub)
-      (builtins.readFile ./anya.pub)
-    ];
+      # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
+      extraGroups = ["wheel"];
+    };
   };
 
-  # List packages installed in system profile. To search, run:
-  environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    git
-    openssh
-    tailscale # Mesh VPN using Wireguard Protocol
-  ];
+  # This setups a SSH server. Very important if you're setting up a headless system.
+  # Feel free to remove if you don't need it.
+  services.openssh = {
+    enable = true;
+    settings = {
+      # Forbid root login through SSH.
+      PermitRootLogin = "no";
+      # Use keys only. Remove if you want to SSH using password (not recommended)
+      PasswordAuthentication = false;
+    };
+  };
 
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
-
+  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
+  system.stateVersion = "23.11";
 }
