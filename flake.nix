@@ -61,6 +61,9 @@
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
+    # DevShells for each system
+    devShells = forAllSystems (system: import ./shell.nix nixpkgs.legacyPackages.${system});
+
     # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};
     # Reusable nixos modules you might want to export
