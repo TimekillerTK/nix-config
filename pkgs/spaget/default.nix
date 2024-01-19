@@ -1,4 +1,4 @@
-{ writeShellScriptBin }:
+{ writeShellScriptBin, target ? "world" }:
 writeShellScriptBin "spaget" ''
-  echo "hello, spaghetti!!"
+  echo "hello, ${target}!!"
 ''
