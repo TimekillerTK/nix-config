@@ -1,24 +1,38 @@
 {
-  description = "Your new nix config";
+  description = "TK's Nix Configs";
 
   inputs = {
-    # Nixpkgs
+    # Nixpkgs Stable - https://github.com/NixOS/nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
-    # You can access packages and modules from different nixpkgs revs
-    # at the same time. Here's an working example:
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
 
-    # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    # Nixpkgs Version 2305 - https://github.com/NixOS/nixpkgs
+    nixpkgs-v2305.url = "github:nixos/nixpkgs/nixos-23.05";
+
+    # Nixpkgs Unstable
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
+
+    # Disko (Disk Config)
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Home Manager - https://github.com/nix-community/home-manager
+    home-manager.url = "github:nix-community/home-manager/release-23.11"; 
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Add any other flake you might need
-    # hardware.url = "github:nixos/nixos-hardware";
+    # Atomic, declarative, and reproducible secret provisioning for NixOS based on sops.
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Shameless plug: looking for a way to nixify your themes and make
-    # everything match nicely? Try nix-colors!
-    # nix-colors.url = "github:misterio77/nix-colors";
+    # For VS Code Remote to work on NixOS
+    vscode-server.url = "github:nix-community/nixos-vscode-server";
+
+    # Community VS Code Extensions
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+
+    # For managing KDE Plasma
+    plasma-manager.url = "github:pjones/plasma-manager";
+    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-manager.inputs.home-manager.follows = "home-manager";
   };
 
   outputs = {
