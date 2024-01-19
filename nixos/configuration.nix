@@ -16,6 +16,7 @@
     # Or modules from other flakes (such as nixos-hardware):
     # inputs.hardware.nixosModules.common-cpu-amd
     # inputs.hardware.nixosModules.common-ssd
+    inputs.vscode-server.nixosModules.default
 
     # You can also split up your configuration and import pieces of it here:
     # ./users.nix
@@ -70,6 +71,9 @@
     # Deduplicate and optimize nix store
     auto-optimise-store = true;
   };
+
+  # VS Code Server Module
+  services.vscode-server.enable = true;
 
   networking.hostName = "nix-test";
 
