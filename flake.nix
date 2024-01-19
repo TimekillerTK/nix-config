@@ -42,6 +42,7 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
+    lib = nixpkgs.lib // home-manager.lib;
     # Supported systems for your flake packages, shell, etc.
     systems = [
       "aarch64-linux"
