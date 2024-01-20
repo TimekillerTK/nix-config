@@ -26,7 +26,7 @@
       # Add overlays your own flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
       outputs.overlays.modifications
-      outputs.overlays.unstable-packages
+      outputs.overlays.other-packages
 
       # You can also add overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
@@ -54,7 +54,11 @@
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
-  # home.packages = with pkgs; [ steam ];
+  home.packages = with pkgs; [
+    pkgs.spaget
+    pkgs.unstable.ripgrep
+    pkgs.v2305.awscli2
+  ];
 
   # Enable home-manager and git
   programs.home-manager.enable = true;

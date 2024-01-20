@@ -114,7 +114,7 @@
 
   # System Packages
   environment.systemPackages = [
-    pkgs.spaget # Custom written package
+    # pkgs.spaget # Custom written package
   ];
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
