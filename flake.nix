@@ -60,6 +60,7 @@
       config.allowUnfree = true;
     });
   in {
+    inherit lib;
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
     # packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
@@ -80,28 +81,22 @@
     # These are usually stuff you would upstream into home-manager
     homeManagerModules = import ./modules/home-manager;
 
-    # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
-      nix-test = nixpkgs.lib.nixosSystem {
+      # Test NixOS VM
+      nix-test = lib.nixosSystem {
+        modules = [ ./hosts/nix-test ];
         specialArgs = {inherit inputs outputs;};
-        modules = [
-          # > Our main nixos configuration file <
-          ./nixos/configuration.nix
-        ];
       };
     };
 
-    # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
+    # NOTE: Home-manager requires a 'pkgs' instance
     homeConfigurations = {
-      "tk@nix-test" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          # > Our main home-manager configuration file <
-          ./home-manager/home.nix
-        ];
+      "tk@nix-test" = lib.homeManagerConfiguration {
+        modules = [ ./home/tk/nix-test.nix ];
+        pkgs = pkgsFor.x86_64-linux; 
+        extraSpecialArgs = { inherit inputs outputs; };
       };
     };
   };
