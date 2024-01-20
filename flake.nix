@@ -61,25 +61,23 @@
     });
   in {
     inherit lib;
-    # Your custom packages
-    # Accessible through 'nix build', 'nix shell', etc
-    # packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
-    packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
-    # Formatter for your nix files, available through 'nix fmt'
-    # Other options beside 'alejandra' include 'nixpkgs-fmt'
-    # formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
-    # # DevShells for each system
-    # devShells = forAllSystems (system: import ./shell.nix nixpkgs.legacyPackages.${system});
+    # Reusable nixos modules you might want to export (shareable)
+    nixosModules = import ./modules/nixos;
+    homeManagerModules = import ./modules/home-manager;
 
     # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};
-    # Reusable nixos modules you might want to export
-    # These are usually stuff you would upstream into nixpkgs
-    nixosModules = import ./modules/nixos;
-    # Reusable home-manager modules you might want to export
-    # These are usually stuff you would upstream into home-manager
-    homeManagerModules = import ./modules/home-manager;
+
+    # Your custom packages
+    # Accessible through 'nix build', 'nix shell', etc
+    packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
+
+    # Formatter for your nix files, available through 'nix fmt'
+    formatter = forEachSystem (pkgs: pkgs.alejandra);
+
+    # DevShells for each system
+    devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
 
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
