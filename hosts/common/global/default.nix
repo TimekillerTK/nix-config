@@ -3,5 +3,6 @@
 {
   imports = [
     ./locale.nix
+    ./nix_settings.nix
   ];
 }

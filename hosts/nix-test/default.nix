@@ -19,7 +19,6 @@
     ./hardware-configuration.nix 
 
     # Repo Modules
-    ../common/nix-settings
     ../common/global
     ../common/kde-plasma-x11
   ];
