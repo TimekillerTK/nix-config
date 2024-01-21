@@ -1,3 +1,4 @@
+# Time / Locale Settings
 { ... }:
 {
   # Set your time zone.
