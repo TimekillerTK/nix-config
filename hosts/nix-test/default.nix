@@ -86,6 +86,7 @@
         (builtins.readFile ../common/ssh/mbp.pub)
         (builtins.readFile ../common/ssh/anya.pub)
       ];
+      shell = pkgs.zsh;
       extraGroups = [ "networkmanager" "wheel" ];
     };
   };

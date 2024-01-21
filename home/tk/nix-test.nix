@@ -1,5 +1,3 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
   inputs,
   outputs,
@@ -8,20 +6,19 @@
   pkgs,
   ...
 }: {
-  # You can import other home-manager modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/home-manager):
     # outputs.homeManagerModules.example
 
     # Or modules exported from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModules.default
+    inputs.plasma-manager.homeManagerModules.plasma-manager
 
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
   ];
 
   nixpkgs = {
-    # You can add overlays here
     overlays = [
       # Add overlays your own flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
@@ -38,18 +35,32 @@
       #   });
       # })
     ];
-    # Configure your nixpkgs instance
     config = {
-      # Disable if you don't want unfree packages
       allowUnfree = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = _: true;
     };
   };
 
+  # DirEnv configuration
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
+
+  # Allow Home Manager to manage Zsh
+  programs.zsh.enable = true;
+
   home = {
     username = "tk";
     homeDirectory = "/home/tk";
+  };
+
+  # Enable Starship for Terminal
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
   };
 
   # Add stuff for your user as you see fit:

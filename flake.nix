@@ -93,7 +93,7 @@
     homeConfigurations = {
       "tk@nix-test" = lib.homeManagerConfiguration {
         modules = [ ./home/tk/nix-test.nix ];
-        pkgs = pkgsFor.x86_64-linux; 
+        pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = { inherit inputs outputs; };
       };
     };
