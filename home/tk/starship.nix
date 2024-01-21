@@ -87,12 +87,12 @@ in
 
       git_branch = {
         symbol = "";
-        style = "fg:${blackColor} bg:${orangeColor}";
+        style = "fg:${whiteColor} bg:${orangeColor}";
         format = "[ $symbol $branch ]($style)";
       };
 
       git_status = {
-        style = "fg:${blackColor} bg:${orangeColor}";
+        style = "fg:${whiteColor} bg:${orangeColor}";
         format = "[$all_status$ahead_behind ]($style)";
       };
 
