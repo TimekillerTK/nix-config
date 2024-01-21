@@ -14,6 +14,7 @@
     # inputs.hardware.nixosModules.common-cpu-amd
     # inputs.hardware.nixosModules.common-ssd
     inputs.vscode-server.nixosModules.default
+    inputs.sops-nix.nixosModules.sops
 
     # Generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix 
@@ -51,6 +52,16 @@
     # efiInstallAsRemovable = true;
     devices = [ "/dev/sda" ];
   };
+
+  # Path to secrets file & format
+  sops.defaultSopsFile = ../secrets/secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
+
+  # Path to Age Private Key
+  sops.age.keyFile = "/home/${outputs.username}/.secrets/sops/age/keys.txt";
+
+  # The actual keys
+  sops.secrets.tailscale = { };
 
   # VS Code Server Module (for VS Code Remote)
   services.vscode-server.enable = true;
