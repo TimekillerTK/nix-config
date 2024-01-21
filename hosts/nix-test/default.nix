@@ -55,7 +55,7 @@
 
   # Path to secrets file & format
   sops.defaultSopsFile = ../secrets/secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
+  # sops.defaultSopsFormat = "yaml"; #not needed (?)
 
   # Path to Age Private Key
   sops.age.keyFile = "/home/${outputs.username}/.secrets/sops/age/keys.txt";
