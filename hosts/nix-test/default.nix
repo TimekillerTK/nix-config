@@ -21,7 +21,8 @@
 
     # Repo Modules
     ../common/global
-    ../common/kde-plasma-x11
+    ../common/users/tk
+    ../common/optional/kde-plasma-x11
   ];
 
   nixpkgs = {
@@ -76,42 +77,6 @@
 
   # Enable ZSH
   programs.zsh.enable = true;
-
-  # Configure your system-wide user settings (groups, etc), add more users as needed.
-  users.users = {
-    tk = {
-      initialPassword = "Hello123!";
-      isNormalUser = true;
-      openssh.authorizedKeys.keys = [
-        (builtins.readFile ../common/ssh/mbp.pub)
-        (builtins.readFile ../common/ssh/anya.pub)
-      ];
-      shell = pkgs.zsh;
-      extraGroups = [ "networkmanager" "wheel" ];
-    };
-  };
-
-  # Passwordless Sudo
-  security.sudo.extraRules = [
-    {
-      users = ["tk"];
-      commands = [
-        {
-          command = "ALL";
-          options = ["NOPASSWD"];
-        }
-      ];
-    }
-  ];
-
-  # SSH Config
-  services.openssh = {
-    enable = true;
-    settings = {
-      PermitRootLogin = "no";
-      PasswordAuthentication = false;
-    };
-  };
 
   # System Packages
   environment.systemPackages = with pkgs; [
