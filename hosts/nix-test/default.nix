@@ -18,8 +18,10 @@
     # Generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix 
 
-    # Others
+    # Repo Modules
     ../common/nix-settings
+    ../common/global
+    ../common/kde-plasma-x11
   ];
 
   nixpkgs = {
@@ -44,6 +46,7 @@
     };
   };
 
+  # WIP!
   boot.loader.grub = {
     # efiSupport = true;
     # efiInstallAsRemovable = true;
@@ -53,7 +56,12 @@
   # VS Code Server Module (for VS Code Remote)
   services.vscode-server.enable = true;
 
+  # Hostname & Network Manager
   networking.hostName = "nix-test";
+  networking.networkmanager.enable = true;
+
+  # Enable ZSH
+  programs.zsh.enable = true;
 
   # Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
@@ -64,9 +72,22 @@
         (builtins.readFile ../common/ssh/mbp.pub)
         (builtins.readFile ../common/ssh/anya.pub)
       ];
-      extraGroups = ["wheel"];
+      extraGroups = [ "networkmanager" "wheel" ];
     };
   };
+
+  # Passwordless Sudo
+  security.sudo.extraRules = [
+    {
+      users = ["tk"];
+      commands = [
+        {
+          command = "ALL";
+          options = ["NOPASSWD"];
+        }
+      ];
+    }
+  ];
 
   # SSH Config
   services.openssh = {
@@ -78,10 +99,12 @@
   };
 
   # System Packages
-  environment.systemPackages = [
-    # pkgs.spaget # Custom written package
+  environment.systemPackages = with pkgs; [
+    # pkgs.spaget # Custom package from /pkgs
+    vim
   ];
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
+
 }
