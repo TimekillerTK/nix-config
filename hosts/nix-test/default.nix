@@ -19,7 +19,7 @@
     ./hardware-configuration.nix 
 
     # Others
-    ../common/nix
+    ../common/nix-settings
   ];
 
   nixpkgs = {

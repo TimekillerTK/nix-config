@@ -19,5 +19,20 @@
   nix.settings = {
     experimental-features = "nix-command flakes"; # enable nix flakes
     auto-optimise-store = true; # Deduplicate and optimize nix store
+
+    # Enabling use of binary cache (Cachix)
+    substituters = [
+      "https://devenv.cachix.org"
+    ];
+    trusted-public-keys = [
+      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+    ];
+  };
+
+  # Nix automatic Garbage Collect
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 14d";
   };
 }
