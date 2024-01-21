@@ -14,8 +14,9 @@
     # inputs.nix-colors.homeManagerModules.default
     inputs.plasma-manager.homeManagerModules.plasma-manager
 
-    # You can also split up your configuration and import pieces of it here:
-    # ./nvim.nix
+    # Repo Modules
+    ./sh.nix
+    ./starship.nix
   ];
 
   nixpkgs = {
@@ -49,25 +50,15 @@
     nix-direnv.enable = true;
   };
 
-  # Allow Home Manager to manage Zsh
-  programs.zsh.enable = true;
-
   home = {
     username = "tk";
     homeDirectory = "/home/tk";
-  };
-
-  # Enable Starship for Terminal
-  programs.starship = {
-    enable = true;
-    enableZshIntegration = true;
   };
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
     pkgs.spaget
-    pkgs.unstable.ripgrep
     pkgs.v2305.awscli2
   ];
 
