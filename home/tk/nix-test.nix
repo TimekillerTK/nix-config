@@ -25,16 +25,6 @@
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.other-packages
-
-      # You can also add overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
     ];
     config = {
       allowUnfree = true;
@@ -58,8 +48,11 @@
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
-    pkgs.spaget
-    pkgs.v2305.awscli2
+    spaget # custom package from pkgs directory
+    v2305.awscli2
+
+    # Fonts
+    (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
   ];
 
   # Enable home-manager and git
