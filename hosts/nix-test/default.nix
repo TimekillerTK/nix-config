@@ -81,6 +81,7 @@
   # System Packages
   environment.systemPackages = with pkgs; [
     # pkgs.spaget # Custom package from /pkgs
+    wip
     vim
   ];
 
