@@ -17,12 +17,12 @@
     inputs.sops-nix.nixosModules.sops
 
     # Generated (nixos-generate-config) hardware configuration
-    ./hardware-configuration.nix 
+    # ./hardware-configuration.nix
 
     # Repo Modules
     ../common/global
     ../common/users/tk
-    ../common/optional/kde-plasma-x11
+    # ../common/optional/kde-plasma-x11
   ];
 
   nixpkgs = {
@@ -81,7 +81,7 @@
   # System Packages
   environment.systemPackages = with pkgs; [
     # pkgs.spaget # Custom package from /pkgs
-    wip
+    # wip
     vim
   ];
 

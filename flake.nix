@@ -33,16 +33,16 @@
     plasma-manager.url = "github:pjones/plasma-manager";
     plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
     plasma-manager.inputs.home-manager.follows = "home-manager";
+
+    # Deploy-rs
+    deploy-rs.url = "github:serokell/deploy-rs";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    ...
-  } @ inputs: let
+  outputs = { self, nixpkgs, home-manager, ... } @ inputs:
+  let
     inherit (self) outputs;
     lib = nixpkgs.lib // home-manager.lib;
+
     # Supported systems for your flake packages, shell, etc.
     systems = [
       "aarch64-linux"
@@ -51,6 +51,7 @@
       "aarch64-darwin"
       "x86_64-darwin"
     ];
+
     # This is a function that generates an attribute by calling a function you
     # pass to it, with each system as an argument
     forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
@@ -58,7 +59,8 @@
       inherit system;
       config.allowUnfree = true;
     });
-  in {
+  in
+  {
     inherit lib;
 
     # Reusable nixos modules you might want to export (shareable)
@@ -78,23 +80,30 @@
     # DevShells for each system
     devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
 
-    # Available through 'nixos-rebuild --flake .#your-hostname'
-    nixosConfigurations = {
-      # Test NixOS VM
-      nix-test = lib.nixosSystem {
-        modules = [ ./hosts/nix-test ];
-        specialArgs = {inherit inputs outputs;};
+    nixosConfigurations.deployme = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [ ./hosts/deployme ];
+      specialArgs = {inherit inputs outputs;};
+    };
+
+    deploy.nodes = {
+      deployme = { 
+        hostname = "deployme.cyn.local";
+        profiles.system = {
+          sshUser = "root";
+          user = "root";
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.deployme;
+        };
+        # profiles.tk = {
+        #   sshUser = "root";
+        #   user = "tk";
+        #   profilePath = "/nix/var/nix/profiles/per-user/tk/home-manager";
+        #   path = deploy-rs.lib.x86_64-linux.activate.custom self.homeConfigurations."tk@nix-test".activationPackage "$PROFILE/activate";
+        # };
       };
     };
 
-    # Available through 'home-manager --flake .#your-username@your-hostname'
-    # NOTE: Home-manager requires a 'pkgs' instance
-    homeConfigurations = {
-      "tk@nix-test" = lib.homeManagerConfiguration {
-        modules = [ ./home/tk/nix-test.nix ];
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = { inherit inputs outputs; };
-      };
-    };
+    # (deploy-rs) This is highly advised, and will prevent many possible mistakes
+    checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy-rs.lib;
   };
 }

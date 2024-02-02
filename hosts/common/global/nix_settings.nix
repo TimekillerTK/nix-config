@@ -16,6 +16,9 @@
     })
     config.nix.registry;
 
+  # Required for deploy-rs if you want to deploy with normal user part of wheel instead of root
+  nix.settings.trusted-users = [ "@wheel" ];
+
   nix.settings = {
     experimental-features = "nix-command flakes"; # enable nix flakes
     auto-optimise-store = true; # Deduplicate and optimize nix store
