@@ -80,10 +80,20 @@
     # DevShells for each system
     devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
 
+    # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations.deployme = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
       modules = [ ./hosts/deployme ];
       specialArgs = {inherit inputs outputs;};
+    };
+
+    # Available through 'home-manager --flake .#your-username@your-hostname'
+    # NOTE: Home-manager requires a 'pkgs' instance
+    homeConfigurations = {
+      "tk@nix-test" = lib.homeManagerConfiguration {
+        modules = [ ./home/tk/nix-test.nix ];
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = {inherit inputs outputs;};
+      };
     };
 
     deploy.nodes = {
@@ -94,14 +104,13 @@
           user = "root";
           path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.deployme;
         };
+        profiles.tk = {
+          sshUser = "tk";
+          user = "tk";
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.custom self.homeConfigurations."tk@nix-test".activationPackage "$PROFILE/activate";
+        };
       };
     };
-        # profiles.tk = {
-        #   sshUser = "root";
-        #   user = "tk";
-        #   profilePath = "/nix/var/nix/profiles/per-user/tk/home-manager";
-        #   path = deploy-rs.lib.x86_64-linux.activate.custom self.homeConfigurations."tk@nix-test".activationPackage "$PROFILE/activate";
-        # };
 
     # (deploy-rs) This is highly advised, and will prevent many possible mistakes
     checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy-rs.lib;
