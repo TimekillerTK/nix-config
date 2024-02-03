@@ -51,9 +51,6 @@
     devices = [ "/dev/sda" ];
   };
 
-  # For deployRS
-  nix.settings.trusted-users = [ "@wheel" ];
-
   # VS Code Server Module (for VS Code Remote)
   services.vscode-server.enable = true;
 

@@ -90,18 +90,18 @@
       deployme = { 
         hostname = "deployme.cyn.local";
         profiles.system = {
-          sshUser = "root";
+          sshUser = "tk";
           user = "root";
           path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.deployme;
         };
+      };
+    };
         # profiles.tk = {
         #   sshUser = "root";
         #   user = "tk";
         #   profilePath = "/nix/var/nix/profiles/per-user/tk/home-manager";
         #   path = deploy-rs.lib.x86_64-linux.activate.custom self.homeConfigurations."tk@nix-test".activationPackage "$PROFILE/activate";
         # };
-      };
-    };
 
     # (deploy-rs) This is highly advised, and will prevent many possible mistakes
     checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy-rs.lib;
