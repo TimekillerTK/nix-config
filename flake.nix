@@ -81,9 +81,15 @@
     devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
 
     # Available through 'nixos-rebuild --flake .#your-hostname'
-    nixosConfigurations.deployme = nixpkgs.lib.nixosSystem {
-      modules = [ ./hosts/deployme ];
-      specialArgs = {inherit inputs outputs;};
+    nixosConfigurations = {
+      deployme = lib.nixosSystem {
+        modules = [ ./hosts/deployme ];
+        specialArgs = {inherit inputs outputs;};
+      };
+      nix-test = lib.nixosSystem {
+        modules = [ ./hosts/nix-test ];
+        specialArgs = {inherit inputs outputs;};
+      } ;
     };
 
     # Available through 'home-manager --flake .#your-username@your-hostname'

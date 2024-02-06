@@ -2,6 +2,7 @@
 
 - [How to use this project](#how-to-use-this-project)
 - [Deploying config on a new host](#deploying-config-on-a-new-host)
+  - [With `deploy-rs`:](#with-deploy-rs)
   - [With `nixos-anywhere` / `disko`:](#with-nixos-anywhere--disko)
   - [Manual Deployment](#manual-deployment)
 - [Updating](#updating)
