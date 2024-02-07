@@ -46,10 +46,11 @@
           DHCP = "ipv4";
           IPForward = true; # ?confirm
         };
-        # temporary
-        domains = [
-          "cyn.local"
-        ];
+
+        # Causes all DNS traffic which does not match another configured domain 
+        # routing entry to be routed to DNS servers specified for this interface
+        domains = ["~"];
+        
         # Setting Explicit DNS servers, though probably not needed
         # make routing on this interface a dependency for network-online.target
         linkConfig.RequiredForOnline = "routable";
