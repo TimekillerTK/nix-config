@@ -9,12 +9,18 @@
     tcpdump
     nmap
     vim
+    dig
   ];
 
   # Enable IPv4 forwarding
   boot.kernel.sysctl = {
     "net.ipv4.conf.all.forwarding" = true;
   };
+
+  # Override fallback DNS Servers
+  services.resolved.fallbackDns = [
+    "192.168.1.40"
+  ];
 
   systemd.network = {
     enable = true;
@@ -40,6 +46,11 @@
           DHCP = "ipv4";
           IPForward = true; # ?confirm
         };
+        # temporary
+        domains = [
+          "cyn.local"
+        ];
+        # Setting Explicit DNS servers, though probably not needed
         # make routing on this interface a dependency for network-online.target
         linkConfig.RequiredForOnline = "routable";
       };
@@ -47,9 +58,12 @@
   };
 
   networking = {
-    # Conflicts with systemd.network.enable - will be explictly configured per interface
+    # Conflicts with systemd.network.enable
+    # - will be explictly configured per interface if needed
     useDHCP = false;
-    
+
+    # TODO: Hostname should be here too
+
     # Disable existing IPTables firewall & NAT
     nat.enable = false;
     firewall.enable = false;
