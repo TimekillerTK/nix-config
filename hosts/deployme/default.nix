@@ -58,6 +58,9 @@
   networking.hostName = "deployme";
   networking.networkmanager.enable = true;
 
+  # Temporary Default Gateway set
+  networking.defaultGateway.address = "10.10.10.1";
+
   # Enable ZSH
   programs.zsh.enable = true;
 

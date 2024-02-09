@@ -1,7 +1,8 @@
-{ config, pkgs, ... }:
+{ config, pkgs, outputs, ... }:
 
 let
   myAliases = {
+    # home = "echo /home/${homeDirectoryUser}";
     top = "${pkgs.bottom}/bin/btm";
     htop = "${pkgs.bottom}/bin/btm";
     ls = "${pkgs.eza}/bin/eza --icons -F --group-directories-first --git";

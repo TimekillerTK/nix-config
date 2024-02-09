@@ -38,18 +38,18 @@
         address = [
           "10.10.10.1/24"
         ];
+
+        # Causes all DNS traffic which does not match another configured domain 
+        # routing entry to be routed to DNS servers specified for this interface
+        domains = ["~"];
       };
       # NIC1 `ens18` - `192.168.1.4/24` (WAN)
       "10-wan" = {
         matchConfig.Name = "ens18";
         networkConfig = {
           DHCP = "ipv4";
-          IPForward = true; # ?confirm
+          IPForward = true;
         };
-
-        # Causes all DNS traffic which does not match another configured domain 
-        # routing entry to be routed to DNS servers specified for this interface
-        domains = ["~"];
         
         # Setting Explicit DNS servers, though probably not needed
         # make routing on this interface a dependency for network-online.target
@@ -79,7 +79,12 @@
         table ip whatever {
           chain thingscomingintohost {
             type filter hook input priority 0; policy accept;
-            iifname ens19 drop
+            ct state related,established accept
+            iifname ens18 drop
+          }
+          chain lastminutemods {
+            type nat hook postrouting priority 0; policy accept;
+            oifname ens18 masquerade
           }
         }
       '';
