@@ -89,7 +89,11 @@
       nix-test = lib.nixosSystem {
         modules = [ ./hosts/nix-test ];
         specialArgs = {inherit inputs outputs;};
-      } ;
+      };
+      router = lib.nixosSystem {
+        modules = [ ./hosts/router ];
+        specialArgs = {inherit inputs outputs;};
+      };
     };
 
     # Available through 'home-manager --flake .#your-username@your-hostname'
@@ -114,6 +118,14 @@
           sshUser = "tk";
           user = "tk";
           path = inputs.deploy-rs.lib.x86_64-linux.activate.custom self.homeConfigurations."tk@nix-test".activationPackage "$PROFILE/activate";
+        };
+      };
+      router = {
+        hostname = "router.cyn.local";
+        profiles.system = {
+          sshUser = "tk";
+          user = "root";
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.router;
         };
       };
     };

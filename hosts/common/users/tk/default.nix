@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   # Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
@@ -10,6 +10,7 @@
       openssh.authorizedKeys.keys = [
         (builtins.readFile ./mbp.pub)
         (builtins.readFile ./anya.pub)
+        (builtins.readFile ./win_laptop.pub)
       ];
     };
   };
