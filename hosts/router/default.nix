@@ -6,9 +6,12 @@
   pkgs,
   ...
 }: 
-let 
-  wanPort = "eth1";
-  lanPort = "eno1";
+let
+  wanPort = "wan";
+  lanPort = "lan";
+  wanMacAddress = "0c:c4:7a:e3:98:17";
+  lanMacAddress = "0c:c4:7a:e3:98:16";
+  routerLanIpAddress = "172.17.0.1/16";
 in {
 
   imports = [
@@ -17,6 +20,7 @@ in {
     ./hardware-configuration.nix
   ];
 
+  # boot stuff (required)
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -46,6 +50,19 @@ in {
     # Basically allow unplugging ETH cables when needed...
     wait-online.anyInterface = true;
 
+    # Define links manually, not necessary but can prevent NICs swapping on boot
+    # in some circumstances.
+    links = {
+      "10-wan" = {
+        matchConfig.PermanentMACAddress = wanMacAddress;
+        linkConfig.Name = wanPort;
+      };
+      "20-lan" = {
+        matchConfig.PermanentMACAddress = lanMacAddress;
+        linkConfig.Name = lanPort;
+      };
+    };
+
     networks = {
       # NIC1 (WAN)
       "10-wan" = {
@@ -63,12 +80,8 @@ in {
       "20-lan" = {
         matchConfig.Name = lanPort;
         address = [
-          "172.17.0.1/16"
+          routerLanIpAddress
         ];
-
-        # Causes all DNS traffic which does not match another configured domain 
-        # routing entry to be routed to DNS servers specified for this interface
-        domains = ["~"];
       };
     };
   };
@@ -175,7 +188,7 @@ in {
   # Ensure networkd waits for nftables (firewall) to start first
   # Plus other wants/after which were there by default
   systemd.services.systemd-networkd = {
-    wants = [ 
+    wants = [
       "nftables.service"
       "systemd-networkd.socket"
       "network.target"
@@ -189,7 +202,7 @@ in {
       "systemd-sysctl.service"
     ];
   };
-  
+
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
 }

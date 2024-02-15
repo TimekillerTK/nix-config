@@ -16,7 +16,6 @@
       nix
       home-manager
       git
-
       sops
       ssh-to-age
       age
