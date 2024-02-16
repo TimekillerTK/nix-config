@@ -1,11 +1,11 @@
 # This file defines overlays
 {inputs, ...}: {
 
-  # This one brings our custom packages from the pkgs directory
+  # This one brings our custom packages from the 'pkgs' directory
   additions = final: prev: import ../pkgs {pkgs = final;};
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
-  # be accessible through -> pkgs.unstable
+  # be accessible through -> pkgs.unstable / pkgs.v2305
   other-packages = final: prev: {
     unstable = import inputs.nixpkgs-unstable {
       system = final.system;

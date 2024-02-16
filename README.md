@@ -2,6 +2,7 @@
 
 - [How to use this project](#how-to-use-this-project)
 - [Deploying config on a new host](#deploying-config-on-a-new-host)
+  - [With `deploy-rs`:](#with-deploy-rs)
   - [With `nixos-anywhere` / `disko`:](#with-nixos-anywhere--disko)
   - [Manual Deployment](#manual-deployment)
 - [Updating](#updating)
@@ -19,6 +20,50 @@ Run the following to apply a configuration:
 TBD...
 
 ## Deploying config on a new host
+
+
+### With `deploy-rs`:
+
+1. Ensure your **target host** `deployme.cyn.local` has NixOS installed, and has the following additional options defined in its `configuration.nix`:
+
+   ```nix
+   {
+      # ...
+
+      # OpenSSH Configuration - will allow SSH access to this machine and allow password auth (temporary!)
+      services.openssh = {
+         enable = true;
+         settings = {
+            PermitRootLogin = "no";
+            PasswordAuthentication = true;
+         };
+      };
+
+      # Enable passwordless sudo for the user you're going to be deploying with
+      security.sudo.extraRules = [
+         {
+            users = ["tk"];
+            commands = [
+               {
+                  command = "ALL";
+                  options = ["NOPASSWD"];
+               }
+            ];
+         }
+      ];
+
+      # Required for deploy-rs if you want to deploy with normal user part of wheel instead of root
+      # NOTE: This assumes that the user tk is already part of this group in users.users.tk via extraGroups
+      nix.settings.trusted-users = [ "@wheel" ];
+
+      # ...
+   }
+   ```
+
+2. Run `sudo nixos-rebuild switch` to ensure this configuration is applied.
+3. On the machine you want to run `deploy-rs` from, run `ssh-copy-id tk@deployme.cyn.local` to copy your SSH public key to the target machine.
+4. Run `nix run github:serokell/deploy-rs .#deployme` to deploy both the system and home configuration to the target host.
+
 
 ### With `nixos-anywhere` / `disko`:
 

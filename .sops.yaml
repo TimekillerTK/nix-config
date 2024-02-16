@@ -1,9 +1,11 @@
 keys:
   - &mbp age1ampggagplvarh46cn05esrlwsn5nj0t9he9n7dxjdtk0vaz99e0q66wp5g
   - &anya age14n2qzcnrs62xa7pskhp09m3mxapum3mpgh7mncs9nmcnzx2p3pcq8m08uq
+  - &nixtest age1pkg5mdawwfpmlg0xcezwndmq2ev4mtrvarlfz08e4tmmpwmr096s0vuqzu
 creation_rules:
-  - path_regex: secrets/secrets.yaml$
+  - path_regex: hosts/common/secrets.ya?ml$
     key_groups:
-    - age: 
+    - age:
       - *mbp
       - *anya
+      - *nixtest

@@ -1,5 +1,5 @@
 {
-  description = "NixOS config flake";
+  description = "TK's Nix Configs";
 
   inputs = {
     # Nixpkgs Stable - https://github.com/NixOS/nixpkgs
@@ -33,17 +33,17 @@
     plasma-manager.url = "github:pjones/plasma-manager";
     plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
     plasma-manager.inputs.home-manager.follows = "home-manager";
+
+    # Deploy-rs
+    deploy-rs.url = "github:serokell/deploy-rs";
   };
 
-  outputs = { 
-    self, 
-    nixpkgs,  
-    home-manager, 
-     ... } @ inputs: let
-    
+  outputs = { self, nixpkgs, home-manager, ... } @ inputs:
+  let
     inherit (self) outputs;
+    lib = nixpkgs.lib // home-manager.lib;
 
-    # Supported systems for flake packages, shell, etc.
+    # Supported systems for your flake packages, shell, etc.
     systems = [
       "aarch64-linux"
       "i686-linux"
@@ -54,53 +54,83 @@
 
     # This is a function that generates an attribute by calling a function you
     # pass to it, with each system as an argument
-    forAllSystems = nixpkgs.lib.genAttrs systems;
+    forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
+    pkgsFor = lib.genAttrs systems (system: import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+    });
   in
   {
-    # Custom packages
-    # Accessible through 'nix build', 'nix shell', etc
-    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+    inherit lib;
 
-    # Formatter for nix files, available through 'nix fmt'
-    # Options: nixpkgs-fmt, alejandra, nixfmt
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+    # Reusable nixos modules you might want to export (shareable)
+    nixosModules = import ./modules/nixos;
+    homeManagerModules = import ./modules/home-manager;
 
-    # Custom packages and modifications, exported as overlays
+    # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};
 
-    # Username/hostname
-    username = "tk";
-    hostname = "nixos-test";
+    # Your custom packages
+    # Accessible through 'nix build', 'nix shell', etc
+    packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
 
+    # Formatter for your nix files, available through 'nix fmt'
+    formatter = forEachSystem (pkgs: pkgs.alejandra);
+
+    # DevShells for each system
+    devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
+
+    # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
-      default = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+      deployme = lib.nixosSystem {
+        modules = [ ./hosts/deployme ];
         specialArgs = {inherit inputs outputs;};
-        modules = [
-          # Disko
-          inputs.disko.nixosModules.disko
-          # Main NixOS configuration file
-          ./nixos/configuration.nix
-        ];
+      };
+      nix-test = lib.nixosSystem {
+        modules = [ ./hosts/nix-test ];
+        specialArgs = {inherit inputs outputs;};
+      };
+      router = lib.nixosSystem {
+        modules = [ ./hosts/router ];
+        specialArgs = {inherit inputs outputs;};
       };
     };
+
+    # Available through 'home-manager --flake .#your-username@your-hostname'
+    # NOTE: Home-manager requires a 'pkgs' instance
     homeConfigurations = {
-      tk-linux = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+      "tk@nix-test" = lib.homeManagerConfiguration {
+        modules = [ ./home/tk/nix-test.nix ];
+        pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          # Main Home-Manager configuration file
-          ./home-manager/linux/home.nix
-        ];
-      };
-      tk-macos = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          # Main Home-Manager configuration file
-          ./home-manager/macos/home.nix
-        ];
       };
     };
+
+    deploy.nodes = {
+      deployme = { 
+        hostname = "deployme.cyn.local";
+        profiles.system = {
+          sshUser = "tk";
+          user = "root";
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.deployme;
+        };
+        profiles.tk = {
+          sshUser = "tk";
+          user = "tk";
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.custom self.homeConfigurations."tk@nix-test".activationPackage "$PROFILE/activate";
+        };
+      };
+      router = {
+        hostname = "router.cyn.local";
+        profiles.system = {
+          sshUser = "tk";
+          user = "root";
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.router;
+        };
+      };
+    };
+
+    # (deploy-rs) This is highly advised, and will prevent many possible mistakes
+    checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy-rs.lib;
   };
 }
