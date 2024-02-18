@@ -10,7 +10,7 @@ let
   wanPort = "wan";
   lanPort = "lan";
   wanMacAddress = "BA:45:00:A8:0D:E9";
-  lanMacAddress = "5E:A0:99:39:EF:7B";
+  lanMacAddress = "2E:CF:79:F2:BF:CE";
   routerLanIpAddress = "10.10.10.1/24";
 in {
 

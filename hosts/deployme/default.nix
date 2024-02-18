@@ -57,6 +57,9 @@
   # Hostname & Network Manager
   networking.hostName = "deployme";
   networking.networkmanager.enable = true;
+  networking.hosts = {
+    "10.10.10.1" = ["nix-test.cyn.local"];
+  };
 
   # Temporary Default Gateway set
   networking.defaultGateway.address = "10.10.10.1";
