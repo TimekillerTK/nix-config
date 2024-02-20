@@ -178,9 +178,11 @@ in {
           chain prerouting {
             type nat hook prerouting priority dstnat; policy accept;
 
-            # Redirect all traffic destined to google DNS to local DNS server
-            iifname $LANPORT ip daddr 8.8.8.8 dnat to 172.17.0.40
-            iifname $LANPORT ip daddr 8.8.4.4 dnat to 172.17.0.40
+            # Redirect all DNS traffic destined to google DNS to local DNS server
+            iifname $LANPORT ip daddr 8.8.8.8 udp dport 53 dnat to 172.17.0.40
+            iifname $LANPORT ip daddr 8.8.8.8 tcp dport 53 dnat to 172.17.0.40
+            iifname $LANPORT ip daddr 8.8.4.4 udp dport 53 dnat to 172.17.0.40
+            iifname $LANPORT ip daddr 8.8.4.4 tcp dport 53 dnat to 172.17.0.40
           }
           chain postrouting {
             type nat hook postrouting priority 100; policy accept;
