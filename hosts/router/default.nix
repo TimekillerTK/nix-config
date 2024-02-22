@@ -174,8 +174,20 @@ in {
 
         # Network address translation: What allows us to glue together a private network with the Internet even though we only have one routable address, as per IPv4 limitations
         table ip nat {
+          chain prerouting {
+            type nat hook prerouting priority dstnat; policy accept;
+
+            # Redirect all DNS traffic destined to google DNS to local DNS server
+            iifname $LANPORT ip daddr 8.8.8.8 udp dport 53 counter ct mark set 1 dnat to 172.17.0.40:53
+            iifname $LANPORT ip daddr 8.8.8.8 tcp dport 53 counter ct mark set 1 dnat to 172.17.0.40:53
+            iifname $LANPORT ip daddr 8.8.4.4 udp dport 53 counter ct mark set 1 dnat to 172.17.0.40:53
+            iifname $LANPORT ip daddr 8.8.4.4 tcp dport 53 counter ct mark set 1 dnat to 172.17.0.40:53
+          }
           chain postrouting {
             type nat hook postrouting priority 100; policy accept;
+
+            # Pretend that redirected DNS requests originate in this router, so clients can get a valid response
+            ct mark 1 counter masquerade
 
             # Pretend that outbound traffic originates in this router so that Internet servers know where to send responses
             oifname $WANPORT masquerade

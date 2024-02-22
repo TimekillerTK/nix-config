@@ -107,6 +107,14 @@
     };
 
     deploy.nodes = {
+      nix-test = { 
+        hostname = "nix-test.cyn.local";
+        profiles.system = {
+          sshUser = "tk";
+          user = "root";
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.nix-test;
+        };
+      };
       deployme = { 
         hostname = "deployme.cyn.local";
         profiles.system = {
