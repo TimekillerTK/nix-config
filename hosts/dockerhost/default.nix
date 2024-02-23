@@ -62,13 +62,14 @@
   environment.systemPackages = with pkgs; [
     vim
     arion
+    docker-client
   ];
 
   # Enable podman virtualization
   virtualisation.docker.enable = false;
   virtualisation.podman.enable = true;
   virtualisation.podman.dockerSocket.enable = true;
-  
+
   # The option definition `virtualisation.podman.defaultNetwork.dnsname' in 
   # `/nix/store/.../hosts/dockerhost' no longer has any effect; please remove it.
   # Use virtualisation.podman.defaultNetwork.settings.dns_enabled instead.
