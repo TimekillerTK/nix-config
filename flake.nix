@@ -94,6 +94,10 @@
         modules = [ ./hosts/router ];
         specialArgs = {inherit inputs outputs;};
       };
+      dockerhost = lib.nixosSystem {
+        modules = [ ./hosts/dockerhost ];
+        specialArgs = {inherit inputs outputs;};
+      };
     };
 
     # Available through 'home-manager --flake .#your-username@your-hostname'
@@ -134,6 +138,14 @@
           sshUser = "tk";
           user = "root";
           path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.router;
+        };
+      };
+      dockerhost = {
+        hostname = "dev-dockerhost.cyn.local";
+        profiles.system = {
+          sshUser = "tk";
+          user = "root";
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.dockerhost;
         };
       };
     };
