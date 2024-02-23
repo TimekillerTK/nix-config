@@ -2,6 +2,7 @@
   inputs,
   outputs,
   pkgs,
+  lib,
   ...
 }: {
   imports = [
@@ -47,25 +48,34 @@
     devices = [ "/dev/sda" ];
   };
 
+  # use default bash
+  users.users.tk.shell = lib.mkForce pkgs.bash;
+
   # VS Code Server Module (for VS Code Remote)
   services.vscode-server.enable = true;
 
-  # Enable ZSH
-  programs.zsh.enable = true;
-
   # Hostname & Network Manager
-  networking.hostName = "dockerhost";
+  networking.hostName = "dev-dockerhost";
   networking.networkmanager.enable = true;
 
   # System Packages
   environment.systemPackages = with pkgs; [
-    # pkgs.spaget # Custom package from /pkgs
-    # wip
     vim
-    tcpdump
-    nmap
-    dig
+    arion
   ];
+
+  # Enable podman virtualization
+  virtualisation.docker.enable = false;
+  virtualisation.podman.enable = true;
+  virtualisation.podman.dockerSocket.enable = true;
+  
+  # The option definition `virtualisation.podman.defaultNetwork.dnsname' in 
+  # `/nix/store/.../hosts/dockerhost' no longer has any effect; please remove it.
+  # Use virtualisation.podman.defaultNetwork.settings.dns_enabled instead.
+  virtualisation.podman.defaultNetwork.settings.dns_enabled = true;
+
+  # Use your username instead of `myuser`
+  users.extraUsers.tk.extraGroups = ["podman"];
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
