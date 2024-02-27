@@ -112,7 +112,7 @@
 
     deploy.nodes = {
       nix-test = { 
-        hostname = "nix-test.cyn.local";
+        hostname = "nix-test.cyn.internal";
         profiles.system = {
           sshUser = "tk";
           user = "root";
@@ -120,7 +120,7 @@
         };
       };
       deployme = { 
-        hostname = "deployme.cyn.local";
+        hostname = "deployme.cyn.internal";
         profiles.system = {
           sshUser = "tk";
           user = "root";
@@ -133,7 +133,7 @@
         };
       };
       router = {
-        hostname = "router.cyn.local";
+        hostname = "router.cyn.internal";
         profiles.system = {
           sshUser = "tk";
           user = "root";
@@ -141,7 +141,7 @@
         };
       };
       dockerhost = {
-        hostname = "dev-dockerhost.cyn.local";
+        hostname = "dev-dockerhost.cyn.internal";
         profiles.system = {
           sshUser = "tk";
           user = "root";
