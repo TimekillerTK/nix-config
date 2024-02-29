@@ -64,7 +64,11 @@
   services.tailscale = {
     enable = true;
     authKeyFile = "/run/secrets/tailscale";
-    extraUpFlags = ["--advertise-tags=tag:dockerhost"];
+    extraUpFlags = [
+      "--advertise-tags=tag:dockerhost"
+      # "--advertise-routes=172.17.0.0/16"
+      # "--advertise-exit-node"
+    ];
   };
 
   # WIP!
@@ -79,7 +83,7 @@
   users.users.tk.shell = lib.mkForce pkgs.bash;
   users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
 
-  # VS Code Server Module (for VS Code Remote)
+  # VS Code Server Module (for VS Code Remote) 
   services.vscode-server.enable = true;
  
   # Hostname & Network Manager
