@@ -67,7 +67,7 @@ TBD...
 
 ### With `nixos-anywhere` / `disko`:
 
-1. Ensure target host has **any*- linux distribution installed and:
+1. Ensure target host has **any** linux distribution installed and:
    - has a static IP Address / Hostname
    - OpenSSH is started
    - `PermitRootLogin` is set to `yes`

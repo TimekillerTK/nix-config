@@ -22,28 +22,19 @@
 
   ];
 
-  # TODO: Add Overlays
-  # nixpkgs = {
-  #   overlays = [
-  #     # Flake exports (from overlays and pkgs dir):
-  #     outputs.overlays.additions
-  #     outputs.overlays.modifications
-  #     outputs.overlays.other-packages
+  # Overlays
+  nixpkgs = {
+    overlays = [
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.other-packages
+    ];
+    config = {
+      allowUnfree = true;
+    };
+  };
 
-  #     # You can also add overlays exported from other flakes:
-  #     # neovim-nightly-overlay.overlays.default
-
-  #     # Or define it inline, for example:
-  #     # (final: prev: {
-  #     #   hi = final.hello.overrideAttrs (oldAttrs: {
-  #     #     patches = [ ./change-hello-to-hi.patch ];
-  #     #   });
-  #     # })
-  #   ];
-  #   config = {
-  #     allowUnfree = true;
-  #   };
-  # };
+  # SOPS Secrets
   sops = {
     defaultSopsFile = ./secrets.yml;
     age = {
@@ -75,13 +66,6 @@
     ];
   };
 
-  # WIP!
-  boot.loader.grub = {
-    # efiSupport = true;
-    # efiInstallAsRemovable = true;
-    devices = [ "/dev/sda" ];
-  };
-
   # use default bash
   # TODO: find a better way to do this
   users.users.tk.shell = lib.mkForce pkgs.bash;
@@ -91,11 +75,8 @@
   services.vscode-server.enable = true;
  
   # Hostname & Network Manager
-  networking.hostName = "dev-dockerhost";
+  networking.hostName = "dockerhost2024";
   networking.networkmanager.enable = true;
-  networking.hosts = {
-    "127.0.0.1" = [ "dev-dockerhost.cyn.local" "dev-torrent.cyn.local" "dev-whoami.cyn.local" "dev-pdf.cyn.local" ];
-  };
 
   # System Packages
   environment.systemPackages = with pkgs; [

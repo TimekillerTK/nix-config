@@ -13,6 +13,10 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
+  boot.loader.grub = {
+    devices = [ "/dev/sda" ];
+  };
+
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/1e6222fd-5681-4d5c-8aeb-4634c509d661";
       fsType = "ext4";
