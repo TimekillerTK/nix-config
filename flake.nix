@@ -141,7 +141,7 @@
         };
       };
       dockerhost = {
-        hostname = "dev-dockerhost.cyn.internal";
+        hostname = "dockerhost.cyn.internal";
         profiles.system = {
           sshUser = "tk";
           user = "root";

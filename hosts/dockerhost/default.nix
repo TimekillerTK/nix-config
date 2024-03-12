@@ -51,8 +51,8 @@
   sops.secrets.smbcred = { };
   sops.secrets.tailscale = { };
 
-  # NOTE: Required for tailscale relay subnet traffic
   boot.kernel.sysctl = {
+    # NOTE: Required for tailscale relay subnet traffic
     "net.ipv4.conf.all.forwarding" = true;
   };
 
@@ -84,7 +84,10 @@
   ];
 
   # Enable Docker
-  virtualisation.docker.enable = true;
+  # virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+  };
 
   # Mounting fileshare
   fileSystems."/mnt/FreeNAS" = {
