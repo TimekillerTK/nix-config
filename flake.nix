@@ -98,6 +98,10 @@
         modules = [ ./hosts/dockerhost ];
         specialArgs = {inherit inputs outputs;};
       };
+      anya = lib.nixosSystem {
+        modules = [ ./hosts/anya ];
+        specialArgs = {inherit inputs outputs;};
+      };
     };
 
     # Available through 'home-manager --flake .#your-username@your-hostname'
@@ -108,9 +112,27 @@
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
       };
+      "tk@anya" = lib.homeManagerConfiguration {
+        modules = [ ./home/tk/anya.nix ];
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = {inherit inputs outputs;};
+      };
     };
 
     deploy.nodes = {
+      anya = { 
+        hostname = "anya.cyn.internal";
+        profiles.system = {
+          sshUser = "tk";
+          user = "root";
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.anya;
+        };
+        profiles.tk = {
+          sshUser = "tk";
+          user = "tk";
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.custom self.homeConfigurations."tk@anya".activationPackage "$PROFILE/activate";
+        };
+      };
       nix-test = { 
         hostname = "nix-test.cyn.internal";
         profiles.system = {
