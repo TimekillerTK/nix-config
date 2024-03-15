@@ -42,7 +42,7 @@
           xattr = "sa";            # set Extended Attributes directly in Inodes (+perf)
           dnodesize = "auto";      # recommended with xattr = "sa"
           compression = "lz4";     # (+perf & +space)
-          atime = "off";           # shows last file/directory access time (-iops)
+          atime = "off";           # disables last file/directory access time updates
           acltype = "posixacl";    # support for POSIX ACLs
           canmount = "off";        # don't mount the pool by default, mount datasets instead
           checksum = "edonr";      # most performant checksum for zfs
