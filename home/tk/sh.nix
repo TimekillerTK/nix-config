@@ -2,28 +2,42 @@
 
 let
   myAliases = {
-    # home = "echo /home/${homeDirectoryUser}";
+    # Replacements for some GNU Utils
     top = "${pkgs.bottom}/bin/btm";
     htop = "${pkgs.bottom}/bin/btm";
     ls = "${pkgs.eza}/bin/eza --icons -F --group-directories-first --git";
     cat = "${pkgs.bat}/bin/bat -pp";
     du = "${pkgs.du-dust}/bin/dust";
     grep = "${pkgs.ripgrep}/bin/rg";
-    ll = "ls -la";
     vi = "${pkgs.vim}/bin/vim";
+    cd = "z";   # zoxide
+    cdi = "zi"; # zoxide
+
+    # My custom Aliases
+    ll = "ls -la";
   };
+
   myEnvVars = {
-    MY_PASTA = "Spaghetti";
-    ALBERT_PASTA = "Penne";
     EDITOR = "vim";
   };
 in
 {
   # Environment Variables
   home.sessionVariables = myEnvVars;
+
+  # Zoxide configuration (cd replacement)
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+    package = pkgs.unstable.zoxide;
+  };
   
   programs.zsh = {
     enable = true;
     shellAliases = myAliases;
+
+    # Added to end of ~/.zshrc 
+    initExtra = ''
+    '';
   };
 }

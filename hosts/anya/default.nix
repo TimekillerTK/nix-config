@@ -17,6 +17,7 @@
     # Repo Modules
     ../common/global
     ../common/users/tk
+    ../optional/kde-plasma-x11
   ];
 
   # Overlays
@@ -35,8 +36,9 @@
 
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
-
-  boot.supportedFilesystems = [ "zfs" "btrfs" ];
+  
+  # TODO: Move this and other ZFS options to common/optional/zfs/default.nix later
+  boot.supportedFilesystems = [ "zfs" ];
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.zfs.devNodes = lib.mkDefault "/dev/disk/by-id";
 
@@ -57,7 +59,7 @@
   services.vscode-server.enable = true;
 
   # Hostname & Network Manager
-  networking.hostName = "Anya";
+  networking.hostName = "anya";
   networking.networkmanager.enable = true;
 
   # System Packages

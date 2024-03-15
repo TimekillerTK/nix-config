@@ -16,7 +16,6 @@
                 mountpoint = "/boot";
               };
             };
-            btrfs = {}; # TODO This
             zfs = {
               size = "100%";
               content = {
@@ -56,8 +55,8 @@
 
         mountpoint = null;
         options = {
-          ashift = "12";
-          autotrim = "on";
+          ashift = "12";     # 4096 sector size
+          autotrim = "on";   
         };
 
         datasets = {
@@ -66,11 +65,25 @@
             options.canmount = "off";
           };
 
+          "local/root" = {
+            type = "zfs_fs";
+            mountpoint = "/";
+            options.mountpoint = "/";
+            options."com.sun:auto-snapshot" = "true";
+          };
+
           "local/home" = {
             type = "zfs_fs";
             mountpoint = "/home";
             options.mountpoint = "/home";
             options."com.sun:auto-snapshot" = "true";
+          };
+
+          "local/nix" = {
+            type = "zfs_fs";
+            mountpoint = "/nix";
+            options.mountpoint = "/nix";
+            options."com.sun:auto-snapshot" = "false";
           };
 
           "local/data" = {

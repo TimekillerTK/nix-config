@@ -62,6 +62,7 @@
   in
   {
     inherit lib;
+    username = "tk";
 
     # Reusable nixos modules you might want to export (shareable)
     nixosModules = import ./modules/nixos;
