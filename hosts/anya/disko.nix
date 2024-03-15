@@ -39,23 +39,19 @@
       zroot = {
         type = "zpool";
         rootFsOptions = {
-          acltype = "posixacl";
-          canmount = "off";
-          checksum = "edonr";
-          compression = "lz4";
-          dnodesize = "auto";
-          # encryption does not appear to work in vm test; only use on real system
-          encryption = "aes-256-gcm";
-          keyformat = "passphrase";
-          keylocation = "prompt";
-          normalization = "formD";
-          relatime = "on";
-          xattr = "sa";
+          xattr = "sa";            # set Extended Attributes directly in Inodes (+perf)
+          dnodesize = "auto";      # recommended with xattr = "sa"
+          compression = "lz4";     # (+perf & +space)
+          atime = "off";           # shows last file/directory access time (-iops)
+          acltype = "posixacl";    # support for POSIX ACLs
+          canmount = "off";        # don't mount the pool by default, mount datasets instead
+          checksum = "edonr";      # most performant checksum for zfs
+          normalization = "formD"; # recommended default
         };
 
         mountpoint = null;
         options = {
-          ashift = "12";     # 4096 sector size
+          ashift = "12";     # 4096 sector size (recommended)
           autotrim = "on";   
         };
 
