@@ -39,6 +39,10 @@
       zroot = {
         type = "zpool";
         rootFsOptions = {
+          # ZFS Tuning Options
+          # https://jrs-s.net/2018/08/17/zfs-tuning-cheat-sheet/
+          # https://openzfs.github.io/openzfs-docs/Basic%20Concepts/Checksums.html
+          # https://www.high-availability.com/docs/ZFS-Tuning-Guide/#
           xattr = "sa";            # set Extended Attributes directly in Inodes (+perf)
           dnodesize = "auto";      # recommended with xattr = "sa"
           compression = "lz4";     # (+perf & +space)
