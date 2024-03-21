@@ -3,7 +3,8 @@
     disk = {
       disk1 = {
         type = "disk";
-        device = "/dev/disk/by-id/nvme-WDS100T1X0E-00AFY0_22163Y800073";
+        device = "/dev/disk/by-id/nvme-WD_BLACK_SN770_500GB_233112811027";
+        # device = "/dev/disk/by-id/nvme-WDS100T1X0E-00AFY0_22163Y800073"; # <- anya
         content = {
           type = "gpt";
           partitions = {

@@ -99,8 +99,8 @@
         modules = [ ./hosts/dockerhost ];
         specialArgs = {inherit inputs outputs;};
       };
-      anya = lib.nixosSystem {
-        modules = [ ./hosts/anya ];
+      beltanimal = lib.nixosSystem {
+        modules = [ ./hosts/beltanimal ];
         specialArgs = {inherit inputs outputs;};
       };
     };
@@ -113,8 +113,8 @@
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
       };
-      "tk@anya" = lib.homeManagerConfiguration {
-        modules = [ ./home/tk/anya.nix ];
+      "tk@beltanimal" = lib.homeManagerConfiguration {
+        modules = [ ./home/tk/beltanimal.nix ];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
       };
@@ -122,16 +122,16 @@
 
     deploy.nodes = {
       anya = { 
-        hostname = "anya.cyn.internal";
+        hostname = "beltanimal.cyn.internal";
         profiles.system = {
           sshUser = "tk";
           user = "root";
-          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.anya;
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.beltanimal;
         };
         profiles.tk = {
           sshUser = "tk";
           user = "tk";
-          path = inputs.deploy-rs.lib.x86_64-linux.activate.custom self.homeConfigurations."tk@anya".activationPackage "$PROFILE/activate";
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.custom self.homeConfigurations."tk@beltanimal".activationPackage "$PROFILE/activate";
         };
       };
       nix-test = { 

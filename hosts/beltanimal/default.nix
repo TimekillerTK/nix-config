@@ -59,7 +59,7 @@
   services.vscode-server.enable = true;
 
   # Hostname & Network Manager
-  networking.hostName = "anya";
+  networking.hostName = "beltanimal";
   networking.networkmanager.enable = true;
 
   # System Packages
