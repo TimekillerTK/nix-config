@@ -7,7 +7,9 @@
   ...
 }: {
   imports = [
+
     inputs.vscode-server.nixosModules.default
+    inputs.disko.nixosModules.default
 
     # Disko config
     ./disko.nix
