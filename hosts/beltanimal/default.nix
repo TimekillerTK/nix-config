@@ -18,7 +18,7 @@
     # Repo Modules
     ../common/global
     ../common/users/tk
-    ../optional/kde-plasma-x11
+    ../common/optional/kde-plasma-x11
   ];
 
   # Overlays

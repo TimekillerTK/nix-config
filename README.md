@@ -36,8 +36,10 @@ TBD...
    - `nixos-generate-config --no-filesystems --root /mnt`
    - `cp /mnt/etc/nixos/hardware-configuration.nix ./hosts/<host>/.`
 6. Ensure that `./hosts/<host>/default.nix` is importing the generated `hardware-configuration.nix` in the `imports` section (!).
-7. Install the NixOS config for this host:
-   - `sudo nixos-install --no-root-password --flake .#<host>`
+7. Stage the `hardware-configuration.nix` file, so it's visible during the install:
+   - `git add .`  
+8. Install the NixOS config for this host:
+   - `nixos-install --no-root-password --flake .#<host>`
 
 ### With `deploy-rs`
 
