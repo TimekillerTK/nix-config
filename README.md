@@ -2,8 +2,9 @@
 
 - [How to use this project](#how-to-use-this-project)
 - [Deploying config on a new host](#deploying-config-on-a-new-host)
-  - [With `deploy-rs`:](#with-deploy-rs)
-  - [With `nixos-anywhere` / `disko`:](#with-nixos-anywhere--disko)
+  - [From NixOS Installer (disko)](#from-nixos-installer-disko)
+  - [With `deploy-rs`](#with-deploy-rs)
+  - [With `nixos-anywhere` / `disko`](#with-nixos-anywhere--disko)
   - [Manual Deployment](#manual-deployment)
 - [Updating](#updating)
 - [Rollback](#rollback)
@@ -21,8 +22,24 @@ TBD...
 
 ## Deploying config on a new host
 
+### From NixOS Installer (disko)
 
-### With `deploy-rs`:
+1. Git clone this repository and `cd` into it:
+   - `git clone https://github.com/TimekillerTK/nix-test && cd nix-test`
+2. Wipe disks with `wipefs`:
+   - `wipefs --all /dev/disk/by-id/....`
+3. Apply disko config to your disks (add `--dry-run` to test config first):
+   - `sudo nix run github:nix-community/disko --extra-experimental-features "nix-command flakes" -- --mode disko ./hosts/<host>/disko.nix`
+4. Copy the repository to `/mnt` and `cd` into it:
+   - `cp -r ../nix-test /mnt/nix-test && cd /mnt/nix-test`
+5. Generate a `hardware-configuration.nix` and copy it to the `<host>` directory (where `disko.nix` is):
+   - `nixos-generate-config --no-filesystems --root /mnt`
+   - `cp /mnt/etc/nixos/hardware-configuration.nix ./hosts/<host>/.`
+6. Ensure that `./hosts/<host>/default.nix` is importing the generated `hardware-configuration.nix` in the `imports` section (!).
+7. Install the NixOS config for this host:
+   - `sudo nixos-install --no-root-password --flake .#<host>`
+
+### With `deploy-rs`
 
 1. Ensure your **target host** `deployme.cyn.local` has NixOS installed, and has the following additional options defined in its `configuration.nix`:
 
@@ -64,8 +81,7 @@ TBD...
 3. On the machine you want to run `deploy-rs` from, run `ssh-copy-id tk@deployme.cyn.local` to copy your SSH public key to the target machine.
 4. Run `nix run github:serokell/deploy-rs .#deployme` to deploy both the system and home configuration to the target host.
 
-
-### With `nixos-anywhere` / `disko`:
+### With `nixos-anywhere` / `disko`
 
 1. Ensure target host has **any** linux distribution installed and:
    - has a static IP Address / Hostname
