@@ -34,5 +34,5 @@
   #      shell to lack the basic nix directories in its PATH and might make
   #      logging in as that user impossible. You can fix it with:
   #      programs.zsh.enable = true;
-  programs.zsh.enable = true
+  programs.zsh.enable = true;
 }
