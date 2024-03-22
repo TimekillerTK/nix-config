@@ -19,7 +19,7 @@
   };
 
   home.username = outputs.username;
-  home.homeDirectory = "/Users/${outputs.username}";
+  home.homeDirectory = "/home/${outputs.username}";
 
   home.packages = [
 
