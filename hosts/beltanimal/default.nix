@@ -63,6 +63,9 @@
   networking.hostName = "beltanimal";
   networking.networkmanager.enable = true;
 
+  # Generated with head -c4 /dev/urandom | od -A none -t x4
+  networking.hostId = "75e25de8"; # required for ZFS!
+
   # System Packages
   environment.systemPackages = with pkgs; [
     vim

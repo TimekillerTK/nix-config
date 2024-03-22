@@ -38,7 +38,7 @@
     deploy-rs.url = "github:serokell/deploy-rs";
   };
 
-  outputs = { self, nixpkgs, home-manager, disko, ... } @ inputs:
+  outputs = { self, nixpkgs, home-manager, ... } @ inputs:
   let
     inherit (self) outputs;
     lib = nixpkgs.lib // home-manager.lib;
