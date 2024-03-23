@@ -25,6 +25,9 @@
     pulse.enable = true;
   };
 
+  # Enable KWallet (get rid of pesky prompt)
+  security.pam.services.kwallet.enableKwallet = true;
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
