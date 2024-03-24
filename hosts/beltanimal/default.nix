@@ -86,7 +86,6 @@
   networking.hostName = "beltanimal";
   networking.networkmanager = {
     enable = true;
-    unmanaged = ["wlp1s0"];
   };
 
   # Wifi connections
