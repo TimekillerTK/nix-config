@@ -46,7 +46,7 @@
     pkgs.unstable.poetry
 
     # Desktop Applications
-    # ...
+    pkgs.firefox
 
     # Fonts
     (pkgs.nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
