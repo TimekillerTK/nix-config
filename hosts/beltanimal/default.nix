@@ -80,23 +80,22 @@
   };
 
   # Actual SOPS keys
-  sops.secrets.snekvirus_wm = { };
+  sops.secrets.smbcred = { };
+  sops.secrets.tailscale = { };
+
+  # Tailscale
+  services.tailscale = {
+    enable = true;
+    authKeyFile = "/run/secrets/tailscale";
+    extraUpFlags = [
+      "--advertise-tags=tag:usermachine"
+    ];
+  };
 
   # Hostname & Network Manager
   networking.hostName = "beltanimal";
   networking.networkmanager = {
     enable = true;
-  };
-
-  # Wifi connections
-  networking.wireless = {
-    enable = true;
-    environmentFile = "/run/secrets/snekvirus_wm";
-    networks = {
-      "SnekVirus_WM.exe" = {
-        psk = "@SNEKVIRUS_WM@";
-      };
-    };
   };
 
   # Generated with head -c4 /dev/urandom | od -A none -t x4
@@ -107,16 +106,15 @@
     vim
   ];
 
-  # TODO: Later
-  # # Mounting fileshare
-  # fileSystems."/mnt/FreeNAS" = {
-  #   device = "//freenas.cyn.internal/mediasnek2";
-  #   fsType = "cifs";
-  #   # TODO: UID should come from the user dynamically
-  #   # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
-  #   # Remember to run `sudo umount /mnt/FreeNAS` before adding/removing "noauto" + "x-systemd.automount"
-  #   options = [ "credentials=/run/secrets/smbcred" "noserverino" "rw" "_netdev" "uid=1000"] ++ ["noauto" "x-systemd.automount"];
-  # };
+  # Mounting fileshare
+  fileSystems."/mnt/FreeNAS" = {
+    device = "//freenas.cyn.internal/mediasnek2";
+    fsType = "cifs";
+    # TODO: UID should come from the user dynamically
+    # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
+    # Remember to run `sudo umount /mnt/FreeNAS` before adding/removing "noauto" + "x-systemd.automount"
+    options = [ "credentials=/run/secrets/smbcred" "noserverino" "rw" "_netdev" "uid=1000"] ++ ["noauto" "x-systemd.automount"];
+  };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
