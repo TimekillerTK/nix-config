@@ -3,6 +3,7 @@ keys:
   - &anya age14n2qzcnrs62xa7pskhp09m3mxapum3mpgh7mncs9nmcnzx2p3pcq8m08uq
   - &nixtest age1pkg5mdawwfpmlg0xcezwndmq2ev4mtrvarlfz08e4tmmpwmr096s0vuqzu
   - &dockerhost age1gntkld4eesqhxq9ugr53lmdwzhqxztljy2pyylj3a4037nfvdq2qfegpfs
+  - &beltanimal age1s42l4ucujcv59krzuxw3xmrqcyu8v5d8ctad6a0kmhlc4zttxfxqvtuy3l
 creation_rules:
   - path_regex: hosts/common/secrets.ya?ml$
     key_groups:
@@ -14,3 +15,7 @@ creation_rules:
     key_groups:
     - age:
       - *dockerhost
+  - path_regex: hosts/beltanimal/secrets.ya?ml$
+    key_groups:
+    - age:
+      - *beltanimal

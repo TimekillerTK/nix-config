@@ -65,6 +65,33 @@
   networking.hostName = "beltanimal";
   networking.networkmanager.enable = true;
 
+  # SOPS Secrets
+  sops = {
+    defaultSopsFile = ./secrets.yml;
+    age = {
+      # This will automatically import SSH keys as age keys
+      sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+      # This is using an age key that is expected to already be in the filesystem
+      keyFile = "/var/lib/sops-nix/key.txt";
+      # This will generate a new key if the key specified above does not exist
+      generateKey = true;
+    };
+  };
+
+  # Actual SOPS keys
+  sops.secrets.snekvirus_wm = { };
+
+  # Wifi connections
+  networking.wireless = {
+    enable = true;
+    environmentFile = "/run/secrets/snekvirus_wm";
+    networks = {
+      "SnekVirus_WM.exe" = {
+        psk = "@SNEKVIRUS_WM@";
+      };
+    };
+  };
+
   # Generated with head -c4 /dev/urandom | od -A none -t x4
   networking.hostId = "75e25de8"; # required for ZFS!
 
