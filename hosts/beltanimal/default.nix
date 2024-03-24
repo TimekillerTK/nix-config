@@ -7,9 +7,14 @@
   ...
 }: {
   imports = [
-
+    # Required for VS Code Remote
     inputs.vscode-server.nixosModules.default
+
+    # Required for disk configuration
     inputs.disko.nixosModules.default
+
+    # SOPS
+    inputs.sops-nix.nixosModules.sops
 
     # Disko config
     ./disko.nix
