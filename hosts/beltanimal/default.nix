@@ -66,10 +66,6 @@
   # VS Code Server Module (for VS Code Remote) 
   services.vscode-server.enable = true;
 
-  # Hostname & Network Manager
-  networking.hostName = "beltanimal";
-  networking.networkmanager.enable = true;
-
   # SOPS Secrets
   sops = {
     defaultSopsFile = ./secrets.yml;
@@ -85,6 +81,13 @@
 
   # Actual SOPS keys
   sops.secrets.snekvirus_wm = { };
+
+  # Hostname & Network Manager
+  networking.hostName = "beltanimal";
+  networking.networkmanager = {
+    enable = true;
+    unmanaged = ["wlp1s0"];
+  };
 
   # Wifi connections
   networking.wireless = {
