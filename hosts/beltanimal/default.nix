@@ -111,6 +111,7 @@
   # System Packages
   environment.systemPackages = with pkgs; [
     vim
+    nvd # Nix/NixOS package version diff tool
   ];
 
   # Mounting fileshare
