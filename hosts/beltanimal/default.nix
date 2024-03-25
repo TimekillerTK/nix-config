@@ -93,6 +93,9 @@
   #   ];
   # };
 
+  # Fingerprint reader service
+  services.fprintd.enable = true;
+
   # Hostname & Network Manager
   networking.hostName = "beltanimal";
   networking.networkmanager = {
