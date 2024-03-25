@@ -16,6 +16,9 @@
     # SOPS
     inputs.sops-nix.nixosModules.sops
 
+    # NixOS Hardware
+    inputs.nixos-hardware.nixosModules.framework-13-7040-amd
+
     # Disko config
     ./disko.nix
 
@@ -93,7 +96,7 @@
   #   ];
   # };
 
-  # Fingerprint reader service
+  # Fingerprint reader service (does NOT work on login for KDE because of SDDM...)
   services.fprintd.enable = true;
 
   # Hostname & Network Manager
