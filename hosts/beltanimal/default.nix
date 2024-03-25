@@ -83,14 +83,15 @@
   sops.secrets.smbcred = { };
   sops.secrets.tailscale = { };
 
-  # Tailscale
-  services.tailscale = {
-    enable = true;
-    authKeyFile = "/run/secrets/tailscale";
-    extraUpFlags = [
-      "--advertise-tags=tag:usermachine"
-    ];
-  };
+  # TODO: This is busted, needs a fix
+  # # Tailscale
+  # services.tailscale = {
+  #   enable = true;
+  #   authKeyFile = "/run/secrets/tailscale";
+  #   extraUpFlags = [
+  #     "--advertise-tags=tag:usermachine"
+  #   ];
+  # };
 
   # Hostname & Network Manager
   networking.hostName = "beltanimal";
