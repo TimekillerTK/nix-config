@@ -56,7 +56,7 @@
 
   # Testing Symlink
   home.file = {
-    ".testfile".source = /home/tk/file.txt;
+    "file.txt".source = /home/tk/.filesth;
   };
 
   programs.home-manager.enable = true;
