@@ -47,6 +47,7 @@
 
     # Desktop Applications
     pkgs.firefox
+    pkgs.vscode-fhs
 
     # Fonts
     (pkgs.nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
