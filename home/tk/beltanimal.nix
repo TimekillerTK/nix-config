@@ -58,7 +58,7 @@
   home.file = {
     "my_symlink" = {
       source = "../../dotfiles/vscode/.config/Code/User/keybindings.json";
-    }
+    };
   };
 
   programs.home-manager.enable = true;
