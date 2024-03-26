@@ -57,7 +57,7 @@
   # Testing Symlink
   home.file = {
     "my_symlink" = {
-      source = "../../dotfiles/vscode/.config/Code/User/keybindings.json";
+      source = ../../dotfiles/vscode/.config/Code/User/keybindings.json;
     };
   };
 
