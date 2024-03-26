@@ -21,36 +21,37 @@
   home.username = outputs.username;
   home.homeDirectory = "/home/${outputs.username}";
 
-  home.packages = [
+  home.packages = with pkgs; [
 
     # CLI
-    pkgs.unstable.fd
-    pkgs.unstable.eza
-    pkgs.unstable.bat
-    pkgs.unstable.du-dust
-    pkgs.unstable.ripgrep
-    pkgs.unstable.fzf
+    unstable.fd
+    unstable.eza
+    unstable.bat
+    unstable.du-dust
+    unstable.ripgrep
+    unstable.fzf
 
-    pkgs.bottom # top/htop replacement
-    pkgs.jq # JSON parsing utility
-    pkgs.sops # Mozilla SOPS
-    pkgs.tldr # man for dummies
-    pkgs.awscli2 # AWS CLI
-    pkgs.cachix # nix binary cache
+    bottom # top/htop replacement
+    jq # JSON parsing utility
+    sops # Mozilla SOPS
+    tldr # man for dummies
+    awscli2 # AWS CLI
+    cachix # nix binary cache
 
     # pwsh
-    pkgs.powershell
+    powershell
     
     # Python
-    pkgs.python312
-    pkgs.unstable.poetry
+    python312
+    unstable.poetry
 
     # Desktop Applications
-    pkgs.firefox
-    pkgs.unstable.vscode-fhs
+    firefox
+    unstable.vscode-fhs
+    unstable.signal-desktop # Messaging app/desktop
 
     # Fonts
-    (pkgs.nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
+    (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
   ];
 
   programs.home-manager.enable = true;
