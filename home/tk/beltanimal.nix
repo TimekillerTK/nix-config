@@ -56,7 +56,7 @@
 
   # Testing Symlink
   home.file = {
-    ".testfile".source = /home/tk/.zsh_history;
+    ".testfile".source = /home/tk/file.txt;
   };
 
   programs.home-manager.enable = true;
