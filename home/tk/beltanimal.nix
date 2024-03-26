@@ -54,6 +54,11 @@
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
   ];
 
+  # Testing Symlink
+  home.file = {
+    ".testfile".source = /home/tk/.zsh_history;
+  };
+
   programs.home-manager.enable = true;
   home.stateVersion = "23.11"; # Please read the comment before changing.
 }
