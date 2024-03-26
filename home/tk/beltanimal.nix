@@ -56,7 +56,9 @@
 
   # Testing Symlink
   home.file = {
-    "file.txt".source = /home/tk/.filesth;
+    "my_symlink" = {
+      source = "../../dotfiles/vscode/.config/Code/User/keybindings.json";
+    }
   };
 
   programs.home-manager.enable = true;
