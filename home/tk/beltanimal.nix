@@ -53,9 +53,6 @@
     (pkgs.nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
   ];
 
-  # Steam
-  programs.steam.enable = true;
-
   programs.home-manager.enable = true;
   home.stateVersion = "23.11"; # Please read the comment before changing.
 }

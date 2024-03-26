@@ -96,6 +96,9 @@
   #   ];
   # };
 
+  # Steam
+  programs.steam.enable = true;
+
   # Fingerprint reader service (does NOT work on login for KDE because of SDDM...)
   services.fprintd.enable = true;
 
