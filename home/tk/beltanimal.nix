@@ -56,8 +56,8 @@
 
   # VS Code Settings files as symlinks
   home.file = {
-    ".config/Code/User/keybindings.json" = ../../dotfiles/vscode/.config/Code/User/keybindings.json;
-    ".config/Code/User/settings.json" = ../../dotfiles/vscode/.config/Code/User/settings.json;
+    ".config/Code/User/keybindings.json".source = ../../dotfiles/vscode/.config/Code/User/keybindings.json;
+    ".config/Code/User/settings.json".source = ../../dotfiles/vscode/.config/Code/User/settings.json;
   };
 
   programs.home-manager.enable = true;
