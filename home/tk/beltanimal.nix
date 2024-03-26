@@ -54,11 +54,10 @@
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
   ];
 
-  # Testing Symlink
+  # VS Code Settings files as symlinks
   home.file = {
-    "my_symlink" = {
-      source = ../../dotfiles/vscode/.config/Code/User/keybindings.json;
-    };
+    ".config/Code/User/keybindings.json" = ../../dotfiles/vscode/.config/Code/User/keybindings.json;
+    ".config/Code/User/settings.json" = ../../dotfiles/vscode/.config/Code/User/settings.json;
   };
 
   programs.home-manager.enable = true;
