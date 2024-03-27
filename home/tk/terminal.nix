@@ -12,21 +12,23 @@
       font.size = 18.0; 
       shell.program = "${pkgs.tmux}/bin/tmux";
       key_bindings = [
-        { key = "F";      mods = "Command";       mode = "~Search";     action = "SearchForward"; }
-        { key = "T";      mods = "Command";                             chars = "\\x02\\x63";     } # open tab
-        { key = "W";      mods = "Command";                             chars = "\\x02\\x26";     } # close tab
-        { key = "Key1";   mods = "Command";                             chars = "\\x02\\x31";     } # jump to tab 1
-        { key = "Key2";   mods = "Command";                             chars = "\\x02\\x32";     } # jump to tab 2
-        { key = "Key3";   mods = "Command";                             chars = "\\x02\\x33";     } # jump to tab 3
-        { key = "Key4";   mods = "Command";                             chars = "\\x02\\x34";     } # jump to tab 4
-        { key = "Key5";   mods = "Command";                             chars = "\\x02\\x35";     } # jump to tab 5
-        { key = "Key6";   mods = "Command";                             chars = "\\x02\\x36";     } # jump to tab 6
-        { key = "Key7";   mods = "Command";                             chars = "\\x02\\x37";     } # jump to tab 7
-        { key = "Key8";   mods = "Command";                             chars = "\\x02\\x38";     } # jump to tab 8
-        { key = "Key9";   mods = "Command";                             chars = "\\x02\\x39";     } # jump to tab 9
-        { key = "Key0";   mods = "Command";                             chars = "\\x02\\x30";     } # jump to tab 0
-        { key = "Right";  mods = "Command";                             chars = "\\x1BF";         } # jump forward word
-        { key = "Left";   mods = "Command";                             chars = "\\x1BB";         } # jump backward word
+        { key = "F";      mods = "Control";       mode = "~Search";     action = "SearchForward"; }
+        { key = "T";      mods = "Control|Shift";                       chars = "\\x02\\x63";     } # open tab
+        { key = "W";      mods = "Control|Shift";                       chars = "\\x02\\x26";     } # close tab
+        { key = "Left";   mods = "Control|Shift";                       chars = "\\x02\\x70";     } # previous tab
+        { key = "Right";  mods = "Control|Shift";                       chars = "\\x02\\x6E";     } # next tab
+        { key = "Key1";   mods = "Control|Shift";                       chars = "\\x02\\x31";     } # jump to tab 1
+        { key = "Key2";   mods = "Control|Shift";                       chars = "\\x02\\x32";     } # jump to tab 2
+        { key = "Key3";   mods = "Control|Shift";                       chars = "\\x02\\x33";     } # jump to tab 3
+        { key = "Key4";   mods = "Control|Shift";                       chars = "\\x02\\x34";     } # jump to tab 4
+        { key = "Key5";   mods = "Control|Shift";                       chars = "\\x02\\x35";     } # jump to tab 5
+        { key = "Key6";   mods = "Control|Shift";                       chars = "\\x02\\x36";     } # jump to tab 6
+        { key = "Key7";   mods = "Control|Shift";                       chars = "\\x02\\x37";     } # jump to tab 7
+        { key = "Key8";   mods = "Control|Shift";                       chars = "\\x02\\x38";     } # jump to tab 8
+        { key = "Key9";   mods = "Control|Shift";                       chars = "\\x02\\x39";     } # jump to tab 9
+        { key = "Key0";   mods = "Control|Shift";                       chars = "\\x02\\x30";     } # jump to tab 0
+        { key = "Right";  mods = "Control";                             chars = "\\x1BF";         } # jump forward word
+        { key = "Left";   mods = "Control";                             chars = "\\x1BB";         } # jump backward word
       ];
     };
   };
@@ -34,7 +36,7 @@
   # tmux config (Terminal Multiplexer)
   programs.tmux = {
     enable = true;
-    terminal = "xterm-256color"; # was needed on macOS
+    # terminal = "xterm-256color"; # was needed on macOS
     baseIndex = 1; # tmux tabs start at 1
     keyMode = "vi";
     newSession = true; # Required for plugins, otherwise 127 error

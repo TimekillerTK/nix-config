@@ -4,7 +4,7 @@
   imports = [
     ./sh.nix
     ./git.nix
-    # ./terminal.nix # TODO: Change from MacOS
+    ./terminal.nix
     ./starship.nix
   ];
 
