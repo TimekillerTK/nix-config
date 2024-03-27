@@ -61,10 +61,10 @@
   programs.plasma = {
     enable = true;
 
-    # shortcuts = {
-    #   "tdrop.desktop"."_launch" = "Alt+Space";
-    #   "org.kde.krunner.desktop"."_launch" = ["Ctrl+Space" "Alt+F2" "Search"];
-    # };
+    shortcuts = {
+      # "tdrop.desktop"."_launch" = "Alt+Space";
+      "org.kde.krunner.desktop"."_launch" = ["Ctrl+Space" "Alt+F2" "Search"];
+    };
     # configFile = {
     #   "kglobalshortcutsrc"."tdrop.desktop"."_k_friendly_name" = "tdrop -a alacritty";
     # };
