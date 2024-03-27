@@ -61,17 +61,16 @@
   programs.plasma = {
     enable = true;
 
+    # Change default hotkey to CTRL+Space
     shortcuts = {
-      # "tdrop.desktop"."_launch" = "Alt+Space";
       "org.kde.krunner.desktop"."_launch" = ["Ctrl+Space" "Alt+F2" "Search"];
     };
-    # configFile = {
-    #   "kglobalshortcutsrc"."tdrop.desktop"."_k_friendly_name" = "tdrop -a alacritty";
-    # };
+
+    # Dropdown Alacritty
     hotkeys.commands."alacritty_dropdown" = {
       name = "Launch Alacritty";
       key = "Alt+Space";
-      command = "tdrop -a alacritty";
+      command = "tdrop -a -h 90% alacritty";
     };
   };
 
