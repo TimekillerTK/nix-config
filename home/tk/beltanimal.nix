@@ -54,7 +54,7 @@
 
     # Other
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
-    tdrop
+    tdrop # terminal dropdown
   ];
 
   # KDE Plasma Manager Settings/Shortcuts
@@ -65,7 +65,7 @@
       "org.kde.krunner.desktop"."_launch" = ["Ctrl+Space" "Alt+F2" "Search"];
     };
     configFile = {
-      "kglobalshortcutsrc"."tdrop.desktop"."_k_friendly_name" = "${pkgs.tdrop} -a alacritty";
+      "kglobalshortcutsrc"."tdrop.desktop"."_k_friendly_name" = "tdrop -a alacritty";
     };
   };
 
