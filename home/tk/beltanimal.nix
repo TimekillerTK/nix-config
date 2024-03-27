@@ -2,6 +2,7 @@
 
 {
   imports = [
+
     inputs.plasma-manager.homeManagerModules.plasma-manager
     ./sh.nix
     ./git.nix
@@ -53,6 +54,7 @@
 
     # Other
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
+    tdrop
   ];
 
   # KDE Plasma Manager Settings/Shortcuts
@@ -69,8 +71,8 @@
 
   # VS Code Settings files as symlinks
   home.file = {
-    ".config/Code/User/keybindings.json".source = ../../dotfiles/vscode/.config/Code/User/keybindings.json;
-    ".config/Code/User/settings.json".source = ../../dotfiles/vscode/.config/Code/User/settings.json;
+    ".config/Code/User/keybindings.json".source = ../../dotfiles/vscode/keybindings.json;
+    ".config/Code/User/settings.json".source = ../../dotfiles/vscode/settings.json;
   };
 
   programs.home-manager.enable = true;
