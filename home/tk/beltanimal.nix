@@ -60,13 +60,14 @@
   # KDE Plasma Manager Settings/Shortcuts
   programs.plasma = {
     enable = true;
-    shortcuts = {
-      "tdrop.desktop"."_launch" = "Alt+Space";
-      "org.kde.krunner.desktop"."_launch" = ["Ctrl+Space" "Alt+F2" "Search"];
-    };
-    configFile = {
-      "kglobalshortcutsrc"."tdrop.desktop"."_k_friendly_name" = "tdrop -a alacritty";
-    };
+
+    # shortcuts = {
+    #   "tdrop.desktop"."_launch" = "Alt+Space";
+    #   "org.kde.krunner.desktop"."_launch" = ["Ctrl+Space" "Alt+F2" "Search"];
+    # };
+    # configFile = {
+    #   "kglobalshortcutsrc"."tdrop.desktop"."_k_friendly_name" = "tdrop -a alacritty";
+    # };
   };
 
   # VS Code Settings files as symlinks
