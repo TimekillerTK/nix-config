@@ -2,6 +2,7 @@
 
 {
   imports = [
+    inputs.plasma-manager.homeManagerModules.plasma-manager
     ./sh.nix
     ./git.nix
     ./terminal.nix
