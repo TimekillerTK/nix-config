@@ -50,9 +50,21 @@
     unstable.vscode-fhs
     unstable.signal-desktop # Messaging app/desktop
 
-    # Fonts
+    # Other
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
   ];
+
+  # KDE Plasma Manager Settings/Shortcuts
+  programs.plasma = {
+    enable = true;
+    shortcuts = {
+      "tdrop.desktop"."_launch" = "Alt+Space";
+      "org.kde.krunner.desktop"."_launch" = ["Ctrl+Space" "Alt+F2" "Search"];
+    };
+    configFile = {
+      "kglobalshortcutsrc"."tdrop.desktop"."_k_friendly_name" = "${pkgs.tdrop} -a alacritty";
+    };
+  };
 
   # VS Code Settings files as symlinks
   home.file = {
