@@ -68,6 +68,11 @@
     # configFile = {
     #   "kglobalshortcutsrc"."tdrop.desktop"."_k_friendly_name" = "tdrop -a alacritty";
     # };
+    hotkeys.commands."alacritty_dropdown" = {
+      name = "Launch Alacritty";
+      key = "Alt+Space";
+      command = "tdrop -a alacritty";
+    };
   };
 
   # VS Code Settings files as symlinks
