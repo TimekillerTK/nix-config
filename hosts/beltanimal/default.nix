@@ -13,9 +13,6 @@
     # Required for disk configuration
     inputs.disko.nixosModules.default
 
-    # SOPS
-    inputs.sops-nix.nixosModules.sops
-
     # NixOS Hardware
     inputs.nixos-hardware.nixosModules.framework-13-7040-amd
 
@@ -28,6 +25,8 @@
     # Repo Modules
     ../common/global
     ../common/users/tk
+    ../common/optional/sops
+    ../common/optional/zfs
     ../common/optional/kde-plasma-x11
   ];
 
@@ -44,43 +43,11 @@
   };
 
   boot.loader.systemd-boot.enable = true;
-
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
-  
-  # TODO: Move this and other ZFS options to common/optional/zfs/default.nix later
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-  boot.zfs.devNodes = lib.mkDefault "/dev/disk/by-id";
-
-  # Automatic Scrub schedule
-  services.zfs.autoScrub = {
-    enable = true;
-    interval = "Sat, 10:00";
-  };
-
-  # Automatic Snapshotting
-  # NOTE: To target specific datasets, set in disko.nix!
-  services.zfs.autoSnapshot = {
-    enable = true;
-    flags = "-k -p --utc";
-  };
 
   # VS Code Server Module (for VS Code Remote) 
   services.vscode-server.enable = true;
-
-  # SOPS Secrets
-  sops = {
-    defaultSopsFile = ./secrets.yml;
-    age = {
-      # This will automatically import SSH keys as age keys
-      sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
-      # This is using an age key that is expected to already be in the filesystem
-      keyFile = "/var/lib/sops-nix/key.txt";
-      # This will generate a new key if the key specified above does not exist
-      generateKey = true;
-    };
-  };
 
   # Actual SOPS keys
   sops.secrets.smbcred = { };
@@ -99,6 +66,7 @@
   # Steam
   programs.steam.enable = true;
 
+  # TODO: Test removing this, should be covered by nixos-hardware
   # Fingerprint reader service (does NOT work on login for KDE because of SDDM...)
   services.fprintd.enable = true;
 
