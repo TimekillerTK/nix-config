@@ -1,4 +1,4 @@
-{ ... }: 
+{ config, lib, ... }: 
 {
 
   # ZFS Specific settings
