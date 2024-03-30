@@ -67,7 +67,7 @@
     };
 
     # Dropdown Alacritty
-    hotkeys.commands."alacritty_dropdown" = {
+    hotkeys.commands."alacritty-dropdown" = {
       name = "Launch Alacritty";
       key = "Alt+Space";
       command = "tdrop -a -h 90% alacritty";
