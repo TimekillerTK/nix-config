@@ -70,9 +70,18 @@
     hotkeys.commands."alacritty-dropdown" = {
       name = "Launch Alacritty";
       key = "Alt+Space";
-      command = "tdrop -a -h 90% alacritty";
+      command = "tdrop -a -h 90%% alacritty";
+    };
+
+    # Testing...
+    hotkeys.commands."demo-percent-in-command" = {
+      name = "Demo";
+      key = "Meta+O";
+      command = ''konsole -e bash -c "echo 95%% && sleep 2"'';
     };
   };
+
+
 
   # VS Code Settings files as symlinks
   home.file = {
