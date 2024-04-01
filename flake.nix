@@ -106,25 +106,52 @@
         modules = [ ./hosts/beltanimal ];
         specialArgs = {inherit inputs outputs;};
       };
+      anya = lib.nixosSystem {
+        modules = [ ./hosts/anya ];
+        specialArgs = {inherit inputs outputs;};
+      };
     };
 
     # Available through 'home-manager --flake .#your-username@your-hostname'
     # NOTE: Home-manager requires a 'pkgs' instance
     homeConfigurations = {
+      # For Testing
       "tk@nix-test" = lib.homeManagerConfiguration {
         modules = [ ./home/tk/nix-test.nix ];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
       };
+      # Laptop
       "tk@beltanimal" = lib.homeManagerConfiguration {
         modules = [ ./home/tk/beltanimal.nix ];
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = {inherit inputs outputs;};
+      };
+      # Desktop
+      "tk@anya" = lib.homeManagerConfiguration {
+        modules = [ ./home/tk/anya.nix ];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
       };
     };
 
     deploy.nodes = {
+      # Desktop
       anya = { 
+        hostname = "anya.cyn.internal";
+        profiles.system = {
+          sshUser = "tk";
+          user = "root";
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.anya;
+        };
+        profiles.tk = {
+          sshUser = "tk";
+          user = "tk";
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.custom self.homeConfigurations."tk@anya".activationPackage "$PROFILE/activate";
+        };
+      };
+      # Laptop
+      beltanimal = { 
         hostname = "beltanimal.cyn.internal";
         profiles.system = {
           sshUser = "tk";
@@ -137,6 +164,7 @@
           path = inputs.deploy-rs.lib.x86_64-linux.activate.custom self.homeConfigurations."tk@beltanimal".activationPackage "$PROFILE/activate";
         };
       };
+      # Testing
       nix-test = { 
         hostname = "nix-test.cyn.internal";
         profiles.system = {
@@ -145,6 +173,7 @@
           path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.nix-test;
         };
       };
+      # Testing
       deployme = { 
         hostname = "deployme.cyn.internal";
         profiles.system = {
@@ -158,6 +187,7 @@
           path = inputs.deploy-rs.lib.x86_64-linux.activate.custom self.homeConfigurations."tk@nix-test".activationPackage "$PROFILE/activate";
         };
       };
+      # Router
       router = {
         hostname = "router.cyn.internal";
         profiles.system = {
@@ -166,6 +196,7 @@
           path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.router;
         };
       };
+      # Dockerhost
       dockerhost = {
         hostname = "dockerhost.cyn.internal";
         profiles.system = {

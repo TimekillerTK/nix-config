@@ -1,5 +1,4 @@
 { pkgs, ... }: 
-# TODO: This is a MacOS Config!
 {
   # Alacritty Config (Fast GPU-Accelerated Terminal)
   programs.alacritty = {
@@ -36,7 +35,6 @@
   # tmux config (Terminal Multiplexer)
   programs.tmux = {
     enable = true;
-    # terminal = "xterm-256color"; # was needed on macOS
     baseIndex = 1; # tmux tabs start at 1
     keyMode = "vi";
     newSession = true; # Required for plugins, otherwise 127 error
