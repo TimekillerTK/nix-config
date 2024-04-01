@@ -66,19 +66,22 @@
       "org.kde.krunner.desktop"."_launch" = ["Ctrl+Space" "Alt+F2" "Search"];
     };
 
+    # TODO: Change to percentage in the future
     # Dropdown Alacritty
     hotkeys.commands."alacritty-dropdown" = {
       name = "Launch Alacritty";
       key = "Alt+Space";
-      command = "tdrop -a -h 90%% alacritty";
+      command = "tdrop -a -h 1440 alacritty";
     };
 
-    # Testing...
-    hotkeys.commands."demo-percent-in-command" = {
-      name = "Demo";
-      key = "Meta+O";
-      command = ''konsole -e bash -c "echo 95%% && sleep 2"'';
-    };
+    # TODO: Find what is going on here...
+    # https://github.com/pjones/plasma-manager/issues/105
+    # # Testing...
+    # hotkeys.commands."demo-percent-in-command" = {
+    #   name = "Demo";
+    #   key = "Meta+O";
+    #   command = ''konsole -e bash -c "echo 95%% && sleep 2"'';
+    # };
   };
 
 
