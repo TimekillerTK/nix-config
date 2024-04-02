@@ -8,7 +8,7 @@
       window.opacity = 0.85;
       font.normal.family = "CaskaydiaCove Nerd Font Mono";
       font.normal.style = "Regular";
-      font.size = 18.0; 
+      font.size = 13.0; 
       shell.program = "${pkgs.tmux}/bin/tmux";
       key_bindings = [
         { key = "F";      mods = "Control";       mode = "~Search";     action = "SearchForward"; }

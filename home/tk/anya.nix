@@ -64,9 +64,21 @@
   programs.plasma = {
     enable = true;
 
-    # Change default hotkey to CTRL+Space
     shortcuts = {
+      # Change default hotkey to CTRL+Space
       "org.kde.krunner.desktop"."_launch" = ["Ctrl+Space" "Alt+F2" "Search"];
+      kwin = {
+        # Hotkeys to move windows around
+        "Window Maximize" = "Meta+Alt+Return";
+        "Window Quick Tile Left" = "Meta+Alt+Left";
+        "Window Quick Tile Right" = "Meta+Alt+Right";
+        "Window Minimize" = "Meta+Alt+Down";
+
+        # Unbind conflicting keybindings
+        "Switch Window Left" = [ ];
+        "Switch Window Right" = [ ];
+        "Switch Window Down" = [ ];
+      };
     };
 
     # TODO: Change to percentage in the future
