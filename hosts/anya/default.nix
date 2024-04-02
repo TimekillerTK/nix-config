@@ -22,7 +22,7 @@
     # Repo Modules
     ../common/global
     ../common/users/tk
-    ../common/optional/sops
+#    ../common/optional/sops
     ../common/optional/zfs
     ../common/optional/kde-plasma-x11
   ];
@@ -47,9 +47,9 @@
   services.vscode-server.enable = true;
 
   # Actual SOPS keys
-  sops.defaultSopsFile = ./secrets.yml;
-  sops.secrets.smbcred = { };
-  sops.secrets.tailscale = { };
+#  sops.defaultSopsFile = ./secrets.yml;
+#  sops.secrets.smbcred = { };
+#  sops.secrets.tailscale = { };
 
   # TODO: This is busted, needs a fix
   # # Tailscale
@@ -65,13 +65,13 @@
   programs.steam.enable = true;
 
   # Hostname & Network Manager
-  networking.hostName = "beltanimal";
+  networking.hostName = "anya";
   networking.networkmanager = {
     enable = true;
   };
 
   # Generated with head -c4 /dev/urandom | od -A none -t x4
-  networking.hostId = "75e25de8"; # required for ZFS!
+  networking.hostId = "7d650d06"; # required for ZFS!
 
   # System Packages
   environment.systemPackages = with pkgs; [
