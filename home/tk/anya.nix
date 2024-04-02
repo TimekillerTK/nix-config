@@ -49,8 +49,11 @@
 
     # Desktop Applications
     firefox
-    unstable.vscode-fhs
-    unstable.signal-desktop # Messaging app/desktop
+    nextcloud-client # Personal cloud
+    unstable.element-desktop # Matrix client
+    unstable.logseq # Notes
+    unstable.vscode-fhs 
+    unstable.signal-desktop # Messaging app
 
     # Other
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
@@ -71,7 +74,7 @@
     hotkeys.commands."alacritty-dropdown" = {
       name = "Launch Alacritty";
       key = "Alt+Space";
-      command = "tdrop -a -h 1296 alacritty";
+      command = "tdrop -a -h 1296 alacritty"; # <- 1440p 90% Height
     };
 
     # TODO: Find what is going on here...
