@@ -21,6 +21,9 @@
         "Switch Window Down" = [ ];
         # TODO: Unbind CMD+PRINTSCREEN
         # TODO: Unbind PRINTSCREEN
+
+        # These just annoy me
+        "ExposeAll" = [ ]
       };
     };
 
@@ -30,6 +33,13 @@
       name = "Launch Alacritty";
       key = "Alt+Space";
       command = lib.mkDefault "tdrop -a alacritty"; # height set in home/<user>/<host>.nix
+    };
+    # Screenshotting Tool
+    hotkeys.commands."flameshot" = {
+      name = "Take Screenshot";
+      # 3 modifier keys are wonky
+      key = "Ctrl+Shift+Alt+4";
+      command = lib.mkDefault "flameshot gui";
     };
 
     # Screenshot

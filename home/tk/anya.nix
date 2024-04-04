@@ -25,7 +25,7 @@
   home.username = outputs.username;
   home.homeDirectory = "/home/${outputs.username}";
 
-  # TODO: Temporary - to be dhanged to percentage in the future (generic)
+  # TODO: Temporary - to be changed to percentage in the future (generic)
   programs.plasma.hotkeys.commands."alacritty-dropdown" = {
     command = "tdrop -a -h 1296 alacritty"; # <- 1440p 90% Height
   };
