@@ -33,6 +33,8 @@
     unstable.logseq # Notes
     unstable.vscode-fhs 
     unstable.signal-desktop # Messaging app
+    unstable.kooha # Simple screen recording
+    unstable.flameshot # Simple Screenshotting
 
     # Other
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font

@@ -19,6 +19,8 @@
         "Switch Window Left" = [ ];
         "Switch Window Right" = [ ];
         "Switch Window Down" = [ ];
+        # TODO: Unbind CMD+PRINTSCREEN
+        # TODO: Unbind PRINTSCREEN
       };
     };
 
@@ -28,6 +30,22 @@
       name = "Launch Alacritty";
       key = "Alt+Space";
       command = lib.mkDefault "tdrop -a alacritty"; # height set in home/<user>/<host>.nix
+    };
+
+    # Screenshot
+    hotkeys.commands."flameshot" = {
+      name = "Take Screenshot with Flameshot";
+      key = "PrintScreen";
+      command = lib.mkDefault ''
+        env QT_AUTO_SCREEN_SCALE_FACTOR=1.25 QT_SCREEN_SCALE_FACTORS="" flameshot gui
+      '';
+    };
+
+    # Screen recording
+    hotkeys.commands."kooha" = {
+      name = "Take Screen recording with Kooha";
+      key = "Meta+PrintScreen";
+      command = lib.mkDefault "kooha";
     };
 
     # TODO: Find what is going on here...
