@@ -2,8 +2,6 @@
 { pkgs, ... }:
 {
 
-  # TODO: Ensure firewall is started BEFORE Network interfaces come up
-
   # For network troubleshooting (remove later ?)
   environment.systemPackages = with pkgs; [
     tcpdump
