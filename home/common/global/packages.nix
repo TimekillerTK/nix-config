@@ -29,6 +29,7 @@
     # Desktop Applications
     firefox
     nextcloud-client # Personal cloud
+    jellyfin-media-player
     unstable.element-desktop # Matrix client
     unstable.logseq # Notes
     unstable.vscode-fhs 
