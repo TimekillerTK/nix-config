@@ -27,7 +27,9 @@
         { key = "Key9";   mods = "Control|Shift";                       chars = "\\x02\\x39";     } # jump to tab 9
         { key = "Key0";   mods = "Control|Shift";                       chars = "\\x02\\x30";     } # jump to tab 0
         { key = "Right";  mods = "Control";                             chars = "\\x1BF";         } # jump forward word
-        { key = "Left";   mods = "Control";                             chars = "\\x1BB";         } # jump backward word
+        { key = "Left";   mods = "Control";                             chars = "\\x1BB";         } # jump backward word <- this is busted somehow
+        # { key = "Right";  mods = "Control";                             chars = "\\x46";         } # jump forward word
+        # { key = "Left";   mods = "Control";                             chars = "\\x42";         } # jump backward word
       ];
     };
   };
@@ -37,14 +39,25 @@
     enable = true;
     baseIndex = 1; # tmux tabs start at 1
     keyMode = "vi";
+    terminal = "xterm-256color";
     newSession = true; # Required for plugins, otherwise 127 error
     extraConfig = ''
-      # TODO fix colours 
-      # set-option -sa terminal-overrides ",xterm*:Tc"
-      # set -as terminal-overrides ',alacritty:RGB' # true-color support ????
-  
+      # Fix ctrl+left/right jump word
+      set-window-option -g xterm-keys on 
+
       # Enable Mouse
       set -g mouse on
+
+      # Bindkeys? Still doesn't work
+      unbind Left
+      unbind Down
+      unbind Up
+      unbind Right
+
+      unbind C-Up   
+      unbind C-Down 
+      unbind C-Left 
+      unbind C-Right
     '';
     plugins = with pkgs; [
       tmuxPlugins.catppuccin
