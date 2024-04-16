@@ -8,8 +8,10 @@
       initialPassword = "Hello123!";
       extraGroups = [ "networkmanager" "wheel" ];
       openssh.authorizedKeys.keys = [
-        (builtins.readFile ./mbp.pub)
         (builtins.readFile ./anya.pub)
+        (builtins.readFile ./beltanimal.pub)
+        (builtins.readFile ./dockerhost.pub)
+        (builtins.readFile ./mbp.pub)
         (builtins.readFile ./win_laptop.pub)
       ];
     };
