@@ -24,6 +24,11 @@
   home.username = username;
   home.homeDirectory = "/home/${username}";
 
+  # Custom packages for this user
+  home.packages = with pkgs; [
+    htop
+  ];
+
   # TODO: Temporary - to be dhanged to percentage in the future (generic)
   programs.plasma.hotkeys.commands."alacritty-dropdown" = {
     command = "tdrop -a -h 1440 alacritty"; # <- 1600p 90% Height
