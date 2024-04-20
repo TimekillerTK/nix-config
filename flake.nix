@@ -132,8 +132,7 @@
       "astra@beltanimal" = lib.homeManagerConfiguration {
         modules = [ ./home/astra/beltanimal.nix ];
         pkgs = pkgsFor.x86_64-linux;
-        username = "astra";
-        extraSpecialArgs = {inherit inputs outputs username;};
+        extraSpecialArgs = let username = "astra"; in {inherit inputs outputs username;};
       };
 
       # Desktop
