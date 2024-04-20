@@ -65,7 +65,7 @@
   in
   {
     inherit lib;
-    username = "tk";
+    # username = "tk";
 
     # Reusable nixos modules you might want to export (shareable)
     nixosModules = import ./modules/nixos;
@@ -132,7 +132,8 @@
       "astra@beltanimal" = lib.homeManagerConfiguration {
         modules = [ ./home/astra/beltanimal.nix ];
         pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
+        username = "astra";
+        extraSpecialArgs = {inherit inputs outputs username;};
       };
 
       # Desktop
