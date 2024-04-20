@@ -98,7 +98,7 @@
     # TODO: UID should come from the user dynamically
     # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
     # Remember to run `sudo umount /mnt/FreeNAS` before adding/removing "noauto" + "x-systemd.automount"
-    options = [ "credentials=/run/secrets/smbcred" "noserverino" "rw" "_netdev" "uid=1000"] ++ ["noauto" "x-systemd.automount"];
+    options = [ "credentials=/run/secrets/smbcred" "noserverino" "rw" "_netdev" "gid=100"] ++ ["noauto" "x-systemd.automount"];
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
