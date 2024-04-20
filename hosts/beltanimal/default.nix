@@ -25,6 +25,7 @@
     # Repo Modules
     ../common/global
     ../common/users/tk
+    ../common/users/astra
     ../common/optional/sops
     ../common/optional/zfs
     ../common/optional/kde-plasma-x11
