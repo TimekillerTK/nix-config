@@ -1,4 +1,4 @@
-{ inputs, outputs, config, pkgs, ... }:
+{ inputs, outputs, config, pkgs, username, ... }:
 
 {
   imports = [
@@ -22,8 +22,8 @@
     config.allowUnfree = true;
   };
 
-  home.username = outputs.username;
-  home.homeDirectory = "/home/${outputs.username}";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
 
   # TODO: Temporary - to be changed to percentage in the future (generic)
   programs.plasma.hotkeys.commands."alacritty-dropdown" = {

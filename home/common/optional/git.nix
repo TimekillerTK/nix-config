@@ -1,4 +1,4 @@
-{ outputs, ... }: 
+{ outputs, username, ... }: 
 {
   # Git configuration
   programs.git = {
@@ -42,7 +42,7 @@
     ];
 
     extraConfig = {
-      core.excludesfile = "/home/${outputs.username}/.config/git/ignore";
+      core.excludesfile = "/home/${username}/.config/git/ignore";
       init.defaultBranch = "main";
     };
 

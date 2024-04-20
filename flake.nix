@@ -65,7 +65,6 @@
   in
   {
     inherit lib;
-    # username = "tk";
 
     # Reusable nixos modules you might want to export (shareable)
     nixosModules = import ./modules/nixos;
@@ -120,14 +119,14 @@
       "tk@nix-test" = lib.homeManagerConfiguration {
         modules = [ ./home/tk/nix-test.nix ];
         pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
+        extraSpecialArgs = let username = "tk"; in {inherit inputs outputs username;};
       };
 
       # Laptop
       "tk@beltanimal" = lib.homeManagerConfiguration {
         modules = [ ./home/tk/beltanimal.nix ];
         pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
+        extraSpecialArgs = let username = "tk"; in {inherit inputs outputs username;};
       };
       "astra@beltanimal" = lib.homeManagerConfiguration {
         modules = [ ./home/astra/beltanimal.nix ];
@@ -139,7 +138,7 @@
       "tk@anya" = lib.homeManagerConfiguration {
         modules = [ ./home/tk/anya.nix ];
         pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
+        extraSpecialArgs = let username = "tk"; in {inherit inputs outputs username;};
       };
     };
 
