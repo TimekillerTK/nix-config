@@ -26,7 +26,7 @@
 
   # Custom packages for this user
   home.packages = with pkgs; [
-    htop
+    evolution # mail client
   ];
 
   # TODO: Temporary - to be dhanged to percentage in the future (generic)

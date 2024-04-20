@@ -25,6 +25,29 @@
   home.username = username;
   home.homeDirectory = "/home/${username}";
 
+  # Custom packages for this user
+  home.packages = with pkgs; [
+
+    sops # Mozilla SOPS
+    awscli2 # AWS CLI
+
+    # Python
+    python312
+    unstable.poetry
+
+    # pwsh
+    powershell
+
+    # Desktop Applications
+    nextcloud-client # Personal cloud
+    unstable.logseq # Notes
+    unstable.element-desktop # Matrix client
+
+    # Other
+    mono # for running .NET applications
+
+  ];
+
   # TODO: Temporary - to be changed to percentage in the future (generic)
   programs.plasma.hotkeys.commands."alacritty-dropdown" = {
     command = "tdrop -a -h 1296 alacritty"; # <- 1440p 90% Height
