@@ -115,18 +115,26 @@
     # Available through 'home-manager --flake .#your-username@your-hostname'
     # NOTE: Home-manager requires a 'pkgs' instance
     homeConfigurations = {
+
       # For Testing
       "tk@nix-test" = lib.homeManagerConfiguration {
         modules = [ ./home/tk/nix-test.nix ];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
       };
+
       # Laptop
       "tk@beltanimal" = lib.homeManagerConfiguration {
         modules = [ ./home/tk/beltanimal.nix ];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
       };
+      "astra@beltanimal" = lib.homeManagerConfiguration {
+        modules = [ ./home/astra/beltanimal.nix ];
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = {inherit inputs outputs;};
+      };
+
       # Desktop
       "tk@anya" = lib.homeManagerConfiguration {
         modules = [ ./home/tk/anya.nix ];
