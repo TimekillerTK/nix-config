@@ -18,7 +18,8 @@ in
       format = lib.concatStrings [
         "[](${blueColor})"
         "$os"
-        "$username"
+        "$username$hostname"
+        "[ ](bg:${blueColor})"
         "[](fg:${blueColor} bg:${yellowColor})"
         "$directory"
         "[](fg:${yellowColor} bg:${orangeColor} )"
@@ -56,14 +57,6 @@ in
         # "[ ](fg:#33658A)"
       ];
 
-      username = {
-        show_always = true;
-        style_user = "fg:${blackColor} bg:${orangeColor}";
-        style_root = "fg:${blackColor} bg:${orangeColor}";
-        format = "[$user ]($style)";
-        disabled = true;
-      };
-
       os = {
         style = "fg:${whiteColor} bg:${blueColor}";
         disabled = false;
@@ -71,7 +64,19 @@ in
           NixOS = " ";
         };
       };
- 
+
+      username = {
+        show_always = true;
+        style_user = "fg:${whiteColor} bg:${blueColor}";
+        format = "[$user]($style)";
+      };
+
+      hostname = {
+        ssh_only = true;
+        style = "fg:${whiteColor} bg:${blueColor}";
+        format = "[@$hostname]($style)";
+      };
+
       directory = {
         style = "fg:${blackColor} bg:${yellowColor}";
         format = "[ $path ]($style)";
