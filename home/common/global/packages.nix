@@ -23,11 +23,11 @@
     unstable.vscode-fhs
     unstable.signal-desktop # Messaging app
     unstable.flameshot # Simple Screenshotting
+    pinta # Simple MS Paint replacement
 
     # Other
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
     tdrop # terminal dropdown
-
 
   ];
 }
