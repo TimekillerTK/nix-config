@@ -51,7 +51,7 @@
   services.vscode-server.enable = true;
 
   # Actual SOPS keys
-  sops.defaultSopsFile = ./secrets.yml;
+  sops.defaultSopsFile = ../common/secrets.yml;
   sops.secrets.smbcred = { };
   sops.secrets.tailscale = { };
 
