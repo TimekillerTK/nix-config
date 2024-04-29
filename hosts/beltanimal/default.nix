@@ -55,15 +55,15 @@
   sops.secrets.smbcred = { };
   sops.secrets.tailscale = { };
 
-  # TODO: This is busted, needs a fix
-  # # Tailscale
-  # services.tailscale = {
-  #   enable = true;
-  #   authKeyFile = "/run/secrets/tailscale";
-  #   extraUpFlags = [
-  #     "--advertise-tags=tag:usermachine"
-  #   ];
-  # };
+  # Tailscale
+  services.tailscale = {
+    enable = true;
+    authKeyFile = "/run/secrets/tailscale";
+    extraUpFlags = [
+      "--advertise-tags=tag:usermachine"
+      "--accept-routes"
+    ];
+  };
 
   # Bluetooth configuration
   hardware.bluetooth.enable = true; # enables support for Bluetooth
