@@ -12,7 +12,6 @@
         (builtins.readFile ./beltanimal.pub)
         (builtins.readFile ./dockerhost.pub)
         (builtins.readFile ./mbp.pub)
-        (builtins.readFile ./win_laptop.pub)
       ];
     };
   };

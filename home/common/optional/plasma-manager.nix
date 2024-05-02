@@ -5,6 +5,11 @@
   programs.plasma = {
     enable = true;
 
+    configFile = {
+      # Disable single click
+      "kdeglobals"."KDE"."SingleClick".value = false;
+    };
+
     shortcuts = {
       # Change default hotkey to CTRL+Space
       "org.kde.krunner.desktop"."_launch" = ["Ctrl+Space" "Alt+F2" "Search"];
@@ -50,6 +55,7 @@
       '';
     };
 
+    # TODO: Either fix, or Kooha too janky to use (?)
     # # Screen recording
     # hotkeys.commands."kooha" = {
     #   name = "Take Screen recording with Kooha";

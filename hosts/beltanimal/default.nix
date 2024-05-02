@@ -25,6 +25,7 @@
     # Repo Modules
     ../common/global
     ../common/users/tk
+    ../common/users/astra
     ../common/optional/sops
     ../common/optional/zfs
     ../common/optional/kde-plasma-x11
@@ -46,23 +47,23 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
-  # VS Code Server Module (for VS Code Remote) 
+  # VS Code Server Module (for VS Code Remote)
   services.vscode-server.enable = true;
 
   # Actual SOPS keys
-  sops.defaultSopsFile = ./secrets.yml;
+  sops.defaultSopsFile = ../common/secrets.yml;
   sops.secrets.smbcred = { };
   sops.secrets.tailscale = { };
 
-  # TODO: This is busted, needs a fix
-  # # Tailscale
-  # services.tailscale = {
-  #   enable = true;
-  #   authKeyFile = "/run/secrets/tailscale";
-  #   extraUpFlags = [
-  #     "--advertise-tags=tag:usermachine"
-  #   ];
-  # };
+  # Tailscale
+  services.tailscale = {
+    enable = true;
+    authKeyFile = "/run/secrets/tailscale";
+    extraUpFlags = [
+      "--advertise-tags=tag:usermachine"
+      "--accept-routes"
+    ];
+  };
 
   # Bluetooth configuration
   hardware.bluetooth.enable = true; # enables support for Bluetooth
@@ -94,10 +95,18 @@
   fileSystems."/mnt/FreeNAS" = {
     device = "//freenas.cyn.internal/mediasnek2";
     fsType = "cifs";
-    # TODO: UID should come from the user dynamically
     # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
     # Remember to run `sudo umount /mnt/FreeNAS` before adding/removing "noauto" + "x-systemd.automount"
-    options = [ "credentials=/run/secrets/smbcred" "noserverino" "rw" "_netdev" "uid=1000"] ++ ["noauto" "x-systemd.automount"];
+    options = [ 
+      "credentials=/run/secrets/smbcred"
+      "noserverino"
+      "rw"
+      "_netdev"
+      "uid=1000"
+      "gid=100"
+      "file_mode=0770"   # File permissions to rwx for user and group
+      "dir_mode=0770"    # Directory permissions to rwx for user and group
+    ] ++ ["noauto" "x-systemd.automount"];
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion

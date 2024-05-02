@@ -47,19 +47,19 @@
   services.vscode-server.enable = true;
 
   # Actual SOPS keys
-  sops.defaultSopsFile = ./secrets.yml;
+  sops.defaultSopsFile = ../common/secrets.yml;
   sops.secrets.smbcred = { };
-  # sops.secrets.tailscale = { };
+  sops.secrets.tailscale = { };
 
-  # TODO: This is busted, needs a fix
-  # # Tailscale
-  # services.tailscale = {
-  #   enable = true;
-  #   authKeyFile = "/run/secrets/tailscale";
-  #   extraUpFlags = [
-  #     "--advertise-tags=tag:usermachine"
-  #   ];
-  # };
+  # Tailscale
+  services.tailscale = {
+    enable = true;
+    authKeyFile = "/run/secrets/tailscale";
+    extraUpFlags = [
+      "--advertise-tags=tag:usermachine"
+      "--accept-routes"
+    ];
+  };
 
   # Steam
   programs.steam.enable = true;

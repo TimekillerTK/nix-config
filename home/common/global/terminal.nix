@@ -26,8 +26,10 @@
         { key = "Key8";   mods = "Control|Shift";                       chars = "\\x02\\x38";     } # jump to tab 8
         { key = "Key9";   mods = "Control|Shift";                       chars = "\\x02\\x39";     } # jump to tab 9
         { key = "Key0";   mods = "Control|Shift";                       chars = "\\x02\\x30";     } # jump to tab 0
-        { key = "Right";  mods = "Control";                             chars = "\\x1BF";         } # jump forward word
+        { key = "Right";  mods = "Control";                             chars = "\\x1BF";         } # jump forward word <- this is busted somehow
         { key = "Left";   mods = "Control";                             chars = "\\x1BB";         } # jump backward word
+        # TODO: Rebind ALT+F to a different key in tmux, then use that as the char
+        # tmux default ALT+B works but ALT+F is busted!!!
       ];
     };
   };
@@ -36,15 +38,27 @@
   programs.tmux = {
     enable = true;
     baseIndex = 1; # tmux tabs start at 1
-    keyMode = "vi";
+    # keyMode = "vi";
+    # NOTE: xterm-256color will not work well on Linux ()
+    terminal = "screen-256color"; 
     newSession = true; # Required for plugins, otherwise 127 error
     extraConfig = ''
-      # TODO fix colours 
-      # set-option -sa terminal-overrides ",xterm*:Tc"
-      # set -as terminal-overrides ',alacritty:RGB' # true-color support ????
-  
+      # Fix ctrl+left/right jump word (???)
+      # set-window-option -g xterm-keys on
+
       # Enable Mouse
       set -g mouse on
+
+      # Bindkeys
+      # unbind Left
+      # unbind Down
+      # unbind Up
+      # unbind Right
+
+      # unbind A-f
+      # unbind C-Down
+      # unbind C-Left
+      # unbind C-Right
     '';
     plugins = with pkgs; [
       tmuxPlugins.catppuccin

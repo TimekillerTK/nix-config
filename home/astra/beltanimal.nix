@@ -8,7 +8,6 @@
 
     # Repo Home Manager Modules
     ../common/global
-    ../common/optional/git.nix
     ../common/optional/plasma-manager.nix
   ];
 
@@ -27,30 +26,12 @@
 
   # Custom packages for this user
   home.packages = with pkgs; [
-
-    sops # Mozilla SOPS
-    awscli2 # AWS CLI
-
-    # Python
-    python312
-    unstable.poetry
-
-    # pwsh
-    powershell
-
-    # Desktop Applications
-    nextcloud-client # Personal cloud
-    unstable.logseq # Notes
-    unstable.element-desktop # Matrix client
-
-    # Other
-    mono # for running .NET applications
-
+    evolution # mail client
   ];
 
-  # TODO: Temporary - to be changed to percentage in the future (generic)
+  # TODO: Temporary - to be dhanged to percentage in the future (generic)
   programs.plasma.hotkeys.commands."alacritty-dropdown" = {
-    command = "tdrop -a -h 1296 alacritty"; # <- 1440p 90% Height
+    command = "tdrop -a -h 1440 alacritty"; # <- 1600p 90% Height
   };
 
   # VS Code Settings files as symlinks
