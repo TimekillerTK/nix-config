@@ -5,7 +5,6 @@
   lib,
   ...
 }:
-let mypath = "/nextcloud"; in
 {
   imports = [
     # Required for VS Code Remote
@@ -57,46 +56,18 @@ let mypath = "/nextcloud"; in
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud28;
-    hostName = "az-blue";
+    hostName = "nc.cyn.internal";
     autoUpdateApps.enable = true;
+    database.createLocally = true;
     configureRedis = true;
+    maxUploadSize = "16G";
     config = {
-    # Further forces Nextcloud to use HTTPS
-
-    # Nextcloud PostegreSQL database configuration, recommended over using SQLite
       dbtype = "pgsql";
-      dbuser = "nextcloud";
-      dbhost = "${mypath}/nix-nextcloud/db"; # nextcloud will add /.s.PGSQL.5432 by itself
-      dbname = "nextcloud";
-      dbpassFile = "/var/nextcloud-db-pass";
-      adminpassFile = "/var/nextcloud-admin-pass";
+      adminuser = "admin";
+      adminpassFile = "/nextcloudtemp/adminpass";
     };
-  };
-
-  #creates the correct user password files
-  systemd.services.create-pass-files = {
-      wantedBy = [ "multi-user.target" ];
-      before = [ "nextcloud-setup.service" ]; # Ensures this runs before nextcloud-setup
-      script = ''
-          echo "PWD" > /var/nextcloud-db-pass
-          echo "PWD" > /var/nextcloud-admin-pass
-          chown nextcloud:nextcloud /var/nextcloud-db-pass
-          chown postgres:nextcloud /var/nextcloud-admin-pass
-          chmod 0644 /var/nextcloud-db-pass
-          chmod 0644 /var/nextcloud-admin-pass
-      '';
-  };
-
-  services.postgresql = {
-    enable = true;
-  # Ensure the database, user, and permissions always exist
-    ensureDatabases = [ "nextcloud" ];
-    dataDir = "${mypath}/nix-nextcloud/db";
-  };
-
-  systemd.services."nextcloud-setup" = {
-    requires = ["postgresql.service"];
-    after = ["postgresql.service"];
+    # Suggested by Nextcloud's health check.
+    phpOptions."opcache.interned_strings_buffer" = "16";
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
