@@ -53,48 +53,49 @@
     vim
   ];
 
-  services.nginx.virtualHosts = {
-    "nc.cyn.internal" = {
-      forceSSL = true;
-      enableACME = true;
-    };
-  };
-
-  security.acme.acceptTerms = true;
-  services.nextcloud = {
+  services.nextcloud = let mypath = "/nextcloud"; in {
     enable = true;
-    hostName = "nc.cyn.internal";
-    # Need to manually increment with every major upgrade.
     package = pkgs.nextcloud28;
-    # Let NixOS install and configure the database automatically.
-    database.createLocally = true;
-    # Let NixOS install and configure Redis caching automatically.
-    configureRedis = true;
-    # Increase the maximum file upload size.
-    maxUploadSize = "16G";
-    https = true;
+    hostName = "az-blue";
     autoUpdateApps.enable = true;
-
+    configureRedis = true;
     config = {
-      overwriteProtocol = "https";
-      defaultPhoneRegion = "NL";
-      dbtype = "pgsql";
-      adminuser = "admin";
-      adminpassFile = "/nextcloudtemp/adminpass";
-    };
+    # Further forces Nextcloud to use HTTPS
 
-    # Suggested by Nextcloud's health check.
-    phpOptions."opcache.interned_strings_buffer" = "16";
+    # Nextcloud PostegreSQL database configuration, recommended over using SQLite
+      dbtype = "pgsql";
+      dbuser = "nextcloud";
+      dbhost = "${mypath}/nix-nextcloud/db"; # nextcloud will add /.s.PGSQL.5432 by itself
+      dbname = "nextcloud";
+      dbpassFile = "/var/nextcloud-db-pass";
+      adminpassFile = "/var/nextcloud-admin-pass";
+    };
   };
 
-  # Mounting fileshare
-  fileSystems."/mnt/FreeNAS" = {
-    device = "//freenas.cyn.internal/mediasnek2";
-    fsType = "cifs";
-    # TODO: UID should come from the user dynamically
-    # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
-    # Remember to run `sudo umount /mnt/FreeNAS` before adding/removing "noauto" + "x-systemd.automount"
-    options = [ "credentials=/run/secrets/smbcred" "noserverino" "rw" "_netdev" "uid=1000"] ++ ["noauto" "x-systemd.automount"];
+  #creates the correct user password files
+  systemd.services.create-pass-files = {
+      wantedBy = [ "multi-user.target" ];
+      before = [ "nextcloud-setup.service" ]; # Ensures this runs before nextcloud-setup
+      script = ''
+          echo "PWD" > /var/nextcloud-db-pass
+          echo "PWD" > /var/nextcloud-admin-pass
+          chown nextcloud:nextcloud /var/nextcloud-db-pass
+          chown postgres:nextcloud /var/nextcloud-admin-pass
+          chmod 0644 /var/nextcloud-db-pass
+          chmod 0644 /var/nextcloud-admin-pass
+      '';
+  };
+
+  services.postgresql = {
+    enable = true;
+  # Ensure the database, user, and permissions always exist
+    ensureDatabases = [ "nextcloud" ];
+    dataDir = "${mypath}/nix-nextcloud/db";
+  };
+
+  systemd.services."nextcloud-setup" = {
+    requires = ["postgresql.service"];
+    after = ["postgresql.service"];
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
