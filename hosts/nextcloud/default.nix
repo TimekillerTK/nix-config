@@ -60,6 +60,7 @@
     };
   };
 
+  security.acme.acceptTerms = true;
   services.nextcloud = {
     enable = true;
     hostName = "nc.cyn.internal";
