@@ -5,6 +5,7 @@
   lib,
   ...
 }:
+let mypath = "/nextcloud"; in
 {
   imports = [
     # Required for VS Code Remote
@@ -53,7 +54,7 @@
     vim
   ];
 
-  services.nextcloud = let mypath = "/nextcloud"; in {
+  services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud28;
     hostName = "az-blue";
