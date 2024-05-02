@@ -109,6 +109,10 @@
         modules = [ ./hosts/anya ];
         specialArgs = {inherit inputs outputs;};
       };
+      nextcloud = lib.nixosSystem {
+        modules = [ ./hosts/nextcloud ];
+        specialArgs = {inherit inputs outputs;};
+      };
     };
 
     # Available through 'home-manager --flake .#your-username@your-hostname'
