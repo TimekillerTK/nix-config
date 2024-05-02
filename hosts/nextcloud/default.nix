@@ -53,22 +53,22 @@
     vim
   ];
 
-  services.nextcloud = {
-    enable = true;
-    package = pkgs.nextcloud28;
-    hostName = "nc.cyn.internal";
-    autoUpdateApps.enable = true;
-    database.createLocally = true;
-    configureRedis = true;
-    maxUploadSize = "16G";
-    config = {
-      dbtype = "pgsql";
-      adminuser = "admin";
-      adminpassFile = "/nextcloudtemp/adminpass";
-    };
-    # Suggested by Nextcloud's health check.
-    phpOptions."opcache.interned_strings_buffer" = "16";
-  };
+  # services.nextcloud = {
+  #   enable = true;
+  #   package = pkgs.nextcloud28;
+  #   hostName = "nc.cyn.internal";
+  #   autoUpdateApps.enable = true;
+  #   database.createLocally = true;
+  #   configureRedis = true;
+  #   maxUploadSize = "16G";
+  #   config = {
+  #     dbtype = "pgsql";
+  #     adminuser = "admin";
+  #     adminpassFile = "/nextcloudtemp/adminpass";
+  #   };
+  #   # Suggested by Nextcloud's health check.
+  #   phpOptions."opcache.interned_strings_buffer" = "16";
+  # };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
