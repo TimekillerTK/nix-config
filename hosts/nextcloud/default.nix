@@ -53,6 +53,39 @@
     vim
   ];
 
+  services.nginx.virtualHosts = {
+    "nc.cyn.internal" = {
+      forceSSL = true;
+      enableACME = true;
+    };
+  };
+
+  services.nextcloud = {
+    enable = true;
+    hostName = "nc.cyn.internal";
+    # Need to manually increment with every major upgrade.
+    package = pkgs.nextcloud28;
+    # Let NixOS install and configure the database automatically.
+    database.createLocally = true;
+    # Let NixOS install and configure Redis caching automatically.
+    configureRedis = true;
+    # Increase the maximum file upload size.
+    maxUploadSize = "16G";
+    https = true;
+    autoUpdateApps.enable = true;
+
+    config = {
+      overwriteProtocol = "https";
+      defaultPhoneRegion = "NL";
+      dbtype = "pgsql";
+      adminuser = "admin";
+      adminpassFile = "/nextcloudtemp/adminpass";
+    };
+
+    # Suggested by Nextcloud's health check.
+    phpOptions."opcache.interned_strings_buffer" = "16";
+  };
+
   # Mounting fileshare
   fileSystems."/mnt/FreeNAS" = {
     device = "//freenas.cyn.internal/mediasnek2";
