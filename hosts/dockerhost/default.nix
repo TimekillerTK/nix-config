@@ -10,16 +10,13 @@
     # Required for VS Code Remote
     inputs.vscode-server.nixosModules.default
 
-    # SOPS
-    inputs.sops-nix.nixosModules.sops
-
     # Generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
 
     # Repo Modules
     ../common/global
     ../common/users/tk
-
+    ../common/sops
   ];
 
   # Overlays
@@ -35,37 +32,13 @@
   };
 
   # SOPS Secrets
-  sops = {
-    defaultSopsFile = ./secrets.yml;
-    age = {
-      # This will automatically import SSH keys as age keys
-      sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
-      # This is using an age key that is expected to already be in the filesystem
-      keyFile = "/var/lib/sops-nix/key.txt";
-      # This will generate a new key if the key specified above does not exist
-      generateKey = true;
-    };
-  };
-
-  # Actual SOPS keys
   sops.secrets.smbcred = { };
-  sops.secrets.tailscale = { };
 
   # Newer LTS Kernel, pinned
   boot.kernelPackages = pkgs.linuxPackages_6_6;
   boot.kernel.sysctl = {
     # NOTE: Required for tailscale relay subnet traffic
     "net.ipv4.conf.all.forwarding" = true;
-  };
-
-  # Tailscale
-  services.tailscale = {
-    enable = true;
-    authKeyFile = "/run/secrets/tailscale";
-    extraUpFlags = [
-      "--advertise-tags=tag:dockerhost"
-      "--advertise-routes=172.17.0.0/16"
-    ];
   };
 
   # use default bash

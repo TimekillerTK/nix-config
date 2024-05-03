@@ -33,7 +33,6 @@
   };
 
   # Actual SOPS keys
-  sops.defaultSopsFile = ../common/secrets.yml;
   sops.secrets.smbcred = { };
 
   # use default bash

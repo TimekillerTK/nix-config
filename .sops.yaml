@@ -4,6 +4,7 @@ keys:
   - &dockerhost age1gntkld4eesqhxq9ugr53lmdwzhqxztljy2pyylj3a4037nfvdq2qfegpfs
   - &beltanimal age1s42l4ucujcv59krzuxw3xmrqcyu8v5d8ctad6a0kmhlc4zttxfxqvtuy3l
   - &nextcloud age1hsqsce4zlmrptarrn9mdvechynwfay59tcm6pamx527mfpkc8a4sdd79th
+  - &router age18z269exslvey625ry52eu96rhs63vqlyfw4efcxfq8evhup8y46sjytyyq
 creation_rules:
   - path_regex: hosts/common/secrets.ya?ml$
     key_groups:
@@ -25,3 +26,7 @@ creation_rules:
     key_groups:
     - age:
       - *anya
+  - path_regex: hosts/router/secrets.ya?ml$
+    key_groups:
+    - age:
+      - *router
