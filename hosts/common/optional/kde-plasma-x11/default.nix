@@ -9,7 +9,7 @@
   services.xserver.desktopManager.plasma5.enable = true;
 
   # Enable KDE Connect
-  programs.kdeconnect.package = true;
+  programs.kdeconnect.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
