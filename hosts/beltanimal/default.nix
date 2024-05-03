@@ -55,15 +55,15 @@
   sops.secrets.smbcred = { };
   sops.secrets.tailscale = { };
 
-  # Tailscale
-  services.tailscale = {
-    enable = true;
-    authKeyFile = "/run/secrets/tailscale";
-    extraUpFlags = [
-      "--advertise-tags=tag:usermachine"
-      "--accept-routes"
-    ];
-  };
+  # # Tailscale
+  # services.tailscale = {
+  #   enable = true;
+  #   authKeyFile = "/run/secrets/tailscale";
+  #   extraUpFlags = [
+  #     "--advertise-tags=tag:usermachine"
+  #     "--accept-routes"
+  #   ];
+  # };
 
   # Numlock on Login Screen (SDDM)
   services.xserver.displayManager.setupCommands = ''${pkgs.numlockx}/bin/numlockx on'';
