@@ -21,7 +21,7 @@ in {
     # Repo Modules
     ../common/global
     ../common/users/tk
-    ../common/sops
+    ../common/optional/sops
   ];
 
   # Overlays
