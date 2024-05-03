@@ -8,6 +8,9 @@
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
 
+  # Enable KDE Connect
+  programs.kdeconnect.package = true;
+
   # Configure keymap in X11
   services.xserver = {
     layout = "us";
