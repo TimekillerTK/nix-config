@@ -109,6 +109,10 @@
         modules = [ ./hosts/anya ];
         specialArgs = {inherit inputs outputs;};
       };
+      tailscale = lib.nixosSystem {
+        modules = [ ./hosts/tailscale ];
+        specialArgs = {inherit inputs outputs;};
+      };
       nextcloud = lib.nixosSystem {
         modules = [ ./hosts/nextcloud ];
         specialArgs = {inherit inputs outputs;};
