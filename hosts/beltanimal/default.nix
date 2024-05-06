@@ -55,15 +55,15 @@
   sops.secrets.smbcred = { };
   sops.secrets.tailscale = { };
 
-  # # Tailscale
-  # services.tailscale = {
-  #   enable = true;
-  #   authKeyFile = "/run/secrets/tailscale";
-  #   extraUpFlags = [
-  #     "--advertise-tags=tag:usermachine"
-  #     "--accept-routes"
-  #   ];
-  # };
+  # Tailscale
+  services.tailscale = {
+    enable = true;
+    authKeyFile = "/run/secrets/tailscale";
+    extraUpFlags = [
+      "--advertise-tags=tag:usermachine"
+      "--accept-routes"
+    ];
+  };
 
   # Numlock on Login Screen (SDDM)
   services.xserver.displayManager.setupCommands = ''${pkgs.numlockx}/bin/numlockx on'';
@@ -109,7 +109,9 @@
       "gid=100"
       "file_mode=0770"   # File permissions to rwx for user and group
       "dir_mode=0770"    # Directory permissions to rwx for user and group
-    ] ++ ["noauto" "x-systemd.automount"];
+    ];
+    # NOTE: This has issues when accessing SMB mount over tailscale
+    # ] ++ ["noauto" "x-systemd.automount"];
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
