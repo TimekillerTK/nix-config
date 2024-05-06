@@ -37,6 +37,12 @@
   sops.secrets.smbcred = { };
   sops.secrets.tailscale = { };
 
+  # Enable IPv4 forwarding
+  # NOTE: Required for Tailscale subnet forwarding
+  boot.kernel.sysctl = {
+    "net.ipv4.conf.all.forwarding" = true;
+  };
+
   # use default bash
   # TODO: find a better way to do this
   users.users.tk.shell = lib.mkForce pkgs.bash;
