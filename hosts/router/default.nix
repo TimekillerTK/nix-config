@@ -21,7 +21,6 @@ in {
     # Repo Modules
     ../common/global
     ../common/users/tk
-    ../common/optional/sops
   ];
 
   # Overlays
@@ -35,10 +34,6 @@ in {
       allowUnfree = true;
     };
   };
-
-  # SOPS Secrets
-  sops.defaultSopsFile = ./secrets.yml;
-  sops.secrets.tailscale = { };
 
   # boot stuff (required)
   boot.loader.systemd-boot.enable = true;
@@ -58,16 +53,6 @@ in {
   # Enable IPv4 forwarding
   boot.kernel.sysctl = {
     "net.ipv4.conf.all.forwarding" = true;
-  };
-
-  # Tailscale
-  services.tailscale = {
-    enable = true;
-    authKeyFile = "/run/secrets/tailscale";
-    extraUpFlags = [
-      "--advertise-tags=tag:router"
-      "--advertise-routes=172.17.0.0/16"
-    ];
   };
 
   # Configuring Network Interfaces
