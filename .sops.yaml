@@ -3,7 +3,7 @@ keys:
   - &anya age1jjssarkszlhjjhqnamse82rdl8yqwamjczlcya5dkqqltj43pp4qa0psj3
   - &dockerhost age1gntkld4eesqhxq9ugr53lmdwzhqxztljy2pyylj3a4037nfvdq2qfegpfs
   - &beltanimal age1s42l4ucujcv59krzuxw3xmrqcyu8v5d8ctad6a0kmhlc4zttxfxqvtuy3l
-  - &nextcloud age1q8x3pn8vug94pj759n28e3nkt4yt39p30se978etn9497ass842sk8ge6l
+  - &tailscale age1q8x3pn8vug94pj759n28e3nkt4yt39p30se978etn9497ass842sk8ge6l
   - &router age18z269exslvey625ry52eu96rhs63vqlyfw4efcxfq8evhup8y46sjytyyq
 creation_rules:
   - path_regex: hosts/common/secrets.ya?ml$
@@ -13,7 +13,6 @@ creation_rules:
       - *anya
       - *dockerhost
       - *beltanimal
-      - *nextcloud
   - path_regex: hosts/dockerhost/secrets.ya?ml$
     key_groups:
     - age:
@@ -26,7 +25,7 @@ creation_rules:
     key_groups:
     - age:
       - *anya
-  - path_regex: hosts/nextcloud/secrets.ya?ml$
+  - path_regex: hosts/tailscale/secrets.ya?ml$
     key_groups:
     - age:
-      - *nextcloud
+      - *tailscale

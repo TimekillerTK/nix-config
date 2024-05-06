@@ -33,9 +33,7 @@
   };
 
   # Actual SOPS keys
-  sops.defaultSopsFile = ./secrets.yml;
   sops.secrets.smbcred = { };
-  sops.secrets.tailscale = { };
 
   # Enable IPv4 forwarding
   # NOTE: Required for Tailscale subnet forwarding
@@ -59,16 +57,6 @@
   environment.systemPackages = with pkgs; [
     vim
   ];
-
-  # Tailscale
-  services.tailscale = {
-    enable = true;
-    authKeyFile = "/run/secrets/tailscale";
-    extraUpFlags = [
-      "--advertise-tags=tag:router"
-      "--advertise-routes=172.17.0.0/16"
-    ];
-  };
 
   # services.nextcloud = {
   #   enable = true;
