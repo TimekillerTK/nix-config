@@ -60,15 +60,15 @@
     vim
   ];
 
-  # # Tailscale
-  # services.tailscale = {
-  #   enable = true;
-  #   authKeyFile = "/run/secrets/tailscale";
-  #   extraUpFlags = [
-  #     "--advertise-tags=tag:router"
-  #     "--advertise-routes=172.17.0.0/16"
-  #   ];
-  # };
+  # Tailscale
+  services.tailscale = {
+    enable = true;
+    authKeyFile = "/run/secrets/tailscale";
+    extraUpFlags = [
+      "--advertise-tags=tag:router"
+      "--advertise-routes=172.17.0.0/16"
+    ];
+  };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
