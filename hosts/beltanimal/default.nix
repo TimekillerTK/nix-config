@@ -74,6 +74,10 @@
 
   # Steam
   programs.steam.enable = true;
+  environment.sessionVariables = {
+    # Fixes steam not picking up correct scaling on framework (?)
+    STEAM_FORCE_DESKTOPUI_SCALING = "1.5";
+  };
 
   # TODO: Test removing this, should be covered by nixos-hardware
   # Fingerprint reader service (does NOT work on login for KDE because of SDDM...)
