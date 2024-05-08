@@ -52,6 +52,7 @@
     vim
     openssl
     step-ca
+    step-cli
   ];
 
   # services.nextcloud = {
