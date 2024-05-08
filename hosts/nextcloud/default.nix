@@ -50,6 +50,7 @@
   # System Packages
   environment.systemPackages = with pkgs; [
     vim
+    openssl
   ];
 
   # services.nextcloud = {
