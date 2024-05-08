@@ -51,6 +51,7 @@
   environment.systemPackages = with pkgs; [
     vim
     openssl
+    step-ca
   ];
 
   # services.nextcloud = {
