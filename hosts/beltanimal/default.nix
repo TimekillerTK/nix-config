@@ -65,11 +65,11 @@
     ];
   };
 
-  # # TEMP: adding root cert
-  # security.pki.certificateFiles = [
-  #   ../common/intermediate_ca.crt
-  #   ../common/root_ca.crt
-  # ];
+  # TEMP: adding root cert
+  security.pki.certificateFiles = [
+    ../common/intermediate_ca.crt
+    ../common/root_ca.crt
+  ];
 
   # Numlock on Login Screen (SDDM)
   services.xserver.displayManager.setupCommands = ''${pkgs.numlockx}/bin/numlockx on'';
