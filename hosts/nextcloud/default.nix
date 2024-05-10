@@ -60,7 +60,7 @@
     port = 443;
     openFirewall = true;
     intermediatePasswordFile = /root/password.txt;
-    settings = builtins.fromJSON ../common/ca.json
+    settings = builtins.fromJSON ../common/ca.json;
   };
 
   # services.nextcloud = {
