@@ -54,14 +54,14 @@
     step-cli
   ];
 
-  # # CA Config
-  # services.step-ca = {
-  #   enable = true;
-  #   port = 443;
-  #   openFirewall = true;
-  #   intermediatePasswordFile = /root/password.txt;
-  #   settings = builtins.fromJSON ../common/ca.json
-  # };
+  # CA Config
+  services.step-ca = {
+    enable = true;
+    port = 443;
+    openFirewall = true;
+    intermediatePasswordFile = /root/password.txt;
+    settings = builtins.fromJSON ../common/ca.json
+  };
 
   # services.nextcloud = {
   #   enable = true;
