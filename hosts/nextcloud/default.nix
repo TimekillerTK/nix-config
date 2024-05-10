@@ -51,9 +51,17 @@
   environment.systemPackages = with pkgs; [
     vim
     openssl
-    step-ca
     step-cli
   ];
+
+  # CA Config
+  services.step-ca = {
+    enable = true;
+    port = 443;
+    openFirewall = true;
+    intermediatePasswordFile = /root/password.txt;
+    settings = builtins.fromJSON ../common/ca.json
+  };
 
   # services.nextcloud = {
   #   enable = true;
