@@ -56,7 +56,9 @@
     '';
     virtualHosts."caddy.cyn.internal".extraConfig = ''
       respond "Hello, world on caddy.cyn.internal!"
-      tls internal
+      tls erwartungen@protonmail.com {
+        ca https://cert.cyn.internal/acme/acme/directory
+      }
     '';
   };
 
