@@ -55,8 +55,9 @@
       respond "Hello, world on localhost!"
     '';
     virtualHosts."caddy.cyn.internal".extraConfig = ''
-    respond "Hello, world on caddy.cyn.internal!"
-  '';
+      respond "Hello, world on caddy.cyn.internal!"
+      tls internal
+    '';
   };
 
   # Open HTTP/HTTPS ports
