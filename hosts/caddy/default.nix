@@ -52,8 +52,11 @@
   services.caddy = {
     enable = true;
     virtualHosts."localhost".extraConfig = ''
-      respond "Hello, world!"
+      respond "Hello, world on localhost!"
     '';
+    virtualHosts."caddy.cyn.internal".extraConfig = ''
+    respond "Hello, world on caddy.cyn.internal!"
+  '';
   };
 
   # Open HTTP/HTTPS ports
