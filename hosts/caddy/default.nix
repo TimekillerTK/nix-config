@@ -43,6 +43,19 @@
     vim
   ];
 
+  # Enable Docker
+  virtualisation.docker = {
+    enable = true;
+  };
+
+  # Caddy Config
+  services.caddy = {
+    enable = true;
+    virtualHosts."localhost".extraConfig = ''
+      respond "Hello, world!"
+    '';
+  };
+
   # Adding CA root & intermediate certs
   security.pki.certificateFiles = [
     ../common/intermediate_ca.crt

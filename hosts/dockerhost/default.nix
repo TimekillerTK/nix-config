@@ -36,10 +36,12 @@
 
   # Newer LTS Kernel, pinned
   boot.kernelPackages = pkgs.linuxPackages_6_6;
-  boot.kernel.sysctl = {
-    # NOTE: Required for tailscale relay subnet traffic
-    "net.ipv4.conf.all.forwarding" = true;
-  };
+
+  # TODO: Moved to a different host
+  # boot.kernel.sysctl = {
+  #   # NOTE: Required for tailscale relay subnet traffic
+  #   "net.ipv4.conf.all.forwarding" = true;
+  # };
 
   # use default bash
   # TODO: find a better way to do this
