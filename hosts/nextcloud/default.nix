@@ -55,6 +55,22 @@
   ];
 
   # CA Config
+  #
+  # NOTE: Need to run `sudo step ca init` first to generate:
+  #  - root CA key+cert
+  #  - intermediate CA key+cert
+  #  - ca.json file
+  #
+  # Next:
+  #  - create `/root/password.txt` file
+  #  - add ACME provisioner:
+  #    - `step ca provisioner add acme --type ACME`
+  #  - move /root/.step -> /etc/step-ca
+  #  - fix paths @ /etc/step-ca/config/ca.json
+  #  - fix paths @ /etc/step-ca/config/defaults.json
+  #
+  # Also required:
+  #  - add CA root/intermediate certs to Nix config @ `security.pki/certificateFiles`
   services.step-ca = {
     enable = true;
     port = 443;
