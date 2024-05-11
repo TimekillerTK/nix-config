@@ -58,6 +58,9 @@
     virtualHosts."caddy.cyn.internal".extraConfig = ''
       respond "Hello, world on caddy.cyn.internal!"
     '';
+    virtualHosts."spaghetti.cyn.internal".extraConfig = ''
+      respond "Hello, world on spaghetti.cyn.internal!"
+    '';
   };
 
   # Open HTTP/HTTPS ports
