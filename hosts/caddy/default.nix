@@ -51,14 +51,12 @@
   # Caddy Config
   services.caddy = {
     enable = true;
+    acmeCA = "https://cert.cyn.internal/acme/acme/directory";
     virtualHosts."localhost".extraConfig = ''
       respond "Hello, world on localhost!"
     '';
     virtualHosts."caddy.cyn.internal".extraConfig = ''
       respond "Hello, world on caddy.cyn.internal!"
-      tls erwartungen@protonmail.com {
-        ca https://cert.cyn.internal/acme/acme/directory
-      }
     '';
   };
 
