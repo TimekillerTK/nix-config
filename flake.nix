@@ -117,6 +117,10 @@
         modules = [ ./hosts/nextcloud ];
         specialArgs = {inherit inputs outputs;};
       };
+      caddy = lib.nixosSystem {
+        modules = [ ./hosts/caddy ];
+        specialArgs = {inherit inputs outputs;};
+      };
     };
 
     # Available through 'home-manager --flake .#your-username@your-hostname'
