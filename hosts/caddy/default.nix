@@ -56,6 +56,9 @@
     '';
   };
 
+  # Open HTTP/HTTPS ports
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+
   # Adding CA root & intermediate certs
   security.pki.certificateFiles = [
     ../common/intermediate_ca.crt
