@@ -55,7 +55,7 @@
     ../common/intermediate_ca.crt
     ../common/root_ca.crt
   ];
-  
+
   # # Tailscale
   # services.tailscale = {
   #   enable = true;
