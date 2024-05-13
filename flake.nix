@@ -113,8 +113,8 @@
         modules = [ ./hosts/tailscale ];
         specialArgs = {inherit inputs outputs;};
       };
-      nextcloud = lib.nixosSystem {
-        modules = [ ./hosts/nextcloud ];
+      ca = lib.nixosSystem {
+        modules = [ ./hosts/ca ];
         specialArgs = {inherit inputs outputs;};
       };
       caddy = lib.nixosSystem {

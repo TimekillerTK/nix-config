@@ -16,7 +16,6 @@
     # Repo Modules
     ../common/global
     ../common/users/tk
-    ../common/optional/sops
 
   ];
 
@@ -32,8 +31,6 @@
     };
   };
 
-  # Actual SOPS keys
-  sops.secrets.smbcred = { };
 
   # use default bash
   # TODO: find a better way to do this
@@ -44,7 +41,7 @@
   services.vscode-server.enable = true;
 
   # Hostname & Network Manager
-  networking.hostName = "nextcloud";
+  networking.hostName = "ca";
   networking.networkmanager.enable = true;
 
   # System Packages
@@ -71,20 +68,21 @@
   #
   # Also required:
   #  - add CA root/intermediate certs to Nix config @ `security.pki/certificateFiles`
-  services.step-ca = {
-    enable = true;
-    port = 443;
-    openFirewall = true;
-    intermediatePasswordFile = /root/password.txt;
-    address = "cert.cyn.internal";
-    settings = builtins.fromJSON (builtins.readFile ../common/ca.json);
-  };
+  
+  # services.step-ca = {
+  #   enable = true;
+  #   port = 443;
+  #   openFirewall = true;
+  #   intermediatePasswordFile = /root/password.txt;
+  #   address = "cert.cyn.internal";
+  #   settings = builtins.fromJSON (builtins.readFile ../common/ca.json);
+  # };
 
-  # Adding CA root & intermediate certs
-  security.pki.certificateFiles = [
-    ../common/intermediate_ca.crt
-    ../common/root_ca.crt
-  ];
+  # # Adding CA root & intermediate certs
+  # security.pki.certificateFiles = [
+  #   ../common/intermediate_ca.crt
+  #   ../common/root_ca.crt
+  # ];
 
   # services.nextcloud = {
   #   enable = true;
