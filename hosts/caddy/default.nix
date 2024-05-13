@@ -74,8 +74,7 @@
 
   # Adding CA root & intermediate certs
   security.pki.certificateFiles = [
-    ../common/intermediate_ca.crt
-    ../common/root_ca.crt
+    ../common/root-ca.pem
   ];
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion

@@ -67,8 +67,7 @@
 
   # TEMP: adding root cert
   security.pki.certificateFiles = [
-    ../common/intermediate_ca.crt
-    ../common/root_ca.crt
+    ../common/root-ca.pem
   ];
 
   # Numlock on Login Screen (SDDM)

@@ -52,8 +52,7 @@
 
   # Adding CA root & intermediate certs
   security.pki.certificateFiles = [
-    ../common/intermediate_ca.crt
-    ../common/root_ca.crt
+    ../common/root-ca.pem
   ];
 
   # # Tailscale

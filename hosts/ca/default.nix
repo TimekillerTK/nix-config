@@ -31,7 +31,6 @@
     };
   };
 
-
   # use default bash
   # TODO: find a better way to do this
   users.users.tk.shell = lib.mkForce pkgs.bash;
