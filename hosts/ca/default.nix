@@ -68,15 +68,15 @@
   #
   # Also required:
   #  - add CA root/intermediate certs to Nix config @ `security.pki/certificateFiles`
-  
-  # services.step-ca = {
-  #   enable = true;
-  #   port = 443;
-  #   openFirewall = true;
-  #   intermediatePasswordFile = /root/password.txt;
-  #   address = "cert.cyn.internal";
-  #   settings = builtins.fromJSON (builtins.readFile ../common/ca.json);
-  # };
+
+  services.step-ca = {
+    enable = true;
+    port = 443;
+    openFirewall = true;
+    intermediatePasswordFile = /root/password.txt;
+    address = "ca.cyn.internal";
+    settings = builtins.fromJSON (builtins.readFile ../common/ca.json);
+  };
 
   # # Adding CA root & intermediate certs
   # security.pki.certificateFiles = [

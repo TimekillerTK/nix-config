@@ -6,7 +6,7 @@
 	"address": ":443",
 	"insecureAddress": "",
 	"dnsNames": [
-		"cert.cyn.internal"
+		"ca.cyn.internal"
 	],
 	"logger": {
 		"format": "text"
@@ -24,13 +24,13 @@
 				"key": {
 					"use": "sig",
 					"kty": "EC",
-					"kid": "dhDSOz5RPoblwlyvVKzgQnk5wovErLHbNBVCAj-Hd8c",
+					"kid": "0_SO626pOMkCweSjmB__xWNOgiR0CoRH3jG40Ak5rqo",
 					"crv": "P-256",
 					"alg": "ES256",
-					"x": "5pGtISCg_mhuQT_910hqCpBbF3B6BMDHeqbvdxtXmqM",
-					"y": "cxN7rZ5FMv8r3JTxfkXNNJU73nxU8lpyvKFiyX6MCJQ"
+					"x": "F5r4Mu9zextMDRF3drpDAHR5g34O3QojxMctQ7g2rvw",
+					"y": "zDsQjfMf4rWnVqlXnuBAKl6HIVlMOIXUhRUKoDfnLHo"
 				},
-				"encryptedKey": "eyJhbGciOiJQQkVTMi1IUzI1NitBMTI4S1ciLCJjdHkiOiJqd2sranNvbiIsImVuYyI6IkEyNTZHQ00iLCJwMmMiOjYwMDAwMCwicDJzIjoiVXVqN2xiN2ZGNXlEcGlGdmJNc3h0ZyJ9.CA_9wxotDKH_K4-2S7WQyKFrx4lJLtDyffrS9o7_o0bVy2ozeJpQsQ.hUIyIs7Wp1cCdflo.ooNJaOQaY7mVaJMMhX4eOqbNigbTlyItsevd6-DhoY6y26FC3OVE04N90RgBiYWiOgBVYf8l8PgZpUfXoYEhrrXokDTWvmR0jiORTdS2kAV-vesjwzqianwFCfY_IVGyexcXiQ_D3jgPYnTjC5BhNz3M0ruUEI4mAuOt9esfqPIQwYZhzLnP_5eoakh2mG_8CdXQa9uuor9W9mLSdDnYbPZjde3GHpRBAkq_4j6vlCn1QAjI86lF93jyV_ptSa48lHYqksQ_2B5qYh3mmuZ4nPlzjfi_mV1PIuiz6p7qQORoaTIMoSAY0h3AkWh5E3RT_faHJf_dtIbgTuMuKZE.y_AWT4Rn1ybNVlCKqTflxw"
+				"encryptedKey": "eyJhbGciOiJQQkVTMi1IUzI1NitBMTI4S1ciLCJjdHkiOiJqd2sranNvbiIsImVuYyI6IkEyNTZHQ00iLCJwMmMiOjYwMDAwMCwicDJzIjoiSVBuamd2OW5FdW5laFNIeXlRZ2kyUSJ9.lJwEX9pPqHeIBhcTl5NXU6vuw1WVNgTz8ueb7hbels_IsyTESlcrhg.5wLE4ae9XVw6N2v5.s0mJFxqP5d6IQ_ofcJt1DWUUqKVxwEmwdhBmHY4YYu_yavnFN_0l8tP0qQwrq8t0D12eA-P86nyB3c-bIUyKUziwSkH0a66q15d_wdIOS1_7DZ0jD7dqArOEG_D9XaJF8uqwna1QCkE8SyLjGbg8AD58m8Iz9tpBXtR_bPNRS5bW_45INL4zX62SF-4EoqEQJSDZrg71XJ9LkvXp5mtSAuGsfZ0TlLSwXoqcFRj-6UwPOV9jc9S5rnbJ8WZBSA7HDSVhXfMPEBE81vNJR3zgq0O9cFgI0f3MhZI1BP72OC9fkcvG-2NxI8du-m2NLM1spo7myhSwqUbx1unD334.3H2ep4GOF_Imvaw44kEmbg"
 			},
 			{
 				"type": "ACME",
@@ -58,5 +58,6 @@
 		"minVersion": 1.2,
 		"maxVersion": 1.3,
 		"renegotiation": false
-	}
+	},
+	"commonName": "Step Online CA"
 }
