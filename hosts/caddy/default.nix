@@ -59,7 +59,7 @@
       respond "Hello, world on caddy.cyn.internal!"
     '';
     virtualHosts."spaghetti.cyn.internal".extraConfig = ''
-      reverse_proxy 192.168.112.1:8000
+      reverse_proxy whoami:8000
     '';
   };
 
