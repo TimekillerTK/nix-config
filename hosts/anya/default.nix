@@ -50,6 +50,12 @@
   sops.secrets.smbcred = { };
   sops.secrets.tailscale = { };
 
+  # Adding CA root & intermediate certs
+  security.pki.certificateFiles = [
+    ../common/intermediate_ca.crt
+    ../common/root_ca.crt
+  ];
+  
   # # Tailscale
   # services.tailscale = {
   #   enable = true;
