@@ -78,11 +78,10 @@
     settings = builtins.fromJSON (builtins.readFile ../common/ca.json);
   };
 
-  # # Adding CA root & intermediate certs
-  # security.pki.certificateFiles = [
-  #   ../common/intermediate_ca.crt
-  #   ../common/root_ca.crt
-  # ];
+  # Adding CA root & intermediate certs
+  security.pki.certificateFiles = [
+    ../common/root-ca.pem
+  ];
 
   # services.nextcloud = {
   #   enable = true;
