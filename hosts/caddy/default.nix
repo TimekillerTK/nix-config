@@ -59,13 +59,13 @@
       respond "Hello, world on caddy.cyn.internal!"
     '';
     virtualHosts."spaghetti.cyn.internal".extraConfig = ''
-      reverse_proxy 192.168.112.1:8000
+      reverse_proxy localhost:8010
     '';
     virtualHosts."spaghetti2.cyn.internal".extraConfig = ''
-      reverse_proxy localhost:8060
+      reverse_proxy localhost:8020
     '';
     virtualHosts."spaghetti3.cyn.internal".extraConfig = ''
-      reverse_proxy localhost:8070
+      reverse_proxy localhost:8030
     '';
   };
 
