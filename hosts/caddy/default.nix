@@ -51,7 +51,7 @@
   # Caddy Config
   services.caddy = {
     enable = true;
-    acmeCA = "https://ca.cyn.internal/acme/acme/directory";
+    # acmeCA = "https://ca.cyn.internal/acme/acme/directory";
     virtualHosts."localhost".extraConfig = ''
       respond "Hello, world on localhost!"
     '';
@@ -65,6 +65,9 @@
       reverse_proxy localhost:8020
     '';
     virtualHosts."spaghetti3.cyn.internal".extraConfig = ''
+      reverse_proxy localhost:8030
+    '';
+    virtualHosts."spaghetti4.cyn.internal".extraConfig = ''
       reverse_proxy localhost:8030
     '';
   };
