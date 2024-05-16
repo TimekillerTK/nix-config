@@ -29,8 +29,8 @@
     };
   };
 
-  # # SOPS Secrets
-  # sops.secrets.smbcred = { };
+  # SOPS Secrets
+  sops.secrets.smbcred = { };
   
   # Newer LTS Kernel, pinned
   boot.kernelPackages = pkgs.linuxPackages_6_6;
@@ -74,15 +74,15 @@
     ../common/root-ca.pem
   ];
 
-  # # Mounting fileshare
-  # fileSystems."/mnt/FreeNAS" = {
-  #   device = "//freenas.cyn.internal/mediasnek2";
-  #   fsType = "cifs";
-  #   # TODO: UID should come from the user dynamically
-  #   # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
-  #   # Remember to run `sudo umount /mnt/FreeNAS` before adding/removing "noauto" + "x-systemd.automount"
-  #   options = [ "credentials=/run/secrets/smbcred" "noserverino" "rw" "_netdev" "uid=1000"] ++ ["noauto" "x-systemd.automount"];
-  # };
+  # Mounting fileshare
+  fileSystems."/mnt/FreeNAS" = {
+    device = "//freenas.cyn.internal/mediasnek2";
+    fsType = "cifs";
+    # TODO: UID should come from the user dynamically
+    # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
+    # Remember to run `sudo umount /mnt/FreeNAS` before adding/removing "noauto" + "x-systemd.automount"
+    options = [ "credentials=/run/secrets/smbcred" "noserverino" "rw" "_netdev" "uid=1000"] ++ ["noauto" "x-systemd.automount"];
+  };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
