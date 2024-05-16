@@ -51,7 +51,7 @@
   # Caddy Config
   services.caddy = {
     enable = true;
-    acmeCA = "https://cert.cyn.internal/acme/acme/directory";
+    acmeCA = "https://ca.cyn.internal/acme/acme/directory";
     virtualHosts."localhost".extraConfig = ''
       respond "Hello, world on localhost!"
     '';
