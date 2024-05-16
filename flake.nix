@@ -85,16 +85,12 @@
 
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
-      deployme = lib.nixosSystem {
-        modules = [ ./hosts/deployme ];
-        specialArgs = {inherit inputs outputs;};
-      };
-      nix-test = lib.nixosSystem {
-        modules = [ ./hosts/nix-test ];
-        specialArgs = {inherit inputs outputs;};
-      };
       router = lib.nixosSystem {
         modules = [ ./hosts/router ];
+        specialArgs = {inherit inputs outputs;};
+      };
+      dockerhost = lib.nixosSystem {
+        modules = [ ./hosts/dockerhost ];
         specialArgs = {inherit inputs outputs;};
       };
       dockerhost2024 = lib.nixosSystem {
@@ -181,29 +177,6 @@
           sshUser = "tk";
           user = "tk";
           path = inputs.deploy-rs.lib.x86_64-linux.activate.custom self.homeConfigurations."tk@beltanimal".activationPackage "$PROFILE/activate";
-        };
-      };
-      # Testing
-      nix-test = { 
-        hostname = "nix-test.cyn.internal";
-        profiles.system = {
-          sshUser = "tk";
-          user = "root";
-          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.nix-test;
-        };
-      };
-      # Testing
-      deployme = { 
-        hostname = "deployme.cyn.internal";
-        profiles.system = {
-          sshUser = "tk";
-          user = "root";
-          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.deployme;
-        };
-        profiles.tk = {
-          sshUser = "tk";
-          user = "tk";
-          path = inputs.deploy-rs.lib.x86_64-linux.activate.custom self.homeConfigurations."tk@nix-test".activationPackage "$PROFILE/activate";
         };
       };
       # Router
