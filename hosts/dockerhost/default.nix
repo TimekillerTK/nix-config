@@ -64,6 +64,12 @@
     virtualHosts."dev-dockerhost.cyn.internal".extraConfig = ''
       respond "Hello, world on dev-dockerhost.cyn.internal!"
     '';
+    virtualHosts."dev-whoami.cyn.internal".extraConfig = ''
+      reverse_proxy localhost:8010
+    '';
+    virtualHosts."dev-pdf.cyn.internal".extraConfig = ''
+      reverse_proxy localhost:8020
+    '';
   };
 
   # Open HTTP/HTTPS ports
