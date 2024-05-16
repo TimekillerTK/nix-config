@@ -70,6 +70,9 @@
     virtualHosts."dev-pdf.cyn.internal".extraConfig = ''
       reverse_proxy localhost:8020
     '';
+    virtualHosts."dev-torrent.cyn.internal".extraConfig = ''
+      reverse_proxy localhost:8030
+    '';
   };
 
   # Open HTTP/HTTPS ports
