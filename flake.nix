@@ -97,8 +97,8 @@
         modules = [ ./hosts/router ];
         specialArgs = {inherit inputs outputs;};
       };
-      dockerhost = lib.nixosSystem {
-        modules = [ ./hosts/dockerhost ];
+      dockerhost2024 = lib.nixosSystem {
+        modules = [ ./hosts/dockerhost2024 ];
         specialArgs = {inherit inputs outputs;};
       };
       beltanimal = lib.nixosSystem {
