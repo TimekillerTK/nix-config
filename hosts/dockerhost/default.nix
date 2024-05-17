@@ -73,6 +73,9 @@
     virtualHosts."dev-torrent.cyn.internal".extraConfig = ''
       reverse_proxy localhost:8030
     '';
+    virtualHosts."dev-jellyfin.cyn.internal".extraConfig = ''
+      reverse_proxy localhost:8040
+    '';
   };
 
   # Open HTTP/HTTPS ports
