@@ -61,19 +61,19 @@
     virtualHosts."localhost".extraConfig = ''
       respond "Hello, world on localhost!"
     '';
-    virtualHosts."dev-dockerhost.cyn.internal".extraConfig = ''
+    virtualHosts."dockerhost.cyn.internal".extraConfig = ''
       respond "Hello, world on dev-dockerhost.cyn.internal!"
     '';
-    virtualHosts."dev-whoami.cyn.internal".extraConfig = ''
+    virtualHosts."whoami.cyn.internal".extraConfig = ''
       reverse_proxy localhost:8010
     '';
-    virtualHosts."dev-pdf.cyn.internal".extraConfig = ''
+    virtualHosts."pdf.cyn.internal".extraConfig = ''
       reverse_proxy localhost:8020
     '';
-    virtualHosts."dev-torrent.cyn.internal".extraConfig = ''
+    virtualHosts."torrent.cyn.internal".extraConfig = ''
       reverse_proxy localhost:8030
     '';
-    virtualHosts."dev-jellyfin.cyn.internal".extraConfig = ''
+    virtualHosts."jellyfin.cyn.internal".extraConfig = ''
       reverse_proxy localhost:8040
     '';
   };
