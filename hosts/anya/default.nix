@@ -68,6 +68,12 @@
   # Steam
   programs.steam.enable = true;
 
+  # For remapping HIDs
+  services.input-remapper = {
+    enable = true;
+    package = pkgs.unstable.input-remapper;
+  };
+
   # Hostname & Network Manager
   networking.hostName = "anya";
   networking.networkmanager = {
