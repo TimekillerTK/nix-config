@@ -93,10 +93,6 @@
         modules = [ ./hosts/dockerhost ];
         specialArgs = {inherit inputs outputs;};
       };
-      dockerhost2024 = lib.nixosSystem {
-        modules = [ ./hosts/dockerhost2024 ];
-        specialArgs = {inherit inputs outputs;};
-      };
       beltanimal = lib.nixosSystem {
         modules = [ ./hosts/beltanimal ];
         specialArgs = {inherit inputs outputs;};
@@ -115,6 +111,10 @@
       };
       caddy = lib.nixosSystem {
         modules = [ ./hosts/caddy ];
+        specialArgs = {inherit inputs outputs;};
+      };
+      nextcloud = lib.nixosSystem {
+        modules = [ ./hosts/nextcloud ];
         specialArgs = {inherit inputs outputs;};
       };
     };

@@ -1,7 +1,6 @@
 keys:
   - &mbp age1ampggagplvarh46cn05esrlwsn5nj0t9he9n7dxjdtk0vaz99e0q66wp5g
   - &anya age1jjssarkszlhjjhqnamse82rdl8yqwamjczlcya5dkqqltj43pp4qa0psj3
-  - &dockerhost2024 age1gntkld4eesqhxq9ugr53lmdwzhqxztljy2pyylj3a4037nfvdq2qfegpfs
   - &dockerhost age1pe0vvrjeu8g5cgugxvrjcwlg75ls59g6uc0su0x4e2ypwmknu5jqj9nkj2
   - &beltanimal age1s42l4ucujcv59krzuxw3xmrqcyu8v5d8ctad6a0kmhlc4zttxfxqvtuy3l
   - &tailscale age1q8x3pn8vug94pj759n28e3nkt4yt39p30se978etn9497ass842sk8ge6l
@@ -13,14 +12,9 @@ creation_rules:
     - age:
       - *mbp
       - *anya
-      - *dockerhost2024
       - *dockerhost
       - *beltanimal
       - *nextcloud
-  - path_regex: hosts/dockerhost2024/secrets.ya?ml$
-    key_groups:
-    - age:
-      - *dockerhost2024
   - path_regex: hosts/tailscale/secrets.ya?ml$
     key_groups:
     - age:
