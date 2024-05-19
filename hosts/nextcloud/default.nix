@@ -31,9 +31,6 @@
   # TODO: find a better way to do this
   users.users.tk.shell = lib.mkForce pkgs.bash;
   users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
-
-  # VS Code Server Module (for VS Code Remote) 
-  services.vscode-server.enable = true;
  
   # Hostname & Network Manager
   networking.hostName = "nextcloud";
