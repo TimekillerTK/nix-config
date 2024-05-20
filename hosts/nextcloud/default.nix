@@ -41,6 +41,31 @@
     vim
   ];
 
+  nextcloud = {
+    enable = true;
+    hostName = "nc.cyn.internal";
+    # Need to manually increment with every major upgrade.
+    package = pkgs.nextcloud28;
+    # Let NixOS install and configure the database automatically.
+    database.createLocally = true;
+    # Let NixOS install and configure Redis caching automatically.
+    configureRedis = true;
+    # Increase the maximum file upload size.
+    maxUploadSize = "16G";
+    https = true;
+    autoUpdateApps.enable = true;
+    config = {
+      overwriteProtocol = "https";
+      defaultPhoneRegion = "NL";
+      dbtype = "pgsql";
+      adminuser = "admin";
+      # TODO: Temporarily touched, replace with SOPS
+      adminpassFile = "/nextcloud_pw.txt";
+    };
+    # Suggested by Nextcloud's health check.
+    phpOptions."opcache.interned_strings_buffer" = "16";
+  };
+
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
 }
