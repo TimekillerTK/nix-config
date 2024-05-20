@@ -66,6 +66,9 @@
     phpOptions."opcache.interned_strings_buffer" = "16";
   };
 
+  # Open HTTP/HTTPS ports
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
 }
