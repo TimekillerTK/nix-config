@@ -54,6 +54,12 @@
     maxUploadSize = "16G";
     # https = true;
     autoUpdateApps.enable = true;
+    extraAppsEnable = true;
+    extraApps = with config.services.nextcloud.package.packages.apps; {
+      # List of apps we want to install and are already packaged in
+      # https://github.com/NixOS/nixpkgs/blob/master/pkgs/servers/nextcloud/packages/nextcloud-apps.json
+      inherit cookbook;
+    };
     config = {
       overwriteProtocol = "http";
       defaultPhoneRegion = "NL";
@@ -61,7 +67,7 @@
       adminuser = "admin";
       # TODO: Temporarily touched, replace with SOPS
       adminpassFile = "/nextcloud_pw.txt";
-      trustedProxies = [ "172.17.10.216" ];
+      trustedProxies = [ "172.17.10.216" ]; # NC Recommended setting
     };
     # Suggested by Nextcloud's health check.
     phpOptions."opcache.interned_strings_buffer" = "16";
