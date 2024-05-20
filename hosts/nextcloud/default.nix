@@ -61,6 +61,7 @@
       adminuser = "admin";
       # TODO: Temporarily touched, replace with SOPS
       adminpassFile = "/nextcloud_pw.txt";
+      trustedProxies = [ "172.17.10.216" ];
     };
     # Suggested by Nextcloud's health check.
     phpOptions."opcache.interned_strings_buffer" = "16";
