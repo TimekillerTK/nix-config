@@ -52,7 +52,7 @@
     configureRedis = true;
     # Increase the maximum file upload size.
     maxUploadSize = "16G";
-    https = true;
+    # https = true;
     autoUpdateApps.enable = true;
     config = {
       overwriteProtocol = "https";
