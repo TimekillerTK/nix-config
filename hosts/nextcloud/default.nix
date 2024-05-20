@@ -41,7 +41,7 @@
     vim
   ];
 
-  nextcloud = {
+  services.nextcloud = {
     enable = true;
     hostName = "nc.cyn.internal";
     # Need to manually increment with every major upgrade.
