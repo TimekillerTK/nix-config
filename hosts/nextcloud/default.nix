@@ -55,7 +55,7 @@
     # https = true;
     autoUpdateApps.enable = true;
     config = {
-      overwriteProtocol = "https";
+      overwriteProtocol = "http";
       defaultPhoneRegion = "NL";
       dbtype = "pgsql";
       adminuser = "admin";
