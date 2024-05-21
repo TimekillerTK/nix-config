@@ -62,7 +62,7 @@
       inherit cookbook;
     };
     config = {
-      overwriteProtocol = "http";
+      overwriteProtocol = "https";
       defaultPhoneRegion = "NL";
       dbtype = "pgsql";
       adminuser = "admin";
