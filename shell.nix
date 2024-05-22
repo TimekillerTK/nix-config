@@ -19,6 +19,7 @@
       sops
       ssh-to-age
       age
+      nvd # Nix/NixOS package version diff tool
     ];
   };
 }
