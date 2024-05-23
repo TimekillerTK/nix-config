@@ -13,13 +13,17 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
+  boot.loader.grub = {
+    devices = [ "/dev/sda" ];
+  };
+
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/d7d92044-da54-4729-b0f0-5c89a79ff252";
+    { device = "/dev/disk/by-uuid/50f5eafb-4808-41f5-b49f-047445830ee9";
       fsType = "ext4";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/cf7d7c6d-512e-411b-a47e-22569d4bb118"; }
+    [ { device = "/dev/disk/by-uuid/b0196c19-998e-4678-a5f9-0b9fbf5d97bd"; }
     ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

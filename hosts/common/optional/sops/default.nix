@@ -1,5 +1,5 @@
 # This is a reusable module which sets up SOPS for using SSH Host Keys
-{ inputs, config, ... }: 
+{ inputs, config, lib, ... }: 
 {
   imports = [
     # SOPS
@@ -8,6 +8,7 @@
 
   # Settings
   sops = {
+    defaultSopsFile = lib.mkDefault ../../secrets.yml;
     age = {
       # This will automatically import SSH keys as age keys
       sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];

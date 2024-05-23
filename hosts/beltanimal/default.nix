@@ -65,12 +65,24 @@
     ];
   };
 
+  # TEMP: adding root cert
+  security.pki.certificateFiles = [
+    ../common/root-ca.pem
+  ];
+
+  # Numlock on Login Screen (SDDM)
+  services.xserver.displayManager.setupCommands = ''${pkgs.numlockx}/bin/numlockx on'';
+
   # Bluetooth configuration
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
 
   # Steam
   programs.steam.enable = true;
+  environment.sessionVariables = {
+    # Fixes steam not picking up correct scaling on framework (?)
+    STEAM_FORCE_DESKTOPUI_SCALING = "1.5";
+  };
 
   # TODO: Test removing this, should be covered by nixos-hardware
   # Fingerprint reader service (does NOT work on login for KDE because of SDDM...)
@@ -106,7 +118,9 @@
       "gid=100"
       "file_mode=0770"   # File permissions to rwx for user and group
       "dir_mode=0770"    # Directory permissions to rwx for user and group
-    ] ++ ["noauto" "x-systemd.automount"];
+    ];
+    # NOTE: This has issues when accessing SMB mount over tailscale
+    # ] ++ ["noauto" "x-systemd.automount"];
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion

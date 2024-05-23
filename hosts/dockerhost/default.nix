@@ -4,14 +4,9 @@
   pkgs,
   lib,
   ...
-}: 
+}:
 {
   imports = [
-    # Required for VS Code Remote
-    inputs.vscode-server.nixosModules.default
-
-    # SOPS
-    inputs.sops-nix.nixosModules.sops
 
     # Generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
@@ -19,7 +14,7 @@
     # Repo Modules
     ../common/global
     ../common/users/tk
-
+    ../common/optional/sops
   ];
 
   # Overlays
@@ -35,49 +30,18 @@
   };
 
   # SOPS Secrets
-  sops = {
-    defaultSopsFile = ./secrets.yml;
-    age = {
-      # This will automatically import SSH keys as age keys
-      sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
-      # This is using an age key that is expected to already be in the filesystem
-      keyFile = "/var/lib/sops-nix/key.txt";
-      # This will generate a new key if the key specified above does not exist
-      generateKey = true;
-    };
-  };
-
-  # Actual SOPS keys
   sops.secrets.smbcred = { };
-  sops.secrets.tailscale = { };
-
+  
   # Newer LTS Kernel, pinned
   boot.kernelPackages = pkgs.linuxPackages_6_6;
-  boot.kernel.sysctl = {
-    # NOTE: Required for tailscale relay subnet traffic
-    "net.ipv4.conf.all.forwarding" = true;
-  };
-
-  # Tailscale
-  services.tailscale = {
-    enable = true;
-    authKeyFile = "/run/secrets/tailscale";
-    extraUpFlags = [
-      "--advertise-tags=tag:dockerhost"
-      "--advertise-routes=172.17.0.0/16"
-    ];
-  };
 
   # use default bash
   # TODO: find a better way to do this
   users.users.tk.shell = lib.mkForce pkgs.bash;
   users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
 
-  # VS Code Server Module (for VS Code Remote) 
-  services.vscode-server.enable = true;
- 
   # Hostname & Network Manager
-  networking.hostName = "dockerhost2024";
+  networking.hostName = "dockerhost";
   networking.networkmanager.enable = true;
 
   # System Packages
@@ -89,6 +53,41 @@
   virtualisation.docker = {
     enable = true;
   };
+
+  # Caddy Config
+  services.caddy = {
+    enable = true;
+    acmeCA = "https://ca.cyn.internal/acme/acme/directory";
+    virtualHosts."localhost".extraConfig = ''
+      respond "Hello, world on localhost!"
+    '';
+    virtualHosts."dockerhost.cyn.internal".extraConfig = ''
+      respond "Hello, world on dev-dockerhost.cyn.internal!"
+    '';
+    virtualHosts."whoami.cyn.internal".extraConfig = ''
+      reverse_proxy localhost:8010
+    '';
+    virtualHosts."pdf.cyn.internal".extraConfig = ''
+      reverse_proxy localhost:8020
+    '';
+    virtualHosts."torrent.cyn.internal".extraConfig = ''
+      reverse_proxy localhost:8030
+    '';
+    virtualHosts."jellyfin.cyn.internal".extraConfig = ''
+      reverse_proxy localhost:8040
+    '';
+    virtualHosts."nc.cyn.internal".extraConfig = ''
+      reverse_proxy 172.17.10.63
+    '';
+  };
+
+  # Open HTTP/HTTPS ports
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+
+  # Adding CA root cert
+  security.pki.certificateFiles = [
+    ../common/root-ca.pem
+  ];
 
   # Mounting fileshare
   fileSystems."/mnt/FreeNAS" = {

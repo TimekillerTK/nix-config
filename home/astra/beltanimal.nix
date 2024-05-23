@@ -21,6 +21,9 @@
     config.allowUnfree = true;
   };
 
+  # Enable numlock
+  xsession.numlock.enable = true;
+
   home.username = username;
   home.homeDirectory = "/home/${username}";
 

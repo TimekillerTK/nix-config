@@ -135,13 +135,37 @@ TBD...
 
 ## Updating
 
-To update the system:
+To update a system:
 
-- `nix flake update`
-- `sudo nixos-rebuild switch --flake .#default`
-- `home-manager switch --flake .#tk-linux`
+- `nix flake update` - update the flake lockfile
+- `sudo nixos-rebuild switch --flake .#` - apply system update
+- `home-manager switch --flake .#user@host` - apply home-manager update ( needs to be applied for every user )
+
+To check the diffs (or what has been updated) in a particular update, use the `nvd` tool:
+
+- `ls /nix/var/nix/profiles/` - list profiles
+- `nvd diff /nix/var/nix/profiles/system-{9,10}-link` - show diff between profiles 9 and 10
 
 ## Rollback
+
+### System
+
+To roll back to a previous nixos configuration:
+
+- `nixos-rebuild list-generations` - list available generations
+
+   ```sh
+   Generation  Build-date           NixOS version           Kernel  Configuration Revision  Specialisation
+   23 current  2024-05-22 06:58:51  23.11.20240520.a8695cb  6.8.10                          *
+   22          2024-05-18 23:36:35  23.11.20240328.219951b  6.7.10                          *
+   ...
+   ```
+
+   - `sudo nix-env --list-generations --profile /nix/var/nix/profiles/system` - this also works
+- `sudo nixos-rebuild swtich --rollback` - rollback to the previous generation
+- `sudo nix-env --switch-generation xx --profile /nix/var/nix/profiles/system` - rollback to a specific generation
+
+### Home-Manager
 
 To roll back to a previous home-manager configuration:
 

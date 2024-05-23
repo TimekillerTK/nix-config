@@ -47,22 +47,32 @@
   services.vscode-server.enable = true;
 
   # Actual SOPS keys
-  sops.defaultSopsFile = ../common/secrets.yml;
   sops.secrets.smbcred = { };
   sops.secrets.tailscale = { };
 
-  # Tailscale
-  services.tailscale = {
-    enable = true;
-    authKeyFile = "/run/secrets/tailscale";
-    extraUpFlags = [
-      "--advertise-tags=tag:usermachine"
-      "--accept-routes"
-    ];
-  };
+  # Adding CA root & intermediate certs
+  security.pki.certificateFiles = [
+    ../common/root-ca.pem
+  ];
+
+  # # Tailscale
+  # services.tailscale = {
+  #   enable = true;
+  #   authKeyFile = "/run/secrets/tailscale";
+  #   extraUpFlags = [
+  #     "--advertise-tags=tag:usermachine"
+  #     "--accept-routes"
+  #   ];
+  # };
 
   # Steam
   programs.steam.enable = true;
+
+  # For remapping HIDs
+  services.input-remapper = {
+    enable = true;
+    package = pkgs.unstable.input-remapper;
+  };
 
   # Hostname & Network Manager
   networking.hostName = "anya";
@@ -76,7 +86,6 @@
   # System Packages
   environment.systemPackages = with pkgs; [
     vim
-    nvd # Nix/NixOS package version diff tool
   ];
 
   # Mounting fileshare

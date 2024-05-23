@@ -1,8 +1,11 @@
 keys:
   - &mbp age1ampggagplvarh46cn05esrlwsn5nj0t9he9n7dxjdtk0vaz99e0q66wp5g
   - &anya age1jjssarkszlhjjhqnamse82rdl8yqwamjczlcya5dkqqltj43pp4qa0psj3
-  - &dockerhost age1gntkld4eesqhxq9ugr53lmdwzhqxztljy2pyylj3a4037nfvdq2qfegpfs
+  - &dockerhost age1pe0vvrjeu8g5cgugxvrjcwlg75ls59g6uc0su0x4e2ypwmknu5jqj9nkj2
   - &beltanimal age1s42l4ucujcv59krzuxw3xmrqcyu8v5d8ctad6a0kmhlc4zttxfxqvtuy3l
+  - &tailscale age1q8x3pn8vug94pj759n28e3nkt4yt39p30se978etn9497ass842sk8ge6l
+  - &nextcloud age1j2ltq0r49v8nnz2p4a2a23pe2d9wugj0dtln5c9d64nk59dafsnsrjyuze
+  - &router age18z269exslvey625ry52eu96rhs63vqlyfw4efcxfq8evhup8y46sjytyyq
 creation_rules:
   - path_regex: hosts/common/secrets.ya?ml$
     key_groups:
@@ -11,15 +14,8 @@ creation_rules:
       - *anya
       - *dockerhost
       - *beltanimal
-  - path_regex: hosts/dockerhost/secrets.ya?ml$
+      - *nextcloud
+  - path_regex: hosts/tailscale/secrets.ya?ml$
     key_groups:
     - age:
-      - *dockerhost
-  - path_regex: hosts/beltanimal/secrets.ya?ml$
-    key_groups:
-    - age:
-      - *beltanimal
-  - path_regex: hosts/anya/secrets.ya?ml$
-    key_groups:
-    - age:
-      - *anya
+      - *tailscale

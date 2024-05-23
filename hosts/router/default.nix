@@ -15,10 +15,25 @@ let
 in {
 
   imports = [
+    # Generated (nixos-generate-config) hardware configuration
+    ./hardware-configuration.nix
+
+    # Repo Modules
     ../common/global
     ../common/users/tk
-    ./hardware-configuration.nix
   ];
+
+  # Overlays
+  nixpkgs = {
+    overlays = [
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.other-packages
+    ];
+    config = {
+      allowUnfree = true;
+    };
+  };
 
   # boot stuff (required)
   boot.loader.systemd-boot.enable = true;
