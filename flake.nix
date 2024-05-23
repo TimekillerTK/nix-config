@@ -109,10 +109,6 @@
         modules = [ ./hosts/ca ];
         specialArgs = {inherit inputs outputs;};
       };
-      caddy = lib.nixosSystem {
-        modules = [ ./hosts/caddy ];
-        specialArgs = {inherit inputs outputs;};
-      };
       nextcloud = lib.nixosSystem {
         modules = [ ./hosts/nextcloud ];
         specialArgs = {inherit inputs outputs;};
