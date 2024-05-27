@@ -14,7 +14,7 @@
     inputs.disko.nixosModules.default
 
     # NixOS Hardware
-    inputs.nixos-hardware.nixosModules.framework-13-7040-amd
+    inputs.nixos-hardware.nixosModules.framework-16-7040-amd
 
     # Disko config
     ./disko.nix
@@ -47,6 +47,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
+  # Firmware Updates
+  # https://wiki.nixos.org/wiki/Fwupd
+  services.fwupd.enable = true;
+
   # VS Code Server Module (for VS Code Remote)
   services.vscode-server.enable = true;
 
@@ -65,7 +69,7 @@
     ];
   };
 
-  # TEMP: adding root cert
+  # Root Cert
   security.pki.certificateFiles = [
     ../common/root-ca.pem
   ];
@@ -83,10 +87,6 @@
     # Fixes steam not picking up correct scaling on framework (?)
     STEAM_FORCE_DESKTOPUI_SCALING = "1.5";
   };
-
-  # TODO: Test removing this, should be covered by nixos-hardware
-  # Fingerprint reader service (does NOT work on login for KDE because of SDDM...)
-  services.fprintd.enable = true;
 
   # Hostname & Network Manager
   networking.hostName = "beltanimal";
