@@ -76,6 +76,9 @@
     virtualHosts."jellyfin.cyn.internal".extraConfig = ''
       reverse_proxy localhost:8040
     '';
+    virtualHosts."cookbook.cyn.internal".extraConfig = ''
+      reverse_proxy localhost:8050
+    '';
     virtualHosts."nc.cyn.internal".extraConfig = ''
       reverse_proxy 172.17.10.63
     '';
