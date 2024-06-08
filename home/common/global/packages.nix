@@ -24,6 +24,7 @@
     unstable.signal-desktop # Messaging app
     unstable.flameshot # Simple Screenshotting
     pinta # Simple MS Paint replacement
+    unstable.delfin # Jellyfin Client
 
     # Other
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
