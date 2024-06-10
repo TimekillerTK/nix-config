@@ -114,7 +114,7 @@ in
       Type = "simple";
       User = username;
       WorkingDirectory = "/home/${username}/docker";
-      ExecStart = "${pkgs.docker}/bin/docker compose up -d";
+      ExecStart = "${pkgs.docker}/bin/docker compose up";
       ExecStop = "${pkgs.docker}/bin/docker compose down";
     };
 
