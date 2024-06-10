@@ -5,6 +5,9 @@
   lib,
   ...
 }:
+let
+  username = "tk";
+in
 {
   imports = [
 
@@ -13,7 +16,7 @@
 
     # Repo Modules
     ../common/global
-    ../common/users/tk
+    ../common/users/${username}
     ../common/optional/sops
   ];
 
@@ -37,8 +40,8 @@
 
   # use default bash
   # TODO: find a better way to do this
-  users.users.tk.shell = lib.mkForce pkgs.bash;
-  users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
+  users.users.${username}.shell = lib.mkForce pkgs.bash;
+  users.users.${username}.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
 
   # Hostname & Network Manager
   networking.hostName = "dockerhost";
@@ -100,6 +103,22 @@
     # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
     # Remember to run `sudo umount /mnt/FreeNAS` before adding/removing "noauto" + "x-systemd.automount"
     options = [ "credentials=/run/secrets/smbcred" "noserverino" "rw" "_netdev" "uid=1000"] ++ ["noauto" "x-systemd.automount"];
+  };
+
+  # systemd units
+  systemd.services.docker-compose-app = {
+    description = "Running Docker-Compose";
+    after = [ "network.target" ];
+
+    serviceConfig = {
+      Type = "simple";
+      User = username;
+      WorkingDirectory = "/home/${username}/docker";
+      ExecStart = "${pkgs.docker}/bin/docker compose up -d";
+      ExecStop = "${pkgs.docker}/bin/docker compose down";
+    };
+
+    wantedBy = [ "multi-user.target" ];
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
