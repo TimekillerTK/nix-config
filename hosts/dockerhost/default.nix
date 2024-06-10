@@ -40,8 +40,8 @@ in
 
   # use default bash
   # TODO: find a better way to do this
-  users.users.${username}.shell = lib.mkForce pkgs.bash;
-  users.users.${username}.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
+  users.users.tk.shell = lib.mkForce pkgs.bash;
+  users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
 
   # Hostname & Network Manager
   networking.hostName = "dockerhost";
