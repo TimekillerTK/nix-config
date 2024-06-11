@@ -38,6 +38,9 @@
     # pwsh
     powershell
 
+    # Rust
+    rustup
+
     # Desktop Applications
     nextcloud-client # Personal cloud
     unstable.logseq # Notes
