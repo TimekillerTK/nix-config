@@ -101,6 +101,7 @@
   environment.systemPackages = with pkgs; [
     vim
     nvd # Nix/NixOS package version diff tool
+    vlc # It's VLC
   ];
 
   # Mounting fileshare
