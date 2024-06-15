@@ -11,7 +11,7 @@
       system = final.system;
       config.allowUnfree = true;
     };
-    v2305 = import inputs.nixpkgs-v2305 {
+    v2311 = import inputs.nixpkgs-v2311 {
       system = final.system;
       config.allowUnfree = true;
     };
