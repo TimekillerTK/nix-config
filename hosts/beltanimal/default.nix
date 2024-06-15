@@ -119,9 +119,7 @@
       "gid=100"
       "file_mode=0770"   # File permissions to rwx for user and group
       "dir_mode=0770"    # Directory permissions to rwx for user and group
-    ];
-    # NOTE: This has issues when accessing SMB mount over tailscale
-    # ] ++ ["noauto" "x-systemd.automount"];
+    ] ++ ["noauto" "x-systemd.automount"]; # NOTE: This has issues when accessing SMB mount over tailscale
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
