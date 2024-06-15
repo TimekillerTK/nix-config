@@ -1,4 +1,5 @@
 # Settings for KDE Plasma environment in X11 with Pipewire
+# NOTE: Works on 23.11 and 24.05
 { ... }:
 {
   # Enable the X11 windowing system.
