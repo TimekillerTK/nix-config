@@ -16,7 +16,7 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
     # Home Manager - https://github.com/nix-community/home-manager
-    home-manager.url = "github:nix-community/home-manager/release-24.05"; 
+    home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Atomic, declarative, and reproducible secret provisioning for NixOS based on sops.
