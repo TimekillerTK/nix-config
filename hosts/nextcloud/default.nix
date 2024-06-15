@@ -61,14 +61,16 @@
       # https://github.com/NixOS/nixpkgs/blob/master/pkgs/servers/nextcloud/packages/nextcloud-apps.json
       inherit cookbook;
     };
+    settings = {
+      trusted_proxies = [ "172.17.10.216" ]; # NC Recommended setting
+      overwriteprotocol = "https";
+      default_phone_region = "NL";
+    };
     config = {
-      overwriteProtocol = "https";
-      defaultPhoneRegion = "NL";
       dbtype = "pgsql";
       adminuser = "admin";
       # TODO: Temporarily touched, replace with SOPS
       adminpassFile = "/nextcloud_pw.txt";
-      trustedProxies = [ "172.17.10.216" ]; # NC Recommended setting
     };
     # Suggested by Nextcloud's health check.
     phpOptions."opcache.interned_strings_buffer" = "16";
