@@ -14,7 +14,7 @@
     inputs.disko.nixosModules.default
 
     # NixOS Hardware
-    inputs.nixos-hardware.nixosModules.framework-13-7040-amd
+    inputs.nixos-hardware.nixosModules.framework-16-7040-amd
 
     # Disko config
     ./disko.nix
@@ -47,6 +47,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
+  # Firmware Updates
+  # https://wiki.nixos.org/wiki/Fwupd
+  services.fwupd.enable = true;
+
   # VS Code Server Module (for VS Code Remote)
   services.vscode-server.enable = true;
 
@@ -55,17 +59,17 @@
   sops.secrets.smbcred = { };
   sops.secrets.tailscale = { };
 
-  # Tailscale
-  services.tailscale = {
-    enable = true;
-    authKeyFile = "/run/secrets/tailscale";
-    extraUpFlags = [
-      "--advertise-tags=tag:usermachine"
-      "--accept-routes"
-    ];
-  };
+  # # Tailscale
+  # services.tailscale = {
+  #   enable = true;
+  #   authKeyFile = "/run/secrets/tailscale";
+  #   extraUpFlags = [
+  #     "--advertise-tags=tag:usermachine"
+  #     "--accept-routes"
+  #   ];
+  # };
 
-  # TEMP: adding root cert
+  # Root Cert
   security.pki.certificateFiles = [
     ../common/root-ca.pem
   ];
@@ -84,10 +88,6 @@
     STEAM_FORCE_DESKTOPUI_SCALING = "1.5";
   };
 
-  # TODO: Test removing this, should be covered by nixos-hardware
-  # Fingerprint reader service (does NOT work on login for KDE because of SDDM...)
-  services.fprintd.enable = true;
-
   # Hostname & Network Manager
   networking.hostName = "beltanimal";
   networking.networkmanager = {
@@ -101,6 +101,7 @@
   environment.systemPackages = with pkgs; [
     vim
     nvd # Nix/NixOS package version diff tool
+    vlc # It's VLC
   ];
 
   # Mounting fileshare
@@ -118,9 +119,7 @@
       "gid=100"
       "file_mode=0770"   # File permissions to rwx for user and group
       "dir_mode=0770"    # Directory permissions to rwx for user and group
-    ];
-    # NOTE: This has issues when accessing SMB mount over tailscale
-    # ] ++ ["noauto" "x-systemd.automount"];
+    ] ++ ["noauto" "x-systemd.automount"]; # NOTE: This has issues when accessing SMB mount over tailscale
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion

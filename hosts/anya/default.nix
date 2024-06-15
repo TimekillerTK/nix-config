@@ -55,6 +55,13 @@
     ../common/root-ca.pem
   ];
 
+  # Add printer autodiscovery
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
   # # Tailscale
   # services.tailscale = {
   #   enable = true;

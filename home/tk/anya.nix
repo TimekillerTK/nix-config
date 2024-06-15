@@ -38,6 +38,13 @@
     # pwsh
     powershell
 
+    # Rust
+    rustup
+    unstable.lld # better linker by LLVM
+    unstable.clang
+    unstable.mold # even better linker 
+
+
     # Desktop Applications
     nextcloud-client # Personal cloud
     unstable.logseq # Notes

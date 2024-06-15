@@ -13,6 +13,7 @@
     unstable.fzf
 
     bottom # top/htop replacement
+    zellij # terminal multiplexer
     jq # JSON parsing utility
     tldr # man for dummies
     cachix # nix binary cache
@@ -24,6 +25,7 @@
     unstable.signal-desktop # Messaging app
     unstable.flameshot # Simple Screenshotting
     pinta # Simple MS Paint replacement
+    unstable.delfin # Jellyfin Client
 
     # Other
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font

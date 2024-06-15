@@ -3,10 +3,10 @@
 
   inputs = {
     # Nixpkgs Stable - https://github.com/NixOS/nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 
-    # Nixpkgs Version 2305 - https://github.com/NixOS/nixpkgs
-    nixpkgs-v2305.url = "github:nixos/nixpkgs/nixos-23.05";
+    # Nixpkgs Version 2311 - https://github.com/NixOS/nixpkgs
+    nixpkgs-v2311.url = "github:nixos/nixpkgs/nixos-23.11";
 
     # Nixpkgs Unstable
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
@@ -16,7 +16,7 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
     # Home Manager - https://github.com/nix-community/home-manager
-    home-manager.url = "github:nix-community/home-manager/release-23.11"; 
+    home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Atomic, declarative, and reproducible secret provisioning for NixOS based on sops.
@@ -30,7 +30,7 @@
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
     # For managing KDE Plasma
-    plasma-manager.url = "github:pjones/plasma-manager";
+    plasma-manager.url = "github:pjones/plasma-manager/plasma-5";
     plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
     plasma-manager.inputs.home-manager.follows = "home-manager";
 

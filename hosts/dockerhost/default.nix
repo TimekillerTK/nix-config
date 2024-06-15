@@ -5,6 +5,9 @@
   lib,
   ...
 }:
+let
+  username = "tk";
+in
 {
   imports = [
 
@@ -13,7 +16,7 @@
 
     # Repo Modules
     ../common/global
-    ../common/users/tk
+    ../common/users/${username}
     ../common/optional/sops
   ];
 
@@ -76,6 +79,9 @@
     virtualHosts."jellyfin.cyn.internal".extraConfig = ''
       reverse_proxy localhost:8040
     '';
+    virtualHosts."cookbook.cyn.internal".extraConfig = ''
+      reverse_proxy localhost:8050
+    '';
     virtualHosts."nc.cyn.internal".extraConfig = ''
       reverse_proxy 172.17.10.63
     '';
@@ -97,6 +103,22 @@
     # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
     # Remember to run `sudo umount /mnt/FreeNAS` before adding/removing "noauto" + "x-systemd.automount"
     options = [ "credentials=/run/secrets/smbcred" "noserverino" "rw" "_netdev" "uid=1000"] ++ ["noauto" "x-systemd.automount"];
+  };
+
+  # systemd units
+  systemd.services.docker-compose-app = {
+    description = "Running Docker-Compose";
+    after = [ "network.target" ];
+
+    serviceConfig = {
+      Type = "simple";
+      User = username;
+      WorkingDirectory = "/home/${username}/docker";
+      ExecStart = "${pkgs.docker}/bin/docker compose up";
+      ExecStop = "${pkgs.docker}/bin/docker compose down";
+    };
+
+    wantedBy = [ "multi-user.target" ];
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
