@@ -44,15 +44,17 @@
     unstable.clang
     unstable.mold # even better linker 
 
-
     # Desktop Applications
     nextcloud-client # Personal cloud
     unstable.logseq # Notes
     unstable.element-desktop # Matrix client
+    makemkv # DVD Ripper
+    handbrake # Media Transcoder
+    vlc # VLC
+    xivlauncher # FFXIV Launcher
 
     # Other
     mono # for running .NET applications
-
   ];
 
   # TODO: Temporary - to be changed to percentage in the future (generic)
