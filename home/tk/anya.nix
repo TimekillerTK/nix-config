@@ -66,6 +66,7 @@
   home.file = {
     ".config/Code/User/keybindings.json".source = ../../dotfiles/vscode/keybindings.json;
     ".config/Code/User/settings.json".source = ../../dotfiles/vscode/settings.json;
+    ".config/input-remapper-2/presets/Razer Razer Nostromo/nostromo.json".source = ../../dotfiles/input-remapper/nostromo.json;
   };
 
   programs.home-manager.enable = true;
