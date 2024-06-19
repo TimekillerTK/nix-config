@@ -3,6 +3,18 @@
         "input_combination": [
             {
                 "type": 1,
+                "code": 56,
+                "origin_hash": "a32eabf653d6398c61442ec4541b598b"
+            }
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "Delete",
+        "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {
+                "type": 1,
                 "code": 103,
                 "origin_hash": "a32eabf653d6398c61442ec4541b598b"
             }

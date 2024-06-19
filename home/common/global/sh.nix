@@ -41,8 +41,6 @@ in
 
     # Added to end of ~/.zshrc 
     initExtra = ''
-      # For Zellij
-      eval "$(${pkgs.zellij}/bin/zellij setup --generate-auto-start zsh)"
     '';
   };
 }

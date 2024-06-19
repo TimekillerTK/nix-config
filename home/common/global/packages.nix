@@ -13,7 +13,6 @@
     unstable.fzf
 
     bottom # top/htop replacement
-    zellij # terminal multiplexer
     jq # JSON parsing utility
     tldr # man for dummies
     cachix # nix binary cache
