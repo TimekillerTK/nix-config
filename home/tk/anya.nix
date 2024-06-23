@@ -1,4 +1,4 @@
-{ inputs, outputs, config, pkgs, username, ... }:
+{ inputs, outputs, config, pkgs, username, lib, ... }:
 
 {
   imports = [
@@ -60,6 +60,11 @@
   # TODO: Temporary - to be changed to percentage in the future (generic)
   programs.plasma.hotkeys.commands."alacritty-dropdown" = {
     command = "tdrop -a -h 1296 alacritty"; # <- 1440p 90% Height
+  };
+
+  # For automatically launching input-remapper on user login
+  xdg.configFile."autostart/input-mapper-autoload.desktop" = lib.mkIf nixosConfig.services.input-remapper.enable {
+    source = "${nixosConfig.services.input-remapper.package}/share/applications/input-remapper-autoload.desktop";
   };
 
   home.file = {
