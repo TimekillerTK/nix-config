@@ -51,7 +51,7 @@
     makemkv # DVD Ripper
     handbrake # Media Transcoder
     vlc # VLC
-    xivlauncher # FFXIV Launcher
+    unstable.xivlauncher # FFXIV Launcher
 
     # Other
     mono # for running .NET applications
@@ -61,11 +61,17 @@
   programs.plasma.hotkeys.commands."alacritty-dropdown" = {
     command = "tdrop -a -h 1296 alacritty"; # <- 1440p 90% Height
   };
+  
+  # Temporary
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-27.3.11"
+  ];
 
-  # For automatically launching input-remapper on user login
-  xdg.configFile."autostart/input-mapper-autoload.desktop" = lib.mkIf nixosConfig.services.input-remapper.enable {
-    source = "${nixosConfig.services.input-remapper.package}/share/applications/input-remapper-autoload.desktop";
-  };
+  # TODO: Fix later - input-remapper is defined in hosts/ config, should be home-manager
+  # # For automatically launching input-remapper on user login
+  # xdg.configFile."autostart/input-mapper-autoload.desktop" = lib.mkIf nixosConfig.services.input-remapper.enable {
+  #   source = "${nixosConfig.services.input-remapper.package}/share/applications/input-remapper-autoload.desktop";
+  # };
 
   home.file = {
     # VS Code Settings files as symlinks

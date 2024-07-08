@@ -75,6 +75,11 @@
   # Steam
   programs.steam.enable = true;
 
+  # Temporary
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-27.3.11"
+  ];
+
   # For remapping HIDs
   # TODO: Needs to be started with sudo permissions automatically on login (?)
   services.input-remapper = {
