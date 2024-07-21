@@ -78,8 +78,9 @@
     ".config/Code/User/keybindings.json".source = ../../dotfiles/vscode/keybindings.json;
     ".config/Code/User/settings.json".source = ../../dotfiles/vscode/settings.json;
 
-    # Nostromo Keypad Rebind keys
+    # Keypad Rebind keys
     ".config/input-remapper-2/presets/Razer Razer Nostromo/nostromo.json".source = ../../dotfiles/input-remapper/nostromo.json;
+    ".config/input-remapper-2/presets/Razer Razer Nostromo/tartarus.json".source = ../../dotfiles/input-remapper/tartarus.json;
   };
 
   programs.home-manager.enable = true;
