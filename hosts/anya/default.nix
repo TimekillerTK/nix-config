@@ -55,6 +55,10 @@
     ../common/root-ca.pem
   ];
 
+  # Bluetooth configuration
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+
   # Add printer autodiscovery
   services.avahi = {
     enable = true;

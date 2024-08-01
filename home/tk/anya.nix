@@ -52,6 +52,7 @@
     handbrake # Media Transcoder
     vlc # VLC
     unstable.xivlauncher # FFXIV Launcher
+    unstable.rustdesk-flutter # TeamViewer alternative
 
     # Other
     mono # for running .NET applications
@@ -80,7 +81,7 @@
 
     # Keypad Rebind keys
     ".config/input-remapper-2/presets/Razer Razer Nostromo/nostromo.json".source = ../../dotfiles/input-remapper/nostromo.json;
-    ".config/input-remapper-2/presets/Razer Razer Nostromo/tartarus.json".source = ../../dotfiles/input-remapper/tartarus.json;
+    ".config/input-remapper-2/presets/Razer Razer Tartarus V2/tartarus.json".source = ../../dotfiles/input-remapper/tartarus.json;
   };
 
   programs.home-manager.enable = true;
