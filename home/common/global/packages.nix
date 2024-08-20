@@ -25,6 +25,7 @@
     unstable.flameshot # Simple Screenshotting
     pinta # Simple MS Paint replacement
     unstable.delfin # Jellyfin Client
+    unstable.onlyoffice-bin # Office Suite
 
     # Other
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font

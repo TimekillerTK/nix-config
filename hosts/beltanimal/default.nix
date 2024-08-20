@@ -102,6 +102,7 @@
     vim
     nvd # Nix/NixOS package version diff tool
     vlc # It's VLC
+    kdePackages.kdialog # pops up dialogs
   ];
 
   # Mounting fileshare

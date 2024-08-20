@@ -103,6 +103,7 @@
   # System Packages
   environment.systemPackages = with pkgs; [
     vim
+    kdePackages.kdialog # pops up dialogs
   ];
 
   # Mounting fileshare
