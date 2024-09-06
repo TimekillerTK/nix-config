@@ -37,9 +37,9 @@
   #   };
   # };
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot";
+  # boot.loader.systemd-boot.enable = true;
+  # boot.loader.efi.canTouchEfiVariables = true;
+  # boot.loader.efi.efiSysMountPoint = "/boot";
 
   # # VS Code Server Module (for VS Code Remote)
   # services.vscode-server.enable = true;
