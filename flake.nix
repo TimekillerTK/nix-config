@@ -21,7 +21,7 @@
         inherit system;
         specialArgs = {
           pkgs = pkgs;
-          diskSize = 20 * 1024;
+          diskSize = "20480";
         };
         modules = [
           ./hosts/anya
