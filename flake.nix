@@ -20,11 +20,12 @@
       proxmox = nixos-generators.nixosGenerate {
         inherit system;
         specialArgs = {
-          inherit pkgs;
+          pkgs = pkgs;
           diskSize = 20 * 1024;
         };
         modules = [
           ./hosts/anya
+          ({ ... }: { nix.registry.nixpkgs.flake = nixpkgs; })
         ];
         format = "proxmox";
       };
