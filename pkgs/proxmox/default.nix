@@ -3,7 +3,7 @@ nixos-generators.nixosGenerate {
   # inherit system;
   specialArgs = {
     inherit pkgs;
-    diskSize = 64 * 1024;
+    diskSize = 20 * 1024;
   };
   modules = [
     ../../hosts/anya

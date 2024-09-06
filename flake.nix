@@ -79,7 +79,21 @@
 
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
-    packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; inherit nixos-generators; });
+    # packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; inherit nixos-generators; });
+    # Used by devport-bird
+    packages.x86_64-linux = {
+      proxmox = nixos-generators.nixosGenerate {
+        system = "x86_64-linux";
+        specialArgs = {
+          inherit nixpkgs;
+          diskSize = 20 * 1024;
+        };
+        modules = [
+          ./hosts/anya
+        ];
+        format = "proxmox";
+      };
+    };
 
     # Formatter for your nix files, available through 'nix fmt'
     formatter = forEachSystem (pkgs: pkgs.alejandra);
@@ -87,7 +101,7 @@
     # DevShells for each system
     devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
 
-  
+
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       router = lib.nixosSystem {
