@@ -11,17 +11,16 @@
   };
 
   outputs = { self, nixpkgs, nixos-generators, ... }:
+  let
+    system = "x86_64-linux";
+    pkgs = import nixpkgs { inherit system; };
+  in
   {
-
-    # Your custom packages
-    # Accessible through 'nix build', 'nix shell', etc
-    # packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; inherit nixos-generators; });
-    # Used by devport-bird
     packages.x86_64-linux = {
       proxmox = nixos-generators.nixosGenerate {
-        system = "x86_64-linux";
+        inherit system;
         specialArgs = {
-          pkgs = nixpkgs;
+          inherit pkgs;
           diskSize = 20 * 1024;
         };
         modules = [
