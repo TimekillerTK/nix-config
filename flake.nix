@@ -34,6 +34,10 @@
     plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
     plasma-manager.inputs.home-manager.follows = "home-manager";
 
+    # NixOS Generators - for building Proxmox VM Images
+    nixos-generators.url = "github:nix-community/nixos-generators";
+    nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
+
     # Deploy-rs
     deploy-rs.url = "github:serokell/deploy-rs";
 
@@ -41,7 +45,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... } @ inputs:
+  outputs = { self, nixpkgs, home-manager, nixos-generators, ... } @ inputs:
   let
     inherit (self) outputs;
     lib = nixpkgs.lib // home-manager.lib;
@@ -75,7 +79,7 @@
 
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
-    packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
+    packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; inherit nixos-generators; });
 
     # Formatter for your nix files, available through 'nix fmt'
     formatter = forEachSystem (pkgs: pkgs.alejandra);
@@ -83,6 +87,7 @@
     # DevShells for each system
     devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
 
+  
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       router = lib.nixosSystem {

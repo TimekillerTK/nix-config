@@ -56,7 +56,7 @@
         mountpoint = null;
         options = {
           ashift = "12";     # 4096 sector size (recommended)
-          autotrim = "on";   
+          autotrim = "on";
         };
 
         datasets = {
