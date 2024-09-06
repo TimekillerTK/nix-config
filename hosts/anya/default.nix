@@ -25,17 +25,17 @@
     ../common/optional/kde-plasma-x11
   ];
 
-  # # Overlays
-  # nixpkgs = {
-  #   overlays = [
-  #     outputs.overlays.additions
-  #     outputs.overlays.modifications
-  #     outputs.overlays.other-packages
-  #   ];
-  #   config = {
-  #     allowUnfree = true;
-  #   };
-  # };
+  # Overlays
+  nixpkgs = {
+    # overlays = [
+    #   outputs.overlays.additions
+    #   outputs.overlays.modifications
+    #   outputs.overlays.other-packages
+    # ];
+    config = {
+      allowUnfree = true;
+    };
+  };
 
   # boot.loader.systemd-boot.enable = true;
   # boot.loader.efi.canTouchEfiVariables = true;
