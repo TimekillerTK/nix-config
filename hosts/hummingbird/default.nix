@@ -7,8 +7,6 @@
   ...
 }: {
   imports = [
-    # Required for VS Code Remote
-    inputs.vscode-server.nixosModules.default
 
     # Required for disk configuration
     inputs.disko.nixosModules.default
@@ -17,11 +15,11 @@
     ./disko.nix
 
     # Generated (nixos-generate-config) hardware configuration
-    ./hardware-configuration.nix
+    # ./hardware-configuration.nix
 
     # Repo Modules
     ../common/global
-    ../common/users/tk
+    ../common/users/astra
     ../common/optional/sops
     ../common/optional/zfs
     ../common/optional/kde-plasma6-x11
@@ -44,12 +42,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
-  # VS Code Server Module (for VS Code Remote)
-  services.vscode-server.enable = true;
-
   # Actual SOPS keys
   sops.secrets.smbcred = { };
-  sops.secrets.tailscale = { };
 
   # Adding CA root & intermediate certs
   security.pki.certificateFiles = [
@@ -67,41 +61,25 @@
     openFirewall = true;
   };
 
-  # # Tailscale
-  # services.tailscale = {
-  #   enable = true;
-  #   authKeyFile = "/run/secrets/tailscale";
-  #   extraUpFlags = [
-  #     "--advertise-tags=tag:usermachine"
-  #     "--accept-routes"
-  #   ];
-  # };
-
   # Steam
   programs.steam.enable = true;
 
-  # Temporary
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-27.3.11"
-  ];
-
   # Hostname & Network Manager
-  networking.hostName = "anya";
+  networking.hostName = "hummingbird";
   networking.networkmanager = {
     enable = true;
   };
 
   # Generated with head -c4 /dev/urandom | od -A none -t x4
-  networking.hostId = "7d650d06"; # required for ZFS!
+  networking.hostId = "16cc46d0"; # required for ZFS!
 
   # System Packages
   environment.systemPackages = with pkgs; [
     vim
-    kdePackages.kdialog # pops up dialogs
   ];
 
   # Mounting fileshare
-  fileSystems."/mnt/FreeNAS" = {
+  fileSystems."/mnt/mediasnek" = {
     device = "//freenas.cyn.internal/mediasnek2";
     fsType = "cifs";
     # TODO: UID should come from the user dynamically

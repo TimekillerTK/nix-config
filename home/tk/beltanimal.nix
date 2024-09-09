@@ -4,7 +4,7 @@
   imports = [
 
     # Required for Home Manager
-    inputs.plasma-manager.homeManagerModules.plasma-manager
+    inputs.plasma-manager5.homeManagerModules.plasma-manager
 
     # Repo Home Manager Modules
     ../common/global

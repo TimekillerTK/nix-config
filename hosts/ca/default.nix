@@ -36,7 +36,7 @@
   users.users.tk.shell = lib.mkForce pkgs.bash;
   users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
 
-  # VS Code Server Module (for VS Code Remote) 
+  # VS Code Server Module (for VS Code Remote)
   services.vscode-server.enable = true;
 
   # Hostname & Network Manager
@@ -68,36 +68,21 @@
   # Also required:
   #  - add CA root/intermediate certs to Nix config @ `security.pki/certificateFiles`
 
-  services.step-ca = {
-    enable = true;
-    port = 443;
-    openFirewall = true;
-    intermediatePasswordFile = /root/password.txt;
-    address = "ca.cyn.internal";
-    settings = builtins.fromJSON (builtins.readFile ../common/ca.json);
-  };
+  # TODO: Uncomment this before running, it works,
+  # temporarily commented out for -> nix flake check
+  # services.step-ca = {
+  #   enable = true;
+  #   port = 443;
+  #   openFirewall = true;
+  #   intermediatePasswordFile = /root/password.txt;
+  #   address = "ca.cyn.internal";
+  #   settings = builtins.fromJSON (builtins.readFile ../common/ca.json);
+  # };
 
   # Adding CA root & intermediate certs
   security.pki.certificateFiles = [
     ../common/root-ca.pem
   ];
-
-  # services.nextcloud = {
-  #   enable = true;
-  #   package = pkgs.nextcloud28;
-  #   hostName = "nc.cyn.internal";
-  #   autoUpdateApps.enable = true;
-  #   database.createLocally = true;
-  #   configureRedis = true;
-  #   maxUploadSize = "16G";
-  #   config = {
-  #     dbtype = "pgsql";
-  #     adminuser = "admin";
-  #     adminpassFile = "/nextcloudtemp/adminpass";
-  #   };
-  #   # Suggested by Nextcloud's health check.
-  #   phpOptions."opcache.interned_strings_buffer" = "16";
-  # };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";

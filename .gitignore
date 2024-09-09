@@ -1,3 +1,6 @@
 # KDE Trash?
 .Trash-1000
 .plasma-hotkeys.nix
+
+# Mac Trash
+.DS_Store
