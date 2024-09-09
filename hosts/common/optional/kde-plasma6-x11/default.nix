@@ -1,13 +1,20 @@
-# Settings for KDE Plasma 5 environment in X11 with Pipewire
+# Settings for KDE Plasma 6 environment in X11 with Pipewire
 # NOTE: Works on 23.11 and 24.05
 { ... }:
 {
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  services.desktopManager.plasma6.enable = true;
+
+  # For KDE Plasma 6, the defaults have changed.
+  # KDE Plasma 6 runs on Wayland with the default session set
+  # to 'plasma'. If you want to use the X11 session as your
+  # default session, change it to 'plasmax11'.
+  services.displayManager.defaultSession = "plasmax11";
 
   # Enable KDE Connect
   programs.kdeconnect.enable = true;

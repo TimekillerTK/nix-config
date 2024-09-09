@@ -1,4 +1,4 @@
-{ pkgs, ... }: 
+{ pkgs, ... }:
 {
   # Alacritty Config (Fast GPU-Accelerated Terminal)
   programs.alacritty = {

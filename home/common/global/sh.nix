@@ -34,12 +34,12 @@ in
     enableZshIntegration = true;
     package = pkgs.unstable.zoxide;
   };
-  
+
   programs.zsh = {
     enable = true;
     shellAliases = myAliases;
 
-    # Added to end of ~/.zshrc 
+    # Added to end of ~/.zshrc
     initExtra = ''
     '';
   };

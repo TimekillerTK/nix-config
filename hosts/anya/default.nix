@@ -24,7 +24,7 @@
     ../common/users/tk
     ../common/optional/sops
     ../common/optional/zfs
-    ../common/optional/kde-plasma-x11
+    ../common/optional/kde-plasma6-x11
   ];
 
   # Overlays
@@ -43,7 +43,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
-  # VS Code Server Module (for VS Code Remote) 
+  # VS Code Server Module (for VS Code Remote)
   services.vscode-server.enable = true;
 
   # Actual SOPS keys

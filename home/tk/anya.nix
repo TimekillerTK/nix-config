@@ -4,7 +4,7 @@
   imports = [
 
     # Required for Home Manager
-    inputs.plasma-manager.homeManagerModules.plasma-manager
+    inputs.plasma-manager6.homeManagerModules.plasma-manager
 
     # Repo Home Manager Modules
     ../common/global
@@ -42,7 +42,7 @@
     rustup
     unstable.lld # better linker by LLVM
     unstable.clang
-    unstable.mold # even better linker 
+    unstable.mold # even better linker
 
     # Desktop Applications
     nextcloud-client # Personal cloud
@@ -62,7 +62,7 @@
   programs.plasma.hotkeys.commands."alacritty-dropdown" = {
     command = "tdrop -a -h 1296 alacritty"; # <- 1440p 90% Height
   };
-  
+
   # Temporary
   nixpkgs.config.permittedInsecurePackages = [
     "electron-27.3.11"

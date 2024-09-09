@@ -1,19 +1,19 @@
 { config, pkgs, lib, ... }:
 
-let 
+let
   orangeColor = "#f0810e";
   yellowColor = "#f9b931";
   blueColor = "#446e86";
   whiteColor = "#f8f2e6";
   blackColor = "#2f312e";
-in 
+in
 {
   # Enable Starship for ZSH Terminal
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
   };
-  
+
   programs.starship.settings = {
       format = lib.concatStrings [
         "[](${blueColor})"
