@@ -80,11 +80,6 @@
   # Steam
   programs.steam.enable = true;
 
-  # Temporary
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-27.3.11"
-  ];
-
   # Hostname & Network Manager
   networking.hostName = "anya";
   networking.networkmanager = {

@@ -66,6 +66,10 @@
     pkgsFor = lib.genAttrs systems (system: import nixpkgs {
       inherit system;
       config.allowUnfree = true;
+      # Temporary
+      config.permittedInsecurePackages = [
+        "electron-27.3.11"
+      ];
     });
   in
   {
