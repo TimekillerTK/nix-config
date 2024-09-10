@@ -4,3 +4,6 @@
 
 # Mac Trash
 .DS_Store
+
+# Ignore result from builds
+result/
