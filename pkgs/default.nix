@@ -4,5 +4,5 @@
   # spaget = pkgs.callPackage ./spaget { target = "everyone"; };
   # xivlauncher = pkgs.callPackage ./xivlauncher { };
   # wip = pkgs.callPackage ./wip {};
+  "4kvideodownloaderplus" = pkgs.callPackage ./4kvideodownloaderplus {};
 }
- 

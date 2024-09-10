@@ -4,7 +4,7 @@
   imports = [
 
     # Required for Home Manager
-    inputs.plasma-manager5.homeManagerModules.plasma-manager
+    inputs.plasma-manager6.homeManagerModules.plasma-manager
 
     # Repo Home Manager Modules
     ../common/global
@@ -29,7 +29,10 @@
 
   # Custom packages for this user
   home.packages = with pkgs; [
-    evolution # mail client
+    # Issues:
+    # -> No notifications? https://github.com/NixOS/nixpkgs/issues/247168
+    # -> Gnome Keyring REQUIRED? https://github.com/NixOS/nixpkgs/issues/102637
+    mailspring # mail client
   ];
 
   # TODO: Temporary - to be dhanged to percentage in the future (generic)
