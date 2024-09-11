@@ -11,7 +11,8 @@ in
 
     # Repo Home Manager Modules
     ../common/global
-    ../common/optional/git.nix
+    # TODO: Find a better way to define this
+    (import ../common/optional/git.nix { inherit outputs; inherit username; inherit gitUser; inherit gitEmail; })
     ../common/optional/plasma-manager.nix
   ];
 
