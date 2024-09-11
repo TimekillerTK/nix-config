@@ -101,7 +101,6 @@
   environment.systemPackages = with pkgs; [
     vim
     nvd # Nix/NixOS package version diff tool
-    vlc # It's VLC
     kdePackages.kdialog # pops up dialogs
   ];
 
@@ -111,7 +110,7 @@
     fsType = "cifs";
     # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
     # Remember to run `sudo umount /mnt/FreeNAS` before adding/removing "noauto" + "x-systemd.automount"
-    options = [ 
+    options = [
       "credentials=/run/secrets/smbcred"
       "noserverino"
       "rw"

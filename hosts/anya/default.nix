@@ -92,9 +92,6 @@
   # System Packages
   environment.systemPackages = with pkgs; [
     vim
-    # "4kvideodownloaderplus"
-    (import ../../pkgs/4kvideodownloaderplus { inherit pkgs; inherit lib; })
-    kdePackages.kdialog # pops up dialogs
   ];
 
   # Mounting fileshare

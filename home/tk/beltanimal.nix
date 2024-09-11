@@ -1,5 +1,8 @@
 { inputs, outputs, config, pkgs, username, ... }:
-
+let
+  gitUser = "TimekillerTK";
+  gitEmail = "38417175+TimekillerTK@users.noreply.github.com";
+in
 {
   imports = [
 

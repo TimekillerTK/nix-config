@@ -1,10 +1,10 @@
-{ outputs, username, ... }: 
+{ outputs, username, gitUser, gitEmail, ... }:
 {
   # Git configuration
   programs.git = {
     enable = true;
-    userName = "TimekillerTK";
-    userEmail = "erwartungen@protonmail.com";
+    userName = gitUser;
+    userEmail = gitEmail;
     ignores = [
 
       # Nix Flakes

@@ -1,5 +1,8 @@
 { inputs, outputs, config, pkgs, username, lib, ... }:
-
+let
+  gitUser = "TimekillerTK";
+  gitEmail = "38417175+TimekillerTK@users.noreply.github.com";
+in
 {
   imports = [
 
@@ -50,9 +53,9 @@
     unstable.element-desktop # Matrix client
     makemkv # DVD Ripper
     handbrake # Media Transcoder
-    vlc # VLC
     unstable.xivlauncher # FFXIV Launcher
     unstable.rustdesk-flutter # TeamViewer alternative
+    unstable.onlyoffice-bin # Office Suite
 
     # Other
     mono # for running .NET applications

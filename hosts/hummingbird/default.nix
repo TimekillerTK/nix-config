@@ -7,7 +7,6 @@
   ...
 }: {
   imports = [
-
     # Required for disk configuration
     inputs.disko.nixosModules.default
 

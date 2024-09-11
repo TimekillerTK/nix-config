@@ -19,13 +19,12 @@
 
     # Desktop Applications
     firefox
+    vlc # VLC
     jellyfin-media-player
     unstable.vscode-fhs
     unstable.signal-desktop # Messaging app
     unstable.flameshot # Simple Screenshotting
     pinta # Simple MS Paint replacement
-    unstable.delfin # Jellyfin Client
-    unstable.onlyoffice-bin # Office Suite
 
     # Other
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
