@@ -1,14 +1,18 @@
-{ inputs, outputs, config, pkgs, username, ... }:
-
+{ inputs, outputs, config, pkgs, username, lib, ... }:
+let
+  gitUser = "TimekillerTK";
+  gitEmail = "38417175+TimekillerTK@users.noreply.github.com";
+in
 {
   imports = [
 
     # Required for Home Manager
-    inputs.plasma-manager.homeManagerModules.plasma-manager
+    inputs.plasma-manager6.homeManagerModules.plasma-manager
 
     # Repo Home Manager Modules
     ../common/global
-    ../common/optional/git.nix
+    # TODO: Find a better way to define this
+    (import ../common/optional/git.nix { inherit outputs; inherit username; inherit gitUser; inherit gitEmail; })
     ../common/optional/plasma-manager.nix
   ];
 
@@ -42,17 +46,20 @@
     rustup
     unstable.lld # better linker by LLVM
     unstable.clang
-    unstable.mold # even better linker 
-
+    unstable.mold # even better linker
 
     # Desktop Applications
     nextcloud-client # Personal cloud
     unstable.logseq # Notes
     unstable.element-desktop # Matrix client
+    makemkv # DVD Ripper
+    handbrake # Media Transcoder
+    unstable.xivlauncher # FFXIV Launcher
+    unstable.rustdesk-flutter # TeamViewer alternative
+    unstable.onlyoffice-bin # Office Suite
 
     # Other
     mono # for running .NET applications
-
   ];
 
   # TODO: Temporary - to be changed to percentage in the future (generic)
@@ -60,10 +67,20 @@
     command = "tdrop -a -h 1296 alacritty"; # <- 1440p 90% Height
   };
 
-  # VS Code Settings files as symlinks
+  # TODO: Fix later - input-remapper is defined in hosts/ config, should be home-manager
+  # # For automatically launching input-remapper on user login
+  # xdg.configFile."autostart/input-mapper-autoload.desktop" = lib.mkIf nixosConfig.services.input-remapper.enable {
+  #   source = "${nixosConfig.services.input-remapper.package}/share/applications/input-remapper-autoload.desktop";
+  # };
+
   home.file = {
+    # VS Code Settings files as symlinks
     ".config/Code/User/keybindings.json".source = ../../dotfiles/vscode/keybindings.json;
     ".config/Code/User/settings.json".source = ../../dotfiles/vscode/settings.json;
+
+    # Keypad Rebind keys
+    ".config/input-remapper-2/presets/Razer Razer Nostromo/nostromo.json".source = ../../dotfiles/input-remapper/nostromo.json;
+    ".config/input-remapper-2/presets/Razer Razer Tartarus V2/tartarus.json".source = ../../dotfiles/input-remapper/tartarus.json;
   };
 
   programs.home-manager.enable = true;

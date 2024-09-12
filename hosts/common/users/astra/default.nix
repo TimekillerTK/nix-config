@@ -9,4 +9,17 @@
       extraGroups = [ "networkmanager" "wheel" ];
     };
   };
+
+  # Passwordless Sudo
+  security.sudo.extraRules = [
+    {
+      users = ["astra"];
+      commands = [
+        {
+          command = "ALL";
+          options = ["NOPASSWD"];
+        }
+      ];
+    }
+  ];
 }

@@ -1,4 +1,4 @@
-{ pkgs, ... }: 
+{ pkgs, ... }:
 {
   # Alacritty Config (Fast GPU-Accelerated Terminal)
   programs.alacritty = {
@@ -8,14 +8,25 @@
       window.opacity = 0.85;
       font.normal.family = "CaskaydiaCove Nerd Font Mono";
       font.normal.style = "Regular";
-      font.size = 13.0; 
-      # shell.program = "${pkgs.zellij}/bin/zellij"; # Does not work for Zellij, put
-      # `eval "$(${pkgs.automate-shell}/bin/zellij setup --generate-auto-start zsh)"`
-      # in programs.zsh.initExtra instead
+      font.size = 13.0;
+      shell.program = "${pkgs.unstable.zellij}/bin/zellij";
+      shell.args = ["-l" "welcome"];
       keyboard.bindings = [
         { key = "F";      mods = "Control";       mode = "~Search";     action = "SearchForward"; }
       ];
     };
   };
+
+  # Zellij config
+  programs.zellij = {
+    enable = true;
+    package = pkgs.unstable.zellij;
+  };
+
+  # TODO: Later when needed
+  # # Config file for Zellij
+  # home.file = {
+  #   ".config/zellij/config.kdl".source = ../../dotfiles/zellij/config.kdl;
+  # };
 
 }

@@ -1,13 +1,18 @@
 { inputs, outputs, config, pkgs, username, ... }:
-
+let
+  gitUser = "Astram00n";
+  gitEmail = "39217853+Astram00n@users.noreply.github.com";
+in
 {
   imports = [
 
     # Required for Home Manager
-    inputs.plasma-manager5.homeManagerModules.plasma-manager
+    inputs.plasma-manager6.homeManagerModules.plasma-manager
 
     # Repo Home Manager Modules
     ../common/global
+    # TODO: Find a better way to define this
+    (import ../common/optional/git.nix { inherit outputs; inherit username; inherit gitUser; inherit gitEmail; })
     ../common/optional/plasma-manager.nix
   ];
 
@@ -29,13 +34,25 @@
 
   # Custom packages for this user
   home.packages = with pkgs; [
-    evolution # mail client
-    mailspring # better mail client?
+    # Potential Issues:
+    # -> No notifications? https://github.com/NixOS/nixpkgs/issues/247168
+    # -> Gnome Keyring REQUIRED? https://github.com/NixOS/nixpkgs/issues/102637
+    mailspring # mail client
+
+    # Desktop Applications
+    libreoffice-qt # Office Suite
+    # hunspell # Need spellcheck? https://wiki.nixos.org/wiki/LibreOffice
+    makemkv # DVD Ripper
+    handbrake # Media Transcoder
+    unstable.xivlauncher # FFXIV Launcher
+    onedrivegui # OneDrive GUI client
+    openrgb-with-all-plugins # RGB Control
+    spotify # Music Streaming
   ];
 
   # TODO: Temporary - to be dhanged to percentage in the future (generic)
   programs.plasma.hotkeys.commands."alacritty-dropdown" = {
-    command = "tdrop -a -h 1440 alacritty"; # <- 1600p 90% Height
+    command = "tdrop -a -h 1296 alacritty"; # <- 1600p 90% Height
   };
 
   # VS Code Settings files as symlinks

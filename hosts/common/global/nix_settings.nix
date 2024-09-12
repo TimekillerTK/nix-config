@@ -1,5 +1,5 @@
 # Common Nix Settings config
-{ config, lib, inputs, ... }: 
+{ config, lib, inputs, ... }:
 {
   # This will add each flake input as a registry
   # To make nix3 commands consistent with your flake
@@ -36,6 +36,6 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 30d";
+    options = "--delete-older-than 90d";
   };
 }

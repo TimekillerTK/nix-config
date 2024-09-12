@@ -29,10 +29,15 @@
     # Community VS Code Extensions
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
-    # For managing KDE Plasma
-    plasma-manager.url = "github:pjones/plasma-manager/plasma-5";
-    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
-    plasma-manager.inputs.home-manager.follows = "home-manager";
+    # For managing KDE Plasma 5
+    plasma-manager5.url = "github:pjones/plasma-manager/plasma-5";
+    plasma-manager5.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-manager5.inputs.home-manager.follows = "home-manager";
+
+    # For manaing KDE Plasma 6
+    plasma-manager6.url = "github:nix-community/plasma-manager";
+    plasma-manager6.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-manager6.inputs.home-manager.follows = "home-manager";
 
     # Deploy-rs
     deploy-rs.url = "github:serokell/deploy-rs";
@@ -61,6 +66,10 @@
     pkgsFor = lib.genAttrs systems (system: import nixpkgs {
       inherit system;
       config.allowUnfree = true;
+      # Temporary
+      config.permittedInsecurePackages = [
+        "electron-27.3.11"
+      ];
     });
   in
   {
@@ -101,6 +110,10 @@
         modules = [ ./hosts/anya ];
         specialArgs = {inherit inputs outputs;};
       };
+      hummingbird = lib.nixosSystem {
+        modules = [ ./hosts/hummingbird ];
+        specialArgs = {inherit inputs outputs;};
+      };
       tailscale = lib.nixosSystem {
         modules = [ ./hosts/tailscale ];
         specialArgs = {inherit inputs outputs;};
@@ -138,17 +151,24 @@
         extraSpecialArgs = let username = "astra"; in {inherit inputs outputs username;};
       };
 
-      # Desktop
+      # Desktop 1
       "tk@anya" = lib.homeManagerConfiguration {
         modules = [ ./home/tk/anya.nix ];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = let username = "tk"; in {inherit inputs outputs username;};
       };
+
+      # Desktop 2
+      "astra@hummingbird" = lib.homeManagerConfiguration {
+        modules = [ ./home/astra/hummingbird.nix ];
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = let username = "astra"; in {inherit inputs outputs username;};
+      };
     };
 
     deploy.nodes = {
       # Desktop
-      anya = { 
+      anya = {
         hostname = "anya.cyn.internal";
         profiles.system = {
           sshUser = "tk";
@@ -162,7 +182,7 @@
         };
       };
       # Laptop
-      beltanimal = { 
+      beltanimal = {
         hostname = "beltanimal.cyn.internal";
         profiles.system = {
           sshUser = "tk";

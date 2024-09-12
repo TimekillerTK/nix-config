@@ -13,19 +13,18 @@
     unstable.fzf
 
     bottom # top/htop replacement
-    zellij # terminal multiplexer
     jq # JSON parsing utility
     tldr # man for dummies
     cachix # nix binary cache
 
     # Desktop Applications
     firefox
+    vlc # VLC
     jellyfin-media-player
     unstable.vscode-fhs
     unstable.signal-desktop # Messaging app
     unstable.flameshot # Simple Screenshotting
     pinta # Simple MS Paint replacement
-    unstable.delfin # Jellyfin Client
 
     # Other
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font

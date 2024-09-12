@@ -101,7 +101,7 @@
   environment.systemPackages = with pkgs; [
     vim
     nvd # Nix/NixOS package version diff tool
-    vlc # It's VLC
+    kdePackages.kdialog # pops up dialogs
   ];
 
   # Mounting fileshare
@@ -110,7 +110,7 @@
     fsType = "cifs";
     # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
     # Remember to run `sudo umount /mnt/FreeNAS` before adding/removing "noauto" + "x-systemd.automount"
-    options = [ 
+    options = [
       "credentials=/run/secrets/smbcred"
       "noserverino"
       "rw"
@@ -122,6 +122,6 @@
     ] ++ ["noauto" "x-systemd.automount"]; # NOTE: This has issues when accessing SMB mount over tailscale
   };
 
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
+  # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
 }
