@@ -110,10 +110,10 @@
         modules = [ ./hosts/anya ];
         specialArgs = {inherit inputs outputs;};
       };
-      # hummingbird = lib.nixosSystem {
-      #   modules = [ ./hosts/hummingbird ];
-      #   specialArgs = {inherit inputs outputs;};
-      # };
+      hummingbird = lib.nixosSystem {
+        modules = [ ./hosts/hummingbird ];
+        specialArgs = {inherit inputs outputs;};
+      };
       tailscale = lib.nixosSystem {
         modules = [ ./hosts/tailscale ];
         specialArgs = {inherit inputs outputs;};
@@ -158,13 +158,12 @@
         extraSpecialArgs = let username = "tk"; in {inherit inputs outputs username;};
       };
 
-      # TODO: Home Manager config for later ...
-      # # Desktop 2
-      # "astra@hummingbird" = lib.homeManagerConfiguration {
-      #   modules = [ ./home/astra/hummingbird.nix ];
-      #   pkgs = pkgsFor.x86_64-linux;
-      #   extraSpecialArgs = let username = "tk"; in {inherit inputs outputs username;};
-      # };
+      # Desktop 2
+      "astra@hummingbird" = lib.homeManagerConfiguration {
+        modules = [ ./home/astra/hummingbird.nix ];
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = let username = "astra"; in {inherit inputs outputs username;};
+      };
     };
 
     deploy.nodes = {
@@ -183,7 +182,7 @@
         };
       };
       # Laptop
-      beltanimal = { 
+      beltanimal = {
         hostname = "beltanimal.cyn.internal";
         profiles.system = {
           sshUser = "tk";

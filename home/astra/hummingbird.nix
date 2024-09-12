@@ -1,7 +1,7 @@
 { inputs, outputs, config, pkgs, username, ... }:
 let
   gitUser = "Astram00n";
-  gitEmail = ""; # To be filled later
+  gitEmail = "39217853+Astram00n@users.noreply.github.com";
 in
 {
   imports = [

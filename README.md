@@ -8,13 +8,15 @@
   - [Manual Deployment](#manual-deployment)
 - [Updating](#updating)
 - [Rollback](#rollback)
+  - [System](#system)
+  - [Home-Manager](#home-manager)
 
 Run the following to apply a configuration:
 
 - For a target System (flakes):
-  - `sudo nixos-rebuild switch --flake .#default`
+  - `sudo nixos-rebuild switch --flake .#<host>`
 - For a target User (home-manager)
-  - `home-manager switch --flake .#tk-linux`
+  - `home-manager switch --flake .#<username>@<host>`
 
 ## How to use this project
 
@@ -24,26 +26,36 @@ TBD...
 
 ### From NixOS Installer (disko)
 
-1. Git clone this repository and `cd` into it:
-   - `git clone https://github.com/TimekillerTK/nix-test && cd nix-test`
-2. Wipe disks with `wipefs`:
-   - `wipefs --all /dev/disk/by-id/....`
-3. Apply disko config to your disks (add `--dry-run` to test config first):
+0. (optional) If git is missing, run a nix-shell with `git`.
+   - `nix-shell -p git`
+1. Configure your Git username and email.
+   - `git config --global user.name "<username>"`
+   - `git config --global user.email "<email>"`
+2. Git clone this repository and `cd` into it:
+   - `git clone https://github.com/TimekillerTK/nix-config && cd nix-config`
+3. Wipe the disk where you want to install NixOS with `wipefs`:
+   - `wipefs --all /dev/disk/by-id/<diskId>`
+4. Apply disko config to your disks (add `--dry-run` to test config first):
    - `sudo nix run github:nix-community/disko --extra-experimental-features "nix-command flakes" -- --mode disko ./hosts/<host>/disko.nix`
-4. Copy the repository to `/mnt` and `cd` into it:
-   - `cp -r ../nix-test /mnt/nix-test && cd /mnt/nix-test`
-5. Generate a `hardware-configuration.nix` and copy it to the `<host>` directory (where `disko.nix` is):
+5. Copy the repository to `/mnt` and `cd` into it:
+   - `cp -r ../nix-config /mnt/nix-config && cd /mnt/nix-config`
+6. Generate a `hardware-configuration.nix` and copy it to the `<host>` directory (where `disko.nix` is):
    - `nixos-generate-config --no-filesystems --root /mnt`
    - `cp /mnt/etc/nixos/hardware-configuration.nix ./hosts/<host>/.`
-6. Ensure that `./hosts/<host>/default.nix` is importing the generated `hardware-configuration.nix` in the `imports` section (!).
-7. Stage the `hardware-configuration.nix` file, so it's visible during the install:
-   - `git add .`  
-8. Install the NixOS config for this host:
+7. Ensure that `./hosts/<host>/default.nix` is importing the generated `hardware-configuration.nix` in the `imports` section (!).
+8. Stage the `hardware-configuration.nix` file, so it's visible during the install:
+   - `git add .`
+9. Install the NixOS config for this host:
    - `nixos-install --no-root-password --flake .#<host>`
+10. Commit the `hardware-configuration.nix` file and push it to the repo:
+    - `git checkout -b "install-<host>"`
+    - `git commit -m "hardware-configuration.nix for <host>"`
+    - `git push`
+    - `git push --set-upstream origin "install-<host>"`
 
 ### With `deploy-rs`
 
-1. Ensure your **target host** `deployme.cyn.local` has NixOS installed, and has the following additional options defined in its `configuration.nix`:
+1. Ensure your **target host** `deployme.cyn.internal` has NixOS installed, and has the following additional options defined in its `configuration.nix`:
 
    ```nix
    {
@@ -80,7 +92,7 @@ TBD...
    ```
 
 2. Run `sudo nixos-rebuild switch` to ensure this configuration is applied.
-3. On the machine you want to run `deploy-rs` from, run `ssh-copy-id tk@deployme.cyn.local` to copy your SSH public key to the target machine.
+3. On the machine you want to run `deploy-rs` from, run `ssh-copy-id tk@deployme.cyn.internal` to copy your SSH public key to the target machine.
 4. Run `nix run github:serokell/deploy-rs .#deployme` to deploy both the system and home configuration to the target host.
 
 ### With `nixos-anywhere` / `disko`
@@ -119,7 +131,7 @@ TBD...
    - `export NIX_CONFIG="experimental-features = nix-command flakes"`
    - `nix shell nixpkgs#git`
 3. Clone this repository and `cd` into it:
-   - `git clone https://github.com/TimekillerTK/nix-test.git && cd nix-test`
+   - `git clone https://github.com/TimekillerTK/nix-config.git && cd nix-config`
 4. Overwrite hardware configuration:
    - `sudo cp /etc/nixos/hardware-configuration.nix ./nixos/hardware-configuration.nix`
 5. ???
@@ -139,7 +151,7 @@ To update a system:
 
 - `nix flake update` - update the flake lockfile
 - `sudo nixos-rebuild switch --flake .#` - apply system update
-- `home-manager switch --flake .#user@host` - apply home-manager update ( needs to be applied for every user )
+- `home-manager switch --flake .#<username>@<host>` - apply home-manager update ( needs to be applied for every user )
 
 To check the diffs (or what has been updated) in a particular update, use the `nvd` tool:
 
