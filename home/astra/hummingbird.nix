@@ -41,7 +41,7 @@ in
 
     # Desktop Applications
     libreoffice-qt # Office Suite
-    # hunspell # Need spellcheck? https://nixos.wiki/wiki/LibreOffice
+    # hunspell # Need spellcheck? https://wiki.nixos.org/wiki/LibreOffice
     makemkv # DVD Ripper
     handbrake # Media Transcoder
     unstable.xivlauncher # FFXIV Launcher

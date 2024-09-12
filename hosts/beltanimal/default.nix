@@ -122,6 +122,6 @@
     ] ++ ["noauto" "x-systemd.automount"]; # NOTE: This has issues when accessing SMB mount over tailscale
   };
 
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
+  # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
 }
