@@ -42,7 +42,7 @@
   boot.loader.efi.efiSysMountPoint = "/boot";
 
   # Actual SOPS keys
-  # sops.secrets.smbcred = { };
+  sops.secrets.smbcred = { };
 
   # Adding CA root & intermediate certs
   security.pki.certificateFiles = [
@@ -77,15 +77,15 @@
     vim
   ];
 
-  # # Mounting fileshare
-  # fileSystems."/mnt/mediasnek" = {
-  #   device = "//freenas.cyn.internal/mediasnek2";
-  #   fsType = "cifs";
-  #   # TODO: UID should come from the user dynamically
-  #   # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
-  #   # Remember to run `sudo umount /mnt/FreeNAS` before adding/removing "noauto" + "x-systemd.automount"
-  #   options = [ "credentials=/run/secrets/smbcred" "noserverino" "rw" "_netdev" "uid=1000"] ++ ["noauto" "x-systemd.automount"];
-  # };
+  # Mounting fileshare
+  fileSystems."/mnt/mediasnek" = {
+    device = "//freenas.cyn.internal/mediasnek2";
+    fsType = "cifs";
+    # TODO: UID should come from the user dynamically
+    # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
+    # Remember to run `sudo umount /mnt/FreeNAS` before adding/removing "noauto" + "x-systemd.automount"
+    options = [ "credentials=/run/secrets/smbcred" "noserverino" "rw" "_netdev" "uid=1000"] ++ ["noauto" "x-systemd.automount"];
+  };
 
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
