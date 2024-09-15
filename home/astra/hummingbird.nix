@@ -48,6 +48,9 @@ in
     onedrivegui # OneDrive GUI client
     openrgb-with-all-plugins # RGB Control
     spotify # Music Streaming
+    discord # Chat
+    microsoft-edge # Backup Browser
+    gimp # Photoshop Alternative
   ];
 
   # TODO: Temporary - to be dhanged to percentage in the future (generic)

@@ -7,6 +7,11 @@
       shell = pkgs.zsh;
       initialPassword = "Hello123!";
       extraGroups = [ "networkmanager" "wheel" ];
+      openssh.authorizedKeys.keys = [
+        (builtins.readFile ./anya.pub)
+        (builtins.readFile ./beltanimal.pub)
+        (builtins.readFile ./mbp.pub)
+      ];
     };
   };
 
