@@ -42,6 +42,7 @@
   boot.loader.efi.efiSysMountPoint = "/boot";
 
   # Actual SOPS keys
+  sops.defaultSopsFile = ./secrets.yml;
   sops.secrets.smbcred = { };
 
   # Adding CA root & intermediate certs
