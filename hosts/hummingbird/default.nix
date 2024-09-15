@@ -50,6 +50,9 @@
     ../common/root-ca.pem
   ];
 
+  # Numlock on Login Screen (SDDM)
+  services.xserver.displayManager.setupCommands = ''${pkgs.numlockx}/bin/numlockx on'';
+
   # Bluetooth configuration
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
