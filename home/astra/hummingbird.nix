@@ -46,7 +46,6 @@ in
     handbrake # Media Transcoder
     unstable.xivlauncher # FFXIV Launcher
     onedrivegui # OneDrive GUI client
-    openrgb-with-all-plugins # RGB Control
     spotify # Music Streaming
     discord # Chat
     microsoft-edge # Backup Browser

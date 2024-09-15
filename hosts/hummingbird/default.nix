@@ -61,6 +61,9 @@
     openFirewall = true;
   };
 
+  # OpenRGB (needs to run as root)
+  services.hardware.openrgb.enable = true;
+
   # Steam
   programs.steam.enable = true;
 
@@ -75,6 +78,7 @@
 
   # System Packages
   environment.systemPackages = with pkgs; [
+    openrgb-with-all-plugins # RGB Control
     vim
   ];
 
