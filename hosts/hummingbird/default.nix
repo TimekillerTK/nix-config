@@ -25,9 +25,6 @@
     ../common/optional/input-remapper
   ];
 
-  # Temporarily enabling SSH forwarding
-  services.openssh.settings.X11Forwarding = true;
-
   # Overlays
   nixpkgs = {
     overlays = [
