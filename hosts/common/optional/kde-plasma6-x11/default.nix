@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 # Settings for KDE Plasma 6 environment in X11 with Pipewire
 # NOTE: Works on 23.11 and 24.05
 # BUG: Application Menu Does not Refresh List when Applications added/removed
@@ -26,6 +26,13 @@
     layout = "us";
     variant = "";
   };
+
+  # Enable colour management daemon, and add KDE options
+  services.colord.enable = true;
+  environment.systemPackages = with pkgs.kdePackages; [
+    colord-kde
+    kcolorchooser
+  ];
 
   # Enable sound with pipewire.
   sound.enable = true;
