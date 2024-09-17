@@ -13,6 +13,10 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
+  # Temporary disable of ACPI to manage these kinds of errors:
+  # [    7.204249] ACPI Error: Aborting method \_SB.PCI0.GPP2.PTXH.RHUB.PO11._PLD due to previous error (AE_AML_UNINITIALIZED_ELEMENT) (20230628/psparse-529)
+  boot.kernelParams = [ "acpi=off" ];
+
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
