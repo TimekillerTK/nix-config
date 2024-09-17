@@ -5,11 +5,19 @@
 # -> https://github.com/NixOS/nixpkgs/issues/292632
 {
 
+
+  # Necessary for Wayland to work??
+  security.polkit.enable = true;
+  services.xserver.enable = true;
+
   # Wayland Support on Login Screen
   services.displayManager.sddm.wayland.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
   services.desktopManager.plasma6.enable = true;
+
+  # X server for interfacting X11 apps with Wayland protocol
+  programs.xwayland.enable = true;
 
   # For KDE Plasma 6, the defaults have changed.
   # KDE Plasma 6 runs on Wayland with the default session set
