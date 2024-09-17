@@ -18,7 +18,7 @@
   # boot.kernelParams = [ "acpi=off" ]; # this causes display problems
   # boot.kernelParams = [ "acpi=ht " ]; # Doesn't do anything, error is still there (?)
   # boot.kernelParams = [ "acpi=noirq" ]; # Doesn't do anything, error is still there (?)
-  boot.kernelParams = [ "pci=noacpi" ];
+  # boot.kernelParams = [ "pci=noacpi" ]; # Doesnt' boot at all with this option
 
 
 
