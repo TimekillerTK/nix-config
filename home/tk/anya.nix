@@ -60,6 +60,9 @@ in
 
     # Other
     mono # for running .NET applications
+
+    # TEMPORARY
+    unstable.glibc # Fixes Logseq issue https://github.com/logseq/logseq/issues/10851
   ];
 
   # TODO: Temporary - to be changed to percentage in the future (generic)
