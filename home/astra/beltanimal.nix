@@ -1,8 +1,4 @@
-{ inputs, outputs, config, pkgs, username, ... }:
-let
-  gitUser = "Astram00n";
-  gitEmail = "39217853+Astram00n@users.noreply.github.com";
-in
+{ inputs, outputs, config, pkgs, username, gitEmail, gitUser, ... }:
 {
   imports = [
 
@@ -11,8 +7,6 @@ in
 
     # Repo Home Manager Modules
     ../common/global
-    # TODO: Find a better way to define this
-    (import ../common/optional/git.nix { inherit outputs; inherit username; inherit gitUser; inherit gitEmail; })
     ../common/optional/plasma-manager.nix
   ];
 
@@ -38,7 +32,7 @@ in
     mailspring # better mail client?
   ];
 
-  # TODO: Temporary - to be dhanged to percentage in the future (generic)
+  # TODO: Temporary - to be changed to percentage in the future (generic)
   programs.plasma.hotkeys.commands."alacritty-dropdown" = {
     command = "tdrop -a -h 1440 alacritty"; # <- 1600p 90% Height
   };

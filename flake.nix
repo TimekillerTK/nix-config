@@ -136,33 +136,58 @@
       "tk@nix-test" = lib.homeManagerConfiguration {
         modules = [ ./home/tk/nix-test.nix ];
         pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = let username = "tk"; in {inherit inputs outputs username;};
+        extraSpecialArgs = {
+          username = "tk";
+          gitUser = "TimekillerTK";
+          gitEmail = "38417175+TimekillerTK@users.noreply.github.com";
+          inherit inputs outputs;
+        };
       };
 
       # Laptop
       "tk@beltanimal" = lib.homeManagerConfiguration {
         modules = [ ./home/tk/beltanimal.nix ];
         pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = let username = "tk"; in {inherit inputs outputs username;};
+        extraSpecialArgs = {
+          username = "tk";
+          gitUser = "TimekillerTK";
+          gitEmail = "38417175+TimekillerTK@users.noreply.github.com";
+          inherit inputs outputs;
+        };
       };
       "astra@beltanimal" = lib.homeManagerConfiguration {
         modules = [ ./home/astra/beltanimal.nix ];
         pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = let username = "astra"; in {inherit inputs outputs username;};
+        extraSpecialArgs = {
+          username = "astra";
+          gitUser = "Astram00n";
+          gitEmail = "39217853+Astram00n@users.noreply.github.com";
+          inherit inputs outputs;
+        };
       };
 
       # Desktop 1
       "tk@anya" = lib.homeManagerConfiguration {
         modules = [ ./home/tk/anya.nix ];
         pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = let username = "tk"; in {inherit inputs outputs username;};
+        extraSpecialArgs = {
+          username = "tk";
+          gitUser = "TimekillerTK";
+          gitEmail = "38417175+TimekillerTK@users.noreply.github.com";
+          inherit inputs outputs;
+        };
       };
 
       # Desktop 2
       "astra@hummingbird" = lib.homeManagerConfiguration {
         modules = [ ./home/astra/hummingbird.nix ];
         pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = let username = "astra"; in {inherit inputs outputs username;};
+        extraSpecialArgs = {
+          username = "astra";
+          gitUser = "Astram00n";
+          gitEmail = "39217853+Astram00n@users.noreply.github.com";
+          inherit inputs outputs;
+        };
       };
     };
 

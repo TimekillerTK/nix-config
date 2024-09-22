@@ -1,8 +1,4 @@
-{ inputs, outputs, config, pkgs, username, lib, ... }:
-let
-  gitUser = "TimekillerTK";
-  gitEmail = "38417175+TimekillerTK@users.noreply.github.com";
-in
+{ inputs, outputs, config, pkgs, username, lib, gitUser, gitEmail, ... }:
 {
   imports = [
 
@@ -11,8 +7,6 @@ in
 
     # Repo Home Manager Modules
     ../common/global
-    # TODO: Find a better way to define this
-    (import ../common/optional/git.nix { inherit outputs; inherit username; inherit gitUser; inherit gitEmail; })
     ../common/optional/plasma-manager.nix
   ];
 

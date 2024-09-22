@@ -1,8 +1,4 @@
-{ inputs, outputs, config, pkgs, username, ... }:
-let
-  gitUser = "Astram00n";
-  gitEmail = "39217853+Astram00n@users.noreply.github.com";
-in
+{ inputs, outputs, config, pkgs, username, gitEmail, gitUser, ... }:
 {
   imports = [
 
@@ -11,8 +7,6 @@ in
 
     # Repo Home Manager Modules
     ../common/global
-    # TODO: Find a better way to define this
-    (import ../common/optional/git.nix { inherit outputs; inherit username; inherit gitUser; inherit gitEmail; })
     ../common/optional/plasma-manager.nix
   ];
 
@@ -34,11 +28,6 @@ in
 
   # Custom packages for this user
   home.packages = with pkgs; [
-    # Potential Issues:
-    # -> No notifications? https://github.com/NixOS/nixpkgs/issues/247168
-    # -> Gnome Keyring REQUIRED? https://github.com/NixOS/nixpkgs/issues/102637
-    mailspring # mail client
-
     # Desktop Applications
     libreoffice-qt # Office Suite
     # hunspell # Need spellcheck? https://wiki.nixos.org/wiki/LibreOffice
@@ -52,7 +41,7 @@ in
     gimp # Photoshop Alternative
   ];
 
-  # TODO: Temporary - to be dhanged to percentage in the future (generic)
+  # TODO: Temporary - to be changed to percentage in the future (generic)
   programs.plasma.hotkeys.commands."alacritty-dropdown" = {
     command = "tdrop -a -h 1296 alacritty"; # <- 1600p 90% Height
   };
