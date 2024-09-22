@@ -28,8 +28,7 @@
 
   # Custom packages for this user
   home.packages = with pkgs; [
-    evolution # mail client
-    mailspring # better mail client?
+    # Packages here
   ];
 
   # TODO: Temporary - to be changed to percentage in the future (generic)
