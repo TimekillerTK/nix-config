@@ -3,6 +3,7 @@
 {
   imports = [
     ./sh.nix
+    ./git.nix
     ./starship.nix
     ./terminal.nix
     ./packages.nix
