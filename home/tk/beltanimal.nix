@@ -38,7 +38,7 @@
 
     # Desktop Applications
     nextcloud-client # Personal cloud
-    unstable.logseq # Notes
+    # unstable.logseq # Notes
     unstable.element-desktop # Matrix client
 
   ];

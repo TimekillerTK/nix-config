@@ -13,6 +13,9 @@
     # Required for disk configuration
     inputs.disko.nixosModules.default
 
+    # Required for nix-flatpak
+    inputs.nix-flatpak.nixosModules.nix-flatpak
+
     # Disko config
     ./disko.nix
 
@@ -43,6 +46,18 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
+
+  # Enabling Flatpak
+  services.flatpak = {
+    enable = true;
+    packages = [
+      # Temporarily installed due to
+      # https://github.com/logseq/logseq/issues/10851
+      "com.logseq.Logseq"
+    ];
+    uninstallUnmanaged = true; # Manage non-Nix Flatpaks
+    update.onActivation = true; # Auto-update on rebuild
+  };
 
   # VS Code Server Module (for VS Code Remote)
   services.vscode-server.enable = true;

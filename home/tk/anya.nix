@@ -44,7 +44,7 @@
 
     # Desktop Applications
     nextcloud-client # Personal cloud
-    unstable.logseq # Notes
+    # unstable.logseq # Notes
     unstable.element-desktop # Matrix client
     makemkv # DVD Ripper
     handbrake # Media Transcoder
@@ -54,9 +54,6 @@
 
     # Other
     mono # for running .NET applications
-
-    # TEMPORARY
-    unstable.glibc # Fixes Logseq issue https://github.com/logseq/logseq/issues/10851
   ];
 
   # TODO: Temporary - to be changed to percentage in the future (generic)

@@ -44,9 +44,12 @@
 
     # NixOS Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    # Managing flatpaks declartively
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... } @ inputs:
+  outputs = { self, nixpkgs, home-manager, nix-flatpak, ... } @ inputs:
   let
     inherit (self) outputs;
     lib = nixpkgs.lib // home-manager.lib;
