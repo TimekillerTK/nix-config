@@ -34,7 +34,7 @@
     plasma-manager5.inputs.nixpkgs.follows = "nixpkgs";
     plasma-manager5.inputs.home-manager.follows = "home-manager";
 
-    # For manaing KDE Plasma 6
+    # For managing KDE Plasma 6
     plasma-manager6.url = "github:nix-community/plasma-manager";
     plasma-manager6.inputs.nixpkgs.follows = "nixpkgs";
     plasma-manager6.inputs.home-manager.follows = "home-manager";
