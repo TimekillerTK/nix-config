@@ -1,9 +1,12 @@
-{ config, lib, ... }:
+{ pkgs, config, lib, ... }:
 {
 
   # ZFS Specific settings
   boot.supportedFilesystems = [ "zfs" ];
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+
+  # NOTE: If there are any ZFS issues, use this instead:
+  # boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.kernelPackages = pkgs.linuxPackages_6_10;
   boot.zfs.devNodes = lib.mkDefault "/dev/disk/by-id";
 
   # Automatic Scrub schedule
