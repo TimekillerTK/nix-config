@@ -29,6 +29,7 @@
     ../common/optional/zfs
     ../common/optional/kde-plasma6-x11
     ../common/optional/input-remapper
+    ../common/optional/minecraft-server
   ];
 
   # Overlays
