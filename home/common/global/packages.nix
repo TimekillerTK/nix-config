@@ -20,7 +20,6 @@
     # Desktop Applications
     firefox
     vlc # VLC
-    kcalc # calculator
     jellyfin-media-player
     unstable.vscode-fhs
     unstable.signal-desktop # Messaging app

@@ -30,6 +30,7 @@
     ../common/optional/kde-plasma6-x11
     ../common/optional/input-remapper
     ../common/optional/minecraft-server
+    # ../common/optional/tailscale-client
   ];
 
   # Overlays
@@ -65,7 +66,7 @@
 
   # Actual SOPS keys
   sops.secrets.smbcred = { };
-  sops.secrets.tailscale = { };
+
 
   # Adding CA root & intermediate certs
   security.pki.certificateFiles = [
@@ -82,16 +83,6 @@
     nssmdns4 = true;
     openFirewall = true;
   };
-
-  # # Tailscale
-  # services.tailscale = {
-  #   enable = true;
-  #   authKeyFile = "/run/secrets/tailscale";
-  #   extraUpFlags = [
-  #     "--advertise-tags=tag:usermachine"
-  #     "--accept-routes"
-  #   ];
-  # };
 
   # Steam
   programs.steam.enable = true;

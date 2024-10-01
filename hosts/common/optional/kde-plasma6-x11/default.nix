@@ -32,6 +32,7 @@
   environment.systemPackages = with pkgs.kdePackages; [
     colord-kde
     kcolorchooser
+    kcalc # calculator
   ];
 
   # Enable sound with pipewire.

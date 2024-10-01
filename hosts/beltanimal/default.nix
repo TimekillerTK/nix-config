@@ -28,7 +28,8 @@
     ../common/users/astra
     ../common/optional/sops
     ../common/optional/zfs
-    ../common/optional/kde-plasma-x11
+    ../common/optional/kde-plasma6-x11
+    # ../common/optional/tailscale-client
   ];
 
   # Overlays
@@ -69,17 +70,6 @@
   # Actual SOPS keys
   sops.defaultSopsFile = ../common/secrets.yml;
   sops.secrets.smbcred = { };
-  sops.secrets.tailscale = { };
-
-  # # Tailscale
-  # services.tailscale = {
-  #   enable = true;
-  #   authKeyFile = "/run/secrets/tailscale";
-  #   extraUpFlags = [
-  #     "--advertise-tags=tag:usermachine"
-  #     "--accept-routes"
-  #   ];
-  # };
 
   # Root Cert
   security.pki.certificateFiles = [
