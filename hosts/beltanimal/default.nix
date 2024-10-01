@@ -16,6 +16,9 @@
     # NixOS Hardware
     inputs.nixos-hardware.nixosModules.framework-16-7040-amd
 
+    # Required for nix-flatpak
+    inputs.nix-flatpak.nixosModules.nix-flatpak
+
     # Disko config
     ./disko.nix
 
