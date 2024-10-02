@@ -86,7 +86,7 @@ in
       reverse_proxy 172.17.10.63
     '';
     virtualHosts."home.cyn.internal".extraConfig = ''
-      reverse_proxy 172.17.10.80
+      reverse_proxy 172.17.10.80:8123
     '';
   };
 
