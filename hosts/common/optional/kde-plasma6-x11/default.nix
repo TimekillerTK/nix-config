@@ -48,6 +48,10 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  services.printing.drivers = [ 
+    pkgs.brother-mfcl3750cdw.driver
+    pkgs.brother-mfcl3750cdw.cupswrapper
+  ]; # Brother Printer Driver
 
   # Fix for allowing user to login to GUI session with ZSH as default shell
   # - users.users.user.shell is set to zsh, but
