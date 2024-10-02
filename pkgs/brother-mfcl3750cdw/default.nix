@@ -51,7 +51,7 @@ in rec {
       sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
       license = lib.licenses.unfree;
       platforms = [ "x86_64-linux" "i686-linux" ];
-      maintainers = [ lib.maintainers.steveej ];
+      maintainers = [ ];
     };
   };
 
