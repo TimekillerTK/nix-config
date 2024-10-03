@@ -34,7 +34,7 @@ in
 
   # SOPS Secrets
   sops.secrets.smbcred = { };
-  
+
   # Newer LTS Kernel, pinned
   boot.kernelPackages = pkgs.linuxPackages_6_6;
 
