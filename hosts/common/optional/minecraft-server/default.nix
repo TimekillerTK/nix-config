@@ -11,8 +11,20 @@
     serverProperties = {
       gamemode = "creative";
       difficulty = "easy";
+
+      # mcrcon access to Minecraft Server
+      enable-rcon = true;
+      "rcon.password"="Hello123!";
+      "rcon.port"=25575;
     };
   };
+
+  # Minecraft CLI client to interact with the server
+  # To connect:
+  # mcrcon -H localhost -P 25575 -p 'passwordhere' -t
+  environment.systemPackages = with pkgs; [
+    mcrcon
+  ];
 
   # This ensures systemd service is NOT started by default
   systemd.services.minecraft-server = {
