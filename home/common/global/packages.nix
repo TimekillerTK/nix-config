@@ -26,10 +26,10 @@
     unstable.flameshot # Simple Screenshotting
     pinta # Simple MS Paint replacement
     prismlauncher # FOSS Minecraft launcher
+    tartube-yt-dlp # YT downloader
 
     # Other
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
     tdrop # terminal dropdown
-
   ];
 }
