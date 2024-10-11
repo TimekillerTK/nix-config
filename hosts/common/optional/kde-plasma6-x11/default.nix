@@ -48,7 +48,7 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-  services.printing.drivers = [ 
+  services.printing.drivers = [
     pkgs.brother-mfcl3750cdw.driver
     pkgs.brother-mfcl3750cdw.cupswrapper
   ]; # Brother Printer Driver
