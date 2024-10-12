@@ -50,7 +50,8 @@
     handbrake # Media Transcoder
     unstable.xivlauncher # FFXIV Launcher
     unstable.rustdesk-flutter # TeamViewer alternative
-    unstable.onlyoffice-bin # Office Suite
+    onlyoffice-bin # Office Suite
+    unstable.drawio # Diagram-creating software
 
     # Other
     mono # for running .NET applications
