@@ -26,7 +26,7 @@
   # TODO: Later when needed
   # # Config file for Zellij
   # home.file = {
-  #   ".config/zellij/config.kdl".source = ../../dotfiles/zellij/config.kdl;
+    # ".config/zellij/config.kdl".source = ../../../dotfiles/zellij/config.kdl;
   # };
 
 }

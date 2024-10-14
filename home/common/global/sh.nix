@@ -41,6 +41,10 @@ in
 
     # Added to end of ~/.zshrc
     initExtra = ''
+      # These fix zsh CTRL+LEFT & CTRL+RIGHT keybindings for
+      # jumping by word
+      bindkey '^[[1;5C' forward-word
+      bindkey '^[[1;5D' backward-word
     '';
   };
 }

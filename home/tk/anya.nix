@@ -50,7 +50,7 @@
     handbrake # Media Transcoder
     unstable.xivlauncher # FFXIV Launcher
     unstable.rustdesk-flutter # TeamViewer alternative
-    onlyoffice-bin # Office Suite
+    libreoffice-qt # Office Suite
     unstable.drawio # Diagram-creating software
 
     # Other
