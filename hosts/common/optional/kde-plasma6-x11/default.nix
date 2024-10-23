@@ -5,6 +5,9 @@
 # -> https://github.com/NixOS/nixpkgs/issues/292632
 {
 
+  # For USB Blu-Ray/DVD Players
+  boot.kernelModules = [ "sg" ];
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
