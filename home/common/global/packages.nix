@@ -31,5 +31,8 @@
     # Other
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
     tdrop # terminal dropdown
+
+    # Custom
+    renamer
   ];
 }
