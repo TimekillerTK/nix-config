@@ -46,7 +46,7 @@
     nextcloud-client # Personal cloud
     # unstable.logseq # Notes
     unstable.element-desktop # Matrix client
-    makemkv # DVD Ripper
+    unstable.makemkv # DVD Ripper
     handbrake # Media Transcoder
     unstable.xivlauncher # FFXIV Launcher
     unstable.rustdesk-flutter # TeamViewer alternative
