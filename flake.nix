@@ -164,6 +164,13 @@
           inherit inputs outputs;
         };
       };
+      "bb@beltanimal" = lib.homeManagerConfiguration {
+        modules = [ ./home/bb/beltanimal.nix ];
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = {
+          inherit inputs outputs;
+        };
+      };
 
       # Desktop 1
       "tk@anya" = lib.homeManagerConfiguration {

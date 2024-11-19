@@ -29,6 +29,7 @@
     ../common/global
     ../common/users/tk
     ../common/users/astra
+    ../common/users/bb
     ../common/optional/sops
     ../common/optional/zfs
     ../common/optional/kde-plasma6-x11
