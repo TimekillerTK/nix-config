@@ -3,7 +3,7 @@
   imports = [
 
     # Repo Home Manager Modules
-    ../common/sh.nix
+    ../common/global/sh.nix
     ../common/starship.nix
     ../common/packages.nix
   ];
