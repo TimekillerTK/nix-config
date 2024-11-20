@@ -1,12 +1,21 @@
-{ inputs, outputs, config, pkgs, username, ... }:
 {
+  inputs,
+  outputs,
+  config,
+  pkgs,
+  username,
+  ...
+}: {
   imports = [
+    # Required for Home Manager
+    inputs.plasma-manager6.homeManagerModules.plasma-manager
 
     # Repo Home Manager Modules
     ../common/global/sh.nix
     ../common/global/starship.nix
     ../common/global/terminal.nix
     ../common/global/packages.nix
+    ../common/optional/plasma-manager.nix
   ];
 
   nixpkgs = {

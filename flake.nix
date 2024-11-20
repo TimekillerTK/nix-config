@@ -49,8 +49,13 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak";
   };
 
-  outputs = { self, nixpkgs, home-manager, nix-flatpak, ... } @ inputs:
-  let
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    nix-flatpak,
+    ...
+  } @ inputs: let
     inherit (self) outputs;
     lib = nixpkgs.lib // home-manager.lib;
 
@@ -66,12 +71,12 @@
     # This is a function that generates an attribute by calling a function you
     # pass to it, with each system as an argument
     forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
-    pkgsFor = lib.genAttrs systems (system: import nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-    });
-  in
-  {
+    pkgsFor = lib.genAttrs systems (system:
+      import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      });
+  in {
     inherit lib;
 
     # Reusable nixos modules you might want to export (shareable)
@@ -83,46 +88,46 @@
 
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
-    packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
+    packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
 
     # Formatter for your nix files, available through 'nix fmt'
     formatter = forEachSystem (pkgs: pkgs.alejandra);
 
     # DevShells for each system
-    devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
+    devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
 
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       router = lib.nixosSystem {
-        modules = [ ./hosts/router ];
+        modules = [./hosts/router];
         specialArgs = {inherit inputs outputs;};
       };
       dockerhost = lib.nixosSystem {
-        modules = [ ./hosts/dockerhost ];
+        modules = [./hosts/dockerhost];
         specialArgs = {inherit inputs outputs;};
       };
       beltanimal = lib.nixosSystem {
-        modules = [ ./hosts/beltanimal ];
+        modules = [./hosts/beltanimal];
         specialArgs = {inherit inputs outputs;};
       };
       anya = lib.nixosSystem {
-        modules = [ ./hosts/anya ];
+        modules = [./hosts/anya];
         specialArgs = {inherit inputs outputs;};
       };
       hummingbird = lib.nixosSystem {
-        modules = [ ./hosts/hummingbird ];
+        modules = [./hosts/hummingbird];
         specialArgs = {inherit inputs outputs;};
       };
       tailscale = lib.nixosSystem {
-        modules = [ ./hosts/tailscale ];
+        modules = [./hosts/tailscale];
         specialArgs = {inherit inputs outputs;};
       };
       ca = lib.nixosSystem {
-        modules = [ ./hosts/ca ];
+        modules = [./hosts/ca];
         specialArgs = {inherit inputs outputs;};
       };
       nextcloud = lib.nixosSystem {
-        modules = [ ./hosts/nextcloud ];
+        modules = [./hosts/nextcloud];
         specialArgs = {inherit inputs outputs;};
       };
     };
@@ -130,10 +135,9 @@
     # Available through 'home-manager --flake .#your-username@your-hostname'
     # NOTE: Home-manager requires a 'pkgs' instance
     homeConfigurations = {
-
       # For Testing
       "tk@nix-test" = lib.homeManagerConfiguration {
-        modules = [ ./home/tk/nix-test.nix ];
+        modules = [./home/tk/nix-test.nix];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {
           username = "tk";
@@ -145,7 +149,7 @@
 
       # Laptop
       "tk@beltanimal" = lib.homeManagerConfiguration {
-        modules = [ ./home/tk/beltanimal.nix ];
+        modules = [./home/tk/beltanimal.nix];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {
           username = "tk";
@@ -155,7 +159,7 @@
         };
       };
       "astra@beltanimal" = lib.homeManagerConfiguration {
-        modules = [ ./home/astra/beltanimal.nix ];
+        modules = [./home/astra/beltanimal.nix];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {
           username = "astra";
@@ -165,16 +169,17 @@
         };
       };
       "bb@beltanimal" = lib.homeManagerConfiguration {
-        modules = [ ./home/bb/beltanimal.nix ];
+        modules = [./home/bb/beltanimal.nix];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {
+          username = "bb";
           inherit inputs outputs;
         };
       };
 
       # Desktop 1
       "tk@anya" = lib.homeManagerConfiguration {
-        modules = [ ./home/tk/anya.nix ];
+        modules = [./home/tk/anya.nix];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {
           username = "tk";
@@ -186,7 +191,7 @@
 
       # Desktop 2
       "astra@hummingbird" = lib.homeManagerConfiguration {
-        modules = [ ./home/astra/hummingbird.nix ];
+        modules = [./home/astra/hummingbird.nix];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {
           username = "astra";
