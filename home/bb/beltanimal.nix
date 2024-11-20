@@ -4,7 +4,9 @@
 
     # Repo Home Manager Modules
     ../common/global/sh.nix
-    ../common/starship.nix
+    ../common/global/starship.nix
+    ../common/global/terminal.nix
+    ../common/global/packages.nix
     ../common/packages.nix
   ];
 
