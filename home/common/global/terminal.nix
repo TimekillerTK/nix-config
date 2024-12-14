@@ -9,8 +9,8 @@
       font.normal.family = "CaskaydiaCove Nerd Font Mono";
       font.normal.style = "Regular";
       font.size = 13.0;
-      shell.program = "${pkgs.unstable.zellij}/bin/zellij";
-      shell.args = ["-l" "welcome"];
+      terminal.shell.program = "${pkgs.unstable.zellij}/bin/zellij";
+      terminal.shell.args = ["-l" "welcome"];
       keyboard.bindings = [
         { key = "F";      mods = "Control";       mode = "~Search";     action = "SearchForward"; }
       ];
