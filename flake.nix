@@ -3,7 +3,10 @@
 
   inputs = {
     # Nixpkgs Stable - https://github.com/NixOS/nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+
+    # Nixpkgs Version 2405 - https://github.com/NixOS/nixpkgs
+    nixpkgs-v2405.url = "github:nixos/nixpkgs/nixos-24.05";
 
     # Nixpkgs Version 2311 - https://github.com/NixOS/nixpkgs
     nixpkgs-v2311.url = "github:nixos/nixpkgs/nixos-23.11";
@@ -16,7 +19,7 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
     # Home Manager - https://github.com/nix-community/home-manager
-    home-manager.url = "github:nix-community/home-manager/release-24.05";
+    home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Atomic, declarative, and reproducible secret provisioning for NixOS based on sops.
@@ -26,13 +29,9 @@
     # For VS Code Remote to work on NixOS
     vscode-server.url = "github:nix-community/nixos-vscode-server";
 
-    # Community VS Code Extensions
-    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
-
-    # For managing KDE Plasma 5
-    plasma-manager5.url = "github:pjones/plasma-manager/plasma-5";
-    plasma-manager5.inputs.nixpkgs.follows = "nixpkgs";
-    plasma-manager5.inputs.home-manager.follows = "home-manager";
+    # NOTE: Disabled because unused
+    # # Community VS Code Extensions
+    # nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
     # For managing KDE Plasma 6
     plasma-manager6.url = "github:nix-community/plasma-manager";

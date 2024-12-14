@@ -15,6 +15,10 @@
       system = final.system;
       config.allowUnfree = true;
     };
+    v2405 = import inputs.nixpkgs-v2405 {
+      system = final.system;
+      config.allowUnfree = true;
+    };
   };
 
   # This one contains whatever you want to overlay
