@@ -8,6 +8,7 @@
     # Repo Home Manager Modules
     ../common/global
     ../common/optional/plasma-manager.nix
+    ../common/optional/astra-packages.nix
   ];
 
   nixpkgs = {
@@ -26,19 +27,10 @@
   home.username = username;
   home.homeDirectory = "/home/${username}";
 
-  # Custom packages for this user
+  # Extra packages for this user
   home.packages = with pkgs; [
     # Desktop Applications
-    libreoffice-qt # Office Suite
-    # hunspell # Need spellcheck? https://wiki.nixos.org/wiki/LibreOffice
-    makemkv # DVD Ripper
-    handbrake # Media Transcoder
     unstable.xivlauncher # FFXIV Launcher
-    onedrivegui # OneDrive GUI client
-    spotify # Music Streaming
-    discord # Chat
-    microsoft-edge # Backup Browser
-    gimp # Photoshop Alternative
   ];
 
   # TODO: Temporary - to be changed to percentage in the future (generic)

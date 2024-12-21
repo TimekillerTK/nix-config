@@ -8,6 +8,7 @@
     # Repo Home Manager Modules
     ../common/global
     ../common/optional/plasma-manager.nix
+    ../common/optional/astra-packages.nix
   ];
 
   nixpkgs = {
