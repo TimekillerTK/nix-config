@@ -5,7 +5,7 @@
 }: {
   # Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
-    astra = {
+    bb = {
       isNormalUser = true;
       shell = pkgs.zsh;
       initialPassword = "Hello123!";
@@ -18,17 +18,4 @@
       ];
     };
   };
-
-  # Passwordless Sudo
-  security.sudo.extraRules = [
-    {
-      users = ["astra"];
-      commands = [
-        {
-          command = "ALL";
-          options = ["NOPASSWD"];
-        }
-      ];
-    }
-  ];
 }

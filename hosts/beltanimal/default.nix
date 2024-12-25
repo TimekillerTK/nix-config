@@ -16,6 +16,9 @@
     # NixOS Hardware
     inputs.nixos-hardware.nixosModules.framework-16-7040-amd
 
+    # Required for nix-flatpak
+    inputs.nix-flatpak.nixosModules.nix-flatpak
+
     # Disko config
     ./disko.nix
 
@@ -26,9 +29,11 @@
     ../common/global
     ../common/users/tk
     ../common/users/astra
+    ../common/users/bb
     ../common/optional/sops
     ../common/optional/zfs
-    ../common/optional/kde-plasma-x11
+    ../common/optional/kde-plasma6-x11
+    # ../common/optional/tailscale-client
   ];
 
   # Overlays
@@ -47,6 +52,18 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
+  # Enabling Flatpak
+  services.flatpak = {
+    enable = true;
+    packages = [
+      # Temporarily installed due to
+      # https://github.com/logseq/logseq/issues/10851
+      "com.logseq.Logseq"
+    ];
+    uninstallUnmanaged = true; # Manage non-Nix Flatpaks
+    update.onActivation = true; # Auto-update on rebuild
+  };
+
   # Firmware Updates
   # https://wiki.nixos.org/wiki/Fwupd
   services.fwupd.enable = true;
@@ -57,17 +74,6 @@
   # Actual SOPS keys
   sops.defaultSopsFile = ../common/secrets.yml;
   sops.secrets.smbcred = { };
-  sops.secrets.tailscale = { };
-
-  # # Tailscale
-  # services.tailscale = {
-  #   enable = true;
-  #   authKeyFile = "/run/secrets/tailscale";
-  #   extraUpFlags = [
-  #     "--advertise-tags=tag:usermachine"
-  #     "--accept-routes"
-  #   ];
-  # };
 
   # Root Cert
   security.pki.certificateFiles = [
@@ -119,7 +125,15 @@
       "gid=100"
       "file_mode=0770"   # File permissions to rwx for user and group
       "dir_mode=0770"    # Directory permissions to rwx for user and group
-    ] ++ ["noauto" "x-systemd.automount"]; # NOTE: This has issues when accessing SMB mount over tailscale
+    ] ++ [
+      "noauto"                      # prevent from being automatically mounted on BOOT
+      "x-systemd.automount"         # create an automount unit, mount on ACCESS
+      "x-systemd.idle-timeout=60"   # after not accessed for 60 seconds, systemd will attempt unmount
+      "x-systemd.device-timeout=5s" # if device doesn't appear in 5 secs, fail the mount
+      "x-systemd.mount-timeout=5s"  # if mount command doesn't succeed in 5 secs, fail the mount
+    ];
+    # NOTE: to query:
+    #   systemctl list-units --type=automount
   };
 
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion

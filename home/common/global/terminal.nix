@@ -9,8 +9,8 @@
       font.normal.family = "CaskaydiaCove Nerd Font Mono";
       font.normal.style = "Regular";
       font.size = 13.0;
-      shell.program = "${pkgs.unstable.zellij}/bin/zellij";
-      shell.args = ["-l" "welcome"];
+      terminal.shell.program = "${pkgs.unstable.zellij}/bin/zellij";
+      terminal.shell.args = ["-l" "welcome"];
       keyboard.bindings = [
         { key = "F";      mods = "Control";       mode = "~Search";     action = "SearchForward"; }
       ];
@@ -26,7 +26,7 @@
   # TODO: Later when needed
   # # Config file for Zellij
   # home.file = {
-  #   ".config/zellij/config.kdl".source = ../../dotfiles/zellij/config.kdl;
+    # ".config/zellij/config.kdl".source = ../../../dotfiles/zellij/config.kdl;
   # };
 
 }

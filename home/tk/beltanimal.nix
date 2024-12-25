@@ -1,17 +1,12 @@
-{ inputs, outputs, config, pkgs, username, ... }:
-let
-  gitUser = "TimekillerTK";
-  gitEmail = "38417175+TimekillerTK@users.noreply.github.com";
-in
+{ inputs, outputs, config, pkgs, username, gitUser, gitEmail, ... }:
 {
   imports = [
 
     # Required for Home Manager
-    inputs.plasma-manager5.homeManagerModules.plasma-manager
+    inputs.plasma-manager6.homeManagerModules.plasma-manager
 
     # Repo Home Manager Modules
     ../common/global
-    ../common/optional/git.nix
     ../common/optional/plasma-manager.nix
   ];
 
@@ -43,12 +38,12 @@ in
 
     # Desktop Applications
     nextcloud-client # Personal cloud
-    unstable.logseq # Notes
+    # unstable.logseq # Notes
     unstable.element-desktop # Matrix client
 
   ];
 
-  # TODO: Temporary - to be dhanged to percentage in the future (generic)
+  # TODO: Temporary - to be changed to percentage in the future (generic)
   programs.plasma.hotkeys.commands."alacritty-dropdown" = {
     command = "tdrop -a -h 1440 alacritty"; # <- 1600p 90% Height
   };

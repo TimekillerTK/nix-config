@@ -25,10 +25,16 @@
     unstable.signal-desktop # Messaging app
     unstable.flameshot # Simple Screenshotting
     pinta # Simple MS Paint replacement
+    prismlauncher # FOSS Minecraft launcher
+    tartube-yt-dlp # YT downloader
+    libreoffice-qt # Office Suite
+    # hunspell # Need spellcheck? https://wiki.nixos.org/wiki/LibreOffice
 
     # Other
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
     tdrop # terminal dropdown
 
+    # Custom
+    renamer
   ];
 }

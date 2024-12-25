@@ -3,6 +3,7 @@ keys:
   - &anya age1jjssarkszlhjjhqnamse82rdl8yqwamjczlcya5dkqqltj43pp4qa0psj3
   - &dockerhost age1pe0vvrjeu8g5cgugxvrjcwlg75ls59g6uc0su0x4e2ypwmknu5jqj9nkj2
   - &beltanimal age1s42l4ucujcv59krzuxw3xmrqcyu8v5d8ctad6a0kmhlc4zttxfxqvtuy3l
+  - &hummingbird age1aueh50lp9pj5qfm2gm7qezdz4h7wgsjvyktrfj4xlfz548junv3qpk5f7n
   - &tailscale age1q8x3pn8vug94pj759n28e3nkt4yt39p30se978etn9497ass842sk8ge6l
   - &nextcloud age1j2ltq0r49v8nnz2p4a2a23pe2d9wugj0dtln5c9d64nk59dafsnsrjyuze
   - &router age18z269exslvey625ry52eu96rhs63vqlyfw4efcxfq8evhup8y46sjytyyq
@@ -19,3 +20,8 @@ creation_rules:
     key_groups:
     - age:
       - *tailscale
+  - path_regex: hosts/hummingbird/secrets.ya?ml$
+    key_groups:
+    - age:
+      - *hummingbird
+      - *mbp

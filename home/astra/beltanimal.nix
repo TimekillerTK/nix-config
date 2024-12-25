@@ -1,14 +1,14 @@
-{ inputs, outputs, config, pkgs, username, ... }:
-
+{ inputs, outputs, config, pkgs, username, gitEmail, gitUser, ... }:
 {
   imports = [
 
     # Required for Home Manager
-    inputs.plasma-manager5.homeManagerModules.plasma-manager
+    inputs.plasma-manager6.homeManagerModules.plasma-manager
 
     # Repo Home Manager Modules
     ../common/global
     ../common/optional/plasma-manager.nix
+    ../common/optional/astra-packages.nix
   ];
 
   nixpkgs = {
@@ -29,11 +29,10 @@
 
   # Custom packages for this user
   home.packages = with pkgs; [
-    evolution # mail client
-    mailspring # better mail client?
+    # Packages here
   ];
 
-  # TODO: Temporary - to be dhanged to percentage in the future (generic)
+  # TODO: Temporary - to be changed to percentage in the future (generic)
   programs.plasma.hotkeys.commands."alacritty-dropdown" = {
     command = "tdrop -a -h 1440 alacritty"; # <- 1600p 90% Height
   };

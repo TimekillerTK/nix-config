@@ -70,14 +70,14 @@
 
   # TODO: Uncomment this before running, it works,
   # temporarily commented out for -> nix flake check
-  # services.step-ca = {
-  #   enable = true;
-  #   port = 443;
-  #   openFirewall = true;
-  #   intermediatePasswordFile = /root/password.txt;
-  #   address = "ca.cyn.internal";
-  #   settings = builtins.fromJSON (builtins.readFile ../common/ca.json);
-  # };
+  services.step-ca = {
+    enable = true;
+    port = 443;
+    openFirewall = true;
+    intermediatePasswordFile = /root/password.txt;
+    address = "ca.cyn.internal";
+    settings = builtins.fromJSON (builtins.readFile ../common/ca.json);
+  };
 
   # Adding CA root & intermediate certs
   security.pki.certificateFiles = [

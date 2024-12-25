@@ -1,44 +1,35 @@
-{ pkgs, ... }:
-# Settings for KDE Plasma 6 environment in X11 with Pipewire
-# NOTE: Works on 23.11 and 24.05
-# BUG: Application Menu Does not Refresh List when Applications added/removed
+{ ... }:
+# Settings for KDE Plasma 6 environment for Wayland with Pipewire
+# NOTE: Works on 24.05
+# BUG?: Application Menu Does not Refresh List when Applications added/removed
 # -> https://github.com/NixOS/nixpkgs/issues/292632
 {
 
-  # For USB Blu-Ray/DVD Players
-  boot.kernelModules = [ "sg" ];
 
-  # Enable the X11 windowing system.
+  # Necessary for Wayland to work??
+  security.polkit.enable = true;
   services.xserver.enable = true;
 
+  # Wayland Support on Login Screen
+  services.displayManager.sddm.wayland.enable = true;
+
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
+
+  # X server for interfacting X11 apps with Wayland protocol
+  programs.xwayland.enable = true;
 
   # For KDE Plasma 6, the defaults have changed.
   # KDE Plasma 6 runs on Wayland with the default session set
   # to 'plasma'. If you want to use the X11 session as your
   # default session, change it to 'plasmax11'.
-  services.displayManager.defaultSession = "plasmax11";
+  services.displayManager.defaultSession = "plasma";
 
   # Enable KDE Connect
   programs.kdeconnect.enable = true;
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
-
-  # Enable colour management daemon, and add KDE options
-  services.colord.enable = true;
-  environment.systemPackages = with pkgs.kdePackages; [
-    colord-kde
-    kcolorchooser
-    kcalc # calculator
-  ];
-
   # Enable sound with pipewire.
+  sound.enable = true;
   security.rtkit.enable = true;
   hardware.pulseaudio.enable = false;
   services.pipewire = {
@@ -50,10 +41,6 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-  services.printing.drivers = [
-    pkgs.brother-mfcl3750cdw.driver
-    pkgs.brother-mfcl3750cdw.cupswrapper
-  ]; # Brother Printer Driver
 
   # Fix for allowing user to login to GUI session with ZSH as default shell
   # - users.users.user.shell is set to zsh, but

@@ -1,14 +1,21 @@
-{ inputs, outputs, config, pkgs, username, gitEmail, gitUser, ... }:
 {
+  inputs,
+  outputs,
+  config,
+  pkgs,
+  username,
+  ...
+}: {
   imports = [
-
     # Required for Home Manager
     inputs.plasma-manager6.homeManagerModules.plasma-manager
 
     # Repo Home Manager Modules
-    ../common/global
+    ../common/global/sh.nix
+    ../common/global/starship.nix
+    ../common/global/terminal.nix
+    ../common/global/packages.nix
     ../common/optional/plasma-manager.nix
-    ../common/optional/astra-packages.nix
   ];
 
   nixpkgs = {
@@ -27,15 +34,14 @@
   home.username = username;
   home.homeDirectory = "/home/${username}";
 
-  # Extra packages for this user
+  # Custom packages for this user
   home.packages = with pkgs; [
-    # Desktop Applications
-    unstable.xivlauncher # FFXIV Launcher
+    # Packages here
   ];
 
   # TODO: Temporary - to be changed to percentage in the future (generic)
   programs.plasma.hotkeys.commands."alacritty-dropdown" = {
-    command = "tdrop -a -h 1296 alacritty"; # <- 1600p 90% Height
+    command = "tdrop -a -h 1440 alacritty"; # <- 1600p 90% Height
   };
 
   # VS Code Settings files as symlinks

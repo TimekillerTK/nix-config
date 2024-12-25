@@ -1,8 +1,4 @@
-{ inputs, outputs, config, pkgs, username, lib, ... }:
-let
-  gitUser = "TimekillerTK";
-  gitEmail = "38417175+TimekillerTK@users.noreply.github.com";
-in
+{ inputs, outputs, config, pkgs, username, lib, gitUser, gitEmail, ... }:
 {
   imports = [
 
@@ -11,8 +7,6 @@ in
 
     # Repo Home Manager Modules
     ../common/global
-    # TODO: Find a better way to define this
-    (import ../common/optional/git.nix { inherit outputs; inherit username; inherit gitUser; inherit gitEmail; })
     ../common/optional/plasma-manager.nix
   ];
 
@@ -50,13 +44,13 @@ in
 
     # Desktop Applications
     nextcloud-client # Personal cloud
-    unstable.logseq # Notes
+    # unstable.logseq # Notes
     unstable.element-desktop # Matrix client
-    makemkv # DVD Ripper
+    unstable.makemkv # DVD Ripper
     handbrake # Media Transcoder
     unstable.xivlauncher # FFXIV Launcher
     unstable.rustdesk-flutter # TeamViewer alternative
-    unstable.onlyoffice-bin # Office Suite
+    unstable.drawio # Diagram-creating software
 
     # Other
     mono # for running .NET applications
