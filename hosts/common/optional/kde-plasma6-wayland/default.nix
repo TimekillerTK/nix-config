@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 # Settings for KDE Plasma 6 environment for Wayland with Pipewire
 # NOTE: Works on 24.11
 # BUG?: Application Menu Does not Refresh List when Applications added/removed
