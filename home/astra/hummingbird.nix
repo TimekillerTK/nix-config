@@ -33,11 +33,6 @@
     unstable.xivlauncher # FFXIV Launcher
   ];
 
-  # TODO: Temporary - to be changed to percentage in the future (generic)
-  programs.plasma.hotkeys.commands."alacritty-dropdown" = {
-    command = "tdrop -a -h 1296 alacritty"; # <- 1600p 90% Height
-  };
-
   # VS Code Settings files as symlinks
   home.file = {
     ".config/Code/User/keybindings.json".source = ../../dotfiles/vscode/keybindings.json;

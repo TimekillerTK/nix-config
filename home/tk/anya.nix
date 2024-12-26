@@ -56,11 +56,6 @@
     mono # for running .NET applications
   ];
 
-  # TODO: Temporary - to be changed to percentage in the future (generic)
-  programs.plasma.hotkeys.commands."alacritty-dropdown" = {
-    command = "tdrop -a -h 1296 alacritty"; # <- 1440p 90% Height
-  };
-
   # TODO: Fix later - input-remapper is defined in hosts/ config, should be home-manager
   # # For automatically launching input-remapper on user login
   # xdg.configFile."autostart/input-mapper-autoload.desktop" = lib.mkIf nixosConfig.services.input-remapper.enable {
