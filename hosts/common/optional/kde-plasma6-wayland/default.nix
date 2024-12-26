@@ -12,7 +12,14 @@
   services.xserver.enable = true;  # Still needed for SDDM
 
   # Enable the KDE Plasma Desktop Environment
-  services.displayManager.sddm.wayland.enable = true;
+  services.displayManager.sddm = {
+    wayland.enable = true;
+
+    # BUG: Neither of these work, investigate later - but andromeda-kde
+    # seems to be packaged correctly.
+    theme = pkgs.andromeda-kde;
+    # theme = "${import ../../../../pkgs/sddm/Andromeda { inherit pkgs; }}";
+  };
   services.desktopManager.plasma6.enable = true;
 
   # For KDE Plasma 6, the defaults have changed.
