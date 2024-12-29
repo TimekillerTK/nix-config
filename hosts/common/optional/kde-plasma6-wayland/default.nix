@@ -11,22 +11,23 @@
   # Enable the Wayland display server
   services.xserver.enable = true;  # Still needed for SDDM
 
-  # Enable the KDE Plasma Desktop Environment
-  services.displayManager.sddm = {
-    wayland.enable = true;
-
-    # BUG: Neither of these work, investigate later - but andromeda-kde
-    # seems to be packaged correctly.
-    theme = pkgs.andromeda-kde;
-    # theme = "${import ../../../../pkgs/sddm/Andromeda { inherit pkgs; }}";
-  };
+  # Enable Plasma 6
   services.desktopManager.plasma6.enable = true;
 
-  # For KDE Plasma 6, the defaults have changed.
-  # KDE Plasma 6 runs on Wayland with the default session set
-  # to 'plasma'. If you want to use the X11 session as your
-  # default session, change it to 'plasmax11'.
-  services.displayManager.defaultSession = "plasma";
+  services.displayManager = {
+    # For KDE Plasma 6, the defaults have changed.
+    # KDE Plasma 6 runs on Wayland with the default session set
+    # to 'plasma'. If you want to use the X11 session as your
+    # default session, change it to 'plasmax11'.
+    defaultSession = "plasma";
+    sddm = {
+      enable = true;
+      wayland.enable = true;
+      # BUG: Neither of these work, investigate later
+      # theme = "${import ../../../../pkgs/sddm/sugar-dark { inherit pkgs; }}";
+      # theme = "${import ../../../../pkgs/sddm/Andromeda { inherit pkgs; }}";
+    };
+  };
 
   # Enable KDE Connect
   programs.kdeconnect.enable = true;
@@ -39,10 +40,10 @@
 
   # Enable colour management daemon, and add KDE options
   services.colord.enable = true;
-  environment.systemPackages = with pkgs.kdePackages; [
-    colord-kde
-    kcolorchooser
-    kcalc
+  environment.systemPackages = with pkgs; [
+    kdePackages.colord-kde
+    kdePackages.kcolorchooser
+    kdePackages.kcalc
   ];
 
   # Enable sound with pipewire
