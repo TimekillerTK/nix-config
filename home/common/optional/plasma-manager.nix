@@ -18,7 +18,7 @@
       "org.kde.spectacle.desktop"."_launch" = [ ];
       "org.kde.spectacle.desktop"."ActiveWindowScreenShot" = [ ];
       "org.kde.spectacle.desktop"."FullScreenScreenShot" = [ ];
-      "org.kde.spectacle.desktop"."RectangularRegionScreenShot" = [ "Ctrl+Alt+$" ]; # Ctrl+Alt+Shift+4
+      "org.kde.spectacle.desktop"."RectangularRegionScreenShot" = [ "Ctrl+Alt+$" "Ctrl+Shift+C" ]; # Ctrl+Alt+Shift+4
       "org.kde.spectacle.desktop"."WindowUnderCursorScreenShot" = [ ];
       kwin."Switch Window Left" = [ ];
       kwin."Switch Window Right" = [ ];
