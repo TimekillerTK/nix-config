@@ -18,6 +18,7 @@ in
     ../common/global
     ../common/users/${username}
     ../common/optional/sops
+    ../common/optional/mount-media
   ];
 
   # Overlays
@@ -98,15 +99,8 @@ in
     ../common/root-ca.pem
   ];
 
-  # Mounting fileshare
-  fileSystems."/mnt/FreeNAS" = {
-    device = "//freenas.cyn.internal/mediasnek2";
-    fsType = "cifs";
-    # TODO: UID should come from the user dynamically
-    # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
-    # Remember to run `sudo umount /mnt/FreeNAS` before adding/removing "noauto" + "x-systemd.automount"
-    options = [ "credentials=/run/secrets/smbcred" "noserverino" "rw" "_netdev" "uid=1000"] ++ ["noauto" "x-systemd.automount"];
-  };
+  # Override mediashare filesystem path
+  mediaShare.mediaSharePath = "/mnt/FreeNAS";
 
   # systemd units
   systemd.services.docker-compose-app = {

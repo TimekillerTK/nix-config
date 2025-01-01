@@ -5,7 +5,7 @@ let
     # Replacements for some GNU Utils
     top = "${pkgs.bottom}/bin/btm";
     htop = "${pkgs.bottom}/bin/btm";
-    ls = "${pkgs.eza}/bin/eza --icons -F --group-directories-first --git";
+    ls = "${pkgs.eza}/bin/eza --icons -F --group-directories-first --git --group";
     lt = "${pkgs.unstable.eza}/bin/eza --tree --level=2 --long --icons --git";
     cat = "${pkgs.bat}/bin/bat -pp";
     du = "${pkgs.du-dust}/bin/dust";
