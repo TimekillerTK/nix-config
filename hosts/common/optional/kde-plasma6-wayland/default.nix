@@ -1,15 +1,14 @@
-{ pkgs, ... }:
+{pkgs, ...}:
 # Settings for KDE Plasma 6 environment for Wayland with Pipewire
 # NOTE: Works on 24.11
 # BUG?: Application Menu Does not Refresh List when Applications added/removed
 # -> https://github.com/NixOS/nixpkgs/issues/292632
 {
-
   # For USB Blu-Ray/DVD Players
-  boot.kernelModules = [ "sg" ];
+  boot.kernelModules = ["sg"];
 
   # Enable the Wayland display server
-  services.xserver.enable = true;  # Still needed for SDDM
+  services.xserver.enable = true; # Still needed for SDDM
 
   # Enable Plasma 6
   services.desktopManager.plasma6.enable = true;
@@ -23,6 +22,7 @@
     sddm = {
       enable = true;
       wayland.enable = true;
+      autoNumlock = true; # Enable numlock at login.
       # BUG: Neither of these work, investigate later
       # theme = "${import ../../../../pkgs/sddm/sugar-dark { inherit pkgs; }}";
       # theme = "${import ../../../../pkgs/sddm/Andromeda { inherit pkgs; }}";
@@ -70,5 +70,4 @@
   #      logging in as that user impossible. You can fix it with:
   #      programs.zsh.enable = true;
   programs.zsh.enable = true;
-
 }

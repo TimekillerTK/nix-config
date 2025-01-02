@@ -45,15 +45,12 @@
 
   # Actual SOPS keys
   sops.defaultSopsFile = ./secrets.yml;
-  sops.secrets.smbcred = { };
+  sops.secrets.smbcred = {};
 
   # Adding CA root & intermediate certs
   security.pki.certificateFiles = [
     ../common/root-ca.pem
   ];
-
-  # Numlock on Login Screen (SDDM)
-  services.xserver.displayManager.setupCommands = ''${pkgs.numlockx}/bin/numlockx on'';
 
   # Bluetooth configuration
   hardware.bluetooth.enable = true; # enables support for Bluetooth

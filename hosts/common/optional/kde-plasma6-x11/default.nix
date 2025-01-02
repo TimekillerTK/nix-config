@@ -1,12 +1,11 @@
-{ pkgs, ... }:
+{pkgs, ...}:
 # Settings for KDE Plasma 6 environment in X11 with Pipewire
 # NOTE: Works on 23.11 and 24.05
 # BUG: Application Menu Does not Refresh List when Applications added/removed
 # -> https://github.com/NixOS/nixpkgs/issues/292632
 {
-
   # For USB Blu-Ray/DVD Players
-  boot.kernelModules = [ "sg" ];
+  boot.kernelModules = ["sg"];
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
