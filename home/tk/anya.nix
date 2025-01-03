@@ -1,7 +1,15 @@
-{ inputs, outputs, config, pkgs, username, lib, gitUser, gitEmail, ... }:
 {
+  inputs,
+  outputs,
+  config,
+  pkgs,
+  username,
+  lib,
+  gitUser,
+  gitEmail,
+  ...
+}: {
   imports = [
-
     # Required for Home Manager
     inputs.plasma-manager6.homeManagerModules.plasma-manager
 
@@ -25,7 +33,6 @@
 
   # Custom packages for this user
   home.packages = with pkgs; [
-
     sops # Mozilla SOPS
     awscli2 # AWS CLI
 
@@ -53,6 +60,8 @@
     unstable.drawio # Diagram-creating software
 
     # Other
+    unstable.devenv # Nix powered dev environments
+    unstable.direnv # activate dev environments automatically
     mono # for running .NET applications
   ];
 
