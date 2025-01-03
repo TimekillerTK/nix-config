@@ -61,9 +61,15 @@
 
     # Other
     unstable.devenv # Nix powered dev environments
-    unstable.direnv # activate dev environments automatically
     mono # for running .NET applications
   ];
+
+  # DirEnv configuration
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
 
   # TODO: Fix later - input-remapper is defined in hosts/ config, should be home-manager
   # # For automatically launching input-remapper on user login
