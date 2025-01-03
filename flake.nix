@@ -46,6 +46,10 @@
 
     # Managing flatpaks declartively
     nix-flatpak.url = "github:gmodena/nix-flatpak";
+
+    # Rust
+    fenix.url = "github:nix-community/fenix";
+    fenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
