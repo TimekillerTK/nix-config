@@ -101,7 +101,6 @@
   # System Packages
   environment.systemPackages = with pkgs; [
     vim
-    nfs-utils # For testing
   ];
 
   # Override mediashare filesystem path

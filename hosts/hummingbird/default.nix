@@ -82,6 +82,9 @@
   environment.systemPackages = with pkgs; [
     openrgb-with-all-plugins # RGB Control
     vim
+
+    # Numlock on Wayland
+    numlockw
   ];
 
   # Override mediashare filesystem path
