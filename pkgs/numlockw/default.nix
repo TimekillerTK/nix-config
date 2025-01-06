@@ -3,32 +3,33 @@
   pythonPkgs ? pkgs.python3Packages,
   fetchPypi,
 }:
-pythonPkgs.buildPythonApplication rec {
+pythonPkgs.buildPythonApplication {
   pname = "numlockw";
   version = "0.1.2";
 
-  # src = pkgs.fetchFromGitHub {
-  #   owner = "xz-dev";
-  #   repo = "numlockw";
-  #   rev = "1800a5072323bbc026c80bc737285d8ea363af78";
-  #   sha256 = "sha256-Z4ymxTw+OLh1k2Ysh3HQ3IbgJ+GkDb4EoR4lQjFBM48=";
-  # };
-  src = fetchPypi {
-    inherit pname version;
-    sha256 = "sha256-b5/x9qC98Upd8z56ovTHi36DCAEz+PtNOjJTHnAfZcU=";
+  src = pkgs.fetchFromGitHub {
+    owner = "xz-dev";
+    repo = "numlockw";
+    rev = "1800a5072323bbc026c80bc737285d8ea363af78";
+    sha256 = "sha256-Z4ymxTw+OLh1k2Ysh3HQ3IbgJ+GkDb4EoR4lQjFBM48=";
   };
 
-  # If your app doesn't have tests, you can disable them
-  doCheck = false;
+  dontBuild = true; # Skip the setup phase since there is no setup.py
+  format = "other"; # Since not setup-tools based, skip
 
+  # List your Python dependencies here
   propagatedBuildInputs = with pythonPkgs; [
-    # List your Python dependencies here
     evdev
   ];
 
-  # installPhase = ''
-  #   mkdir -p $out/bin
-  #   cp your_main_script.py $out/bin/your-application
-  #   chmod +x $out/bin/your-application
-  # '';
+  installPhase = ''
+    mkdir -p $out/bin
+    cp ./src/numlockw/__main__.py $out/bin/numlockw
+    chmod +x $out/bin/numlockw
+  '';
+
+  # Ensure the Python interpreter is in the PATH
+  preFixup = ''
+    wrapProgram $out/bin/numlockw --prefix PATH : ${pythonPkgs.python}/bin
+  '';
 }
