@@ -96,7 +96,7 @@
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = "${pkgs.numlockw}/bin/numlockw --device-name 'Corsair CORSAIR K70 RGB MK.2 LOW PROFILE Mechanical Gaming Keyboard' on";
+      ExecStart = "${pkgs.numlockw}/bin/numlockw --device-name 'Corsair CORSAIR K70 RGB MK.2 LOW PROFILE Mechanical Gaming Keyboard' --no-fake-uinput on";
     };
   };
 
