@@ -87,6 +87,19 @@
     numlockw
   ];
 
+  # Create a systemd user service
+  systemd.user.services.numlock-on-startup = {
+    description = "Enable NumLock on startup";
+    wantedBy = [ "graphical-session.target" ];
+    partOf = [ "graphical-session.target" ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.numlockw}/bin/numlockw --device-name 'Corsair CORSAIR K70 RGB MK.2 LOW PROFILE Mechanical Gaming Keyboard' on";
+    };
+  };
+
   # Override mediashare filesystem path
   mediaShare.mediaSharePath = "/mnt/mediasnek";
 
