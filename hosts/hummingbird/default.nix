@@ -90,8 +90,8 @@
   # Create a systemd user service
   systemd.user.services.numlock-on-startup = {
     description = "Enable NumLock on startup";
-    wantedBy = [ "graphical-session.target" ];
-    partOf = [ "graphical-session.target" ];
+    wantedBy = [ "default.target" ];
+    after = [ "display-manager.service" ];
 
     serviceConfig = {
       Type = "oneshot";
