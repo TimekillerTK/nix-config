@@ -43,10 +43,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
-  # Numlock on boot
-  boot.initrd.preLVMCommands = ''
-    ${pkgs.kbd}/bin/setleds +num
-  '';
+  # # Numlock on boot
+  # boot.initrd.preLVMCommands = ''
+  #   ${pkgs.kbd}/bin/setleds +num
+  # '';
 
   # Actual SOPS keys
   sops.defaultSopsFile = ./secrets.yml;

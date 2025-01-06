@@ -21,7 +21,6 @@
     defaultSession = "plasma";
     sddm = {
       enable = true;
-      # wayland.enable = true;
       autoNumlock = true; # Enable numlock at login. (Doesn't work?)
       # BUG: Neither of these work, investigate later
       # theme = "${import ../../../../pkgs/sddm/sugar-dark { inherit pkgs; }}";
