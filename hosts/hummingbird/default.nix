@@ -43,6 +43,11 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
+  # Numlock on boot
+  boot.initrd.preLVMCommands = ''
+    ${pkgs.kbd}/bin/setleds +num
+  '';
+
   # Actual SOPS keys
   sops.defaultSopsFile = ./secrets.yml;
   sops.secrets.smbcred = {};
@@ -83,22 +88,22 @@
     openrgb-with-all-plugins # RGB Control
     vim
 
-    # Numlock on Wayland
-    numlockw
+    # # Numlock on Wayland
+    # numlockw
   ];
 
-  # Create a systemd user service
-  systemd.user.services.numlock-on-startup = {
-    description = "Enable NumLock on startup";
-    wantedBy = [ "default.target" ];
-    after = [ "display-manager.service" ];
+  # # Create a systemd user service
+  # systemd.user.services.numlock-on-startup = {
+  #   description = "Enable NumLock on startup";
+  #   wantedBy = [ "default.target" ];
+  #   after = [ "display-manager.service" ];
 
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = "${pkgs.numlockw}/bin/numlockw --device-name 'Corsair CORSAIR K70 RGB MK.2 LOW PROFILE Mechanical Gaming Keyboard' --no-fake-uinput on";
-    };
-  };
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     RemainAfterExit = true;
+  #     ExecStart = "${pkgs.numlockw}/bin/numlockw --device-name 'Corsair CORSAIR K70 RGB MK.2 LOW PROFILE Mechanical Gaming Keyboard' --no-fake-uinput on";
+  #   };
+  # };
 
   # Override mediashare filesystem path
   mediaShare.mediaSharePath = "/mnt/mediasnek";
