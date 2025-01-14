@@ -28,6 +28,7 @@
     prismlauncher # FOSS Minecraft launcher
     tartube-yt-dlp # YT downloader
     libreoffice-qt # Office Suite
+    unstable.lutris # Games Launcher
     # hunspell # Need spellcheck? https://wiki.nixos.org/wiki/LibreOffice
 
     # Other
