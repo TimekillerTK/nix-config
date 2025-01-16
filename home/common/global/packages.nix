@@ -30,6 +30,7 @@
     libreoffice-qt # Office Suite
     unstable.lutris # Games Launcher
     # hunspell # Need spellcheck? https://wiki.nixos.org/wiki/LibreOffice
+    moonlight-qt # GameStreaming Client
 
     # Other
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
