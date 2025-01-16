@@ -93,6 +93,12 @@
     STEAM_FORCE_DESKTOPUI_SCALING = "1.5";
   };
 
+  # SDDM settings for login screen (X11)
+  services.xserver.displayManager.setupCommands = ''
+    ${pkgs.xorg.xrandr}/bin/xrandr --output DP-4 --mode 1920x1080 --primary
+    ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --off
+  '';
+
   # Hostname & Network Manager
   networking.hostName = "beltanimal";
   networking.networkmanager = {
