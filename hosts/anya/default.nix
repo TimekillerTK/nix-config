@@ -86,7 +86,6 @@
     openFirewall = true;
   };
 
-  # TESTING
   # For game streaming
   services.sunshine = {
     enable = true;

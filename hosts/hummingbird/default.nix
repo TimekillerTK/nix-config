@@ -63,6 +63,14 @@
     openFirewall = true;
   };
 
+  # For game streaming
+  services.sunshine = {
+    enable = true;
+    autoStart = true;
+    capSysAdmin = true; # only needed for Wayland -- omit this when using with Xorg
+    openFirewall = true;
+  };
+
   # OpenRGB (needs to run as root)
   services.hardware.openrgb.enable = true;
 

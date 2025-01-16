@@ -62,6 +62,10 @@
     # Other
     unstable.devenv # Nix powered dev environments
     mono # for running .NET applications
+
+    # Games
+    unstable.openrct2 # RollerCoaster Tycoon 2
+    openttd # Transport Tycoon Deluxe
   ];
 
   # DirEnv configuration
