@@ -32,8 +32,8 @@
     ../common/users/bb
     ../common/optional/sops
     ../common/optional/zfs
-    # ../common/optional/kde-plasma6-wayland
-    ../common/optional/kde-plasma6-x11
+    ../common/optional/kde-plasma6-wayland
+    # ../common/optional/kde-plasma6-x11
     ../common/optional/mount-media
     ../common/optional/mount-important
     # ../common/optional/tailscale-client
@@ -96,13 +96,19 @@
 
   # SDDM settings for login screen (X11)
   services.xserver.displayManager.setupCommands = ''
-    if ${pkgs.xorg.xrandr}/bin/xrandr | grep "DP-4 connected"; then
-      ${pkgs.xorg.xrandr}/bin/xrandr --output DP-4 --mode 1920x1080 --primary
-      ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --off
-    else
-      ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --auto --primary
-    fi
+    ${pkgs.xorg.xrandr}/bin/xrandr --output DP-4 --mode 1920x1080 --primary
+    ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --off
   '';
+
+  # TODO: This conditional doesn't work
+  # services.xserver.displayManager.setupCommands = ''
+  #   if ${pkgs.xorg.xrandr}/bin/xrandr | grep "DP-4 connected"; then
+  #     ${pkgs.xorg.xrandr}/bin/xrandr --output DP-4 --mode 1920x1080 --primary
+  #     ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --off
+  #   else
+  #     ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --auto --primary
+  #   fi
+  # '';
 
   # Hostname & Network Manager
   networking.hostName = "beltanimal";
