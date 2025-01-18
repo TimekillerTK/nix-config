@@ -95,8 +95,12 @@
 
   # SDDM settings for login screen (X11)
   services.xserver.displayManager.setupCommands = ''
-    ${pkgs.xorg.xrandr}/bin/xrandr --output DP-4 --mode 1920x1080 --primary
-    ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --off
+    if ${pkgs.xorg.xrandr}/bin/xrandr | grep "DP-4 connected"; then
+      ${pkgs.xorg.xrandr}/bin/xrandr --output DP-4 --mode 1920x1080 --primary
+      ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --off
+    else
+      ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --auto --primary
+    fi
   '';
 
   # Hostname & Network Manager
