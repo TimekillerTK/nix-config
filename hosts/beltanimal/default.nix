@@ -32,7 +32,8 @@
     ../common/users/bb
     ../common/optional/sops
     ../common/optional/zfs
-    ../common/optional/kde-plasma6-wayland
+    # ../common/optional/kde-plasma6-wayland
+    ../common/optional/kde-plasma6-x11
     ../common/optional/mount-media
     ../common/optional/mount-important
     # ../common/optional/tailscale-client
