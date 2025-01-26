@@ -62,6 +62,7 @@
     # Other
     unstable.devenv # Nix powered dev environments
     mono # for running .NET applications
+    granted # Switching AWS Accounts
 
     # Games
     unstable.openrct2 # RollerCoaster Tycoon 2

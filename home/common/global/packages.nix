@@ -31,6 +31,7 @@
     unstable.lutris # Games Launcher
     # hunspell # Need spellcheck? https://wiki.nixos.org/wiki/LibreOffice
     moonlight-qt # GameStreaming Client
+    unstable.discord # Chat
 
     # Other
     (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
