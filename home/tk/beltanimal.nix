@@ -41,7 +41,16 @@
     # unstable.logseq # Notes
     unstable.element-desktop # Matrix client
 
+    # Other
+    unstable.devenv # Nix powered dev environments
   ];
+
+  # DirEnv configuration
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
 
   # VS Code Settings files as symlinks
   home.file = {
