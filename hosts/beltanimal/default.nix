@@ -36,7 +36,7 @@
     # ../common/optional/kde-plasma6-x11
     ../common/optional/mount-media
     ../common/optional/mount-important
-    # ../common/optional/tailscale-client
+    ../common/optional/tailscale-client
   ];
 
   # Overlays
@@ -62,6 +62,9 @@
       # Temporarily installed due to
       # https://github.com/logseq/logseq/issues/10851
       "com.logseq.Logseq"
+
+      # FFXIV Launcher (Game)
+      "dev.goats.xivlauncher"
     ];
     uninstallUnmanaged = true; # Manage non-Nix Flatpaks
     update.onActivation = true; # Auto-update on rebuild
