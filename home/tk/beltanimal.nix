@@ -54,8 +54,12 @@
 
   # VS Code Settings files as symlinks
   home.file = {
+    # VS Code Settings files as symlinks
     ".config/Code/User/keybindings.json".source = ../../dotfiles/vscode/keybindings.json;
     ".config/Code/User/settings.json".source = ../../dotfiles/vscode/settings.json;
+
+    # Keypad Rebind keys
+    ".config/input-remapper-2/presets/Razer Razer Tartarus V2/tartarus.json".source = ../../dotfiles/input-remapper/tartarus.json;
   };
 
   programs.home-manager.enable = true;
