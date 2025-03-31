@@ -44,6 +44,7 @@
     kdePackages.colord-kde
     kdePackages.kcolorchooser
     kdePackages.kcalc
+    kdePackages.k3b
   ];
 
   # Enable sound with pipewire
