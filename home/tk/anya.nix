@@ -56,7 +56,7 @@
     unstable.makemkv # DVD Ripper
     handbrake # Media Transcoder
     unstable.xivlauncher # FFXIV Launcher
-    unstable.rustdesk-flutter # TeamViewer alternative
+    rustdesk-flutter # TeamViewer alternative
     unstable.drawio # Diagram-creating software
 
     # Other
