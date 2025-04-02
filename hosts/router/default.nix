@@ -45,9 +45,6 @@ in {
   # For network troubleshooting
   environment.systemPackages = with pkgs; [
     tcpdump
-    nmap
-    vim
-    dig
   ];
 
   # Enable IPv4 forwarding
@@ -112,7 +109,7 @@ in {
     # Disable existing IPTables firewall & NAT
     nat.enable = false;
     firewall.enable = false;
-    
+
     nftables = {
       # Enable NFTables & flush any existing rulesets
       enable = true;
@@ -126,9 +123,9 @@ in {
         define LANPORT = ${lanPort}
 
         # We never expect to see the following address ranges on the Internet
-        define BOGONS4 = { 
-          0.0.0.0/8, 
-          10.0.0.0/8, 
+        define BOGONS4 = {
+          0.0.0.0/8,
+          10.0.0.0/8,
           10.64.0.0/10,
           127.0.0.0/8,
           127.0.53.53,
@@ -144,7 +141,7 @@ in {
           240.0.0.0/4,
           255.255.255.255/32
         }
-        
+
         table inet filter {
           chain inbound_world {
             # Drop obviously spoofed inbound traffic (to turn on later)
@@ -220,7 +217,7 @@ in {
       "systemd-networkd.socket"
       "network.target"
     ];
-    after = [ 
+    after = [
       "nftables.service"
       "systemd-networkd.socket"
       "systemd-udevd.service"

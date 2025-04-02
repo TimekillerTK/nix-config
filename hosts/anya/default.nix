@@ -106,11 +106,6 @@
   # Generated with head -c4 /dev/urandom | od -A none -t x4
   networking.hostId = "7d650d06"; # required for ZFS!
 
-  # System Packages
-  environment.systemPackages = with pkgs; [
-    vim
-  ];
-
   # Override mediashare filesystem path
   mediaShare.mediaSharePath = "/mnt/FreeNAS";
 

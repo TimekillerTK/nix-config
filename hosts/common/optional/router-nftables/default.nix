@@ -28,7 +28,7 @@
     # it if all managed interfaces are always connected but this is not my case. 
     # Basically allow unplugging ETH cables when needed...
     wait-online.anyInterface = true;
-    
+
     networks = {
       # NIC2 `ens19` - `10.10.10.1/24` (LAN)
       "20-lan" = {
@@ -48,7 +48,7 @@
           DHCP = "ipv4";
           IPForward = true;
         };
-        
+
         # Setting Explicit DNS servers, though probably not needed
         # make routing on this interface a dependency for network-online.target
         linkConfig.RequiredForOnline = "routable";
@@ -66,7 +66,7 @@
     # Disable existing IPTables firewall & NAT
     nat.enable = false;
     firewall.enable = false;
-    
+
     nftables = {
       # Enable NFTables & flush any existing rulesets
       enable = true;

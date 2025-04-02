@@ -55,11 +55,6 @@
   networking.hostName = "tailscale";
   networking.networkmanager.enable = true;
 
-  # System Packages
-  environment.systemPackages = with pkgs; [
-    vim
-  ];
-
   # Tailscale
   services.tailscale = {
     enable = true;

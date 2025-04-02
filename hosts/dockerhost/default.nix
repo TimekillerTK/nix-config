@@ -48,11 +48,6 @@ in
   networking.hostName = "dockerhost";
   networking.networkmanager.enable = true;
 
-  # System Packages
-  environment.systemPackages = with pkgs; [
-    vim
-  ];
-
   # Enable Docker
   virtualisation.docker = {
     enable = true;

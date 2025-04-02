@@ -45,7 +45,6 @@
 
   # System Packages
   environment.systemPackages = with pkgs; [
-    vim
     openssl
     step-cli
   ];

@@ -89,7 +89,6 @@
   # System Packages
   environment.systemPackages = with pkgs; [
     openrgb-with-all-plugins # RGB Control
-    vim
   ];
 
   # Override mediashare filesystem path

@@ -124,8 +124,6 @@
 
   # System Packages
   environment.systemPackages = with pkgs; [
-    vim
-    nvd # Nix/NixOS package version diff tool
     kdePackages.kdialog # pops up dialogs
   ];
 

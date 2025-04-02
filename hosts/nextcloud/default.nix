@@ -37,11 +37,6 @@
   networking.hostName = "nextcloud";
   networking.networkmanager.enable = true;
 
-  # System Packages
-  environment.systemPackages = with pkgs; [
-    vim
-  ];
-
   services.nextcloud = {
     enable = true;
     hostName = "nc.cyn.internal";
