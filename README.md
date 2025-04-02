@@ -7,9 +7,10 @@
   - [With `nixos-anywhere` / `disko`](#with-nixos-anywhere--disko)
   - [Manual Deployment](#manual-deployment)
 - [Updating](#updating)
-- [Rollback](#rollback)
-  - [System](#system)
-  - [Home-Manager](#home-manager)
+- [Rollbacks](#rollbacks)
+  - [Querying Current or Boot Generations](#querying-current-or-boot-generations)
+  - [System Rollback](#system-rollback)
+  - [Home-Manager Rollback](#home-manager-rollback)
 
 Run the following to apply a configuration:
 
@@ -158,11 +159,41 @@ To check the diffs (or what has been updated) in a particular update, use the `n
 - `ls /nix/var/nix/profiles/` - list profiles
 - `nvd diff /nix/var/nix/profiles/system-{9,10}-link` - show diff between profiles 9 and 10
 
-## Rollback
+## Rollbacks
 
-### System
+### Querying Current or Boot Generations
 
-To roll back to a previous nixos configuration:
+To check the current (and/or booted) generation, get the symlink for both `/var/run/booted-system` and `/var/run/current-system`:
+
+- `ls /var/run/*system -ld`
+
+   ```sh
+   lrwxrwxrwx - root root  2 apr 06:51  /var/run/booted-system -> /nix/store/v46k3xfjixmv2vmrvz1xmh8494w251cx-nixos-system-anya-24.11.20250307.20755fa/
+   lrwxrwxrwx - root root  2 apr 06:51  /var/run/current-system -> /nix/store/v46k3xfjixmv2vmrvz1xmh8494w251cx-nixos-system-anya-24.11.20250307.20755fa/
+   ```
+
+Now use the hash in the result (example result is `v46k3xfjixmv2vmrvz1xmh8494w251cx`) to query nix profiles on your system:
+
+- `/nix/var/nix/profiles/system-* -ld | grep v46k3xfjixmv2vmrvz1xmh8494w251cx`
+
+   ```sh
+   ls /nix/var/nix/profiles/system-* -ld | grep v46k3xfjixmv2vmrvz1xmh8494w251cx
+   lrwxrwxrwx - root root 31 mrt 19:33 /nix/var/nix/profiles/system-117-link -> /nix/store/v46k3xfjixmv2vmrvz1xmh8494w251cx-nixos-system-anya-24.11.20250307.20755fa
+   ```
+
+Therefore this example's current system is **generation 117**.
+
+### System Rollback
+
+An older generation can be selected via the boot menu by selecting the previous generation. It is temporary - on reboot the newest generation will be selected again.
+
+To make this temporary change permanent, boot into a selected previous generation and then run:
+
+- `sudo /run/current-system/bin/switch-to-configuration boot`
+
+---
+
+Alternatively, to roll back to a previous NixOS system configuration:
 
 - `nixos-rebuild list-generations` - list available generations
 
@@ -173,15 +204,18 @@ To roll back to a previous nixos configuration:
    ...
    ```
 
-   - `sudo nix-env --list-generations --profile /nix/var/nix/profiles/system` - this also works
-- `sudo nixos-rebuild swtich --rollback` - rollback to the previous generation
-- `sudo nix-env --switch-generation xx --profile /nix/var/nix/profiles/system` - rollback to a specific generation
+- `sudo nixos-rebuild switch --rollback` - rollback to the previous generation
+- `sudo nix-env --switch-generation xx --profile /nix/var/nix/profiles/system` - rollback to a specific (`xx`) generation
 
-### Home-Manager
+   ```sh
+   switching profile from version 117 to 116
+   ```
+
+### Home-Manager Rollback
 
 To roll back to a previous home-manager configuration:
 
-- `home-manager generations` - list the generations
+- `home-manager generations` - list the generations to get the hash
 
    ```sh
    2023-12-19 10:27 : id 35 -> /nix/store/2n2qwzd4nv96awfxhiq559b8qd1fy64i-home-manager-generation
@@ -192,3 +226,4 @@ To roll back to a previous home-manager configuration:
    ```
 
 - `/nix/store/xxxxxxxxxx-home-manager-generation/activate` - activate a previous generation
+
