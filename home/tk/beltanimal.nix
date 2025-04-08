@@ -37,13 +37,19 @@
     powershell
 
     # Desktop Applications
-    nextcloud-client # Personal cloud
+    syncthingtray # Tray for Syncthing with Dolphin/Plasma integration
+
     # unstable.logseq # Notes
     unstable.element-desktop # Matrix client
 
     # Other
     unstable.devenv # Nix powered dev environments
   ];
+
+  # Syncthing (personal cloud)
+  services.syncthing = {
+    enable = true;
+  };
 
   # DirEnv configuration
   programs.direnv = {

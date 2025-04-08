@@ -50,14 +50,13 @@
     unstable.mold # even better linker
 
     # Desktop Applications
-    nextcloud-client # Personal cloud
-    # unstable.logseq # Notes
     unstable.element-desktop # Matrix client
     unstable.makemkv # DVD Ripper
     handbrake # Media Transcoder
     unstable.xivlauncher # FFXIV Launcher
     rustdesk-flutter # TeamViewer alternative
     unstable.drawio # Diagram-creating software
+    syncthingtray # Tray for Syncthing with Dolphin/Plasma integration
 
     # Other
     unstable.devenv # Nix powered dev environments
@@ -68,6 +67,11 @@
     unstable.openrct2 # RollerCoaster Tycoon 2
     openttd # Transport Tycoon Deluxe
   ];
+
+  # Syncthing (personal cloud)
+  services.syncthing = {
+    enable = true;
+  };
 
   # DirEnv configuration
   programs.direnv = {
