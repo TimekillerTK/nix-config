@@ -37,7 +37,7 @@ in
   sops.secrets.smbcred = { };
 
   # Newer LTS Kernel, pinned
-  boot.kernelPackages = pkgs.linuxPackages_6_12; 
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
 
   # use default bash
   # TODO: find a better way to do this
@@ -61,7 +61,7 @@ in
       respond "Hello, world on localhost!"
     '';
     virtualHosts."dockerhost.cyn.internal".extraConfig = ''
-      respond "Hello, world on dev-dockerhost.cyn.internal!"
+      respond "Hello, world on dockerhost.cyn.internal!"
     '';
     virtualHosts."whoami.cyn.internal".extraConfig = ''
       reverse_proxy localhost:8010
@@ -78,14 +78,14 @@ in
     virtualHosts."cookbook.cyn.internal".extraConfig = ''
       reverse_proxy localhost:8050
     '';
+    virtualHosts."sync.cyn.internal".extraConfig = ''
+      reverse_proxy localhost:8060
+    '';
     virtualHosts."nc.cyn.internal".extraConfig = ''
       reverse_proxy 172.17.10.63
     '';
     virtualHosts."home.cyn.internal".extraConfig = ''
       reverse_proxy 172.17.10.80:8123
-    '';
-    virtualHosts."sync.cyn.internal".extraConfig = ''
-      reverse_proxy 172.17.10.80:8384
     '';
   };
 
