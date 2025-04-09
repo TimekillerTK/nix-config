@@ -84,6 +84,9 @@ in
     virtualHosts."home.cyn.internal".extraConfig = ''
       reverse_proxy 172.17.10.80:8123
     '';
+    virtualHosts."sync.cyn.internal".extraConfig = ''
+      reverse_proxy 172.17.10.80:8384
+    '';
   };
 
   # Open HTTP/HTTPS ports
