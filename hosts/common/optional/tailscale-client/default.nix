@@ -4,7 +4,7 @@
 
   # Tailscale
   services.tailscale = {
-    enable = true;
+    enable = false; # Disable tailscale from starting on boot
     authKeyFile = "/run/secrets/tailscale";
     extraUpFlags = [
       "--advertise-tags=tag:usermachine"
