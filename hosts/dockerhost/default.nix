@@ -98,7 +98,7 @@ in
   ];
 
   # Override mediashare filesystem path
-  mediaShare.mediaSharePath = "/mnt/FreeNAS";
+  mediaShare.mediaSharePath = "/mnt/TrueNAS";
 
   # systemd units
   systemd.services.docker-compose-app = {

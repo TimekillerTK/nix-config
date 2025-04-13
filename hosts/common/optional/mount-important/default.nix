@@ -14,7 +14,7 @@
       device = "//freenas.cyn.internal/important";
       fsType = "cifs";
       # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
-      # Remember to run `sudo umount /mnt/FreeNAS` before adding/removing "noauto" + "x-systemd.automount"
+      # Remember to run `sudo umount /mnt/important` before adding/removing "noauto" + "x-systemd.automount"
       options = [
         "credentials=/run/secrets/smbcred"
         "noserverino"

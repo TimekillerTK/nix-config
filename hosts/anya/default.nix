@@ -106,9 +106,6 @@
   # Generated with head -c4 /dev/urandom | od -A none -t x4
   networking.hostId = "7d650d06"; # required for ZFS!
 
-  # Override mediashare filesystem path
-  mediaShare.mediaSharePath = "/mnt/FreeNAS";
-
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
 }

@@ -4,17 +4,17 @@
   options.mediaShare = {
     mediaSharePath = lib.mkOption {
       type = lib.types.str;
-      default = "/mnt/media";
+      default = "/mnt/mediasnek";
       description = "Path where media share will be mounted on the client filesystem";
     };
   };
   config = {
     # Mounting fileshare
     fileSystems.${config.mediaShare.mediaSharePath} = {
-      device = "//freenas.cyn.internal/mediasnek2";
+      device = "//freenas.cyn.internal/mediasnek3";
       fsType = "cifs";
       # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
-      # Remember to run `sudo umount /mnt/FreeNAS` before adding/removing "noauto" + "x-systemd.automount"
+      # Remember to run `sudo umount /mnt/mediasnek` before adding/removing "noauto" + "x-systemd.automount"
       options = [
         "credentials=/run/secrets/smbcred"
         "noserverino"
