@@ -127,9 +127,6 @@
     kdePackages.kdialog # pops up dialogs
   ];
 
-  # Override mediashare filesystem path
-  mediaShare.mediaSharePath = "/mnt/mediasnek";
-
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
 }
