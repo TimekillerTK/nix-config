@@ -11,7 +11,7 @@
   config = {
     # Mounting fileshare
     fileSystems.${config.importantShare.importantSharePath} = {
-      device = "//freenas.cyn.internal/important";
+      device = "//truenas.cyn.internal/important";
       fsType = "cifs";
       # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
       # Remember to run `sudo umount /mnt/important` before adding/removing "noauto" + "x-systemd.automount"

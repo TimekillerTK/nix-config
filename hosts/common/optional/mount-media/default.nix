@@ -11,7 +11,7 @@
   config = {
     # Mounting fileshare
     fileSystems.${config.mediaShare.mediaSharePath} = {
-      device = "//freenas.cyn.internal/mediasnek3";
+      device = "//truenas.cyn.internal/mediasnek3";
       fsType = "cifs";
       # noauto + x-systemd.automount - disables mounting this FS with mount -a & lazily mounts (when first accessed)
       # Remember to run `sudo umount /mnt/mediasnek` before adding/removing "noauto" + "x-systemd.automount"
