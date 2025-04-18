@@ -103,6 +103,11 @@
     enable = true;
   };
 
+  # System Packages
+  environment.systemPackages = with pkgs; [
+    devilutionx # Diablo I & Hellfire (best version)
+  ];
+
   # Generated with head -c4 /dev/urandom | od -A none -t x4
   networking.hostId = "7d650d06"; # required for ZFS!
 
