@@ -113,6 +113,15 @@
   #   fi
   # '';
 
+  # By default laptops with closed lids automatically suspend, which
+  # cuts off network connectivity. These changes prevent that on
+  # the login screen.
+  services.logind = {
+    lidSwitch = "lock";
+    lidSwitchDocked = "lock";
+    lidSwitchExternalPower = "lock";
+  };
+
   # Hostname & Network Manager
   networking.hostName = "beltanimal";
   networking.networkmanager = {
