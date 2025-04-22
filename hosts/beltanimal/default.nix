@@ -130,7 +130,10 @@
         shell = pkgs.zsh;
         isSystemUser = true;
         group = "homeassistant";
-        openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPbyRIFCnKqR6DXV2vJLd9s8JRjnvwyKJWw8VevEzfSC"];
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPbyRIFCnKqR6DXV2vJLd9s8JRjnvwyKJWw8VevEzfSC" # anya
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPnvtbzHUSBupBNOeoGlyQ5rT2JCd0FxenGVs53t61dw" # homeassistant
+        ];
       };
     };
   };
