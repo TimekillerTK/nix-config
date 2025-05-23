@@ -5,7 +5,7 @@
   home.packages = with pkgs; [
     # Desktop Applications
     onedrivegui # OneDrive GUI client
-    spotify # Music Streaming
+    unstable.spotify # Music Streaming
     microsoft-edge # Backup Browser
     gimp # Photoshop Alternative
   ];
