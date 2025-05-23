@@ -32,6 +32,7 @@
     ../common/optional/minecraft-server
     ../common/optional/mount-media
     ../common/optional/mount-important
+    ../common/optional/disable-bt-handsfree
     # ../common/optional/tailscale-client
   ];
 
@@ -76,8 +77,10 @@
   ];
 
   # Bluetooth configuration
-  hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  hardware.bluetooth = {
+    enable = true; # enables support for Bluetooth
+    powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  };
 
   # Add printer autodiscovery
   services.avahi = {
