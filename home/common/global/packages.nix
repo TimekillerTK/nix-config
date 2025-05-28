@@ -34,7 +34,9 @@
     unstable.discord # Chat
 
     # Other
-    (nerdfonts.override { fonts = [ "CascadiaCode" ]; }) # only 1 font
+    # NOTE: When adding, you might need to force rebuild the font cache with:
+    # -> fc-cache -f -v
+    nerd-fonts.caskaydia-cove # Windows Terminal Font :)
     tdrop # terminal dropdown
 
     # Custom
