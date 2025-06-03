@@ -5,5 +5,6 @@
     ./locale.nix
     ./nix_settings.nix
     ./ssh.nix
+    ./vulns.nix
   ];
 }
