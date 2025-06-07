@@ -36,6 +36,8 @@
     },
     "security.workspace.trust.untrustedFiles": "open",
     "editor.fontSize": 14,
+    "editor.fontFamily": "Cascadia Code, monospace",
+    "editor.fontLigatures": true,
     "terminal.integrated.fontSize": 15,
     "git.autofetch": true,
     "editor.suggest.showMethods": true,
