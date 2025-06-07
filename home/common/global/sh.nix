@@ -40,7 +40,7 @@ in
     shellAliases = myAliases;
 
     # Added to end of ~/.zshrc
-    initExtra = ''
+    initContent = ''
       # These fix zsh CTRL+LEFT & CTRL+RIGHT keybindings for
       # jumping by word
       bindkey '^[[1;5C' forward-word

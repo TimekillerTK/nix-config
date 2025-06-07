@@ -16,5 +16,5 @@ pkgs.rustPlatform.buildRustPackage {
   buildInputs = [] ++ lib.optional stdenv.isDarwin pkgs.darwin.apple_sdk.frameworks.Security;
 
   # cargoHash = lib.fakeHash; # <- generate fake hash
-  cargoHash = "sha256-GCr+ACAVGsv0DDuluAwLHYxtGLmQ+dzv8nDGUrtcNXw=";
+  cargoHash = "sha256-YX98o9BTAqc1T8cRcjkLDFsHRcBrbYvf2WHZZPjHyWE=";
 }
