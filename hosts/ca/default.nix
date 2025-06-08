@@ -31,8 +31,6 @@
     };
   };
 
-  # NOTE: Trying to fix
-  # -> error: path '/nix/store/24ldk7d2fqd253bj8ddwmigz9hy2gqb8-linux-6.12.30-modules-shrunk/lib' is not in the Nix store
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # use default bash
