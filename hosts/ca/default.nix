@@ -73,7 +73,7 @@
     enable = true;
     port = 443;
     openFirewall = true;
-    intermediatePasswordFile = /root/password.txt;
+    intermediatePasswordFile = "/root/password.txt";
     address = "ca.cyn.internal";
     settings = builtins.fromJSON (builtins.readFile ../common/ca.json);
   };
