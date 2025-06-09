@@ -6,7 +6,7 @@
     # Desktop Applications
     onedrivegui # OneDrive GUI client
     unstable.spotify # Music Streaming
-    microsoft-edge # Backup Browser
+    brave # Backup Browser
     gimp # Photoshop Alternative
   ];
 }
