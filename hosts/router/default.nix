@@ -5,7 +5,7 @@
   config,
   pkgs,
   ...
-}: 
+}:
 let
   wanPort = "wan";
   lanPort = "lan";
@@ -81,7 +81,7 @@ in {
         matchConfig.Name = wanPort;
         networkConfig = {
           DHCP = "ipv4";
-          IPForward = true;
+          IPv4Forwarding = true;
         };
 
         # Setting Explicit DNS servers, though probably not needed
