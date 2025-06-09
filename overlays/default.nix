@@ -19,6 +19,10 @@
       system = final.system;
       config.allowUnfree = true;
     };
+    caddy_v284 = import inputs.nixpkgs-caddy {
+      system = final.system;
+      config.allowUnfree = true;
+    };
   };
 
   # This one contains whatever you want to overlay

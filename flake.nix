@@ -14,6 +14,9 @@
     # Nixpkgs Unstable
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
+    # Nixpkgs Caddy Pin to 2.8.4 due to issues with 2.10
+    nixpkgs-caddy.url = "github:NixOS/nixpkgs/a880f49904d68b5e53338d1e8c7bf80f59903928";
+
     # Disko (Disk Config)
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";

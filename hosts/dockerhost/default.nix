@@ -56,6 +56,7 @@ in
   # Caddy Config
   services.caddy = {
     enable = true;
+    package = pkgs.caddy_v284.caddy; # Pinned version 2.8.4
     acmeCA = "https://ca.cyn.internal/acme/acme/directory";
     virtualHosts."localhost".extraConfig = ''
       respond "Hello, world on localhost!"
