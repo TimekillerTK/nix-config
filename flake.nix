@@ -128,8 +128,24 @@
         modules = [./hosts/ca];
         specialArgs = {inherit inputs outputs;};
       };
-      nextcloud = lib.nixosSystem {
-        modules = [./hosts/nextcloud];
+      jellyfin = lib.nixosSystem {
+        modules = [./hosts/jellyfin];
+        specialArgs = {inherit inputs outputs;};
+      };
+      dns = lib.nixosSystem {
+        modules = [./hosts/dns];
+        specialArgs = {inherit inputs outputs;};
+      };
+      dhcp-client = lib.nixosSystem {
+        modules = [./hosts/dhcp-client];
+        specialArgs = {inherit inputs outputs;};
+      };
+      dhcp-client2 = lib.nixosSystem {
+        modules = [./hosts/dhcp-client2];
+        specialArgs = {inherit inputs outputs;};
+      };
+      dhcp-dns = lib.nixosSystem {
+        modules = [./hosts/dhcp-dns];
         specialArgs = {inherit inputs outputs;};
       };
     };

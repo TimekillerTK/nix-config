@@ -8,7 +8,6 @@
     ignores = [
 
       # Nix Flakes
-      "flake.nix"
       "devenv.local.nix"
       "devenv.nix"
       "devenv.yaml"

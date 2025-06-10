@@ -1,25 +1,24 @@
 {
   inputs,
   outputs,
+  pkgs,
   lib,
   config,
-  pkgs,
   ...
-}:
-let
-  wanPort = "wan"; # Physical WAN port
-  lanPort = "lan"; # Physical LAN port
-  wanMacAddress = "0c:c4:7a:e3:98:17";
-  lanMacAddress = "0c:c4:7a:e3:98:16";
+}: let
+  wanPort = "wan"; # Physical wan
+  lanPort = "lan"; # Physical LAN
 
   homePort = "home"; # VLAN 10
   guestPort = "guest"; # VLAN 20
   iotPort = "iot"; # VLAN 90
 
+  wanMacAddress = "e8:ff:1e:de:5b:5b";
+  lanMacAddress = "e8:ff:1e:de:5b:5a";
+
   routerLanIpAddress = "192.168.0.100/24";
   dnsServerIpAddress = "172.21.10.5";
 in {
-
   imports = [
     # Generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
@@ -27,6 +26,7 @@ in {
     # Repo Modules
     ../common/global
     ../common/users/tk
+    ../common/optional/sops
   ];
 
   # Overlays
@@ -41,26 +41,33 @@ in {
     };
   };
 
-  # boot stuff (required)
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_6_14;
+  # All our DHCP reservation are considered secrets
+  # sops.secrets.reservations_lan = {
+  #   sopsFile = ./secrets.yml;
+  # };
+  sops.secrets.reservations_home = {
+    sopsFile = ./secrets.yml;
+  };
+  sops.secrets.reservations_iot = {
+    sopsFile = ./secrets.yml;
+  };
+  sops.secrets.reservations_guest = {
+    sopsFile = ./secrets.yml;
+  };
 
   # use default bash
   users.users.tk.shell = lib.mkForce pkgs.bash;
-
-  # All our DHCP reservation are considered secrets
-  sops.secrets = {
-    # reservations_home.sopsFile = ./secrets.yml;
-    reservations_home.sopsFile = ./secrets.yml;
-    reservations_guest.sopsFile = ./secrets.yml;
-    reservations_iot.sopsFile = ./secrets.yml;
-  };
+  users.users.tk.extraGroups = lib.mkForce ["networkmanager" "wheel"];
 
   # For network troubleshooting
   environment.systemPackages = with pkgs; [
     tcpdump
   ];
+
+  # boot stuff (required)
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPackages = pkgs.linuxPackages_6_14;
 
   # Enable IPv4 forwarding
   boot.kernel.sysctl = {
@@ -77,8 +84,8 @@ in {
     # Basically allow unplugging ETH cables when needed...
     wait-online.anyInterface = true;
 
-    # Define links manually, not necessary but can prevent NICs swapping on boot
-    # in some circumstances.
+    # Define links manually, not strictly necessary - but will prevent NICs 'swapping'
+    # on boot
     links = {
       "10-wan" = {
         matchConfig.PermanentMACAddress = wanMacAddress;
@@ -167,7 +174,8 @@ in {
   # just disabling some defaults we don't need here and setting the hostname &
   # nftables (firewall) rules
   networking = {
-    hostName = "router";
+    # Setting Hostname
+    hostName = "jellyfin";
 
     # We use systemd.network for DHCP, so we disable because there can be conflicts
     # between `networking` and `systemd.network` config options
@@ -175,14 +183,14 @@ in {
 
     # Disable existing IPTables firewall & NAT
     nat.enable = false;
-    firewall.enable = false;
+    firewall.enable = false; # Using nftables instead
 
     nftables = {
       # Enable NFTables & flush any existing rulesets
       enable = true;
       flushRuleset = true;
 
-     # Actual NFTables rules
+      # Actual NFTables rules
       ruleset = ''
         table inet filter {
           chain inbound_world {
@@ -312,7 +320,9 @@ in {
               }
             ],
             "subnet": "172.21.10.0/24",
-            "reservations": ${config.sops.placeholder.reservations_home}
+            "reservations": [
+              ${config.sops.placeholder.reservations_home}
+            ]
           },
           {
             "id": 2,
@@ -333,7 +343,9 @@ in {
               }
             ],
             "subnet": "172.21.20.0/24",
-            "reservations": ${config.sops.placeholder.reservations_guest}
+            "reservations": [
+              ${config.sops.placeholder.reservations_guest}
+            ]
           },
           {
             "id": 3,
@@ -354,7 +366,9 @@ in {
               }
             ],
             "subnet": "172.21.90.0/24",
-            "reservations": ${config.sops.placeholder.reservations_iot}
+            "reservations": [
+              ${config.sops.placeholder.reservations_iot}
+            ]
           }
         ],
         "valid-lifetime": 86400
