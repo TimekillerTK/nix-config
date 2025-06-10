@@ -56,16 +56,15 @@
           pools = [
             { pool = "192.0.2.100 - 192.0.2.240"; }
           ];
-          # reservations = [
-          #   {
-          #     hw-address = "01:23:45:67:89:ab"; # MAC address of the device
-          #     ip-address = "192.0.2.10";        # Reserved IP address
-          #     hostname = "special-device";      # Optional: assign a hostname
-          #   }
-          # ];
+          reservations = [
+            {
+              hw-address = "d2:a4:34:62:28:69";  # MAC address of the device
+              ip-address = "192.0.2.150";        # Reserved IP address
+            }
+          ];
         }
       ];
-      valid-lifetime = 4000;
+      valid-lifetime = 86400; # 1-Day Lease
     };
   };
 
