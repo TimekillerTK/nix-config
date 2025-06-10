@@ -40,7 +40,7 @@
   # Kea DHCP config
   services.kea.dhcp4.settings = {
     interfaces-config = {
-      interfaces = [ "eth0" ];
+      interfaces = [ "ens19" ];
     };
     lease-database = {
       type = "memfile";
