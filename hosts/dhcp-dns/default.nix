@@ -38,32 +38,35 @@
   networking.networkmanager.enable = true;
 
   # Kea DHCP config
-  services.kea.dhcp4.settings = {
-    interfaces-config = {
-      interfaces = [ "ens19" ];
+  services.kea.dhcp4 = {
+    enable = true;
+    settings = {
+      interfaces-config = {
+        interfaces = [ "ens19" ];
+      };
+      lease-database = {
+        type = "memfile";
+        name = "/var/lib/kea/dhcp4.leases";
+        persist = true;
+      };
+      subnet4 = [
+        {
+          id = 1;
+          subnet = "192.0.2.0/24";
+          pools = [
+            { pool = "192.0.2.100 - 192.0.2.240"; }
+          ];
+          # reservations = [
+          #   {
+          #     hw-address = "01:23:45:67:89:ab"; # MAC address of the device
+          #     ip-address = "192.0.2.10";        # Reserved IP address
+          #     hostname = "special-device";      # Optional: assign a hostname
+          #   }
+          # ];
+        }
+      ];
+      valid-lifetime = 4000;
     };
-    lease-database = {
-      type = "memfile";
-      name = "/var/lib/kea/dhcp4.leases";
-      persist = true;
-    };
-    subnet4 = [
-      {
-        id = 1;
-        subnet = "192.0.2.0/24";
-        pools = [
-          { pool = "192.0.2.100 - 192.0.2.240"; }
-        ];
-        # reservations = [
-        #   {
-        #     hw-address = "01:23:45:67:89:ab"; # MAC address of the device
-        #     ip-address = "192.0.2.10";        # Reserved IP address
-        #     hostname = "special-device";      # Optional: assign a hostname
-        #   }
-        # ];
-      }
-    ];
-    valid-lifetime = 4000;
   };
 
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
