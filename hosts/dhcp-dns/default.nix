@@ -13,6 +13,7 @@
     # Repo Modules
     ../common/global
     ../common/users/tk
+    ../common/optional/sops
 
   ];
 
@@ -56,10 +57,14 @@
           pools = [
             { pool = "192.0.2.100 - 192.0.2.240"; }
           ];
+          # Reservations can be found in /etc/kea/dhcp4-server.conf
+          #
+          # TRY ENCRYPTING WITH THIS:
+          # https://github.com/Mic92/sops-nix?tab=readme-ov-file#templates
           reservations = [
             {
               hw-address = "d2:a4:34:62:28:69";  # MAC address of the device
-              ip-address = "192.0.2.150";        # Reserved IP address
+              ip-address = "192.0.2.149";        # Reserved IP address
             }
           ];
         }
