@@ -93,40 +93,61 @@
     };
   };
 
-  # # Kea DHCP config
-  # services.kea.dhcp4 = {
-  #   enable = true;
-  #   settings = {
-  #     interfaces-config = {
-  #       interfaces = [ "ens19" ];
-  #     };
-  #     lease-database = {
-  #       type = "memfile";
-  #       name = "/var/lib/kea/dhcp4.leases";
-  #       persist = true;
-  #     };
-  #     subnet4 = [
-  #       {
-  #         id = 1;
-  #         subnet = "192.0.2.0/24";
-  #         pools = [
-  #           { pool = "192.0.2.100 - 192.0.2.240"; }
-  #         ];
-  #         # Reservations can be found in /etc/kea/dhcp4-server.conf
-  #         #
-  #         # TRY ENCRYPTING WITH THIS:
-  #         # https://github.com/Mic92/sops-nix?tab=readme-ov-file#templates
-  #         reservations = [
-  #           {
-  #             hw-address = "d2:a4:34:62:28:69";  # MAC address of the device
-  #             ip-address = "192.0.2.149";        # Reserved IP address
-  #           }
-  #         ];
-  #       }
-  #     ];
-  #     valid-lifetime = 86400; # 1-Day Lease
-  #   };
-  # };
+  # Kea DHCP config
+  services.kea.dhcp4 = {
+    enable = true;
+    settings = {
+      interfaces-config = {
+        interfaces = [ "lan" "guest" "iot" ];
+      };
+      lease-database = {
+        type = "memfile";
+        name = "/var/lib/kea/dhcp4.leases";
+        persist = true;
+      };
+      subnet4 = [
+        {
+          subnet = "10.0.10.1/24";
+          interface = "lan";
+          pools = [
+            { pool = "10.0.10.100 - 10.0.10.240"; }
+          ];
+        }
+        {
+          subnet = "10.0.90.1/24";
+          interface = "iot";
+          pools = [
+            { pool = "10.0.90.100 - 10.0.90.240"; }
+          ];
+        }
+        {
+          subnet = "10.0.20.1/24";
+          interface = "lan";
+          pools = [
+            { pool = "10.0.20.100 - 10.0.20.240"; }
+          ];
+        }
+        # {
+        #   id = 1;
+        #   subnet = "192.0.2.0/24";
+        #   pools = [
+        #     { pool = "192.0.2.100 - 192.0.2.240"; }
+        #   ];
+        #   # Reservations can be found in /etc/kea/dhcp4-server.conf
+        #   #
+        #   # TRY ENCRYPTING WITH THIS:
+        #   # https://github.com/Mic92/sops-nix?tab=readme-ov-file#templates
+        #   reservations = [
+        #     {
+        #       hw-address = "d2:a4:34:62:28:69";  # MAC address of the device
+        #       ip-address = "192.0.2.149";        # Reserved IP address
+        #     }
+        #   ];
+        # }
+      ];
+      valid-lifetime = 86400; # 1-Day Lease
+    };
+  };
 
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "25.05";
