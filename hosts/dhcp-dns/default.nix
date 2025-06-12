@@ -42,7 +42,7 @@
   # Hostname & Network Manager
   networking = {
     hostName = "dhcp-dns";
-    firewall.enable = false; # Using nftables
+    firewall.enable = false; # Using nftables (SOON)
 
     vlans = {
       lan = {
