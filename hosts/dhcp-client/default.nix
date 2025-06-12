@@ -35,7 +35,7 @@
 
   # Hostname & Network Manager
   networking.hostName = "dhcp-client";
-  # networking.networkmanager.enable = true;
+  networking.networkmanager.enable = true;
 
   networking = {
     firewall.enable = false; # Using nftables
