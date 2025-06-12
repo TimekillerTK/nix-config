@@ -39,6 +39,12 @@
 
   # DHCP Client
   environment.systemPackages = with pkgs; [
+
+    # Release the current DHCP lease for a network interface (e.g., eth0, wlan0)
+    # -> sudo dhcpcd --release <interface>
+    #
+    # Request a new DHCP lease (renew)request a new DHCP lease (renew)
+    # -> sudo dhcpcd --rebind <interface>
     dhcpcd
   ];
 

@@ -34,9 +34,66 @@
   users.users.tk.shell = lib.mkForce pkgs.bash;
   users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel"];
 
+  # Enable IPv4 forwarding
+  boot.kernel.sysctl = {
+    "net.ipv4.conf.all.forwarding" = true;
+  };
+
   # Hostname & Network Manager
-  networking.hostName = "dhcp-dns";
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "dhcp-dns";
+    firewall.enable = false; # Using nftables
+
+    vlans = {
+      lan = {
+        interface = "enp0s19";
+        id = 10;
+      };
+      iot = {
+        interface = "enp0s19";
+        id = 90;
+      };
+      guest = {
+        interface = "enp0s19";
+        id = 20;
+      };
+    };
+
+    interfaces = {
+
+      # Physical NICs
+      enp0s18 = {
+        useDHCP = true;
+      };
+      enp0s19 = {
+        useDHCP = false;
+        ipv4.addresses = [{
+          address = "192.168.0.1";
+          prefixLength = 24;
+        }];
+      };
+
+      # VLAN NICs
+      lan = {
+        ipv4.addresses = [{
+          address = "10.0.10.1";
+          prefixLength = 24;
+        }];
+      };
+      iot = {
+        ipv4.addresses = [{
+          address = "10.0.90.1";
+          prefixLength = 24;
+        }];
+      };
+      guest = {
+        ipv4.addresses = [{
+          address = "10.0.20.1";
+          prefixLength = 24;
+        }];
+      };
+    };
+  };
 
   # Kea DHCP config
   services.kea.dhcp4 = {
