@@ -125,7 +125,7 @@
         {
           id = 3;
           subnet = "10.0.20.1/24";
-          interface = "lan";
+          interface = "guest";
           pools = [
             { pool = "10.0.20.10 - 10.0.20.20"; }
           ];
