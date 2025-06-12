@@ -35,7 +35,59 @@
 
   # Hostname & Network Manager
   networking.hostName = "dhcp-client";
-  networking.networkmanager.enable = true;
+  # networking.networkmanager.enable = true;
+
+  networking = {
+    firewall.enable = false; # Using nftables
+
+    vlans = {
+      lan = {
+        interface = "ens19";
+        id = 10;
+      };
+      iot = {
+        interface = "ens19";
+        id = 90;
+      };
+      guest = {
+        interface = "ens19";
+        id = 20;
+      };
+    };
+
+    interfaces = {
+
+      # Physical NICs
+      ens18.useDHCP = false;
+      ens19 = {
+        useDHCP = false;
+        ipv4.addresses = [{
+          address = "192.168.0.2";
+          prefixLength = 24;
+        }];
+      };
+
+      # VLAN NICs
+      lan = {
+        ipv4.addresses = [{
+          address = "10.0.10.2";
+          prefixLength = 24;
+        }];
+      };
+      iot = {
+        ipv4.addresses = [{
+          address = "10.0.90.2";
+          prefixLength = 24;
+        }];
+      };
+      guest = {
+        ipv4.addresses = [{
+          address = "10.0.20.2";
+          prefixLength = 24;
+        }];
+      };
+    };
+  };
 
   # DHCP Client
   environment.systemPackages = with pkgs; [
