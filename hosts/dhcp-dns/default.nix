@@ -42,57 +42,57 @@
   # Hostname & Network Manager
   networking = {
     hostName = "dhcp-dns";
-    firewall.enable = false; # Using nftables
+    # firewall.enable = false; # Using nftables
 
-    vlans = {
-      lan = {
-        interface = "enp0s19";
-        id = 10;
-      };
-      iot = {
-        interface = "enp0s19";
-        id = 90;
-      };
-      guest = {
-        interface = "enp0s19";
-        id = 20;
-      };
-    };
+    # vlans = {
+    #   lan = {
+    #     interface = "enp0s19";
+    #     id = 10;
+    #   };
+    #   iot = {
+    #     interface = "enp0s19";
+    #     id = 90;
+    #   };
+    #   guest = {
+    #     interface = "enp0s19";
+    #     id = 20;
+    #   };
+    # };
 
-    interfaces = {
+    # interfaces = {
 
-      # Physical NICs
-      enp0s18 = {
-        useDHCP = true;
-      };
-      enp0s19 = {
-        useDHCP = false;
-        ipv4.addresses = [{
-          address = "192.168.0.1";
-          prefixLength = 24;
-        }];
-      };
+    #   # Physical NICs
+    #   enp0s18 = {
+    #     useDHCP = true;
+    #   };
+    #   enp0s19 = {
+    #     useDHCP = false;
+    #     ipv4.addresses = [{
+    #       address = "192.168.0.1";
+    #       prefixLength = 24;
+    #     }];
+    #   };
 
-      # VLAN NICs
-      lan = {
-        ipv4.addresses = [{
-          address = "10.0.10.1";
-          prefixLength = 24;
-        }];
-      };
-      iot = {
-        ipv4.addresses = [{
-          address = "10.0.90.1";
-          prefixLength = 24;
-        }];
-      };
-      guest = {
-        ipv4.addresses = [{
-          address = "10.0.20.1";
-          prefixLength = 24;
-        }];
-      };
-    };
+    #   # VLAN NICs
+    #   lan = {
+    #     ipv4.addresses = [{
+    #       address = "10.0.10.1";
+    #       prefixLength = 24;
+    #     }];
+    #   };
+    #   iot = {
+    #     ipv4.addresses = [{
+    #       address = "10.0.90.1";
+    #       prefixLength = 24;
+    #     }];
+    #   };
+    #   guest = {
+    #     ipv4.addresses = [{
+    #       address = "10.0.20.1";
+    #       prefixLength = 24;
+    #     }];
+    #   };
+    # };
   };
 
   # Kea DHCP config
