@@ -132,6 +132,10 @@
         modules = [./hosts/dhcp-client];
         specialArgs = {inherit inputs outputs;};
       };
+      dhcp-client2 = lib.nixosSystem {
+        modules = [./hosts/dhcp-client2];
+        specialArgs = {inherit inputs outputs;};
+      };
       dhcp-dns = lib.nixosSystem {
         modules = [./hosts/dhcp-dns];
         specialArgs = {inherit inputs outputs;};
