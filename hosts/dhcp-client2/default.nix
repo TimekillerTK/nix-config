@@ -37,6 +37,35 @@
   networking.hostName = "dhcp-client2";
   networking.networkmanager.enable = true;
 
+    networking = {
+    firewall.enable = false; # Using nftables
+
+    vlans = {
+      iot = {
+        interface = "ens19";
+        id = 90;
+      };
+    };
+
+    interfaces = {
+
+      # Physical NICs
+      ens18.useDHCP = true;
+      ens19 = {
+        useDHCP = false;
+        # ipv4.addresses = [{
+        #   address = "192.168.0.2";
+        #   prefixLength = 24;
+        # }];
+      };
+
+      # VLAN NICs
+      iot = {
+        useDHCP = true;
+      };
+    };
+  };
+
   # DHCP Client
   environment.systemPackages = with pkgs; [
 
