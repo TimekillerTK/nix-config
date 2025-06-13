@@ -45,14 +45,14 @@
         interface = "ens19";
         id = 10;
       };
-      iot = {
-        interface = "ens19";
-        id = 90;
-      };
-      guest = {
-        interface = "ens19";
-        id = 20;
-      };
+      # iot = {
+      #   interface = "ens19";
+      #   id = 90;
+      # };
+      # guest = {
+      #   interface = "ens19";
+      #   id = 20;
+      # };
     };
 
     interfaces = {
@@ -71,12 +71,12 @@
       lan = {
         useDHCP = true;
       };
-      iot = {
-        useDHCP = true;
-      };
-      guest = {
-        useDHCP = true;
-      };
+      # iot = {
+      #   useDHCP = true;
+      # };
+      # guest = {
+      #   useDHCP = true;
+      # };
     };
   };
 
