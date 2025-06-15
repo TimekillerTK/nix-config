@@ -180,7 +180,7 @@ in {
           chain forward {
             type filter hook forward priority 0; policy drop;
             ct state vmap { established : accept, related : accept, invalid : drop }
-            iifname { lo, $LANPORT, $HOMEPORT } accept
+            iifname { lo, $LANPORT, $HOMEPORT, $IOTPORT, $GUESTPORT } oifname { $WANPORT } accept
           }
         }
 
