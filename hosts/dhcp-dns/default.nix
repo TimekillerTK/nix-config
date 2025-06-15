@@ -28,12 +28,6 @@ in {
 
   ];
 
-  # Actual SOPS keys
-  sops = {
-    defaultSopsFile = ./secrets.yml;
-    secrets.example_key = { };
-  };
-
   # Overlays
   nixpkgs = {
     overlays = [
@@ -45,6 +39,10 @@ in {
       allowUnfree = true;
     };
   };
+
+  # Actual SOPS key
+  sops.defaultSopsFile = ./secrets.yml;
+  sops.secrets.example_key = {};
 
   # # boot stuff (required)
   # boot.loader.systemd-boot.enable = true;
