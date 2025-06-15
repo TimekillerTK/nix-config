@@ -76,15 +76,15 @@ in {
 
     vlans = {
       home = {
-        interface = "lan";
+        interface = lanPort;
         id = 10;
       };
       guest = {
-        interface = "lan";
+        interface = lanPort;
         id = 20;
       };
       iot = {
-        interface = "lan";
+        interface = lanPort;
         id = 90;
       };
     };
@@ -127,58 +127,58 @@ in {
 
   };
 
-  # # Kea DHCP config
-  # services.kea.dhcp4 = {
-  #   enable = true;
-  #   settings = {
-  #     interfaces-config = {
-  #       interfaces = [ "home" "guest" "iot" ];
-  #     };
-  #     lease-database = {
-  #       type = "memfile";
-  #       name = "/var/lib/kea/dhcp4.leases";
-  #       persist = true;
-  #     };
-  #     subnet4 = [
-  #       {
-  #         id = 1;
-  #         subnet = "172.21.10.0/24";
-  #         interface = "home";
-  #         pools = [{ pool = "172.21.10.90 - 172.21.10.95"; }];
-  #       }
-  #       {
-  #         id = 2;
-  #         subnet = "172.21.20.0/24";
-  #         interface = "guest";
-  #         pools = [{ pool = "172.21.20.10 - 172.21.20.20"; }];
-  #       }
-  #       {
-  #         id = 3;
-  #         subnet = "172.21.90.0/24";
-  #         interface = "iot";
-  #         pools = [{ pool = "172.21.90.150 - 172.21.90.160"; }];
-  #       }
-  #       # {
-  #       #   id = 1;
-  #       #   subnet = "192.0.2.0/24";
-  #       #   pools = [
-  #       #     { pool = "192.0.2.100 - 192.0.2.240"; }
-  #       #   ];
-  #       #   # Reservations can be found in /etc/kea/dhcp4-server.conf
-  #       #   #
-  #       #   # TRY ENCRYPTING WITH THIS:
-  #       #   # https://github.com/Mic92/sops-nix?tab=readme-ov-file#templates
-  #       #   reservations = [
-  #       #     {
-  #       #       hw-address = "d2:a4:34:62:28:69";  # MAC address of the device
-  #       #       ip-address = "192.0.2.149";        # Reserved IP address
-  #       #     }
-  #       #   ];
-  #       # }
-  #     ];
-  #     valid-lifetime = 86400; # 1-Day Lease
-  #   };
-  # };
+  # Kea DHCP config
+  services.kea.dhcp4 = {
+    enable = true;
+    settings = {
+      interfaces-config = {
+        interfaces = [ "home" "guest" "iot" ];
+      };
+      lease-database = {
+        type = "memfile";
+        name = "/var/lib/kea/dhcp4.leases";
+        persist = true;
+      };
+      subnet4 = [
+        {
+          id = 1;
+          subnet = "172.21.10.0/24";
+          interface = "home";
+          pools = [{ pool = "172.21.10.90 - 172.21.10.95"; }];
+        }
+        {
+          id = 2;
+          subnet = "172.21.20.0/24";
+          interface = "guest";
+          pools = [{ pool = "172.21.20.10 - 172.21.20.20"; }];
+        }
+        {
+          id = 3;
+          subnet = "172.21.90.0/24";
+          interface = "iot";
+          pools = [{ pool = "172.21.90.150 - 172.21.90.160"; }];
+        }
+        # {
+        #   id = 1;
+        #   subnet = "192.0.2.0/24";
+        #   pools = [
+        #     { pool = "192.0.2.100 - 192.0.2.240"; }
+        #   ];
+        #   # Reservations can be found in /etc/kea/dhcp4-server.conf
+        #   #
+        #   # TRY ENCRYPTING WITH THIS:
+        #   # https://github.com/Mic92/sops-nix?tab=readme-ov-file#templates
+        #   reservations = [
+        #     {
+        #       hw-address = "d2:a4:34:62:28:69";  # MAC address of the device
+        #       ip-address = "192.0.2.149";        # Reserved IP address
+        #     }
+        #   ];
+        # }
+      ];
+      valid-lifetime = 86400; # 1-Day Lease
+    };
+  };
 
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "25.05";
