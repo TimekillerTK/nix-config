@@ -43,7 +43,7 @@ in {
 
   # Actual SOPS key
   sops.defaultSopsFile = ./secrets.json;
-  sops.secrets."kea/reservations" = {
+  sops.secrets."reservations" = {
     owner = "kea";
     group = "kea";
     mode = "0400";
