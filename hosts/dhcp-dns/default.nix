@@ -13,7 +13,7 @@ let
   wanMacAddress = "be:9f:42:7c:a8:c4";
   lanMacAddress = "42:29:21:ca:3d:58";
 
-  routerLanIpAddress = "172.21.10.1/24";
+  routerLanIpAddress = "172.21.10.1";
 in {
   imports = [
     # Generated (nixos-generate-config) hardware configuration
