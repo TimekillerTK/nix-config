@@ -181,6 +181,7 @@ in {
             type filter hook forward priority 0; policy drop;
             ct state vmap { established : accept, related : accept, invalid : drop }
             iifname { lo, $LANPORT, $HOMEPORT, $IOTPORT, $GUESTPORT } oifname { $WANPORT } accept
+            iifname { $HOMEPORT } oifname { $IOTPORT } counter accept
           }
         }
 
