@@ -238,7 +238,7 @@ in {
             data = "172.21.90.1";
           }];
           reservations = (
-            builtins.fromJSON (builtins.readFile config.sops.secrets."kea_reservations.json".path)
+            builtins.fromJSON (builtins.readFile config.sops.secrets."kea_reservations.json")
           ).reservations;
         }
         # {
