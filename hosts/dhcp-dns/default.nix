@@ -136,6 +136,9 @@ in {
         # Our future selves will thank us for noting what cable goes where and labeling the relevant network interfaces if it isn't already done out-of-the-box.
         define WANPORT = ${wanPort}
         define LANPORT = ${lanPort}
+        define IOTPORT = ${iotPort}
+        define GUESTPORT = ${guestPort}
+        define HOMEPORT = ${homePort}
 
         # We never expect to see the following address ranges on the Internet
         define BOGONS4 = {
@@ -195,7 +198,7 @@ in {
             ct state vmap { established : accept, related : accept, invalid : drop }
 
             # Let traffic from this router and from the Internal network get out onto the Internet
-            iifname { lo, $LANPORT } accept
+            iifname { lo, $LANPORT, $IOTPORT, $GUESTPORT, $HOMEPORT } accept
           }
         }
 
