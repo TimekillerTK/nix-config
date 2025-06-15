@@ -245,18 +245,30 @@ in {
           subnet = "172.21.10.0/24";
           interface = "home";
           pools = [{ pool = "172.21.10.90 - 172.21.10.95"; }];
+          option-data = [{
+            name = "routers";
+            data = "172.21.10.1";
+          }];
         }
         {
           id = 2;
           subnet = "172.21.20.0/24";
           interface = "guest";
           pools = [{ pool = "172.21.20.10 - 172.21.20.20"; }];
+          option-data = [{
+            name = "routers";
+            data = "172.21.20.1";
+          }];
         }
         {
           id = 3;
           subnet = "172.21.90.0/24";
           interface = "iot";
           pools = [{ pool = "172.21.90.150 - 172.21.90.160"; }];
+          option-data = [{
+            name = "routers";
+            data = "172.21.90.1";
+          }];
         }
         # {
         #   id = 1;
