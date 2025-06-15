@@ -235,9 +235,9 @@ in {
             name = "routers";
             data = "172.21.90.1";
           }];
-          # reservations = (
-          #   builtins.fromJSON (builtins.readFile config.sops.secrets."kea_reservations.json".path)
-          # ).reservations;
+          reservations = (
+            builtins.fromJSON (builtins.readFile config.sops.secrets."kea_reservations.json".path)
+          ).reservations;
         }
         # {
         #   id = 1;
