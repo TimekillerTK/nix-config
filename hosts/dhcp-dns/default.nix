@@ -28,6 +28,9 @@ in {
 
   ];
 
+  # Actual SOPS keys
+  sops.secrets.example_key = { };
+
   # Overlays
   nixpkgs = {
     overlays = [
@@ -133,9 +136,6 @@ in {
 
       # Actual NFTables rules
       ruleset = ''
-        # Source: https://oxcrag.net/projects/linux-router-part-1-routing-nat-and-nftables/
-        # Our future selves will thank us for noting what cable goes where and labeling the relevant network interfaces if it isn't already done out-of-the-box.
-
         table inet filter {
           chain inbound_world {
           }
