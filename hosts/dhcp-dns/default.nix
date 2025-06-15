@@ -47,7 +47,7 @@ in {
     owner = "kea";
     group = "kea";
     mode = "0400";
-    path = "/etc/kea/conf.d/reservations.json";
+    path = "/kea/conf.d/reservations.json";
   };
 
   # # boot stuff (required)
