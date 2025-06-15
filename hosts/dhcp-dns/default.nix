@@ -45,7 +45,7 @@ in {
   sops.defaultSopsFile = ./secrets.json;
   sops.secrets."kea/reservations" = {
     owner = config.users.users.kea.name;
-    group = config.users.groups.kea.name;
+    # group = config.users.groups.kea.name;
     mode = "0400";
     path = "/etc/kea/conf.d/reservations.json";
   };
