@@ -63,7 +63,7 @@
         useDHCP = false;
         # ipv4.addresses = [{
         #   address = "192.168.0.2";
-        #   prefixLength = 24;
+        #   prefixLength = 24; 
         # }];
       };
 

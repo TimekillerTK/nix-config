@@ -58,7 +58,7 @@ in {
 
     # Without this networkd activation would fail as it would be waiting until timeout
     # is reached for all managed interfaces to come online. It is not necessary to set
-    # it if all managed interfaces are always connected but this is not my case. 
+    # it if all managed interfaces are always connected but this is not my case.
     # Basically allow unplugging ETH cables when needed...
     wait-online.anyInterface = true;
 

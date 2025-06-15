@@ -5,7 +5,16 @@
   lib,
   ...
 }:
-{
+let
+  wanPort = "wan";
+  lanPort = "lan"; # VLAN 10
+  guestPort = "guest"; # VLAN 20
+  iotPort = "iot"; # VLAN 90
+  wanMacAddress = "be:9f:42:7c:a8:c4";
+  lanMacAddress = "42:29:21:ca:3d:58";
+
+  routerLanIpAddress = "172.21.10.1/24";
+in {
   imports = [
     # Generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
@@ -29,15 +38,24 @@
     };
   };
 
+  # boot stuff (required)
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
   # use default bash
-  # TODO: find a better way to do this
   users.users.tk.shell = lib.mkForce pkgs.bash;
   users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel"];
+
+  # For network troubleshooting
+  environment.systemPackages = with pkgs; [
+    tcpdump
+  ];
 
   # Enable IPv4 forwarding
   boot.kernel.sysctl = {
     "net.ipv4.conf.all.forwarding" = true;
   };
+
 
   # Hostname & Network Manager
   networking = {
@@ -62,11 +80,15 @@
     interfaces = {
 
       # Physical NICs
-      ens18.useDHCP = true;
+      ens18 = {
+        macAddress = wanMacAddress;
+        useDHCP = true;
+      };
       ens19 = {
         useDHCP = false;
+        macAddress = lanMacAddress;
         ipv4.addresses = [{
-          address = "192.168.0.1";
+          address = routerLanIpAddress;
           prefixLength = 24;
         }];
       };
@@ -149,3 +171,50 @@
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "25.05";
 }
+
+
+  # # Configuring Network Interfaces
+  # systemd.network = {
+  #   enable = true;
+
+  #   # Without this networkd activation would fail as it would be waiting until timeout
+  #   # is reached for all managed interfaces to come online. It is not necessary to set
+  #   # it if all managed interfaces are always connected but this is not my case.
+  #   # Basically allow unplugging ETH cables when needed...
+  #   wait-online.anyInterface = true;
+
+  #   # Define links manually, not necessary but can prevent NICs swapping on boot
+  #   # in some circumstances.
+  #   links = {
+  #     "09-wan" = {
+  #       matchConfig.PermanentMACAddress = wanMacAddress;
+  #       linkConfig.Name = wanPort;
+  #     };
+  #     "10-lan" = {
+  #       matchConfig.PermanentMACAddress = lanMacAddress;
+  #       linkConfig.Name = lanPort;
+  #     };
+  #   };
+
+  #   networks = {
+  #     # NIC1 (WAN)
+  #     "09-wan" = {
+  #       matchConfig.Name = wanPort;
+  #       networkConfig = {
+  #         DHCP = "ipv4";
+  #         IPv4Forwarding = true;
+  #       };
+
+  #       # Setting Explicit DNS servers, though probably not needed
+  #       # make routing on this interface a dependency for network-online.target
+  #       linkConfig.RequiredForOnline = "routable";
+  #     };
+  #     # NIC2 (LAN)
+  #     "10-lan" = {
+  #       matchConfig.Name = lanPort;
+  #       address = [
+  #         routerLanIpAddress
+  #       ];
+  #     };
+  #   };
+  # };
