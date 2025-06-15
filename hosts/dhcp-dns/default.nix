@@ -6,14 +6,15 @@
   ...
 }:
 let
-  wanPort = "wan";
-  lanPort = "lan"; # VLAN 10
+  wanPort = "wan"; # Physical wan
+  lanPort = "lan"; # Physical LAN
+  homePort = "home"; # VLAN 10
   guestPort = "guest"; # VLAN 20
   iotPort = "iot"; # VLAN 90
   wanMacAddress = "be:9f:42:7c:a8:c4";
   lanMacAddress = "42:29:21:ca:3d:58";
 
-  routerLanIpAddress = "172.21.10.1";
+  routerLanIpAddress = "172.21.0.1";
 in {
   imports = [
     # Generated (nixos-generate-config) hardware configuration
@@ -63,30 +64,31 @@ in {
     firewall.enable = false; # Using nftables (SOON)
 
     vlans = {
-      lan = {
+      home = {
         interface = "ens19";
         id = 10;
-      };
-      iot = {
-        interface = "ens19";
-        id = 90;
       };
       guest = {
         interface = "ens19";
         id = 20;
       };
+      iot = {
+        interface = "ens19";
+        id = 90;
+      };
     };
 
     interfaces = {
-
       # Physical NICs
-      ens18 = {
-        macAddress = lanMacAddress;
+      wan = {
+        name = wanPort;
+        macAddress = wanMacAddress;
         useDHCP = true;
       };
-      ens19 = {
+      lan = {
+        name = lanPort;
+        macAddress = lanMacAddress;
         useDHCP = false;
-        macAddress = wanMacAddress;
         ipv4.addresses = [{
           address = routerLanIpAddress;
           prefixLength = 24;
@@ -94,21 +96,21 @@ in {
       };
 
       # VLAN NICs
-      lan = {
+      home = {
         ipv4.addresses = [{
-          address = "10.0.10.1";
-          prefixLength = 24;
-        }];
-      };
-      iot = {
-        ipv4.addresses = [{
-          address = "10.0.90.1";
+          address = "172.21.10.1";
           prefixLength = 24;
         }];
       };
       guest = {
         ipv4.addresses = [{
-          address = "10.0.20.1";
+          address = "172.21.20.1";
+          prefixLength = 24;
+        }];
+      };
+      iot = {
+        ipv4.addresses = [{
+          address = "172.21.90.1";
           prefixLength = 24;
         }];
       };
@@ -120,7 +122,7 @@ in {
     enable = true;
     settings = {
       interfaces-config = {
-        interfaces = [ "lan" "guest" "iot" ];
+        interfaces = [ "home" "guest" "iot" ];
       };
       lease-database = {
         type = "memfile";
@@ -130,21 +132,21 @@ in {
       subnet4 = [
         {
           id = 1;
-          subnet = "10.0.10.1/24";
+          subnet = "172.21.10.0/24";
           interface = "lan";
-          pools = [{ pool = "10.0.10.90 - 10.0.10.95"; }];
+          pools = [{ pool = "172.21.10.90 - 172.21.10.95"; }];
         }
         {
           id = 2;
-          subnet = "10.0.90.1/24";
-          interface = "iot";
-          pools = [{ pool = "10.0.90.150 - 10.0.90.160"; }];
+          subnet = "172.21.20.0/24";
+          interface = "guest";
+          pools = [{ pool = "172.21.20.10 - 172.21.20.20"; }];
         }
         {
           id = 3;
-          subnet = "10.0.20.1/24";
-          interface = "guest";
-          pools = [{ pool = "10.0.20.10 - 10.0.20.20"; }];
+          subnet = "172.21.90.0/24";
+          interface = "iot";
+          pools = [{ pool = "172.21.90.150 - 172.21.90.160"; }];
         }
         # {
         #   id = 1;
