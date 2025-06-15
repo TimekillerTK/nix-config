@@ -42,7 +42,7 @@
 
     vlans = {
       iot = {
-        interface = "ens19";
+        interface = "ens18";
         id = 90;
       };
     };
@@ -51,9 +51,6 @@
 
       # Physical NICs
       ens18.useDHCP = true;
-      ens19 = {
-        useDHCP = false;
-      };
 
       # VLAN NICs
       iot = {

@@ -41,42 +41,21 @@
     firewall.enable = false; # Using nftables
 
     vlans = {
-      lan = {
+      home = {
         interface = "ens19";
         id = 10;
       };
-      # iot = {
-      #   interface = "ens19";
-      #   id = 90;
-      # };
-      # guest = {
-      #   interface = "ens19";
-      #   id = 20;
-      # };
     };
 
     interfaces = {
 
       # Physical NICs
-      ens18.useDHCP = true;
-      ens19 = {
-        useDHCP = false;
-        # ipv4.addresses = [{
-        #   address = "192.168.0.2";
-        #   prefixLength = 24; 
-        # }];
-      };
+      ens19.useDHCP = true;
 
       # VLAN NICs
-      lan = {
+      home = {
         useDHCP = true;
       };
-      # iot = {
-      #   useDHCP = true;
-      # };
-      # guest = {
-      #   useDHCP = true;
-      # };
     };
   };
 
