@@ -57,6 +57,11 @@ in {
     "net.ipv4.conf.all.forwarding" = true;
   };
 
+  # Rename our network interfaces to have more understandable names
+  services.udev.extraRules = ''
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="${wanMacAddress}", NAME="${wanPort}"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="${lanMacAddress}", NAME="${lanPort}"
+  '';
 
   # Hostname & Network Manager
   networking = {
@@ -71,28 +76,26 @@ in {
 
     vlans = {
       home = {
-        interface = "ens19";
+        interface = "lan";
         id = 10;
       };
       guest = {
-        interface = "ens19";
+        interface = "lan";
         id = 20;
       };
       iot = {
-        interface = "ens19";
+        interface = "lan";
         id = 90;
       };
     };
 
     interfaces = {
       # Physical NICs
-      ens18 = {
-        name = wanPort;
+      wan = {
         macAddress = wanMacAddress;
         useDHCP = true;
       };
-      ens19 = {
-        name = lanPort;
+      lan = {
         macAddress = lanMacAddress;
         useDHCP = false;
         ipv4.addresses = [{
