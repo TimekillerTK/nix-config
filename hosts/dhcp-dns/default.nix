@@ -81,12 +81,12 @@ in {
 
       # Physical NICs
       ens18 = {
-        macAddress = wanMacAddress;
+        macAddress = lanMacAddress;
         useDHCP = true;
       };
       ens19 = {
         useDHCP = false;
-        macAddress = lanMacAddress;
+        macAddress = wanMacAddress;
         ipv4.addresses = [{
           address = routerLanIpAddress;
           prefixLength = 24;
