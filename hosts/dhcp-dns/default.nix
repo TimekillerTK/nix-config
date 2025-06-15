@@ -42,8 +42,6 @@ in {
   };
 
   # Actual SOPS key
-  # sops.defaultSopsFile = ./secrets.json;
-  # sops.defaultSopsFormat = "json";
   sops.secrets."kea_reservations.json" = {
     mode = "0440";
     owner = "kea";
@@ -237,9 +235,9 @@ in {
             name = "routers";
             data = "172.21.90.1";
           }];
-          reservations = (
-            builtins.fromJSON (builtins.readFile config.sops.secrets."kea_reservations.json")
-          ).reservations;
+          # reservations = (
+          #   builtins.fromJSON (builtins.readFile config.sops.secrets."kea_reservations.json".path)
+          # ).reservations;
         }
         # {
         #   id = 1;
