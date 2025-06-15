@@ -43,7 +43,7 @@ in {
 
   # Actual SOPS key
   sops.defaultSopsFile = ./secrets.json;
-  sops.secrets."reservations" = {
+  sops.secrets."kea/reservations" = {
     owner = "kea";
     group = "kea";
     mode = "0400";
@@ -233,9 +233,9 @@ in {
             name = "routers";
             data = "172.21.90.1";
           }];
-          # reservations = (
-          #   builtins.fromJSON (builtins.readFile config.sops.secrets."kea/reservations".path)
-          # ).reservations;
+          reservations = (
+            builtins.fromJSON (builtins.readFile config.sops.secrets."kea/reservations".path)
+          ).reservations;
         }
         # {
         #   id = 1;
