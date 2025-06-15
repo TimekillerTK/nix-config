@@ -133,7 +133,7 @@ in {
         {
           id = 1;
           subnet = "172.21.10.0/24";
-          interface = "lan";
+          interface = "home";
           pools = [{ pool = "172.21.10.90 - 172.21.10.95"; }];
         }
         {
