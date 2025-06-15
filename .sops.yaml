@@ -24,7 +24,7 @@ creation_rules:
     - age:
       - *hummingbird
       - *mbp
-  - path_regex: hosts/dhcp-dns/secrets.ya?ml$
+  - path_regex: hosts/dhcp-dns/secrets.json
     key_groups:
     - age:
       - *mbp

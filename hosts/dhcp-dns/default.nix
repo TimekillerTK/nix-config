@@ -41,8 +41,13 @@ in {
   };
 
   # Actual SOPS key
-  sops.defaultSopsFile = ./secrets.yml;
-  sops.secrets.example_key = {};
+  sops.defaultSopsFile = ./secrets.json;
+  sops.secrets."kea/reservations" = {
+    owner = config.users.users.kea.name;
+    group = config.users.groups.kea.name;
+    mode = "0400";
+    path = "/etc/kea/conf.d/reservations.json";
+  };
 
   # # boot stuff (required)
   # boot.loader.systemd-boot.enable = true;
@@ -227,6 +232,9 @@ in {
             name = "routers";
             data = "172.21.90.1";
           }];
+          # reservations = (
+          #   builtins.fromJSON (builtins.readFile config.sops.secrets."kea/reservations".path)
+          # ).reservations;
         }
         # {
         #   id = 1;
