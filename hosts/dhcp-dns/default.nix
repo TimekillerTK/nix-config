@@ -46,7 +46,7 @@ in {
     mode = "0440";
     owner = "kea";
     group = "kea";
-    path = /var/lib/kea/reservations.json;
+    path = "/var/lib/kea/reservations.json";
     format = "json";
     sopsFile = ./secrets.json;
     key = ""; # Full JSON file instead of a single key
