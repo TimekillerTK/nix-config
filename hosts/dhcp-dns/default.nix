@@ -48,6 +48,7 @@ in {
     mode = "0440";
     owner = "kea";
     group = "kea";
+    path = "/etc/kea/conf.d/reservations.json";
     format = "json";
     sopsFile = ./secrets.json;
     key = ""; # Full JSON file instead of a single key
