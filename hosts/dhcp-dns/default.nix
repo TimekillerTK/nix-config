@@ -15,6 +15,7 @@ let
   lanMacAddress = "42:29:21:ca:3d:58";
 
   routerLanIpAddress = "172.21.0.1";
+  dnsServerIpAddress = "172.21.10.15";
 in {
   imports = [
     # Generated (nixos-generate-config) hardware configuration
@@ -134,31 +135,6 @@ in {
       ruleset = ''
         # Source: https://oxcrag.net/projects/linux-router-part-1-routing-nat-and-nftables/
         # Our future selves will thank us for noting what cable goes where and labeling the relevant network interfaces if it isn't already done out-of-the-box.
-        define WANPORT = ${wanPort}
-        define LANPORT = ${lanPort}
-        define IOTPORT = ${iotPort}
-        define GUESTPORT = ${guestPort}
-        define HOMEPORT = ${homePort}
-
-        # We never expect to see the following address ranges on the Internet
-        define BOGONS4 = {
-          0.0.0.0/8,
-          10.0.0.0/8,
-          10.64.0.0/10,
-          127.0.0.0/8,
-          127.0.53.53,
-          169.254.0.0/16,
-          172.16.0.0/12,
-          192.0.0.0/24,
-          192.0.2.0/24,
-          192.168.0.0/16,
-          198.18.0.0/15,
-          198.51.100.0/24,
-          203.0.113.0/24,
-          224.0.0.0/4,
-          240.0.0.0/4,
-          255.255.255.255/32
-        }
 
         table inet filter {
           chain inbound_world {
@@ -174,14 +150,18 @@ in {
             icmp type echo-request counter limit rate 5/second accept
             ip protocol icmp icmp type { destination-unreachable, echo-reply, echo-request, source-quench, time-exceeded } accept
             iifname "lo" ip daddr != 127.0.0.0/8 drop
-            iifname vmap { lo: accept, $WANPORT : jump inbound_world, $LANPORT : jump inbound_private }
+            iifname vmap { lo: accept, ${wanPort} : jump inbound_world, ${lanPort} : jump inbound_private }
           }
 
           chain forward {
             type filter hook forward priority 0; policy drop;
             ct state vmap { established : accept, related : accept, invalid : drop }
-            iifname { lo, $LANPORT, $HOMEPORT, $IOTPORT, $GUESTPORT } oifname { $WANPORT } accept
-            iifname { $HOMEPORT } oifname { $IOTPORT } counter accept
+
+            # Allow traffic from individual VLANS, and the router to go to the Internet
+            iifname { lo, ${lanPort}, ${homePort}, ${iotPort}, ${guestPort} } oifname { ${wanPort} } accept
+
+            # Allow home to connect to IoT, but IoT cannot connect to home
+            iifname { ${homePort} } oifname { ${iotPort} } counter accept
           }
         }
 
@@ -189,15 +169,15 @@ in {
         table ip nat {
           chain prerouting {
             type nat hook prerouting priority dstnat; policy accept;
-            iifname $LANPORT ip daddr 8.8.8.8 udp dport 53 counter ct mark set 1 dnat to 172.17.0.40:53
-            iifname $LANPORT ip daddr 8.8.8.8 tcp dport 53 counter ct mark set 1 dnat to 172.17.0.40:53
-            iifname $LANPORT ip daddr 8.8.4.4 udp dport 53 counter ct mark set 1 dnat to 172.17.0.40:53
-            iifname $LANPORT ip daddr 8.8.4.4 tcp dport 53 counter ct mark set 1 dnat to 172.17.0.40:53
+            iifname ${lanPort} ip daddr 8.8.8.8 udp dport 53 counter ct mark set 1 dnat to ${dnsServerIpAddress}:53
+            iifname ${lanPort} ip daddr 8.8.8.8 tcp dport 53 counter ct mark set 1 dnat to ${dnsServerIpAddress}:53
+            iifname ${lanPort} ip daddr 8.8.4.4 udp dport 53 counter ct mark set 1 dnat to ${dnsServerIpAddress}:53
+            iifname ${lanPort} ip daddr 8.8.4.4 tcp dport 53 counter ct mark set 1 dnat to ${dnsServerIpAddress}:53
           }
           chain postrouting {
             type nat hook postrouting priority 100; policy accept;
             ct mark 1 counter masquerade
-            oifname $WANPORT masquerade
+            oifname ${wanPort} masquerade
           }
         }
       '';
