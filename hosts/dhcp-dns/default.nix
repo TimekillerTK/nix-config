@@ -29,7 +29,10 @@ in {
   ];
 
   # Actual SOPS keys
-  sops.secrets.example_key = { };
+  sops = {
+    defaultSopsFile = ./secrets.yml;
+    secrets.example_key = { };
+  };
 
   # Overlays
   nixpkgs = {
