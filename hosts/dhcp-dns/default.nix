@@ -80,12 +80,12 @@ in {
 
     interfaces = {
       # Physical NICs
-      wan = {
+      ens18 = {
         name = wanPort;
         macAddress = wanMacAddress;
         useDHCP = true;
       };
-      lan = {
+      ens19 = {
         name = lanPort;
         macAddress = lanMacAddress;
         useDHCP = false;
