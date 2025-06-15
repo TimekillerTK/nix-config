@@ -81,12 +81,12 @@ in {
     interfaces = {
       # Physical NICs
       ens18 = {
-        name = wanPort;
+        # name = wanPort;
         macAddress = wanMacAddress;
         useDHCP = true;
       };
       ens19 = {
-        name = lanPort;
+        # name = lanPort;
         macAddress = lanMacAddress;
         useDHCP = false;
         ipv4.addresses = [{
