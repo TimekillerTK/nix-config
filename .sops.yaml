@@ -6,7 +6,7 @@ keys:
   - &hummingbird age1aueh50lp9pj5qfm2gm7qezdz4h7wgsjvyktrfj4xlfz548junv3qpk5f7n
   - &tailscale age1q8x3pn8vug94pj759n28e3nkt4yt39p30se978etn9497ass842sk8ge6l
   - &router age18z269exslvey625ry52eu96rhs63vqlyfw4efcxfq8evhup8y46sjytyyq
-  - &dhcp-server age14k7k39tkeeql0pplwayjc7kxzd0rvjd9vnfp5hva502pyelckqssn32l9t
+  - &dhcp-server age17gkh4s6mygaucya6d3x37mjpf0gq05tv9uzl65ry097dm08z99hsy0lx3w
 creation_rules:
   - path_regex: hosts/common/secrets.ya?ml$
     key_groups:
