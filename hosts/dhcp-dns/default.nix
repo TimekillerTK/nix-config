@@ -162,43 +162,25 @@ in {
 
         table inet filter {
           chain inbound_world {
-            # Drop obviously spoofed inbound traffic (to turn on later)
-            # ip saddr { $BOGONS4 } drop
           }
 
           chain inbound_private {
-            # We want to allow remote access over ssh, incoming DNS traffic, and incoming DHCP traffic
 	        	ip protocol . th dport vmap { tcp . 22 : accept, udp . 53 : accept, tcp . 53 : accept, udp . 67 : accept }
 	        }
 
           chain inbound {
-            # Default Deny
             type filter hook input priority 0; policy drop;
-
-            # Allow established and related connections: Allows Internet servers to respond to requests from our Internal network
             ct state vmap { established : accept, related : accept, invalid : drop} counter
-
-            # ICMP is - mostly - our friend. Limit incoming pings somewhat, but allow necessary information.
             icmp type echo-request counter limit rate 5/second accept
             ip protocol icmp icmp type { destination-unreachable, echo-reply, echo-request, source-quench, time-exceeded } accept
-
-            # Drop obviously spoofed loopback traffic
             iifname "lo" ip daddr != 127.0.0.0/8 drop
-
-            # Separate rules for traffic from Internet and from the internal network
             iifname vmap { lo: accept, $WANPORT : jump inbound_world, $LANPORT : jump inbound_private }
           }
 
-          # Rules for sending traffic from one network interface to another
           chain forward {
-            # Default deny, again
             type filter hook forward priority 0; policy drop;
-
-            # Accept established and related traffic
             ct state vmap { established : accept, related : accept, invalid : drop }
-
-            # Let traffic from this router and from the Internal network get out onto the Internet
-            iifname { lo, $LANPORT, $IOTPORT, $GUESTPORT, $HOMEPORT } accept
+            iifname { lo, $LANPORT, $HOMEPORT } accept
           }
         }
 
@@ -206,8 +188,6 @@ in {
         table ip nat {
           chain prerouting {
             type nat hook prerouting priority dstnat; policy accept;
-
-            # Redirect all DNS traffic destined to google DNS to local DNS server
             iifname $LANPORT ip daddr 8.8.8.8 udp dport 53 counter ct mark set 1 dnat to 172.17.0.40:53
             iifname $LANPORT ip daddr 8.8.8.8 tcp dport 53 counter ct mark set 1 dnat to 172.17.0.40:53
             iifname $LANPORT ip daddr 8.8.4.4 udp dport 53 counter ct mark set 1 dnat to 172.17.0.40:53
@@ -215,11 +195,7 @@ in {
           }
           chain postrouting {
             type nat hook postrouting priority 100; policy accept;
-
-            # Pretend that redirected DNS requests originate in this router, so clients can get a valid response
             ct mark 1 counter masquerade
-
-            # Pretend that outbound traffic originates in this router so that Internet servers know where to send responses
             oifname $WANPORT masquerade
           }
         }
