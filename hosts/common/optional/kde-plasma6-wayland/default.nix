@@ -39,10 +39,10 @@
 
   # Enable colour management daemon, and add KDE options
   services.colord.enable = true;
-  environment.systemPackages = with pkgs; [
-    kdePackages.colord-kde
-    kdePackages.kcolorchooser
-    kdePackages.kcalc
+  environment.systemPackages = with pkgs.kdePackages; [
+    colord-kde
+    kcolorchooser
+    kcalc
   ];
 
   # Enable sound with pipewire
