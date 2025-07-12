@@ -27,6 +27,7 @@ in {
     # Repo Modules
     ../common/global
     ../common/users/tk
+    ../common/optional/sops
   ];
 
   # Overlays
@@ -51,7 +52,6 @@ in {
 
   # All our DHCP reservation are considered secrets
   sops.secrets = {
-    # reservations_home.sopsFile = ./secrets.yml;
     reservations_home.sopsFile = ./secrets.yml;
     reservations_guest.sopsFile = ./secrets.yml;
     reservations_iot.sopsFile = ./secrets.yml;
@@ -312,7 +312,9 @@ in {
               }
             ],
             "subnet": "172.21.10.0/24",
-            "reservations": ${config.sops.placeholder.reservations_home}
+            "reservations": [
+              ${config.sops.placeholder.reservations_home}
+            ]
           },
           {
             "id": 2,
@@ -333,7 +335,9 @@ in {
               }
             ],
             "subnet": "172.21.20.0/24",
-            "reservations": ${config.sops.placeholder.reservations_guest}
+            "reservations": [
+              ${config.sops.placeholder.reservations_guest}
+            ]
           },
           {
             "id": 3,
@@ -354,7 +358,9 @@ in {
               }
             ],
             "subnet": "172.21.90.0/24",
-            "reservations": ${config.sops.placeholder.reservations_iot}
+            "reservations": [
+              ${config.sops.placeholder.reservations_iot}
+            ]
           }
         ],
         "valid-lifetime": 86400

@@ -1,6 +1,9 @@
 { pkgs, ... }:
 {
   # homeassistant user for shutdown via SSH command
+  #
+  # NOTE: To test if this is working, simply execute:
+  # ssh -i /config/ssh/id_ed25519 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null homeassistant@hostname.cyn.internal "echo 'test successful' > /ha-test/result"
   users = {
     groups = { homeassistant = {}; }; # group for homeassistant user (required)
     users = {

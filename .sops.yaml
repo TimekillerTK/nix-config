@@ -5,7 +5,7 @@ keys:
   - &beltanimal age1s42l4ucujcv59krzuxw3xmrqcyu8v5d8ctad6a0kmhlc4zttxfxqvtuy3l
   - &hummingbird age1aueh50lp9pj5qfm2gm7qezdz4h7wgsjvyktrfj4xlfz548junv3qpk5f7n
   - &tailscale age1q8x3pn8vug94pj759n28e3nkt4yt39p30se978etn9497ass842sk8ge6l
-  - &router age18z269exslvey625ry52eu96rhs63vqlyfw4efcxfq8evhup8y46sjytyyq
+  - &router age1k26plnlstgd0m7zaxrregh3nct6mqhlcw2tsld5arhsgv7c42y4qdrjzyg
   - &jellyfin age1mhdepy4r6zvxvgeawq9v7976d0gt48w98pz02zqzq5wkcn7gdcuq0ju8fc
 creation_rules:
   - path_regex: hosts/common/secrets.ya?ml$
