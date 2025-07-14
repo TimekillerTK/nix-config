@@ -25,6 +25,7 @@
     ../common/optional/input-remapper
     ../common/optional/mount-media
     ../common/optional/mount-important
+    ../common/optional/home-assistant-remote
   ];
 
   # Overlays

@@ -33,6 +33,7 @@
     ../common/optional/mount-media
     ../common/optional/mount-important
     ../common/optional/disable-bt-handsfree
+    ../common/optional/home-assistant-remote
     # ../common/optional/tailscale-client
   ];
 

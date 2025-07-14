@@ -56,12 +56,17 @@
   networking.networkmanager.enable = true;
 
   # Tailscale
+  # TODO: This doesn't actually advertise the routes as it should
+  # find a way to make this work, because the extraUpFlags don't
+  # seem to work.
+  # What works is the command instead:
+  # -> sudo tailscale set --advertise-routes=172.21.10.0/24,192.168.0.0/24
   services.tailscale = {
     enable = true;
     authKeyFile = "/run/secrets/tailscale";
     extraUpFlags = [
       "--advertise-tags=tag:router"
-      "--advertise-routes=172.17.0.0/16"
+      "--advertise-routes=172.21.10.0/24,192.168.0.0/24"
     ];
   };
 

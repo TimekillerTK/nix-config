@@ -82,11 +82,15 @@ in
     virtualHosts."sync.cyn.internal".extraConfig = ''
       reverse_proxy localhost:8060
     '';
-    virtualHosts."nc.cyn.internal".extraConfig = ''
-      reverse_proxy 172.17.10.63
-    '';
     virtualHosts."home.cyn.internal".extraConfig = ''
-      reverse_proxy 172.17.10.80:8123
+      reverse_proxy 172.21.10.80:8123
+    '';
+    virtualHosts."moxfin.cyn.internal".extraConfig = ''
+      reverse_proxy https://172.21.10.6:8006 {
+        transport http {
+            tls_insecure_skip_verify
+        }
+      }
     '';
   };
 

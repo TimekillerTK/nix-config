@@ -128,8 +128,8 @@
         modules = [./hosts/ca];
         specialArgs = {inherit inputs outputs;};
       };
-      nextcloud = lib.nixosSystem {
-        modules = [./hosts/nextcloud];
+      jellyfin = lib.nixosSystem {
+        modules = [./hosts/jellyfin];
         specialArgs = {inherit inputs outputs;};
       };
     };
