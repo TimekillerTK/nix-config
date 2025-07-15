@@ -34,6 +34,9 @@
     enable = true;
   };
 
+  # Required for our user
+  programs.zsh.enable = true;
+
   # Hostname & Network Manager
   networking.hostName = "wger";
   networking.networkmanager.enable = true;
