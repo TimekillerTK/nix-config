@@ -29,8 +29,13 @@
 
   boot.kernelPackages = pkgs.linuxPackages_6_15;
 
+  # Enable Docker
+  virtualisation.docker = {
+    enable = true;
+  };
+
   # Hostname & Network Manager
-  networking.hostName = "jellyfin";
+  networking.hostName = "wger";
   networking.networkmanager.enable = true;
 
   # Adding CA root cert
