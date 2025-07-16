@@ -28,6 +28,11 @@
     config.allowUnfree = true;
   };
 
+  # Helix IDE
+  programs.helix = {
+    enable = true;
+  };
+
   home.username = username;
   home.homeDirectory = "/home/${username}";
 
