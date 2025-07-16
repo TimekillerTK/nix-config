@@ -35,7 +35,7 @@
   };
 
   # Required for our user
-  programs.zsh.enable = true;
+  users.users.tk.shell = lib.mkForce pkgs.bash;
 
   # Hostname & Network Manager
   networking.hostName = "wger";
