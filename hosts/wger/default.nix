@@ -35,7 +35,8 @@
   };
 
   # Required for our user
-  programs.zsh.enable = true;
+  users.users.tk.shell = lib.mkForce pkgs.bash;
+  users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
 
   # Hostname & Network Manager
   networking.hostName = "wger";

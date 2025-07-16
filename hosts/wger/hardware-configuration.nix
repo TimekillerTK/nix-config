@@ -8,22 +8,28 @@
     [ (modulesPath + "/profiles/qemu-guest.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod" ];
+  boot.initrd.availableKernelModules = [ "uhci_hcd" "ehci_pci" "ahci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  boot.loader.grub = {
-    devices = [ "/dev/sda" ];
-  };
+  # Boot loader
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/d07c28a5-8813-4464-9f8d-c1f0f497769e";
+    { device = "/dev/disk/by-uuid/19924bdd-8e75-4a78-bd65-79bae193e263";
       fsType = "ext4";
     };
 
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/FDEE-9EEB";
+      fsType = "vfat";
+      options = [ "fmask=0077" "dmask=0077" ];
+    };
+
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/76adc6e9-8732-4bbd-8123-6b98d86760cd"; }
+    [ { device = "/dev/disk/by-uuid/c758d126-90c2-4c8c-9843-0d32e6fd4ec6"; }
     ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
