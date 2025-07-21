@@ -6,6 +6,7 @@ keys:
   - &hummingbird age1aueh50lp9pj5qfm2gm7qezdz4h7wgsjvyktrfj4xlfz548junv3qpk5f7n
   - &tailscale age1q8x3pn8vug94pj759n28e3nkt4yt39p30se978etn9497ass842sk8ge6l
   - &router age1k26plnlstgd0m7zaxrregh3nct6mqhlcw2tsld5arhsgv7c42y4qdrjzyg
+  - &jellyfin age1j2guf7zhk5lqzaw5trcf7sm6j5jhmmc5vfz65r3sf80dazuh6q0qx07wq6
 creation_rules:
   - path_regex: hosts/common/secrets.ya?ml$
     key_groups:
@@ -14,6 +15,7 @@ creation_rules:
       - *anya
       - *dockerhost
       - *beltanimal
+      - *jellyfin
   - path_regex: hosts/tailscale/secrets.ya?ml$
     key_groups:
     - age:

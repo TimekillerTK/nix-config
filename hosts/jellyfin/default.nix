@@ -13,6 +13,8 @@
     # Repo Modules
     ../common/global
     ../common/users/tk
+    ../common/optional/sops
+    ../common/optional/mount-media
   ];
 
   # Overlays
