@@ -1,5 +1,5 @@
 # Mounts important to /mnt/media
-{ config, lib, ... }:
+{ config, lib, users, ... }:
 {
   options.mediaShare = {
     mediaSharePath = lib.mkOption {
@@ -7,8 +7,20 @@
       default = "/mnt/mediasnek";
       description = "Path where media share will be mounted on the client filesystem";
     };
+    groupName = lib.mkOption {
+      type = lib.types.str;
+      default = "sharedsmb";
+      description = "Name of group of users who will have access to the share";
+    };
   };
   config = {
+
+    # Group for shared access
+    users.groups.${config.mediaShare.groupName} = {
+      name = "${config.mediaShare.groupName}";
+      members = users;
+    };
+
     # Mounting fileshare
     fileSystems.${config.mediaShare.mediaSharePath} = {
       device = "//truenas.cyn.internal/mediasnek3";
@@ -21,13 +33,13 @@
         "rw"
         "_netdev"
         "uid=1000"
-        "gid=100"
+        "gid=${config.mediaShare.groupName}"
         "file_mode=0770"   # File permissions to rwx for user and group
         "dir_mode=0770"    # Directory permissions to rwx for user and group
       ] ++ [
         "noauto"                      # prevent from being automatically mounted on BOOT
         "x-systemd.automount"         # create an automount unit, mount on ACCESS
-        "x-systemd.idle-timeout=60"   # after not accessed for 60 seconds, systemd will attempt unmount
+        "x-systemd.idle-timeout=300"  # after not accessed for 5 minutes, systemd will attempt unmount
         "x-systemd.device-timeout=5s" # if device doesn't appear in 5 secs, fail the mount
         "x-systemd.mount-timeout=5s"  # if mount command doesn't succeed in 5 secs, fail the mount
       ];

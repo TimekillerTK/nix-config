@@ -4,6 +4,7 @@
   pkgs,
   lib,
   config,
+  users,
   ...
 }: {
   imports = [

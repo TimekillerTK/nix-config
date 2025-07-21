@@ -114,7 +114,10 @@
       };
       anya = lib.nixosSystem {
         modules = [./hosts/anya];
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {
+          users = ["tk"];
+          inherit inputs outputs;
+        };
       };
       hummingbird = lib.nixosSystem {
         modules = [./hosts/hummingbird];
@@ -130,7 +133,10 @@
       };
       jellyfin = lib.nixosSystem {
         modules = [./hosts/jellyfin];
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {
+          users = ["tk" "jellyfin"];
+          inherit inputs outputs;
+        };
       };
       wger = lib.nixosSystem {
         modules = [./hosts/wger];
