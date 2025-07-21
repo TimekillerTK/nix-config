@@ -29,6 +29,9 @@
     };
   };
 
+  # SOPS Secrets
+  sops.secrets.smbcred = { };
+
   boot.kernelPackages = pkgs.linuxPackages_6_15;
 
   # Required for our user
