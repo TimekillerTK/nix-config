@@ -29,6 +29,10 @@
 
   boot.kernelPackages = pkgs.linuxPackages_6_15;
 
+  # Required for our user
+  users.users.tk.shell = lib.mkForce pkgs.bash;
+  users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" ];
+
   # Hostname & Network Manager
   networking.hostName = "jellyfin";
   networking.networkmanager.enable = true;
