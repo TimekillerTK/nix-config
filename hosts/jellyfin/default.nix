@@ -70,6 +70,7 @@
 
   environment.systemPackages = with pkgs; [
     jellyfin-ffmpeg
+    libva-utils # vainfo
   ];
 
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
