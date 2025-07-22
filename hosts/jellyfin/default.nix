@@ -47,8 +47,7 @@
     ../common/root-ca.pem
   ];
 
-  systemd.services.jellyfin.environment.LIBVA_DRIVER_NAME = "iHD"; # Or "i965" if using older driver
-  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };      # Same here
+  boot.kernelParams = [ "i915.force_probe=46d4" ];
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
@@ -56,14 +55,17 @@
       libva-vdpau-driver # Previously vaapiVdpau
       intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
       vpl-gpu-rt # QSV on 11th gen or newer
-      intel-ocl # OpenCL support
     ];
   };
 
+  environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
   services.jellyfin = {
     enable = true;
     openFirewall = true;
+    environment.LIBVA_DRIVER_NAME = "iHD";
   };
+
+  # systemd.services.jellyfin.environment.LIBVA_DRIVER_NAME = "iHD"; # Or "i965" if using older driver
 
   # Needed for Transcoding
   users.users.jellyfin.extraGroups = ["video" "render"];
