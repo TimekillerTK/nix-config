@@ -36,7 +36,12 @@
 
   # Required for our user
   users.users.tk.shell = lib.mkForce pkgs.bash;
-  users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" ];
+  users.users.tk.extraGroups = lib.mkForce [
+    "networkmanager"
+    "wheel"
+    "video"
+    "render"
+  ];
 
   # Hostname & Network Manager
   networking.hostName = "jellyfin";
