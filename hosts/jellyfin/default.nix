@@ -52,6 +52,9 @@
     openFirewall = true;
   };
 
+  # Needed for Transcoding
+  users.users.jellyfin.extraGroups = ["video" "render"];
+
   environment.systemPackages = with pkgs; [
     jellyfin-ffmpeg
   ];

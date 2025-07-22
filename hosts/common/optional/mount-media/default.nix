@@ -1,6 +1,15 @@
-# Mounts important to /mnt/media
+# Mounts important to /mnt/mediasnek
 { config, lib, users, ... }:
 {
+  # NOTE: Running this will fail initially with the error below, but rerunning will
+  # resolve this.
+  #
+  #   Error: Failed to open unit file /nix/store/hash-nixos-system-host-25.05.20250606.xxxxxxx/etc/systemd/system/mnt-mediasnek.mount
+
+  # Caused by:
+  #     No such file or directory (os error 2)
+  # warning: error(s) occurred while switching to the new configuration
+
   options.mediaShare = {
     mediaSharePath = lib.mkOption {
       type = lib.types.str;
