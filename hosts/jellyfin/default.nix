@@ -77,6 +77,11 @@
   # Needed for Transcoding
   users.users.jellyfin.extraGroups = ["video" "render"];
 
+  # TODO: Testing, remove later if not needed (intel_gpu_top)
+  boot.kernel.sysctl = {
+      "kernel.perf_event_paranoid" = 1;
+  };
+
   environment.systemPackages = with pkgs; [
     jellyfin-ffmpeg
     libva-utils # vainfo
