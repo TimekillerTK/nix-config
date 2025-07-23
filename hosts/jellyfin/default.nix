@@ -59,7 +59,6 @@
       libva-vdpau-driver # Previously vaapiVdpau
       intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
       vpl-gpu-rt # QSV on 11th gen or newer
-      intel-gpu-tools # intel_gpu_top (for checking)
     ];
   };
 
@@ -81,6 +80,7 @@
   environment.systemPackages = with pkgs; [
     jellyfin-ffmpeg
     libva-utils # vainfo
+    intel-gpu-tools # intel_gpu_top (for checking)
   ];
 
   # Jellyfin config
