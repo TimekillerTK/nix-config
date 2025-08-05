@@ -21,7 +21,7 @@
   nixpkgs = {
     overlays = [
       outputs.overlays.additions
-      outputs.overlays.modifications${config.mediaShare.groupName}
+      outputs.overlays.modifications
       outputs.overlays.other-packages
     ];
     # Allow unfree packages (Home Manager)
