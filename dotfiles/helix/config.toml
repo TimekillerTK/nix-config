@@ -1,0 +1,16 @@
+theme = "dark_plus"
+
+[editor]
+line-number = "relative"
+end-of-line-diagnostics = "hint"
+auto-save = true # only saves when changing focus, not regularly!
+trim-trailing-whitespace = true
+
+[editor.soft-wrap]
+enable = true
+
+[editor.inline-diagnostics]
+cursor-line = "warning"
+
+[editor.file-picker]
+hidden = false

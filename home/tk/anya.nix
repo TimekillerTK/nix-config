@@ -42,8 +42,10 @@
     awscli2 # AWS CLI
 
     # Python
-    python312
+    python313
     unstable.poetry
+    ruff
+    uv
 
     # pwsh
     powershell
@@ -53,6 +55,16 @@
     unstable.lld # better linker by LLVM
     unstable.clang
     unstable.mold # even better linker
+
+    # Nix
+    pkgs.alejandra # Formatter
+
+    # Language Servers (and/or similar)
+    pkgs.vscode-langservers-extracted # support for many others
+    pkgs.yaml-language-server
+    pkgs.unstable.nixd # LSP
+    pkgs.pyright # Python
+    pkgs.taplo # TOML
 
     # Desktop Applications
     unstable.element-desktop # Matrix client
@@ -72,6 +84,7 @@
     # Games
     unstable.openrct2 # RollerCoaster Tycoon 2
     openttd # Transport Tycoon Deluxe
+
   ];
 
   # Syncthing (personal cloud)
@@ -100,6 +113,10 @@
     # Keypad Rebind keys
     ".config/input-remapper-2/presets/Razer Razer Nostromo/nostromo.json".source = ../../dotfiles/input-remapper/nostromo.json;
     ".config/input-remapper-2/presets/Razer Razer Tartarus V2/tartarus.json".source = ../../dotfiles/input-remapper/tartarus.json;
+
+    # Helix IDE config files
+    ".config/helix/config.toml".source = ../../dotfiles/helix/config.toml;
+    ".config/helix/languages.toml".source = ../../dotfiles/helix/languages.toml;
   };
 
   programs.home-manager.enable = true;

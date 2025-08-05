@@ -18,10 +18,12 @@ let
 
     # My custom Aliases
     ll = "ls -la";
+    vscode = "/usr/local/bin/code"; # to stop myself from automatically using `code .`
+    code = "${pkgs.unstable.helix}/bin/hx"; # to stop myself from automatically using `code .`
   };
 
   myEnvVars = {
-    EDITOR = "vim";
+    EDITOR = "hx";
   };
 in
 {
