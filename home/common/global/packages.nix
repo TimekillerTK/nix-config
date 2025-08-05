@@ -16,7 +16,7 @@
     jq # JSON parsing utility
     tldr # man for dummies
     cachix # nix binary cache
-    helix # Code Editor
+    unstable.helix # Code Editor
 
     # Desktop Applications
     firefox
