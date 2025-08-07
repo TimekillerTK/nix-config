@@ -83,9 +83,13 @@
   };
 
   environment.systemPackages = with pkgs; [
+    # For media transcoding
     jellyfin-ffmpeg
     libva-utils # vainfo
     intel-gpu-tools # intel_gpu_top (for checking)
+
+    # others
+    bottom
   ];
 
   # Jellyfin config
