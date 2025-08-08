@@ -93,9 +93,9 @@
   ];
 
   # Symlink to Media folder
-  environment.etc."/media" = {
-    source = "/mnt/mediasnek/Media";
-  };
+  systemd.tmpfiles.rules = [
+    "L /media - - - - ${config.mediaShare.mediaSharePath}/Media"
+  ];
 
   # Jellyfin config
   services.jellyfin = {
