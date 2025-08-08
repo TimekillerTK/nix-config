@@ -92,6 +92,11 @@
     bottom
   ];
 
+  # Symlink to Media folder
+  environment.etc."/media" = {
+    source = "/mnt/mediasnek/Media";
+  };
+
   # Jellyfin config
   services.jellyfin = {
     enable = true;
