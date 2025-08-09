@@ -106,7 +106,10 @@
       };
       dockerhost = lib.nixosSystem {
         modules = [./hosts/dockerhost];
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {
+          users = ["tk"];
+          inherit inputs outputs;
+        };
       };
       beltanimal = lib.nixosSystem {
         modules = [./hosts/beltanimal];
