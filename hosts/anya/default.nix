@@ -26,6 +26,7 @@
     # Repo Modules
     ../common/global
     ../common/users/tk
+    ../common/users/bb
     ../common/optional/sops
     ../common/optional/zfs
     ../common/optional/kde-plasma6-wayland

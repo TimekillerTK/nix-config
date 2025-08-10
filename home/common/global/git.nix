@@ -43,6 +43,7 @@
     extraConfig = {
       core.excludesfile = "/home/${username}/.config/git/ignore";
       init.defaultBranch = "main";
+      safe.directory = [ "/nix-config" ];
     };
 
     # Better `git diff` / `git show`
