@@ -41,6 +41,7 @@
     "wheel"
     "video" # needed for vainfo
     "render" # needed for vainfo
+    "jellyfin" # for easily browsing jellyfin owned directories
   ];
 
   # Hostname & Network Manager
