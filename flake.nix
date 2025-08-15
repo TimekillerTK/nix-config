@@ -113,7 +113,10 @@
       };
       beltanimal = lib.nixosSystem {
         modules = [./hosts/beltanimal];
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {
+          users = ["tk" "astra"];
+          inherit inputs outputs;
+        };
       };
       anya = lib.nixosSystem {
         modules = [./hosts/anya];
@@ -124,7 +127,10 @@
       };
       hummingbird = lib.nixosSystem {
         modules = [./hosts/hummingbird];
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {
+          users = ["astra"];
+          inherit inputs outputs;
+        };
       };
       tailscale = lib.nixosSystem {
         modules = [./hosts/tailscale];
