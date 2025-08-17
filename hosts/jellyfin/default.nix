@@ -93,9 +93,20 @@
     bottom
   ];
 
-  # Symlink to Media folder
+  # Files/directories managed by systemd-tmpfiles - these files will be ensured
+  # to be present each boot or nix config activation.
   systemd.tmpfiles.rules = [
+    # Symlink to Media folder
     "L /media - - - - ${config.mediaShare.mediaSharePath}/Media"
+
+    # Since jellyfin installation was migrated, there are still existing paths
+    # in the database and other locations which point to old locations.
+    #
+    # This will require database modification to update, so for now,
+    # just symlinks.
+    "d /config 770 jellyfin jellyfin -"
+    "L /config/data - - - - /var/lib/jellyfin"
+    "L /config/users - - - - /var/lib/jellyfin/config/users"
   ];
 
   # Jellyfin config
