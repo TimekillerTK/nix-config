@@ -43,3 +43,10 @@ args = ["--stdio"]
 [language-server.vscode-json-language-server.config]
 json = { validate = { enable = true }, format = { enable = true } }
 provideFormatter = true
+
+# ----------------------------
+
+[[language]]
+name = "bash"
+auto-format = true
+formatter = { command = "shfmt" }

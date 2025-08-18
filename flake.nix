@@ -114,6 +114,7 @@
       beltanimal = lib.nixosSystem {
         modules = [./hosts/beltanimal];
         specialArgs = {
+          bunny_user = "astra";
           users = ["tk" "astra"];
           inherit inputs outputs;
         };
@@ -122,6 +123,7 @@
         modules = [./hosts/anya];
         specialArgs = {
           users = ["tk"];
+          bunny_user = "tk";
           inherit inputs outputs;
         };
       };

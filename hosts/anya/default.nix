@@ -6,7 +6,8 @@
   config,
   users,
   ...
-}: {
+}:
+{
   imports = [
     # Required for VS Code Remote
     inputs.vscode-server.nixosModules.default
@@ -110,8 +111,9 @@
   };
 
   # System Packages
-  environment.systemPackages = with pkgs; [
-    devilutionx # Diablo I & Hellfire (best version)
+  environment.systemPackages = [
+    pkgs.devilutionx # Diablo I & Hellfire (best version)
+    pkgs.kdePackages.kdialog # pops up dialogs
   ];
 
   # Generated with head -c4 /dev/urandom | od -A none -t x4

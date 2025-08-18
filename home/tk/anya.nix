@@ -52,14 +52,16 @@
     unstable.mold # even better linker
 
     # Nix
-    pkgs.alejandra # Formatter
+    alejandra # Formatter
 
     # Language Servers (and/or similar)
-    pkgs.vscode-langservers-extracted # support for many others
-    pkgs.yaml-language-server
-    pkgs.unstable.nixd # LSP
-    pkgs.pyright # Python
-    pkgs.taplo # TOML
+    vscode-langservers-extracted # support for many others
+    yaml-language-server
+    unstable.nixd # LSP
+    pyright # Python
+    taplo # TOML
+    bash-language-server # bash
+    shfmt # shell/bash formatter
 
     # Desktop Applications
     unstable.element-desktop # Matrix client
