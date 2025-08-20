@@ -106,19 +106,33 @@
       };
       dockerhost = lib.nixosSystem {
         modules = [./hosts/dockerhost];
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {
+          users = ["tk"];
+          inherit inputs outputs;
+        };
       };
       beltanimal = lib.nixosSystem {
         modules = [./hosts/beltanimal];
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {
+          bunny_user = "astra";
+          users = ["tk" "astra"];
+          inherit inputs outputs;
+        };
       };
       anya = lib.nixosSystem {
         modules = [./hosts/anya];
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {
+          users = ["tk"];
+          bunny_user = "tk";
+          inherit inputs outputs;
+        };
       };
       hummingbird = lib.nixosSystem {
         modules = [./hosts/hummingbird];
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {
+          users = ["astra"];
+          inherit inputs outputs;
+        };
       };
       tailscale = lib.nixosSystem {
         modules = [./hosts/tailscale];
@@ -130,7 +144,10 @@
       };
       jellyfin = lib.nixosSystem {
         modules = [./hosts/jellyfin];
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {
+          users = ["tk" "jellyfin"];
+          inherit inputs outputs;
+        };
       };
       wger = lib.nixosSystem {
         modules = [./hosts/wger];
@@ -191,6 +208,14 @@
           username = "tk";
           gitUser = "TimekillerTK";
           gitEmail = "38417175+TimekillerTK@users.noreply.github.com";
+          inherit inputs outputs;
+        };
+      };
+      "bb@anya" = lib.homeManagerConfiguration {
+        modules = [./home/bb/anya.nix];
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = {
+          username = "bb";
           inherit inputs outputs;
         };
       };

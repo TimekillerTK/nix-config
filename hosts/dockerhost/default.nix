@@ -37,7 +37,7 @@ in
   sops.secrets.smbcred = { };
 
   # Newer LTS Kernel, pinned
-  boot.kernelPackages = pkgs.linuxPackages_6_12;
+  boot.kernelPackages = pkgs.linuxPackages_6_15;
 
   # use default bash
   # TODO: find a better way to do this
@@ -74,7 +74,7 @@ in
       reverse_proxy localhost:8030
     '';
     virtualHosts."jellyfin.cyn.internal".extraConfig = ''
-      reverse_proxy localhost:8040
+      reverse_proxy 172.21.10.47:8096
     '';
     virtualHosts."cookbook.cyn.internal".extraConfig = ''
       reverse_proxy localhost:8050
@@ -84,6 +84,9 @@ in
     '';
     virtualHosts."home.cyn.internal".extraConfig = ''
       reverse_proxy 172.21.10.80:8123
+    '';
+    virtualHosts."workout.cyn.internal".extraConfig = ''
+      reverse_proxy 172.21.10.38
     '';
     virtualHosts."moxfin.cyn.internal".extraConfig = ''
       reverse_proxy https://172.21.10.6:8006 {
