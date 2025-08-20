@@ -50,3 +50,10 @@ provideFormatter = true
 name = "bash"
 auto-format = true
 formatter = { command = "shfmt" }
+
+# ----------------------------
+
+[[language]]
+name = "rust"
+auto-format = true
+formatter = { command = "rustfmt"}
