@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 {
   # Alacritty Config (Fast GPU-Accelerated Terminal)
   programs.alacritty = {
@@ -8,9 +8,9 @@
       window.opacity = 0.85;
       font.normal.family = "CaskaydiaCove Nerd Font Mono";
       font.normal.style = "Regular";
-      font.size = 13.0;
+      font.size = 11.0;
       terminal.shell.program = "${pkgs.unstable.zellij}/bin/zellij";
-      terminal.shell.args = ["-l" "welcome"];
+      terminal.shell.args = ["attach" "--create" username];
       keyboard.bindings = [
         { key = "F";      mods = "Control";       mode = "~Search";     action = "SearchForward"; }
       ];

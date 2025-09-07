@@ -1,4 +1,4 @@
-{ config, pkgs, outputs, ... }:
+{ pkgs, username, ... }:
 
 let
   myAliases = {
@@ -52,7 +52,7 @@ in
     # Added to the end of ~/.zshenv
     envExtra = ''
       # Needed for Granted: https://docs.commonfate.io/granted/internals/shell-alias
-      alias assume="source /home/tk/.nix-profile/bin/assume"
+      alias assume="source /home/${username}/.nix-profile/bin/assume"
     '';
   };
 }
