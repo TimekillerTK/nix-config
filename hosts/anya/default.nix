@@ -110,6 +110,10 @@
     enable = true;
   };
 
+  # # Docker for when needed
+  # virtualisation.docker.enable = true;
+  # users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
+
   # System Packages
   environment.systemPackages = [
     pkgs.devilutionx # Diablo I & Hellfire (best version)

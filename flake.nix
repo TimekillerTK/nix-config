@@ -149,10 +149,6 @@
           inherit inputs outputs;
         };
       };
-      wger = lib.nixosSystem {
-        modules = [./hosts/wger];
-        specialArgs = {inherit inputs outputs;};
-      };
     };
 
     # Available through 'home-manager --flake .#your-username@your-hostname'

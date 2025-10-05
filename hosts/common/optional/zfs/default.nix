@@ -6,7 +6,7 @@
 
   # NOTE: If there are any ZFS issues, use this instead:
   # boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-  boot.kernelPackages = pkgs.linuxPackages_6_15;
+  boot.kernelPackages = pkgs.linuxPackages_6_16;
   boot.zfs.devNodes = lib.mkDefault "/dev/disk/by-id";
 
   # Automatic Scrub schedule
