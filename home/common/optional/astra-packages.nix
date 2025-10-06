@@ -1,6 +1,4 @@
-
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   # Custom packages for this user
   home.packages = with pkgs; [
     # Desktop Applications

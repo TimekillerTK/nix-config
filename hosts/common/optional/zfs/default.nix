@@ -1,8 +1,11 @@
-{ pkgs, config, lib, ... }:
 {
-
+  pkgs,
+  config,
+  lib,
+  ...
+}: {
   # ZFS Specific settings
-  boot.supportedFilesystems = [ "zfs" ];
+  boot.supportedFilesystems = ["zfs"];
 
   # NOTE: If there are any ZFS issues, use this instead:
   # boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
@@ -21,5 +24,4 @@
     enable = true;
     flags = "-k -p --utc";
   };
-
 }

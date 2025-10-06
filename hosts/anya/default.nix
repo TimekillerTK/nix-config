@@ -6,8 +6,7 @@
   config,
   users,
   ...
-}:
-{
+}: {
   imports = [
     # Required for VS Code Remote
     inputs.vscode-server.nixosModules.default
@@ -72,8 +71,7 @@
   services.vscode-server.enable = true;
 
   # Actual SOPS keys
-  sops.secrets.smbcred = { };
-
+  sops.secrets.smbcred = {};
 
   # Adding CA root & intermediate certs
   security.pki.certificateFiles = [

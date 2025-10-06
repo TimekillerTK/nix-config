@@ -1,9 +1,6 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   # Common packages installed via Home Manager
   home.packages = with pkgs; [
-
     # CLI
     unstable.fd
     unstable.eza

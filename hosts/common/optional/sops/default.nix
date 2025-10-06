@@ -1,6 +1,10 @@
 # This is a reusable module which sets up SOPS for using SSH Host Keys
-{ inputs, config, lib, ... }:
 {
+  inputs,
+  config,
+  lib,
+  ...
+}: {
   imports = [
     # SOPS
     inputs.sops-nix.nixosModules.sops

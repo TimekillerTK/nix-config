@@ -1,7 +1,5 @@
 # Settings NFTables
-{ pkgs, ... }:
-{
-
+{pkgs, ...}: {
   # For network troubleshooting (remove later ?)
   environment.systemPackages = with pkgs; [
     tcpdump
@@ -25,7 +23,7 @@
 
     # Without this networkd activation would fail as it would be waiting until timeout
     # is reached for all managed interfaces to come online. It is not necessary to set
-    # it if all managed interfaces are always connected but this is not my case. 
+    # it if all managed interfaces are always connected but this is not my case.
     # Basically allow unplugging ETH cables when needed...
     wait-online.anyInterface = true;
 
@@ -37,7 +35,7 @@
           "10.10.10.1/24"
         ];
 
-        # Causes all DNS traffic which does not match another configured domain 
+        # Causes all DNS traffic which does not match another configured domain
         # routing entry to be routed to DNS servers specified for this interface
         domains = ["~"];
       };

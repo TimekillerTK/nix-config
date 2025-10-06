@@ -1,5 +1,4 @@
-{ pkgs }:
-
+{pkgs}:
 # This is for a SDDM theme specifically.
 pkgs.stdenv.mkDerivation {
   pname = "sddm-theme";
@@ -14,5 +13,5 @@ pkgs.stdenv.mkDerivation {
   installPhase = ''
     mkdir -p $out
     cp -R ./* $out/
-   '';
+  '';
 }

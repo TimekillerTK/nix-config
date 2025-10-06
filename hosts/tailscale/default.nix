@@ -4,8 +4,7 @@
   pkgs,
   lib,
   ...
-}:
-{
+}: {
   imports = [
     # Required for VS Code Remote
     inputs.vscode-server.nixosModules.default
@@ -17,7 +16,6 @@
     ../common/global
     ../common/users/tk
     ../common/optional/sops
-
   ];
 
   # Overlays
@@ -34,8 +32,8 @@
 
   # Actual SOPS keys
   sops.defaultSopsFile = ./secrets.yml;
-  sops.secrets.smbcred = { };
-  sops.secrets.tailscale = { };
+  sops.secrets.smbcred = {};
+  sops.secrets.tailscale = {};
 
   # Enable IPv4 forwarding
   # NOTE: Required for Tailscale subnet forwarding
@@ -46,7 +44,7 @@
   # use default bash
   # TODO: find a better way to do this
   users.users.tk.shell = lib.mkForce pkgs.bash;
-  users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
+  users.users.tk.extraGroups = lib.mkForce ["networkmanager" "wheel" "docker"];
 
   # VS Code Server Module (for VS Code Remote)
   services.vscode-server.enable = true;

@@ -4,13 +4,10 @@
   pkgs,
   lib,
   ...
-}:
-let
+}: let
   username = "tk";
-in
-{
+in {
   imports = [
-
     # Generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
 
@@ -34,7 +31,7 @@ in
   };
 
   # SOPS Secrets
-  sops.secrets.smbcred = { };
+  sops.secrets.smbcred = {};
 
   # Newer LTS Kernel, pinned
   boot.kernelPackages = pkgs.linuxPackages_6_16;
@@ -42,7 +39,7 @@ in
   # use default bash
   # TODO: find a better way to do this
   users.users.tk.shell = lib.mkForce pkgs.bash;
-  users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
+  users.users.tk.extraGroups = lib.mkForce ["networkmanager" "wheel" "docker"];
 
   # Hostname & Network Manager
   networking.hostName = "dockerhost";
@@ -98,7 +95,7 @@ in
   };
 
   # Open HTTP/HTTPS ports
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.firewall.allowedTCPPorts = [80 443];
 
   # Adding CA root cert
   security.pki.certificateFiles = [
@@ -111,7 +108,7 @@ in
   # systemd units
   systemd.services.docker-compose-app = {
     description = "Running Docker-Compose";
-    after = [ "network.target" ];
+    after = ["network.target"];
 
     serviceConfig = {
       Type = "simple";
@@ -121,7 +118,7 @@ in
       ExecStop = "${pkgs.docker}/bin/docker compose down";
     };
 
-    wantedBy = [ "multi-user.target" ];
+    wantedBy = ["multi-user.target"];
   };
 
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion

@@ -1,6 +1,4 @@
-
-{ lib, ... }:
-{
+{lib, ...}: {
   # KDE Plasma Manager Settings/Shortcuts
   programs.plasma = {
     enable = true;
@@ -15,14 +13,14 @@
       "org.kde.krunner.desktop"."_launch" = ["Ctrl+Space" "Alt+F2" "Search"];
 
       # Unbind conflicting keybindings
-      "org.kde.spectacle.desktop"."_launch" = [ ];
-      "org.kde.spectacle.desktop"."ActiveWindowScreenShot" = [ ];
-      "org.kde.spectacle.desktop"."FullScreenScreenShot" = [ ];
-      "org.kde.spectacle.desktop"."RectangularRegionScreenShot" = [ "Ctrl+Alt+$" "Ctrl+Shift+C" ]; # Ctrl+Alt+Shift+4
-      "org.kde.spectacle.desktop"."WindowUnderCursorScreenShot" = [ ];
-      kwin."Switch Window Left" = [ ];
-      kwin."Switch Window Right" = [ ];
-      kwin."Switch Window Down" = [ ];
+      "org.kde.spectacle.desktop"."_launch" = [];
+      "org.kde.spectacle.desktop"."ActiveWindowScreenShot" = [];
+      "org.kde.spectacle.desktop"."FullScreenScreenShot" = [];
+      "org.kde.spectacle.desktop"."RectangularRegionScreenShot" = ["Ctrl+Alt+$" "Ctrl+Shift+C"]; # Ctrl+Alt+Shift+4
+      "org.kde.spectacle.desktop"."WindowUnderCursorScreenShot" = [];
+      kwin."Switch Window Left" = [];
+      kwin."Switch Window Right" = [];
+      kwin."Switch Window Down" = [];
 
       kwin = {
         # Hotkeys to move windows around
@@ -32,7 +30,7 @@
         "Window Minimize" = "Meta+Alt+Down";
 
         # These just annoy me
-        "ExposeAll" = [ ];
+        "ExposeAll" = [];
       };
     };
 
@@ -41,7 +39,7 @@
       name = "Launch Alacritty";
       key = "Alt+Space";
 
-      # Tdrop does not support programs that use Wayland directly, but it does work under Wayland 
+      # Tdrop does not support programs that use Wayland directly, but it does work under Wayland
       # if the program uses XWayland. If your program defaults to using Wayland, you can generally
       # force it to use XWayland by setting the environment variable `WAYLAND_DISPLAY`
 
@@ -49,7 +47,7 @@
 
       # -t / --pointer-monitor-detection
       #        Use mouse pointer location for detecting which monitor is the current one so terminal will be displayed on it.
-      #        Without this option, the monitor with currently active window is considered the current one. This option is 
+      #        Without this option, the monitor with currently active window is considered the current one. This option is
       #        only effective if -m / --monitor-aware option is enabled.
       command = lib.mkDefault ''env WAYLAND_DISPLAY="" tdrop -tm -h 90% alacritty'';
     };

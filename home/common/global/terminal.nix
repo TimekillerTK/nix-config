@@ -1,5 +1,8 @@
-{ pkgs, username, ... }:
 {
+  pkgs,
+  username,
+  ...
+}: {
   # Alacritty Config (Fast GPU-Accelerated Terminal)
   programs.alacritty = {
     enable = true;
@@ -12,7 +15,12 @@
       terminal.shell.program = "${pkgs.unstable.zellij}/bin/zellij";
       terminal.shell.args = ["attach" "--create" username];
       keyboard.bindings = [
-        { key = "F";      mods = "Control";       mode = "~Search";     action = "SearchForward"; }
+        {
+          key = "F";
+          mods = "Control";
+          mode = "~Search";
+          action = "SearchForward";
+        }
       ];
     };
   };
@@ -26,7 +34,6 @@
   # TODO: Later when needed
   # # Config file for Zellij
   # home.file = {
-    # ".config/zellij/config.kdl".source = ../../../dotfiles/zellij/config.kdl;
+  # ".config/zellij/config.kdl".source = ../../../dotfiles/zellij/config.kdl;
   # };
-
 }
