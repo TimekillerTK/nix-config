@@ -1,5 +1,8 @@
-{ stdenv, pkgs, lib }:
-
+{
+  stdenv,
+  pkgs,
+  lib,
+}:
 pkgs.rustPlatform.buildRustPackage {
   pname = "renamer";
   version = "0.1.3";

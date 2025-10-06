@@ -1,6 +1,5 @@
-{ ... }:
-{
-  sops.secrets.tailscale = { };
+{...}: {
+  sops.secrets.tailscale = {};
 
   # Stop tailscale starting on boot
   # -> to start run `sudo systemctl start tailscaled`

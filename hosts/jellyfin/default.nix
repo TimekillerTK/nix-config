@@ -30,7 +30,7 @@
   };
 
   # SOPS Secrets
-  sops.secrets.smbcred = { };
+  sops.secrets.smbcred = {};
 
   boot.kernelPackages = pkgs.linuxPackages_6_16;
 
@@ -73,14 +73,14 @@
   # Correct kernel parameters for the i915 driver.
   # - i915.enable_guc=2 enables both the GuC (for scheduling) and HuC (for media
   #   decode/encode), which is required for hardware transcoding.
-  boot.kernelParams = [ "i915.enable_guc=2" ];
+  boot.kernelParams = ["i915.enable_guc=2"];
 
   # Needed for Transcoding
   users.users.jellyfin.extraGroups = ["video" "render"];
 
   # TODO: Testing, remove later if not needed (intel_gpu_top)
   boot.kernel.sysctl = {
-      "kernel.perf_event_paranoid" = 1;
+    "kernel.perf_event_paranoid" = 1;
   };
 
   environment.systemPackages = with pkgs; [

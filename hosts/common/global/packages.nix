@@ -1,5 +1,10 @@
-{ config, lib, inputs, pkgs, ... }:
 {
+  config,
+  lib,
+  inputs,
+  pkgs,
+  ...
+}: {
   # System Packages
   environment.systemPackages = with pkgs; [
     vim # best text editor

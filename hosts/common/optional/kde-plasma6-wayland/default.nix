@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{pkgs, ...}:
 # Settings for KDE Plasma 6 environment for Wayland with Pipewire
 # NOTE: Works on 24.11
 # -> https://github.com/NixOS/nixpkgs/issues/292632

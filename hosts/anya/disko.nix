@@ -43,19 +43,19 @@
           # https://jrs-s.net/2018/08/17/zfs-tuning-cheat-sheet/
           # https://openzfs.github.io/openzfs-docs/Basic%20Concepts/Checksums.html
           # https://www.high-availability.com/docs/ZFS-Tuning-Guide/#
-          xattr = "sa";            # set Extended Attributes directly in Inodes (+perf)
-          dnodesize = "auto";      # recommended with xattr = "sa"
-          compression = "lz4";     # (+perf & +space)
-          atime = "off";           # disables last file/directory access time updates
-          acltype = "posixacl";    # support for POSIX ACLs
-          canmount = "off";        # don't mount the pool by default, mount datasets instead
-          checksum = "edonr";      # most performant checksum for zfs
+          xattr = "sa"; # set Extended Attributes directly in Inodes (+perf)
+          dnodesize = "auto"; # recommended with xattr = "sa"
+          compression = "lz4"; # (+perf & +space)
+          atime = "off"; # disables last file/directory access time updates
+          acltype = "posixacl"; # support for POSIX ACLs
+          canmount = "off"; # don't mount the pool by default, mount datasets instead
+          checksum = "edonr"; # most performant checksum for zfs
           normalization = "formD"; # recommended default
         };
 
         mountpoint = null;
         options = {
-          ashift = "12";     # 4096 sector size (recommended)
+          ashift = "12"; # 4096 sector size (recommended)
           autotrim = "on";
         };
 

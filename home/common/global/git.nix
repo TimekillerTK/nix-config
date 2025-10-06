@@ -1,12 +1,16 @@
-{ outputs, username, gitUser, gitEmail, ... }:
 {
+  outputs,
+  username,
+  gitUser,
+  gitEmail,
+  ...
+}: {
   # Git configuration
   programs.git = {
     enable = true;
     userName = gitUser;
     userEmail = gitEmail;
     ignores = [
-
       # Nix Flakes
       "devenv.local.nix"
       "devenv.nix"
@@ -43,7 +47,7 @@
     extraConfig = {
       core.excludesfile = "/home/${username}/.config/git/ignore";
       init.defaultBranch = "main";
-      safe.directory = [ "/nix-config" ];
+      safe.directory = ["/nix-config"];
     };
 
     # Better `git diff` / `git show`

@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   # Minecraft Server
   services.minecraft-server = {
     enable = true;
@@ -14,8 +13,8 @@
 
       # mcrcon access to Minecraft Server
       enable-rcon = true;
-      "rcon.password"="Hello123!";
-      "rcon.port"=25575;
+      "rcon.password" = "Hello123!";
+      "rcon.port" = 25575;
     };
   };
 
@@ -28,6 +27,6 @@
 
   # This ensures systemd service is NOT started by default
   systemd.services.minecraft-server = {
-    wantedBy = pkgs.lib.mkForce []; 
+    wantedBy = pkgs.lib.mkForce [];
   };
 }

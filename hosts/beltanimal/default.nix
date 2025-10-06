@@ -80,7 +80,7 @@
 
   # Actual SOPS keys
   sops.defaultSopsFile = ../common/secrets.yml;
-  sops.secrets.smbcred = { };
+  sops.secrets.smbcred = {};
 
   # Root Cert
   security.pki.certificateFiles = [

@@ -1,7 +1,14 @@
-{ inputs, outputs, config, pkgs, username, gitEmail, gitUser, ... }:
 {
+  inputs,
+  outputs,
+  config,
+  pkgs,
+  username,
+  gitEmail,
+  gitUser,
+  ...
+}: {
   imports = [
-
     # Required for Home Manager
     inputs.plasma-manager6.homeModules.plasma-manager
 

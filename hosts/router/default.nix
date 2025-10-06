@@ -5,8 +5,7 @@
   config,
   pkgs,
   ...
-}:
-let
+}: let
   wanPort = "wan"; # Physical WAN port
   lanPort = "lan"; # Physical LAN port
   wanMacAddress = "0c:c4:7a:e3:98:17";
@@ -19,7 +18,6 @@ let
   routerLanIpAddress = "192.168.0.100/24";
   dnsServerIpAddress = "172.21.10.5";
 in {
-
   imports = [
     # Generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
@@ -182,7 +180,7 @@ in {
       enable = true;
       flushRuleset = true;
 
-     # Actual NFTables rules
+      # Actual NFTables rules
       ruleset = ''
         table inet filter {
           chain inbound_world {

@@ -1,5 +1,10 @@
-{ lib, stdenv, fetchFromGitLab, fetchFromGitHub, fetchgit }:
-
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  fetchFromGitHub,
+  fetchgit,
+}:
 stdenv.mkDerivation {
   name = "hithere";
 
@@ -29,5 +34,4 @@ stdenv.mkDerivation {
   #   url = "git@github.com:TimekillerTK/fix-show-name.git";
   #   rev = "65242d532f3cab5588ef07fa51be2facdec8a9d2";
   # };
-
 }
