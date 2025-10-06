@@ -116,6 +116,7 @@
   environment.systemPackages = [
     pkgs.devilutionx # Diablo I & Hellfire (best version)
     pkgs.kdePackages.kdialog # pops up dialogs
+    pkgs.libnotify # KDE Notification window (temporary)
   ];
 
   # Generated with head -c4 /dev/urandom | od -A none -t x4
