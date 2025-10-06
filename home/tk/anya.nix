@@ -11,7 +11,7 @@
 }: {
   imports = [
     # Required for Home Manager
-    inputs.plasma-manager6.homeManagerModules.plasma-manager
+    inputs.plasma-manager6.homeModules.plasma-manager
 
     # Repo Home Manager Modules
     ../common/global
@@ -51,18 +51,6 @@
     unstable.clang
     unstable.mold # even better linker
 
-    # Nix
-    alejandra # Formatter
-
-    # Language Servers (and/or similar)
-    vscode-langservers-extracted # support for many others
-    yaml-language-server
-    unstable.nixd # LSP
-    pyright # Python
-    taplo # TOML
-    bash-language-server # bash
-    shfmt # shell/bash formatter
-
     # Desktop Applications
     unstable.element-desktop # Matrix client
     unstable.makemkv # DVD Ripper
@@ -81,7 +69,6 @@
     # Games
     unstable.openrct2 # RollerCoaster Tycoon 2
     openttd # Transport Tycoon Deluxe
-
   ];
 
   # Syncthing (personal cloud)
@@ -110,10 +97,6 @@
     # Keypad Rebind keys
     ".config/input-remapper-2/presets/Razer Razer Nostromo/nostromo.json".source = ../../dotfiles/input-remapper/nostromo.json;
     ".config/input-remapper-2/presets/Razer Razer Tartarus V2/tartarus.json".source = ../../dotfiles/input-remapper/tartarus.json;
-
-    # Helix IDE config files
-    ".config/helix/config.toml".source = ../../dotfiles/helix/config.toml;
-    ".config/helix/languages.toml".source = ../../dotfiles/helix/languages.toml;
   };
 
   programs.home-manager.enable = true;
