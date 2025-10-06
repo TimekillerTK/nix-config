@@ -8,7 +8,7 @@
 }: {
   imports = [
     # Required for Home Manager
-    inputs.plasma-manager6.homeManagerModules.plasma-manager
+    inputs.plasma-manager6.homeModules.plasma-manager
 
     # Repo Home Manager Modules
     ../common/global/sh.nix

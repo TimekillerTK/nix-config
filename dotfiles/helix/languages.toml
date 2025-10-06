@@ -34,15 +34,31 @@ args = ["server"]
 name = "json"
 language-servers = ["vscode-json-language-server"]
 auto-format = true
-indent = { tab-width = 4, unit = " " }
+indent = { tab-width = 2, unit = " " }
+formatter = { command = "prettier", args = ["--parser", "json"]}
 
-[language-server.vscode-json-language-server]
-command = "vscode-json-language-server"
-args = ["--stdio"]
+# Old setup before using prettier - may be handy
+# [language-server.vscode-json-language-server]
+# command = "vscode-json-language-server"
+# args = ["--stdio"]
 
-[language-server.vscode-json-language-server.config]
-json = { validate = { enable = true }, format = { enable = true } }
-provideFormatter = true
+# [language-server.vscode-json-language-server.config]
+# json = { validate = { enable = true }, format = { enable = true } }
+# provideFormatter = true
+
+# ----------------------------
+
+[[language]]
+name = "rust"
+auto-format = true
+formatter = { command = "rustfmt"}
+
+# ----------------------------
+
+[[language]]
+name = "nix"
+auto-format = true
+formatter = { command = "alejandra"}
 
 # ----------------------------
 
@@ -54,6 +70,28 @@ formatter = { command = "shfmt" }
 # ----------------------------
 
 [[language]]
-name = "rust"
+name = "yaml"
 auto-format = true
-formatter = { command = "rustfmt"}
+formatter = { command = "prettier", args = ["--parser", "yaml"]}
+
+[language-server.yaml-language-server]
+# Custom CFN Tags below for YAML
+config = { yaml = { customTags = [
+    "!Ref scalar",
+    "!Ref sequence",
+    "!Ref mapping",
+    "!Sub scalar",
+    "!Sub sequence",
+    "!Sub mapping",
+    "!GetAtt scalar",
+    "!GetAtt sequence",
+    "!GetAtt mapping",
+    "!Join sequence",
+    "!FindInMap sequence",
+    "!Select sequence",
+    "!Split sequence",
+    "!ImportValue scalar",
+    "!ImportValue sequence",
+    "!ImportValue mapping",
+    "!GetAZs sequence"
+] } }
