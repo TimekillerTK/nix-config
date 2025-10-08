@@ -6,27 +6,39 @@
   # For USB Blu-Ray/DVD Players
   boot.kernelModules = ["sg"];
 
-  # Enable the Wayland display server
-  services.xserver.enable = true; # Still needed for SDDM
-
   # Enable Plasma 6
   services.desktopManager.plasma6.enable = true;
 
-  services.displayManager = {
-    # For KDE Plasma 6, the defaults have changed.
-    # KDE Plasma 6 runs on Wayland with the default session set
-    # to 'plasma'. If you want to use the X11 session as your
-    # default session, change it to 'plasmax11'.
-    defaultSession = "plasma";
-    sddm = {
-      enable = true;
-      wayland.enable = true;
-      autoNumlock = true; # Enable numlock at login. (Doesn't work?)
-      # BUG: Neither of these work, investigate later
-      # theme = "${import ../../../../pkgs/sddm/sugar-dark { inherit pkgs; }}";
-      # theme = "${import ../../../../pkgs/sddm/Andromeda { inherit pkgs; }}";
+  services.xserver = {
+    # Enable the Wayland display server
+    enable = true;
+    displayManager = {
+      # For KDE Plasma 6, the defaults have changed.
+      # KDE Plasma 6 runs on Wayland with the default session set
+      # to 'plasma'. If you want to use the X11 session as your
+      # default session, change it to 'plasmax11'.
+      defaultSession = "plasma";
+
+      # SDDM doesn't support Wayland well, runs awful even
+      # on X11, has glitches and drives me bonkers, so
+      # using gdm instead.
+      gdm = {
+        enable = true;
+      };
     };
   };
+
+  # Login Screen - Numlock auto "On"
+  programs.dconf.profiles.gdm.databases = [
+    {
+      settings = {
+        "org/gnome/desktop/peripherals/keyboard" = {
+          "numlock-state" = true;
+          "remember-numlock-state" = true;
+        };
+      };
+    }
+  ];
 
   # Enable KDE Connect
   programs.kdeconnect.enable = true;
