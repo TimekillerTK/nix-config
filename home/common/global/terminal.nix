@@ -29,6 +29,9 @@
   programs.zellij = {
     enable = true;
     package = pkgs.unstable.zellij;
+    settings = {
+      copy_clipboard = "primary";
+    };
   };
 
   # TODO: Later when needed
