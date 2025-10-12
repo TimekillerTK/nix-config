@@ -12,19 +12,26 @@ if [ -z "$XDG_RUNTIME_DIR" ] || [ -z "$WAYLAND_DISPLAY" ] || [ -z "$DBUS_SESSION
 	exit 1
 fi
 
+# Switch to the repo on the filesystem/disk and check if there are updates
 REPO="/nix-config"
 cd "$REPO" && git fetch
 
 LOCAL=$(git rev-parse @)
 REMOTE=$(git rev-parse '@{u}')
 
-ls -la
-
 if [ "$LOCAL" != "$REMOTE" ]; then
 	# notify-send works on KDE with libnotify under Wayland
 	echo "Update Available - There are new updates on the remote repository."
 
-	ls -la
+	# Perform a git pull, if successful, save state to a file that you've performed a git pull
+
+	# Perform a sudo nixos-rebuild switch, save state to a file that you've performed the switch without error. If error, save to a logfile.
+
+	# Enumerate the users on the machine, save to a list.
+
+	# For each user on the machine, perform a home-manager switch --flake .#$USER@$HOSTNAME, save state to a file that you've performed the apply without error FOR THAT USER. If error, save to a logfile.
+
+	# Notify active user sessions that update has been completed :)
 
 	notify-send "Update Available" "There are new updates on the remote repository."
 else
