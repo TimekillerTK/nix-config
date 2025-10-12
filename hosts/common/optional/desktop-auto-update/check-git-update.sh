@@ -18,6 +18,8 @@ cd "$REPO" && git fetch
 LOCAL=$(git rev-parse @)
 REMOTE=$(git rev-parse '@{u}')
 
+ls -la
+
 if [ "$LOCAL" != "$REMOTE" ]; then
 	# notify-send works on KDE with libnotify under Wayland
 	echo "Update Available - There are new updates on the remote repository."
