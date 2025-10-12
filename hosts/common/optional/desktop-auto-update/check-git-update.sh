@@ -11,3 +11,5 @@ if [ "$LOCAL" != "$REMOTE" ]; then
 else
 	echo "No updates, nothing to do."
 fi
+
+TARGET_PID=$($TOOL_PS -u "$username" -f | $TOOL_RG plasmashell | head -n 1 | $TOOL_AWK '{print $2}')
