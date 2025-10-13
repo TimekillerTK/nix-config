@@ -6,4 +6,4 @@
 .DS_Store
 
 # Ignore result from builds
-result/
+/result
