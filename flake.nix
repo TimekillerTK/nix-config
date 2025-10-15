@@ -130,6 +130,7 @@
       hummingbird = lib.nixosSystem {
         modules = [./hosts/hummingbird];
         specialArgs = {
+          bunny_user = "astra";
           users = ["astra"];
           inherit inputs outputs;
         };
