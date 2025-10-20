@@ -34,22 +34,32 @@
       };
     };
 
+    # Window Rules, how windows should be arranged for an application
+    # NOTE: This is a bit wonky while testing out and in prod, so just leaving this
+    # for future reference, but disabled
+    # window-rules = [
+    #   {
+    #     description = "Initial Size signal 1000x1000";
+    #     match.window-class.value = "electron signal";
+    #     apply = {
+    #       size = {
+    #         value = "2560,1200";
+    #         apply = "force";
+    #       };
+    #       # ignoregeometry = {
+    #       #   value = true;
+    #       #   apply = "remember";
+    #       # };
+    #     };
+    #   }
+    # ];
+
     # Dropdown Alacritty
     hotkeys.commands."alacritty-dropdown" = {
       name = "Launch Alacritty";
       key = "Alt+Space";
-
-      # Tdrop does not support programs that use Wayland directly, but it does work under Wayland
-      # if the program uses XWayland. If your program defaults to using Wayland, you can generally
-      # force it to use XWayland by setting the environment variable `WAYLAND_DISPLAY`
-
-      # NOTE: -m / --monitor-aware only works when combined with -t / --pointer-monitor-detection.
-
-      # -t / --pointer-monitor-detection
-      #        Use mouse pointer location for detecting which monitor is the current one so terminal will be displayed on it.
-      #        Without this option, the monitor with currently active window is considered the current one. This option is
-      #        only effective if -m / --monitor-aware option is enabled.
-      command = lib.mkDefault ''env WAYLAND_DISPLAY="" tdrop -tm -h 90% alacritty'';
+      # NOTE: This is a script defined in home/common/global/alacritty-dropdown.sh
+      command = lib.mkDefault ''alacritty-dropdown'';
     };
 
     # NOTE: Flameshot support for wayland is meh, especially for multi-monitor setups with fractional

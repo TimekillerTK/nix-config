@@ -1,5 +1,9 @@
 # Helix Home-Manager IDE Config
-{pkgs, ...}: {
+{
+  pkgs,
+  username,
+  ...
+}: {
   home.packages = with pkgs; [
     unstable.helix # Code Editor
 
@@ -14,11 +18,14 @@
     alejandra # Nix Formatter
     nodePackages.prettier # YAML formatter
     typescript-language-server # TypeScript
+    wl-clipboard # copy/paste support from system clipboard on Wayland
   ];
 
   # To stop myself from automatically using `code .`
   programs.zsh.shellAliases = {
-    vscode = "/usr/local/bin/code";
+    # VS Code CAN be absent or present, so we do not use a nix store path
+    # but we still want to ensure we can still run it with `vscode`.
+    vscode = "/home/${username}/.nix-profile/bin/code";
     code = "${pkgs.unstable.helix}/bin/hx";
   };
 
