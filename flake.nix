@@ -193,6 +193,8 @@
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {
           username = "bb";
+          gitUser = "bb";
+          gitEmail = "nobody@example.com";
           inherit inputs outputs;
         };
       };
@@ -213,6 +215,8 @@
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {
           username = "bb";
+          gitUser = "bb";
+          gitEmail = "nobody@example.com";
           inherit inputs outputs;
         };
       };
