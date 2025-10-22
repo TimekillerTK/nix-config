@@ -4,6 +4,8 @@
   config,
   pkgs,
   username,
+  gitUser,
+  gitEmail,
   ...
 }: {
   imports = [
@@ -11,10 +13,7 @@
     inputs.plasma-manager6.homeModules.plasma-manager
 
     # Repo Home Manager Modules
-    ../common/global/sh.nix
-    ../common/global/starship.nix
-    ../common/global/terminal.nix
-    ../common/global/packages.nix
+    ../common/global
     ../common/optional/plasma-manager.nix
   ];
 
