@@ -3,7 +3,7 @@
 {pkgs ? import <nixpkgs> {}}: {
   brother-mfcl3750cdw = pkgs.callPackage ./brother-mfcl3750cdw {};
   renamer = pkgs.callPackage ./renamer {};
-  numlockw = pkgs.callPackage ./numlockw {};
+  nix-auto-update = pkgs.callPackage ./nix-auto-update {};
   # spaget = pkgs.callPackage ./spaget { target = "everyone"; };
   # xivlauncher = pkgs.callPackage ./xivlauncher { };
   # wip = pkgs.callPackage ./wip {};
