@@ -19,6 +19,13 @@ pkgs.rustPlatform.buildRustPackage {
     pkgs.openssl
   ];
 
-  # cargoHash = lib.fakeHash; # <- generate fake hash
+  # Environment Variables required for the build
+  env = {
+    # for openssl
+    OPENSSL_DIR = "${pkgs.openssl.dev}";
+    OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
+    PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
+  };
+
   cargoHash = "sha256-WQsdR02+KT5qrV+WHBONt+Su5SNLzQjFPnHyN5Vhxoc=";
 }

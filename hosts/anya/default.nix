@@ -116,7 +116,26 @@
   environment.systemPackages = [
     pkgs.devilutionx # Diablo I & Hellfire (best version)
     pkgs.kdePackages.kdialog # pops up dialogs
+    pkgs.nix-auto-update # for testing TODO remove later
   ];
+
+  # ------ TODO: Remove later, testing area -----
+  systemd.services.nix-auto-update = {
+    description = "Checks for updates. If found, applies the updates to the host & users (home manager). Then notifies the user in the GUI that an update was applied.";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.nix-auto-update}/bin/nix-auto-update";
+      User = "root"; # Or specify the desired user
+    };
+  };
+  systemd.timers.nix-auto-update = {
+    wantedBy = ["timers.target"];
+    timerConfig = {
+      OnCalendar = "*:0/15";
+      RandomizedDelaySec = "300"; # Random delay up to 5 minutes
+    };
+  };
+  # ---------------------------------------------
 
   # Generated with head -c4 /dev/urandom | od -A none -t x4
   networking.hostId = "7d650d06"; # required for ZFS!
