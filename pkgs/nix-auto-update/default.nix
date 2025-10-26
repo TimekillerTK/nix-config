@@ -11,7 +11,7 @@ pkgs.rustPlatform.buildRustPackage {
     owner = "TimekillerTK";
     repo = "nix-auto-update";
     rev = "dev";
-    sha256 = "sha256-mCm87u36gpxP8PUTf9cW7uQVXG0M3vgNhmVQHmeD4Qw=";
+    sha256 = "sha256-XQWEOVSN9IwbXQc/8g6wmZV7OP5WR2opMENchOL6bjU=";
   };
 
   # Required for building the binary
