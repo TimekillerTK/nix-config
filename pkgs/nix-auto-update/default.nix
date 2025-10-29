@@ -10,7 +10,7 @@ pkgs.rustPlatform.buildRustPackage {
   src = pkgs.fetchFromGitLab {
     owner = "TimekillerTK";
     repo = "nix-auto-update";
-    rev = "e2624bc853b3634847fd279143b3376fc32612c0";
+    rev = "bce134e2f5f91b0e558d1b28209927214ef5391a";
     sha256 = "sha256-UkCc07qeUuNC3qjJpH5pX6LNk/ykOjul7e6GkK9fgZk=";
   };
 
