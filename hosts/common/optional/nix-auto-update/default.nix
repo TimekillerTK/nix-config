@@ -4,7 +4,7 @@
   ...
 }: {
   systemd.services.nix-auto-update = {
-    description = "Checks for updates. If found, applies updates to the host & users home directories ( with home-manager). Then notifies the user on the desktop that an update was applied.";
+    description = "Checks for updates. If found, applies updates to the host & users home directories (with home-manager). Then notifies the user on the desktop that an update was applied.";
     environment = {
       # Need to help the systemd service find the binaries
       # we're using such as:
@@ -20,7 +20,7 @@
     serviceConfig = {
       Type = "oneshot";
       # TODO: For testing, these flags need to change for release (most likely stuff that)
-      ExecStart = "${pkgs.nix-auto-update}/bin/nix-auto-update --repo https://github.com/TimekillerTK/nix-config --branch dev";
+      ExecStart = "${pkgs.nix-auto-update}/bin/nix-auto-update --repo https://github.com/TimekillerTK/nix-config --branch dev --dry-run";
       User = "root";
     };
   };
