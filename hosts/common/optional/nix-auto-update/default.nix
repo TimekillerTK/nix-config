@@ -19,8 +19,7 @@
     };
     serviceConfig = {
       Type = "oneshot";
-      # TODO: For testing, these flags need to change for release (most likely stuff that)
-      ExecStart = "${pkgs.nix-auto-update}/bin/nix-auto-update --repo https://github.com/TimekillerTK/nix-config --branch dev --dry-run";
+      ExecStart = "${pkgs.nix-auto-update}/bin/nix-auto-update --repo https://github.com/TimekillerTK/nix-config";
       User = "root";
     };
   };
