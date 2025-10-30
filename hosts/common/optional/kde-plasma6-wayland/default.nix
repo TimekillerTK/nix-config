@@ -23,6 +23,18 @@
       # using gdm instead.
       gdm = {
         enable = true;
+        autoSuspend = false;
+        # settings = {
+        #   "org.gnome.desktop.session" = {
+        #     "idle-delay" = 300; # screen blanks/turns off after 5 mins, no suspend
+        #   };
+        #   "org.gnome.settings-daemon.plugins.power" = {
+        #     "sleep-inactive-ac-type" = "nothing";
+        #     "sleep-inactive-ac-timeout" = 0;
+        #     "sleep-inactive-battery-type" = "nothing";
+        #     "sleep-inactive-battery-timeout" = 0;
+        #   };
+        # };
       };
     };
   };
