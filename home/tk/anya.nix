@@ -68,7 +68,7 @@
 
     # Games
     unstable.openrct2 # RollerCoaster Tycoon 2
-    openttd # Transport Tycoon Deluxe
+    # openttd # Transport Tycoon Deluxe
   ];
 
   # Syncthing (personal cloud)
