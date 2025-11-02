@@ -8,9 +8,6 @@
   ...
 }: {
   imports = [
-    # Required for VS Code Remote
-    inputs.vscode-server.nixosModules.default
-
     # Required for disk configuration
     inputs.disko.nixosModules.default
 
@@ -68,9 +65,6 @@
     update.onActivation = true; # Auto-update on rebuild
   };
 
-  # VS Code Server Module (for VS Code Remote)
-  services.vscode-server.enable = true;
-
   # Actual SOPS keys
   sops.secrets.smbcred = {};
 
@@ -113,11 +107,19 @@
   # virtualisation.docker.enable = true;
   # users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
 
+  # TODO: This is for GDM Login Screen settings, should probably be adapted to the KDE plasma
+  # module (and Gnome module) as its very specific to those configs.
+  systemd.tmpfiles.rules = let
+    monitorsXmlContent = builtins.readFile ../common/optional/gnome-wayland/anya-monitors.xml;
+    monitorsConfig = pkgs.writeText "gdm_monitors.xml" monitorsXmlContent;
+  in [
+    "L+ /run/gdm/.config/monitors.xml - - - - ${monitorsConfig}"
+  ];
+
   # System Packages
   environment.systemPackages = [
     pkgs.devilutionx # Diablo I & Hellfire (best version)
     pkgs.kdePackages.kdialog # pops up dialogs
-    pkgs.nix-auto-update # for testing TODO remove later
   ];
 
   # Generated with head -c4 /dev/urandom | od -A none -t x4
