@@ -8,9 +8,6 @@
   ...
 }: {
   imports = [
-    # Required for VS Code Remote
-    inputs.vscode-server.nixosModules.default
-
     # Required for disk configuration
     inputs.disko.nixosModules.default
 
@@ -30,7 +27,6 @@
     ../common/optional/sops
     ../common/optional/zfs
     ../common/optional/kde-plasma6-wayland
-    # ../common/optional/gnome-wayland
     ../common/optional/input-remapper
     ../common/optional/minecraft-server
     ../common/optional/mount-media
@@ -111,8 +107,10 @@
   # virtualisation.docker.enable = true;
   # users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
 
+  # TODO: This is for GDM Login Screen settings, should probably be adapted to the KDE plasma
+  # module (and Gnome module) as its very specific to those configs.
   systemd.tmpfiles.rules = let
-    monitorsXmlContent = builtins.readFile ../common/optional/gnome-wayland/monitors.xml;
+    monitorsXmlContent = builtins.readFile ../common/optional/gnome-wayland/anya-monitors.xml;
     monitorsConfig = pkgs.writeText "gdm_monitors.xml" monitorsXmlContent;
   in [
     "L+ /run/gdm/.config/monitors.xml - - - - ${monitorsConfig}"

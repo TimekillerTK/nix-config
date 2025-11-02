@@ -7,9 +7,6 @@
   ...
 }: {
   imports = [
-    # Required for VS Code Remote
-    inputs.vscode-server.nixosModules.default
-
     # Required for disk configuration
     inputs.disko.nixosModules.default
 
@@ -38,6 +35,7 @@
     ../common/optional/mount-important
     ../common/optional/tailscale-client
     ../common/optional/home-assistant-remote
+    ../common/optional/nix-auto-update
   ];
 
   # Overlays
@@ -102,23 +100,6 @@
     # Fixes steam not picking up correct scaling on framework (?)
     STEAM_FORCE_DESKTOPUI_SCALING = "1.5";
   };
-
-  # TODO Remove later if needed
-  # # SDDM settings for login screen (X11)
-  # services.xserver.displayManager.setupCommands = ''
-  #   ${pkgs.xorg.xrandr}/bin/xrandr --output DP-4 --mode 1920x1080 --primary
-  #   ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --off
-  # '';
-
-  # TODO: This conditional doesn't work
-  # services.xserver.displayManager.setupCommands = ''
-  #   if ${pkgs.xorg.xrandr}/bin/xrandr | grep "DP-4 connected"; then
-  #     ${pkgs.xorg.xrandr}/bin/xrandr --output DP-4 --mode 1920x1080 --primary
-  #     ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --off
-  #   else
-  #     ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --auto --primary
-  #   fi
-  # '';
 
   # By default laptops with closed lids automatically suspend, which
   # cuts off network connectivity. These changes prevent that on
