@@ -32,8 +32,7 @@
     ../common/users/bb
     ../common/optional/sops
     ../common/optional/zfs
-    # ../common/optional/kde-plasma6-wayland
-    ../common/optional/gnome-wayland
+    ../common/optional/kde-plasma6-wayland
     ../common/optional/input-remapper
     ../common/optional/mount-media
     ../common/optional/mount-important
