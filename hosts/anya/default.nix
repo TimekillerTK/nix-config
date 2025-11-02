@@ -30,6 +30,7 @@
     ../common/optional/sops
     ../common/optional/zfs
     ../common/optional/kde-plasma6-wayland
+    # ../common/optional/gnome-wayland
     ../common/optional/input-remapper
     ../common/optional/minecraft-server
     ../common/optional/mount-media
@@ -67,9 +68,6 @@
     uninstallUnmanaged = true; # Manage non-Nix Flatpaks
     update.onActivation = true; # Auto-update on rebuild
   };
-
-  # VS Code Server Module (for VS Code Remote)
-  services.vscode-server.enable = true;
 
   # Actual SOPS keys
   sops.secrets.smbcred = {};
@@ -113,11 +111,17 @@
   # virtualisation.docker.enable = true;
   # users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
 
+  systemd.tmpfiles.rules = let
+    monitorsXmlContent = builtins.readFile ../common/optional/gnome-wayland/monitors.xml;
+    monitorsConfig = pkgs.writeText "gdm_monitors.xml" monitorsXmlContent;
+  in [
+    "L+ /run/gdm/.config/monitors.xml - - - - ${monitorsConfig}"
+  ];
+
   # System Packages
   environment.systemPackages = [
     pkgs.devilutionx # Diablo I & Hellfire (best version)
     pkgs.kdePackages.kdialog # pops up dialogs
-    pkgs.nix-auto-update # for testing TODO remove later
   ];
 
   # Generated with head -c4 /dev/urandom | od -A none -t x4

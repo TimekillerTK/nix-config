@@ -32,7 +32,8 @@
     ../common/users/bb
     ../common/optional/sops
     ../common/optional/zfs
-    ../common/optional/kde-plasma6-wayland
+    # ../common/optional/kde-plasma6-wayland
+    ../common/optional/gnome-wayland
     ../common/optional/input-remapper
     ../common/optional/mount-media
     ../common/optional/mount-important
@@ -75,9 +76,6 @@
   # https://wiki.nixos.org/wiki/Fwupd
   services.fwupd.enable = true;
 
-  # VS Code Server Module (for VS Code Remote)
-  services.vscode-server.enable = true;
-
   # Actual SOPS keys
   sops.defaultSopsFile = ../common/secrets.yml;
   sops.secrets.smbcred = {};
@@ -106,11 +104,12 @@
     STEAM_FORCE_DESKTOPUI_SCALING = "1.5";
   };
 
-  # SDDM settings for login screen (X11)
-  services.xserver.displayManager.setupCommands = ''
-    ${pkgs.xorg.xrandr}/bin/xrandr --output DP-4 --mode 1920x1080 --primary
-    ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --off
-  '';
+  # TODO Remove later if needed
+  # # SDDM settings for login screen (X11)
+  # services.xserver.displayManager.setupCommands = ''
+  #   ${pkgs.xorg.xrandr}/bin/xrandr --output DP-4 --mode 1920x1080 --primary
+  #   ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --off
+  # '';
 
   # TODO: This conditional doesn't work
   # services.xserver.displayManager.setupCommands = ''
