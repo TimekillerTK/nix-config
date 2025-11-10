@@ -150,6 +150,12 @@
           inherit inputs outputs;
         };
       };
+      eyeball = lib.nixosSystem {
+        modules = [./hosts/eyeball];
+        specialArgs = {
+          inherit inputs outputs;
+        };
+      };
     };
 
     # Available through 'home-manager --flake .#your-username@your-hostname'
