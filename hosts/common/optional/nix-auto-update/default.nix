@@ -21,6 +21,10 @@
       Type = "oneshot";
       ExecStart = "${pkgs.nix-auto-update}/bin/nix-auto-update --repo https://github.com/TimekillerTK/nix-config";
       User = "root";
+
+      # NOTE: Need a timeout since compiling binaries on some systems
+      # during an update can take a while.
+      TimeoutStartSec = "30min";
     };
   };
   systemd.timers.nix-auto-update = {
