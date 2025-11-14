@@ -81,7 +81,22 @@
     # Delcarative configuration for Grafana
     provision = {
       enable = true;
-      datasources.settings.prune = true;
+      datasources.settings = {
+        # When true, provisioned datasources from this file will be deleted automatically
+        # when removed from services.grafana.provision.datasources.settings.datasources.
+        prune = true;
+
+        datasources = [
+          # Provisioning a built-in data source
+          {
+            name = "Prometheus";
+            type = "prometheus";
+            url = "http://${config.services.prometheus.listenAddress}:${toString config.services.prometheus.port}";
+            isDefault = true;
+            editable = false;
+          }
+        ];
+      };
     };
   };
 
