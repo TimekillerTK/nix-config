@@ -91,7 +91,7 @@
           {
             name = "Prometheus";
             type = "prometheus";
-            url = "http://${config.services.prometheus.listenAddress}:${toString config.services.prometheus.port}";
+            url = "http://localhost:9090";
             isDefault = true;
             editable = false;
           }
