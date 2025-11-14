@@ -73,7 +73,7 @@
     settings = {
       analytics.reporting_enabled = false;
       server = {
-        http_addr = "172.21.10.28"; # TODO: Change for prod
+        http_addr = "0.0.0.0"; # TODO: Change for prod
         http_port = 3000;
         enable_gzip = true; # recommended default
       };
