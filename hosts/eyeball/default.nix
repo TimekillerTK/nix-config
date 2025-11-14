@@ -47,30 +47,25 @@
         job_name = "prometheus";
         static_configs = [
           {
-            # targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
             targets = ["localhost:9090"];
           }
         ];
       }
       {
-        job_name = "demo";
+        job_name = "node-systemd";
         static_configs = [
           {
-            targets = [
-              "demo.promlabs.com:10000"
-              "demo.promlabs.com:10001"
-              "demo.promlabs.com:10002"
-            ];
+            targets = ["localhost:${toString config.services.prometheus.exporters.node.port}"];
           }
         ];
       }
     ];
-    # exporters.node = {
-    #   enable = true;
-    #   port = 9000;
-    #   enabledCollectors = ["systemd"];
-    #   openFirewall = true;
-    # };
+    exporters.node = {
+      enable = true;
+      port = 9000;
+      enabledCollectors = ["systemd"];
+      openFirewall = true;
+    };
   };
 
   # For accessing the WebUI remotely
