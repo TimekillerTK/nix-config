@@ -68,6 +68,23 @@
     };
   };
 
+  systemd.services.test = {
+    description = "test";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "cat hrtshtrrhssrtsdfgsdfg";
+      User = "root";
+      TimeoutStartSec = "30min";
+    };
+  };
+  systemd.timers.test = {
+    wantedBy = ["timers.target"];
+    timerConfig = {
+      OnCalendar = "*:0/15"; # Run once every 15 minutes
+      RandomizedDelaySec = "300"; # Random delay up to 5 minutes
+    };
+  };
+
   # TODO: Systemd service for testing, remove later
   services.nginx.enable = true;
 
