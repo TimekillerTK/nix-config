@@ -68,9 +68,12 @@
     };
   };
 
+  # TODO: Systemd service for testing, remove later
+  services.nginx.enable = true;
+
   # For accessing the WebUI remotely
   # TODO: Better way?
-  networking.firewall.allowedTCPPorts = [9090];
+  networking.firewall.allowedTCPPorts = [9090 80];
 
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "25.05";
