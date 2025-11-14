@@ -68,6 +68,17 @@
     };
   };
 
+  services.grafana = {
+    enable = true;
+    settings = {
+      analytics.reporting_enabled = false;
+    };
+    provision = {
+      enable = true;
+    };
+  };
+
+  # TODO: Testing....
   systemd.services.test = {
     description = "test";
     serviceConfig = {
