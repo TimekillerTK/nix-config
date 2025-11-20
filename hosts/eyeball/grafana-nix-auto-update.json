@@ -246,6 +246,106 @@
       ],
       "transparent": true,
       "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "status"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "ExitFail": {
+                        "color": "red",
+                        "index": 2
+                      },
+                      "ExitSuccess": {
+                        "color": "green",
+                        "index": 0
+                      },
+                      "InProgress": {
+                        "color": "yellow",
+                        "index": 1
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 6,
+        "y": 1
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "background_solid",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "/^status$/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.5",
+      "targets": [
+        {
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "nix_auto_update_status{instance=\"http://hummingbird.cyn.internal:9001/statefile.json\", job=\"nix_auto_update\"}",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "hummingbird",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "valueLabel": "__name__"
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "stat"
     }
   ],
   "preload": false,
@@ -263,5 +363,5 @@
   "timezone": "browser",
   "title": "Immutable Dashboard",
   "uid": "9a3b2b72-a32b-4e25-ab43-1e628ad1b574",
-  "version": 8
+  "version": 9
 }
