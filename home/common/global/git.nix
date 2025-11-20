@@ -47,7 +47,7 @@
     extraConfig = {
       core.excludesfile = "/home/${username}/.config/git/ignore";
       init.defaultBranch = "main";
-      safe.directory = ["/nix-config" "/var/lib/nix-auto-update/repo"];
+      safe.directory = ["/nix-config" "/var/lib/nix-auto-update/repo" "/home/tk/spaghetti"];
     };
 
     # Better `git diff` / `git show`
