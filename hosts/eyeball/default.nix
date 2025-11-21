@@ -87,6 +87,16 @@
         ];
       }
 
+      # Blocky DNS server metrics for prometheus
+      {
+        job_name = "blocky_dns";
+        static_configs = [
+          {
+            targets = ["172.21.10.5:4000"];
+          }
+        ];
+      }
+
       # Node exporter + systemd metrics
       {
         job_name = "node-systemd";
