@@ -87,6 +87,30 @@
         ];
       }
 
+      # Blocky DNS server metrics for prometheus
+      {
+        job_name = "blocky_dns";
+        static_configs = [
+          {
+            targets = ["172.21.10.5:4000"];
+          }
+        ];
+      }
+
+      # ZFS Pool metrics for prometheus
+      {
+        job_name = "zfs";
+        static_configs = [
+          {
+            targets = [
+              "anya.cyn.internal:9134"
+              "hummingbird.cyn.internal:9134"
+              "beltanimal-eth.cyn.internal:9134"
+            ];
+          }
+        ];
+      }
+
       # Node exporter + systemd metrics
       {
         job_name = "node-systemd";
@@ -98,6 +122,71 @@
               "hummingbird.cyn.internal:${toString config.services.prometheus.exporters.node.port}"
               "beltanimal-eth.cyn.internal:${toString config.services.prometheus.exporters.node.port}"
             ];
+          }
+        ];
+      }
+
+      # Blackbox exporter - HTTPS
+      {
+        job_name = "blackbox";
+        metrics_path = "/probe";
+        params.module = ["https_ca"];
+        static_configs = [
+          {
+            targets = [
+              "https://cookbook.cyn.internal"
+              "https://pdf.cyn.internal"
+              "https://torrent.cyn.internal"
+              "https://jellyfin.cyn.internal"
+              "https://sync.cyn.internal"
+              "https://home.cyn.internal"
+              "https://torrent.cyn.internal"
+              "https://ca.cyn.internal/acme/acme/directory"
+            ];
+          }
+        ];
+        relabel_configs = [
+          {
+            source_labels = ["__address__"];
+            target_label = "__param_target";
+          }
+          {
+            source_labels = ["__param_target"];
+            target_label = "instance";
+          }
+          {
+            target_label = "__address__";
+            replacement = "localhost:9115";
+          }
+        ];
+      }
+
+      # Blackbox exporter - DNS
+      {
+        job_name = "blackbox-dns";
+        metrics_path = "/probe";
+        params.module = ["dns_check"];
+        static_configs = [
+          {
+            targets = [
+              "1.1.1.1"
+              "8.8.8.8"
+              "172.21.10.5"
+            ];
+          }
+        ];
+        relabel_configs = [
+          {
+            source_labels = ["__address__"];
+            target_label = "__param_target";
+          }
+          {
+            source_labels = ["__param_target"];
+            target_label = "instance";
+          }
+          {
+            target_label = "__address__";
+            replacement = "localhost:9115";
           }
         ];
       }
@@ -126,11 +215,34 @@
             - name: nix_auto_update
               type: object
               help: Service Status
-              path: '{$}'
+              path: '{$}' # pointing at root
               labels:
                 status: '{ .status }'
               values:
                 status: 1 # dummy, static value
+      '';
+    };
+    exporters.blackbox = {
+      enable = true;
+      port = 9115;
+      openFirewall = true;
+      configFile = pkgs.writeText "blackbox.yml" ''
+        modules:
+          # NOTE: Our custom CA cert is added via security.pki.certificateFiles
+          # and DOES NOT need to be added here to `tls_config`.
+          https_ca: # <- arbitrary
+            prober: http
+            timeout: 5s
+            http:
+              method: GET
+              fail_if_not_ssl: true
+          dns_check: # <- arbitrary
+            prober: dns
+            timeout: 5s
+            dns:
+              transport_protocol: udp
+              preferred_ip_protocol: ip4
+              query_name: "example.com"
       '';
     };
   };
@@ -178,37 +290,17 @@
     };
   };
 
+  # NOTE: https://grafana.com/grafana/dashboards/13659-blackbox-exporter-http-prober/
+  # used for dashboard inspiration for HTTP
   # This is where our custom Grafana dashboard is
   environment.etc = {
-    "grafana-dashboards/grafana-nix-auto-update.json" = {
-      source = ./grafana-nix-auto-update.json;
+    "grafana-dashboards/grafana-main-status.json" = {
+      source = ./grafana-main-status.json;
+    };
+    "grafana-dashboards/grafana-blocky-dns.json" = {
+      source = ./grafana-blocky-dns.json;
     };
   };
-
-  # TODO: Testing....
-  systemd.services.test = {
-    description = "test";
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.coreutils}/bin/sleep 15 && ${pkgs.coreutils}/bin/cat /home/tk/hardware-configuration.nix'";
-      User = "root";
-      TimeoutStartSec = "30min";
-
-      # This makes systemd consdier the service active even after the
-      # process exits, which we use for prometheus systemd monitoring
-      RemainAfterExit = "yes";
-    };
-  };
-  systemd.timers.test = {
-    wantedBy = ["timers.target"];
-    timerConfig = {
-      OnCalendar = "*:0/15"; # Run once every 15 minutes
-      RandomizedDelaySec = "300"; # Random delay up to 5 minutes
-    };
-  };
-
-  # TODO: Systemd service for testing, remove later
-  services.nginx.enable = true;
 
   # For accessing the WebUI remotely
   # TODO: Better way?
