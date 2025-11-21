@@ -182,6 +182,13 @@
             http:
               method: GET
               fail_if_not_ssl: true
+          dns_check:
+            prober: dns
+            timeout: 5s
+            dns:
+              transport_protocol: udp
+              preferred_ip_protocol: ip4
+              query_name: "example.com"
       '';
     };
   };
@@ -229,37 +236,14 @@
     };
   };
 
+  # NOTE: https://grafana.com/grafana/dashboards/13659-blackbox-exporter-http-prober/
+  # used for dashboard inspiration for HTTP
   # This is where our custom Grafana dashboard is
   environment.etc = {
     "grafana-dashboards/grafana-nix-auto-update.json" = {
       source = ./grafana-nix-auto-update.json;
     };
   };
-
-  # TODO: Testing....
-  systemd.services.test = {
-    description = "test";
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.coreutils}/bin/sleep 15 && ${pkgs.coreutils}/bin/cat /home/tk/hardware-configuration.nix'";
-      User = "root";
-      TimeoutStartSec = "30min";
-
-      # This makes systemd consdier the service active even after the
-      # process exits, which we use for prometheus systemd monitoring
-      RemainAfterExit = "yes";
-    };
-  };
-  systemd.timers.test = {
-    wantedBy = ["timers.target"];
-    timerConfig = {
-      OnCalendar = "*:0/15"; # Run once every 15 minutes
-      RandomizedDelaySec = "300"; # Random delay up to 5 minutes
-    };
-  };
-
-  # TODO: Systemd service for testing, remove later
-  services.nginx.enable = true;
 
   # For accessing the WebUI remotely
   # TODO: Better way?
