@@ -15,6 +15,7 @@
       }
     ]
   },
+  "description": "Dashboard which shows the status of basically everything in my homelab.",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
@@ -1024,7 +1025,7 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Immutable Dashboard",
+  "title": "Main Status (Immutable)",
   "uid": "9a3b2b72-a32b-4e25-ab43-1e628ad1b574",
-  "version": 13
+  "version": 14
 }

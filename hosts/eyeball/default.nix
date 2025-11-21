@@ -280,8 +280,11 @@
   # used for dashboard inspiration for HTTP
   # This is where our custom Grafana dashboard is
   environment.etc = {
-    "grafana-dashboards/grafana-nix-auto-update.json" = {
-      source = ./grafana-nix-auto-update.json;
+    "grafana-dashboards/grafana-main-status.json" = {
+      source = ./grafana-main-status.json;
+    };
+    "grafana-dashboards/grafana-blocky.json" = {
+      source = ./grafana-blocky.json;
     };
   };
 
