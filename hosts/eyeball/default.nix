@@ -39,9 +39,6 @@
     ../common/root-ca.pem
   ];
 
-  # TODO: Testing...
-  environment.etc."blackbox-custom-root-ca.pem".source = ../common/root-ca.pem;
-
   services.prometheus = {
     enable = true;
     globalConfig.scrape_interval = "5s";
