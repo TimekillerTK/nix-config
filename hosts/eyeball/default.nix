@@ -102,7 +102,7 @@
         ];
       }
 
-      # Blackbox exporter
+      # Blackbox exporter - HTTPS
       {
         job_name = "blackbox";
         metrics_path = "/probe";
@@ -118,6 +118,36 @@
               "https://home.cyn.internal"
               "https://torrent.cyn.internal"
               "https://ca.cyn.internal/acme/acme/directory"
+            ];
+          }
+        ];
+        relabel_configs = [
+          {
+            source_labels = ["__address__"];
+            target_label = "__param_target";
+          }
+          {
+            source_labels = ["__param_target"];
+            target_label = "instance";
+          }
+          {
+            target_label = "__address__";
+            replacement = "localhost:9115";
+          }
+        ];
+      }
+
+      # Blackbox exporter - DNS
+      {
+        job_name = "blackbox-dns";
+        metrics_path = "/probe";
+        params.module = ["dns_check"];
+        static_configs = [
+          {
+            targets = [
+              "1.1.1.1"
+              "8.8.8.8"
+              "172.21.10.5"
             ];
           }
         ];
@@ -176,13 +206,13 @@
         modules:
           # NOTE: Our custom CA cert is added via security.pki.certificateFiles
           # and DOES NOT need to be added here to `tls_config`.
-          https_ca:
+          https_ca: # <- arbitrary
             prober: http
             timeout: 5s
             http:
               method: GET
               fail_if_not_ssl: true
-          dns_check:
+          dns_check: # <- arbitrary
             prober: dns
             timeout: 5s
             dns:

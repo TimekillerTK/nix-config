@@ -641,119 +641,6 @@
           "color": {
             "mode": "thresholds"
           },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red"
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "state"
-            },
-            "properties": [
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "options": {
-                      "activating": {
-                        "color": "yellow",
-                        "index": 2
-                      },
-                      "active": {
-                        "color": "green",
-                        "index": 1
-                      },
-                      "deactivating": {
-                        "color": "yellow",
-                        "index": 3
-                      },
-                      "failed": {
-                        "color": "red",
-                        "index": 0
-                      },
-                      "inactive": {
-                        "color": "#808080",
-                        "index": 4
-                      }
-                    },
-                    "type": "value"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 0,
-        "y": 10
-      },
-      "id": 1,
-      "options": {
-        "colorMode": "background_solid",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "/^state$/",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "12.0.5",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "node_systemd_unit_state{name=\"test.service\", instance=\"localhost:9000\"} == 1",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": true,
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A",
-          "useBackend": false
-        }
-      ],
-      "title": "eyeball (test)",
-      "transformations": [
-        {
-          "id": "labelsToFields",
-          "options": {}
-        }
-      ],
-      "transparent": true,
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
           "fieldMinMax": false,
           "mappings": [
             {
@@ -813,7 +700,7 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 3,
+        "x": 0,
         "y": 10
       },
       "id": 4,
@@ -925,7 +812,7 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 6,
+        "x": 3,
         "y": 10
       },
       "id": 5,
@@ -1037,7 +924,7 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 9,
+        "x": 6,
         "y": 10
       },
       "id": 6,
@@ -1139,5 +1026,5 @@
   "timezone": "browser",
   "title": "Immutable Dashboard",
   "uid": "9a3b2b72-a32b-4e25-ab43-1e628ad1b574",
-  "version": 11
+  "version": 12
 }
