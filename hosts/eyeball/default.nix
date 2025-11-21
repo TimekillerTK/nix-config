@@ -180,7 +180,7 @@
                 # Our custom cert is added via security.pki.certificateFiles
                 # and this is its location on the filesystem:
                 ca_file: "/etc/blackbox-custom-root-ca.pem"
-              fail_if_not_ssl: true
+              # fail_if_not_ssl: true
           # http_2xx:
           #   prober: http
           #   timeout: 5s
