@@ -106,7 +106,7 @@
       {
         job_name = "blackbox";
         metrics_path = "/probe";
-        params.module = ["http_2xx"];
+        params.module = ["https_ca"];
         static_configs = [
           {
             targets = [
@@ -167,12 +167,21 @@
       openFirewall = true;
       configFile = pkgs.writeText "blackbox.yml" ''
         modules:
-          http_2xx:
+          https_ca:
             prober: http
             timeout: 5s
             http:
-              valid_status_codes: [200]
               method: GET
+              valid_http_versions: [ "HTTP/1.1", "HTTP/2" ]
+              # tls_config:
+              #   ca_file: "/path/to/your/custom-root-ca.pem"
+              fail_if_not_ssl: true # Set to true if you want to fail when no SSL is present
+          # http_2xx:
+          #   prober: http
+          #   timeout: 5s
+          #   http:
+          #     valid_status_codes: [200]
+          #     method: GET
       '';
     };
   };
