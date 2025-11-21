@@ -111,6 +111,12 @@
           {
             targets = [
               "https://cookbook.cyn.internal"
+              "https://pdf.cyn.internal"
+              "https://torrent.cyn.internal"
+              "https://jellyfin.cyn.internal"
+              "https://sync.cyn.internal"
+              "https://home.cyn.internal"
+              "https://torrent.cyn.internal"
             ];
           }
         ];
@@ -167,22 +173,14 @@
       openFirewall = true;
       configFile = pkgs.writeText "blackbox.yml" ''
         modules:
+          # NOTE: Our custom CA cert is added via security.pki.certificateFiles
+          # and DOES NOT need to be added here to `tls_config`.
           https_ca:
             prober: http
             timeout: 5s
             http:
               method: GET
-              # tls_config:
-              #   # Our custom cert is added via security.pki.certificateFiles
-              #   # and this is its location on the filesystem:
-              #   ca_file: "/etc/blackbox-custom-root-ca.pem"
               fail_if_not_ssl: true
-          # http_2xx:
-          #   prober: http
-          #   timeout: 5s
-          #   http:
-          #     valid_status_codes: [200]
-          #     method: GET
       '';
     };
   };
