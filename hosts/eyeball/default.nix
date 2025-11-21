@@ -117,6 +117,7 @@
               "https://sync.cyn.internal"
               "https://home.cyn.internal"
               "https://torrent.cyn.internal"
+              "https://ca.cyn.internal/acme/acme/directory"
             ];
           }
         ];
