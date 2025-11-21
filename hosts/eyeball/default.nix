@@ -283,8 +283,8 @@
     "grafana-dashboards/grafana-main-status.json" = {
       source = ./grafana-main-status.json;
     };
-    "grafana-dashboards/grafana-blocky.json" = {
-      source = ./grafana-blocky.json;
+    "grafana-dashboards/grafana-blocky-dns.json" = {
+      source = ./grafana-blocky-dns.json;
     };
   };
 
