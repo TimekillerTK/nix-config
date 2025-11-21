@@ -101,6 +101,34 @@
           }
         ];
       }
+
+      # Blackbox exporter
+      {
+        job_name = "blackbox";
+        metrics_path = "/probe";
+        params.module = ["http_2xx"];
+        static_configs = [
+          {
+            targets = [
+              "https://cookbook.cyn.internal"
+            ];
+          }
+        ];
+        relabel_configs = [
+          {
+            source_labels = ["__address__"];
+            target_label = "__param_target";
+          }
+          {
+            source_labels = ["__param_target"];
+            target_label = "instance";
+          }
+          {
+            target_label = "__address__";
+            replacement = "localhost:9115";
+          }
+        ];
+      }
     ];
     exporters.node = {
       enable = true;
@@ -126,11 +154,25 @@
             - name: nix_auto_update
               type: object
               help: Service Status
-              path: '{$}'
+              path: '{$}' # pointing at root
               labels:
                 status: '{ .status }'
               values:
                 status: 1 # dummy, static value
+      '';
+    };
+    exporters.blackbox = {
+      enable = true;
+      port = 9115;
+      openFirewall = true;
+      configFile = pkgs.writeText "blackbox.yml" ''
+        modules:
+          http_2xx:
+            prober: http
+            timeout: 5s
+            http:
+              valid_status_codes: [200]
+              method: GET
       '';
     };
   };
