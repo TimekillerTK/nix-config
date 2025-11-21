@@ -39,6 +39,9 @@
     ../common/root-ca.pem
   ];
 
+  # TODO: Testing...
+  environment.etc."blackbox-custom-root-ca.pem".source = ./blackbox-custom-root-ca.pem;
+
   services.prometheus = {
     enable = true;
     globalConfig.scrape_interval = "5s";
@@ -176,7 +179,7 @@
               tls_config:
                 # Our custom cert is added via security.pki.certificateFiles
                 # and this is its location on the filesystem:
-                ca_file: "/etc/ssl/certs/ca-certificates.crt"
+                ca_file: "/etc/blackbox-custom-root-ca.pem"
               fail_if_not_ssl: true
           # http_2xx:
           #   prober: http
