@@ -97,6 +97,20 @@
         ];
       }
 
+      # ZFS Pool metrics for prometheus
+      {
+        job_name = "zfs";
+        static_configs = [
+          {
+            targets = [
+              "anya.cyn.internal:9134"
+              "hummingbird.cyn.internal:9134"
+              "beltanimal-eth.cyn.internal:9134"
+            ];
+          }
+        ];
+      }
+
       # Node exporter + systemd metrics
       {
         job_name = "node-systemd";
