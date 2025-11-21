@@ -980,18 +980,18 @@
           "text": "blackbox",
           "value": "blackbox"
         },
-        "definition": "label_values(probe_success,job)",
-        "includeAll": true,
+        "definition": "label_values(probe_http_status_code,job)",
+        "includeAll": false,
         "label": "Job",
         "name": "job",
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(probe_success,job)",
+          "query": "label_values(probe_http_status_code,job)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
-        "regex": "",
+        "regex": "/^blackbox$/",
         "sort": 2,
         "type": "query"
       },
@@ -1001,14 +1001,14 @@
           "text": "All",
           "value": "$__all"
         },
-        "definition": "label_values(probe_success{job=\"$job\"},instance)",
+        "definition": "label_values(probe_http_status_code{job=\"$job\"},instance)",
         "includeAll": true,
         "label": "Instance",
         "name": "instance",
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(probe_success{job=\"$job\"},instance)",
+          "query": "label_values(probe_http_status_code{job=\"$job\"},instance)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
@@ -1026,5 +1026,5 @@
   "timezone": "browser",
   "title": "Immutable Dashboard",
   "uid": "9a3b2b72-a32b-4e25-ab43-1e628ad1b574",
-  "version": 12
+  "version": 13
 }
