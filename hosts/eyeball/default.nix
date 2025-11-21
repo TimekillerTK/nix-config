@@ -175,7 +175,6 @@
             timeout: 5s
             http:
               method: GET
-              valid_http_versions: [ "HTTP/1.1", "HTTP/2" ]
               tls_config:
                 # Our custom cert is added via security.pki.certificateFiles
                 # and this is its location on the filesystem:
