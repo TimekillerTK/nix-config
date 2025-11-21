@@ -34,7 +34,7 @@
     ../common/optional/disable-bt-handsfree
     ../common/optional/home-assistant-remote
     ../common/optional/nix-auto-update
-    ../common/optional/prometheus-node
+    ../common/optional/prometheus-node-desktop
     # ../common/optional/tailscale-client
   ];
 
