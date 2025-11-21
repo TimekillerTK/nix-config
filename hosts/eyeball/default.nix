@@ -40,7 +40,7 @@
   ];
 
   # TODO: Testing...
-  environment.etc."blackbox-custom-root-ca.pem".source = ./blackbox-custom-root-ca.pem;
+  environment.etc."blackbox-custom-root-ca.pem".source = ../common/root-ca.pem;
 
   services.prometheus = {
     enable = true;
