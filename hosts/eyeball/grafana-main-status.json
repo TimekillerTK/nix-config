@@ -30,6 +30,130 @@
         "x": 0,
         "y": 0
       },
+      "id": 12,
+      "panels": [],
+      "title": "nix-auto-update",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "text",
+                  "index": 0,
+                  "text": "Offline"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "status"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "ExitFail": {
+                        "color": "red",
+                        "index": 2
+                      },
+                      "ExitSuccess": {
+                        "color": "green",
+                        "index": 0
+                      },
+                      "InProgress": {
+                        "color": "yellow",
+                        "index": 1
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "id": 11,
+      "options": {
+        "colorMode": "background_solid",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "/^status$/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.5",
+      "repeat": "host",
+      "repeatDirection": "h",
+      "targets": [
+        {
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "nix_auto_update_status{instance=~\"$host\"}",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "$host",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {}
+        }
+      ],
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
       "id": 10,
       "panels": [],
       "title": "hosts information",
@@ -238,7 +362,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 1
+        "y": 5
       },
       "id": 8,
       "options": {
@@ -410,11 +534,11 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 8
+        "y": 12
       },
       "id": 9,
       "panels": [],
-      "title": "Row title",
+      "title": "HTTP",
       "type": "row"
     },
     {
@@ -798,7 +922,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 9
+        "y": 13
       },
       "id": 7,
       "options": {
@@ -1013,355 +1137,6 @@
       ],
       "transparent": true,
       "type": "table"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 18
-      },
-      "id": 2,
-      "panels": [],
-      "title": "nix-auto-update",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "fieldMinMax": false,
-          "mappings": [
-            {
-              "options": {
-                "match": "null",
-                "result": {
-                  "color": "text",
-                  "index": 0,
-                  "text": "Offline"
-                }
-              },
-              "type": "special"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "status"
-            },
-            "properties": [
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "options": {
-                      "ExitFail": {
-                        "color": "red",
-                        "index": 2
-                      },
-                      "ExitSuccess": {
-                        "color": "green",
-                        "index": 0
-                      },
-                      "InProgress": {
-                        "color": "yellow",
-                        "index": 1
-                      }
-                    },
-                    "type": "value"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 0,
-        "y": 19
-      },
-      "id": 4,
-      "options": {
-        "colorMode": "background_solid",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "/^status$/",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "12.0.5",
-      "targets": [
-        {
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "nix_auto_update_status{instance=\"http://anya.cyn.internal:9001/statefile.json\", job=\"nix_auto_update\"}",
-          "instant": true,
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A"
-        }
-      ],
-      "title": "anya",
-      "transformations": [
-        {
-          "id": "labelsToFields",
-          "options": {
-            "valueLabel": "__name__"
-          }
-        }
-      ],
-      "transparent": true,
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "fieldMinMax": false,
-          "mappings": [
-            {
-              "options": {
-                "match": "null",
-                "result": {
-                  "color": "text",
-                  "index": 0,
-                  "text": "Offline"
-                }
-              },
-              "type": "special"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "status"
-            },
-            "properties": [
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "options": {
-                      "ExitFail": {
-                        "color": "red",
-                        "index": 2
-                      },
-                      "ExitSuccess": {
-                        "color": "green",
-                        "index": 0
-                      },
-                      "InProgress": {
-                        "color": "yellow",
-                        "index": 1
-                      }
-                    },
-                    "type": "value"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 3,
-        "y": 19
-      },
-      "id": 5,
-      "options": {
-        "colorMode": "background_solid",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "/^status$/",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "12.0.5",
-      "targets": [
-        {
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "nix_auto_update_status{instance=\"http://hummingbird.cyn.internal:9001/statefile.json\", job=\"nix_auto_update\"}",
-          "instant": true,
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A"
-        }
-      ],
-      "title": "hummingbird",
-      "transformations": [
-        {
-          "id": "labelsToFields",
-          "options": {
-            "valueLabel": "__name__"
-          }
-        }
-      ],
-      "transparent": true,
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "fieldMinMax": false,
-          "mappings": [
-            {
-              "options": {
-                "match": "null",
-                "result": {
-                  "color": "text",
-                  "index": 0,
-                  "text": "Offline"
-                }
-              },
-              "type": "special"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "status"
-            },
-            "properties": [
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "options": {
-                      "ExitFail": {
-                        "color": "red",
-                        "index": 2
-                      },
-                      "ExitSuccess": {
-                        "color": "green",
-                        "index": 0
-                      },
-                      "InProgress": {
-                        "color": "yellow",
-                        "index": 1
-                      }
-                    },
-                    "type": "value"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 6,
-        "y": 19
-      },
-      "id": 6,
-      "options": {
-        "colorMode": "background_solid",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "/^status$/",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "12.0.5",
-      "targets": [
-        {
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "nix_auto_update_status{instance=\"http://beltanimal-eth.cyn.internal:9001/statefile.json\", job=\"nix_auto_update\"}",
-          "instant": true,
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A"
-        }
-      ],
-      "title": "beltanimal",
-      "transformations": [
-        {
-          "id": "labelsToFields",
-          "options": {
-            "valueLabel": "__name__"
-          }
-        }
-      ],
-      "transparent": true,
-      "type": "stat"
     }
   ],
   "preload": false,
@@ -1411,6 +1186,25 @@
         "regex": "",
         "sort": 2,
         "type": "query"
+      },
+      {
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "definition": "label_values(nix_auto_update_status,instance)",
+        "includeAll": true,
+        "label": "host",
+        "name": "host",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(nix_auto_update_status,instance)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
       }
     ]
   },
@@ -1422,5 +1216,5 @@
   "timezone": "browser",
   "title": "Main Status (Immutable)",
   "uid": "9a3b2b72-a32b-4e25-ab43-1e628ad1b574",
-  "version": 16
+  "version": 17
 }
