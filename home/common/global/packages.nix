@@ -5,7 +5,7 @@
     unstable.fd
     unstable.eza
     unstable.bat
-    unstable.du-dust
+    unstable.dust
     unstable.ripgrep
     unstable.fzf
 

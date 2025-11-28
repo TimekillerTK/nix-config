@@ -34,7 +34,7 @@ in {
   sops.secrets.smbcred = {};
 
   # Newer LTS Kernel, pinned
-  boot.kernelPackages = pkgs.linuxPackages_6_16;
+  boot.kernelPackages = pkgs.linuxPackages_6_17;
 
   # use default bash
   # TODO: find a better way to do this

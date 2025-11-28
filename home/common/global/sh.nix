@@ -10,7 +10,7 @@
     ls = "${pkgs.eza}/bin/eza --icons -F --group-directories-first --git --group";
     lt = "${pkgs.unstable.eza}/bin/eza --tree --level=2 --long --icons --git";
     cat = "${pkgs.bat}/bin/bat -pp";
-    du = "${pkgs.du-dust}/bin/dust";
+    du = "${pkgs.unstable.dust}/bin/dust";
     df = "${pkgs.unstable.duf}/bin/duf";
     grep = "${pkgs.ripgrep}/bin/rg";
     rg = "${pkgs.unstable.ripgrep}/bin/rg";
