@@ -19,7 +19,7 @@
     };
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.nix-auto-update}/bin/nix-auto-update --repo https://github.com/TimekillerTK/nix-config";
+      ExecStart = "${pkgs.nix-auto-update}/bin/nix-auto-update --repo https://github.com/TimekillerTK/nix-config --home";
       User = "root";
 
       # NOTE: Need a timeout since compiling binaries on some systems
