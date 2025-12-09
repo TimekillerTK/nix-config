@@ -8,8 +8,15 @@
   # Git configuration
   programs.git = {
     enable = true;
-    userName = gitUser;
-    userEmail = gitEmail;
+
+    settings = {
+      user.name = gitUser;
+      user.email = gitEmail;
+      core.excludesfile = "/home/${username}/.config/git/ignore";
+      init.defaultBranch = "main";
+      safe.directory = ["/nix-config" "/var/lib/nix-auto-update/repo" "/home/tk/spaghetti"];
+    };
+
     ignores = [
       # Nix Flakes
       "devenv.local.nix"
@@ -43,22 +50,17 @@
       "cdk.context.json"
       ".DS_Store"
     ];
+  };
 
-    extraConfig = {
-      core.excludesfile = "/home/${username}/.config/git/ignore";
-      init.defaultBranch = "main";
-      safe.directory = ["/nix-config" "/var/lib/nix-auto-update/repo" "/home/tk/spaghetti"];
+  # For better `git diff` / `git show`
+  programs.delta = {
+    enable = true;
+    options = {
+      navigate = true;
+      line-numbers = true;
+      side-by-side = true;
+      syntax-theme = "Dracula";
     };
-
-    # Better `git diff` / `git show`
-    delta = {
-      enable = true;
-      options = {
-        navigate = true;
-        line-numbers = true;
-        side-by-side = true;
-        syntax-theme = "Dracula";
-      };
-    };
+    enableGitIntegration = true;
   };
 }
