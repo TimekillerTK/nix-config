@@ -7,19 +7,19 @@
   # be accessible through -> pkgs.unstable / pkgs.v2305
   other-packages = final: prev: {
     unstable = import inputs.nixpkgs-unstable {
-      system = final.system;
+      system = final.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
-    v2405 = import inputs.nixpkgs-v2405 {
-      system = final.system;
+    v2505 = import inputs.nixpkgs-v2505 {
+      system = final.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
     v2411 = import inputs.nixpkgs-v2411 {
-      system = final.system;
+      system = final.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
     caddy_v284 = import inputs.nixpkgs-caddy {
-      system = final.system;
+      system = final.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
   };
