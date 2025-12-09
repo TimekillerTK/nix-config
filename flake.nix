@@ -3,13 +3,13 @@
 
   inputs = {
     # Nixpkgs Stable - https://github.com/NixOS/nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+
+    # Nixpkgs Version 2505 - https://github.com/NixOS/nixpkgs
+    nixpkgs-v2505.url = "github:nixos/nixpkgs/nixos-25.05";
 
     # Nixpkgs Version 2411 - https://github.com/NixOS/nixpkgs
     nixpkgs-v2411.url = "github:nixos/nixpkgs/nixos-24.11";
-
-    # Nixpkgs Version 2405 - https://github.com/NixOS/nixpkgs
-    nixpkgs-v2405.url = "github:nixos/nixpkgs/nixos-24.05";
 
     # Nixpkgs Unstable
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
@@ -22,27 +22,17 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
     # Home Manager - https://github.com/nix-community/home-manager
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Atomic, declarative, and reproducible secret provisioning for NixOS based on sops.
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    # For VS Code Remote to work on NixOS
-    vscode-server.url = "github:nix-community/nixos-vscode-server";
-
-    # NOTE: Disabled because unused
-    # # Community VS Code Extensions
-    # nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
-
     # For managing KDE Plasma 6
     plasma-manager6.url = "github:nix-community/plasma-manager";
     plasma-manager6.inputs.nixpkgs.follows = "nixpkgs";
     plasma-manager6.inputs.home-manager.follows = "home-manager";
-
-    # Deploy-rs
-    deploy-rs.url = "github:serokell/deploy-rs";
 
     # NixOS Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -239,57 +229,5 @@
         };
       };
     };
-
-    deploy.nodes = {
-      # Desktop
-      anya = {
-        hostname = "anya.cyn.internal";
-        profiles.system = {
-          sshUser = "tk";
-          user = "root";
-          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.anya;
-        };
-        profiles.tk = {
-          sshUser = "tk";
-          user = "tk";
-          path = inputs.deploy-rs.lib.x86_64-linux.activate.custom self.homeConfigurations."tk@anya".activationPackage "$PROFILE/activate";
-        };
-      };
-      # Laptop
-      beltanimal = {
-        hostname = "beltanimal.cyn.internal";
-        profiles.system = {
-          sshUser = "tk";
-          user = "root";
-          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.beltanimal;
-        };
-        profiles.tk = {
-          sshUser = "tk";
-          user = "tk";
-          path = inputs.deploy-rs.lib.x86_64-linux.activate.custom self.homeConfigurations."tk@beltanimal".activationPackage "$PROFILE/activate";
-        };
-      };
-      # Router
-      router = {
-        hostname = "router.cyn.internal";
-        profiles.system = {
-          sshUser = "tk";
-          user = "root";
-          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.router;
-        };
-      };
-      # Dockerhost
-      dockerhost = {
-        hostname = "dockerhost.cyn.internal";
-        profiles.system = {
-          sshUser = "tk";
-          user = "root";
-          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.dockerhost;
-        };
-      };
-    };
-
-    # (deploy-rs) This is highly advised, and will prevent many possible mistakes
-    checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy-rs.lib;
   };
 }
