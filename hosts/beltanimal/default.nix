@@ -106,9 +106,11 @@
   # cuts off network connectivity. These changes prevent that on
   # the login screen.
   services.logind = {
-    lidSwitch = "lock";
-    lidSwitchDocked = "lock";
-    lidSwitchExternalPower = "lock";
+    settings = {
+      Login.HandleLidSwitch = "lock";
+      Login.HandleLidSwitchDocked = "lock";
+      Login.HandleLidSwitchExternalPower = "lock";
+    };
   };
 
   # Hostname & Network Manager
