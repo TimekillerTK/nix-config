@@ -17,7 +17,12 @@
     # Desktop Applications
     firefox
     vlc # VLC
-    jellyfin-media-player
+
+    # INSECURE/BROKEN: https://github.com/NixOS/nixpkgs/issues/437865
+    # Currently waiting for new jellyfin-media-player release, which
+    # should happen at any time
+    # unstable.jellyfin-media-player
+
     unstable.vscode-fhs
     unstable.signal-desktop # Messaging app
     unstable.flameshot # Simple Screenshotting
