@@ -22,6 +22,10 @@
       system = final.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
+    jmp_v1120 = import inputs.nixpkgs-jmp {
+      system = final.stdenv.hostPlatform.system;
+      config.allowUnfree = true;
+    };
   };
 
   # This one contains whatever you want to overlay
