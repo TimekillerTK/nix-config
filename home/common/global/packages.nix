@@ -1,10 +1,4 @@
 {pkgs, ...}: {
-  # Exception for jellyfin-media-player 1.12.0 which uses
-  # this package
-  nixpkgs.config.permittedInsecurePackages = [
-    "qtwebengine-5.15.19"
-  ];
-
   # Common packages installed via Home Manager
   home.packages = with pkgs; [
     # CLI
@@ -23,12 +17,6 @@
     # Desktop Applications
     firefox
     vlc # VLC
-
-    # INSECURE/BROKEN: https://github.com/NixOS/nixpkgs/issues/437865
-    # Currently waiting for new jellyfin-media-player release, which
-    # should happen at any time
-    jmp_v1120.jellyfin-media-player
-
     unstable.vscode-fhs
     unstable.signal-desktop # Messaging app
     unstable.flameshot # Simple Screenshotting

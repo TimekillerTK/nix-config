@@ -17,9 +17,6 @@
     # Nixpkgs Caddy Pin to 2.8.4 due to issues with 2.10
     nixpkgs-caddy.url = "github:NixOS/nixpkgs/a880f49904d68b5e53338d1e8c7bf80f59903928";
 
-    # Nixpkgs for specific version of jellyfin-media-player
-    nixpkgs-jmp.url = "github:NixOS/nixpkgs/3bcc93c5f7a4b30335d31f21e2f1281cba68c318";
-
     # Disko (Disk Config)
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
