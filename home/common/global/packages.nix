@@ -5,7 +5,7 @@
     unstable.fd
     unstable.eza
     unstable.bat
-    unstable.du-dust
+    unstable.dust
     unstable.ripgrep
     unstable.fzf
 
@@ -17,7 +17,6 @@
     # Desktop Applications
     firefox
     vlc # VLC
-    jellyfin-media-player
     unstable.vscode-fhs
     unstable.signal-desktop # Messaging app
     unstable.flameshot # Simple Screenshotting

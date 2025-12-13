@@ -9,15 +9,17 @@
   # Enable Plasma 6
   services.desktopManager.plasma6.enable = true;
 
-  # For KDE Plasma 6, the defaults have changed.
-  # KDE Plasma 6 runs on Wayland with the default session set
-  # to 'plasma'. If you want to use the X11 session as your
-  # default session, change it to 'plasmax11'.
-  services.displayManager.defaultSession = "plasma";
-  services.xserver = {
-    # Enable the Wayland display server
-    enable = true;
+  # Enable the Wayland display server
+  services.xserver.enable = true;
+
+  services = {
     displayManager = {
+      # For KDE Plasma 6, the defaults have changed.
+      # KDE Plasma 6 runs on Wayland with the default session set
+      # to 'plasma'. If you want to use the X11 session as your
+      # default session, change it to 'plasmax11'.
+      defaultSession = "plasma";
+
       # SDDM doesn't support Wayland well, runs awful even
       # on X11, has glitches and drives me bonkers, so
       # using gdm instead.

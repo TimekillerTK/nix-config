@@ -32,7 +32,7 @@
   # SOPS Secrets
   sops.secrets.smbcred = {};
 
-  boot.kernelPackages = pkgs.linuxPackages_6_16;
+  boot.kernelPackages = pkgs.linuxPackages_6_17;
 
   # Required for our user
   users.users.tk.shell = lib.mkForce pkgs.bash;

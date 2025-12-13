@@ -4,8 +4,8 @@
   brother-mfcl3750cdw = pkgs.callPackage ./brother-mfcl3750cdw {};
   renamer = pkgs.callPackage ./renamer {};
   nix-auto-update = pkgs.callPackage ./nix-auto-update {};
+  nix-auto-update-host = pkgs.callPackage ./nix-auto-update-host {};
   # spaget = pkgs.callPackage ./spaget { target = "everyone"; };
   # xivlauncher = pkgs.callPackage ./xivlauncher { };
   # wip = pkgs.callPackage ./wip {};
-  # "4kvideodownloaderplus" = pkgs.callPackage ./4kvideodownloaderplus {};
 }
