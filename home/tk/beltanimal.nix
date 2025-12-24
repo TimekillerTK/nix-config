@@ -50,6 +50,7 @@
 
     # Other
     unstable.devenv # Nix powered dev environments
+    unstable.vintagestory # game
   ];
 
   # Syncthing (personal cloud)

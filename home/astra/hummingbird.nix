@@ -35,6 +35,7 @@
   home.packages = with pkgs; [
     # Desktop Applications
     unstable.xivlauncher # FFXIV Launcher
+    unstable.vintagestory # Vintage Story
   ];
 
   # VS Code Settings files as symlinks
