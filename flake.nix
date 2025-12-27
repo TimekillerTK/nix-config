@@ -146,6 +146,12 @@
           inherit inputs outputs;
         };
       };
+      vs-server = lib.nixosSystem {
+        modules = [./hosts/vs-server];
+        specialArgs = {
+          inherit inputs outputs;
+        };
+      };
     };
 
     # Available through 'home-manager --flake .#your-username@your-hostname'

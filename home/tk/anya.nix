@@ -69,6 +69,7 @@
     # Games
     unstable.openrct2 # RollerCoaster Tycoon 2
     openttd # Transport Tycoon Deluxe
+    unstable.vintagestory # Vintage Story
   ];
 
   # Syncthing (personal cloud)
