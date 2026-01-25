@@ -9,7 +9,15 @@
 
   # NOTE: If there are any ZFS issues, use this instead:
   # boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-  boot.kernelPackages = pkgs.linuxPackages_6_17;
+  boot.kernelPackages = pkgs.linuxPackages_6_18;
+
+  # NOTE: Temporarily set to 2_4 on unstable because it's needed
+  # for linux 6.18 at this time.
+  #
+  # In the future this line below for zfs_2_4 pinning needs to
+  # be commented out/removed.
+  boot.zfs.package = pkgs.unstable.zfs_2_4;
+
   boot.zfs.devNodes = lib.mkDefault "/dev/disk/by-id";
 
   # Automatic Scrub schedule
