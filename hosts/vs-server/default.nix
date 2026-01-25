@@ -29,7 +29,7 @@
   };
 
   # boot stuff (required)
-  boot.kernelPackages = pkgs.linuxPackages_6_17;
+  boot.kernelPackages = pkgs.linuxPackages_6_18;
 
   # Hostname & Network Manager
   networking.hostName = "vs-server";
