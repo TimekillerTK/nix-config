@@ -6,9 +6,6 @@
   ...
 }: {
   imports = [
-    # Required for VS Code Remote
-    inputs.vscode-server.nixosModules.default
-
     # Generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
 
