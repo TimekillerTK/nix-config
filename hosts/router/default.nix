@@ -43,7 +43,7 @@ in {
   # boot stuff (required)
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_6_17;
+  boot.kernelPackages = pkgs.linuxPackages_6_18;
 
   # use default bash
   users.users.tk.shell = lib.mkForce pkgs.bash;
