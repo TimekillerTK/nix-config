@@ -255,6 +255,9 @@
         http_addr = "0.0.0.0"; # TODO: Change for prod
         http_port = 3000;
         enable_gzip = true; # recommended default
+        domain = "grafana.cyn.internal";
+        root_url = "%(protocol)s://%(domain)s/";
+        protocol = "https";
       };
     };
     # Delcarative configuration for Grafana
