@@ -259,6 +259,11 @@
         root_url = "%(protocol)s://%(domain)s/";
         protocol = "http";
       };
+      auth.anonymous = {
+        enabled = true;
+        org_name = "Sneko Org.";
+        org_role = "Viewer";
+      };
     };
     # Delcarative configuration for Grafana
     provision = {
