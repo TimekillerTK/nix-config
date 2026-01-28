@@ -257,7 +257,7 @@
         enable_gzip = true; # recommended default
         domain = "grafana.cyn.internal";
         root_url = "%(protocol)s://%(domain)s/";
-        protocol = "https";
+        protocol = "http";
       };
     };
     # Delcarative configuration for Grafana
