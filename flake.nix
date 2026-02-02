@@ -152,6 +152,12 @@
           inherit inputs outputs;
         };
       };
+      dendritic = lib.nixosSystem {
+        modules = [./hosts/dendritic];
+        specialArgs = {
+          inherit inputs outputs;
+        };
+      };
     };
 
     # Available through 'home-manager --flake .#your-username@your-hostname'
