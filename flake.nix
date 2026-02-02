@@ -7,6 +7,7 @@
 
     # dendritic pattern
     flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
 
     # # Nixpkgs Unstable
     # nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
@@ -18,10 +19,8 @@
 
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;}
-    {
-      systems = ["x86_64-linux"];
-      imports = [
-        ./hosts/dendritic
-      ];
-    };
+    (inputs.import-tree ./modules);
+  # imports = [
+  #   ./hosts/dendritic
+  # ];
 }
