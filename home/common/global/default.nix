@@ -7,5 +7,6 @@
     ./terminal.nix
     ./packages.nix
     ./helix.nix
+    ./yazi.nix
   ];
 }
