@@ -1,5 +1,5 @@
 {
-  description = "Dendritic Pattern Test Config";
+  description = "Dendritic Pattern Example Test Config";
 
   inputs = {
     # Nixpkgs Stable - https://github.com/NixOS/nixpkgs
@@ -19,20 +19,20 @@
 
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake {inherit inputs;} {
-      systems = ["x86_64-linux" "aarch64-darwin"];
+      systems = ["x86_64-linux"];
 
-      flake.nixosConfigurations.mainmain = {
+      flake.nixosConfigurations.example = {
         inputs,
         self,
         ...
       }:
         inputs.nixpkgs.lib.nixosSystem {
           modules = [
-            self.nixosModules.hostArondil
+            self.nixosModules.example
           ];
         };
 
-      flake.nixosModules.mainmain = {pkgs, ...}: {
+      flake.nixosModules.example = {pkgs, ...}: {
         imports = [
           # Include the results of the hardware scan.
           ./modules/hardware-configuration.nix
