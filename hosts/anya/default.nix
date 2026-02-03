@@ -104,6 +104,10 @@
     enable = true;
   };
 
+  # Enable QMK support (Keychron)
+  hardware.keyboard.qmk.enable = true;
+  hardware.keyboard.qmk.keychronSupport = true;
+
   # # Docker for when needed
   # virtualisation.docker.enable = true;
   # users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
