@@ -1,9 +1,11 @@
 {
-  lib,
-  modulesPath,
-  ...
-}: {
-  flake.modules.nixos.mainmain = {
+  flake.nixosModules.mainmain = {
+    config,
+    lib,
+    pkgs,
+    modulesPath,
+    ...
+  }: {
     imports = [
       (modulesPath + "/profiles/qemu-guest.nix")
     ];

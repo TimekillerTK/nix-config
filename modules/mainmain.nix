@@ -3,20 +3,23 @@
   self,
   ...
 }: {
-  flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "mainmain";
-
-  flake.modules.nixos.mainmain = {
+  flake.nixosConfigurations.mainmain = inputs.nixpkgs.lib.nixosSystem {
     modules = [
       self.nixosModules.mainmainModule
     ];
   };
 
-  flake.nixosModules.mainmainModule = {pkgs, ...}: {
+  flake.nixosModules.mainmainModule = {
+    config,
+    pkgs,
+    ...
+  }: {
     # imports = [
     #   # Include the results of the hardware scan.
     #   ./hardware-configuration.nix
     # ];
 
+    nix.settings.experimental-features = ["nix-command" "flakes"];
     networking.hostName = "dendritic"; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
