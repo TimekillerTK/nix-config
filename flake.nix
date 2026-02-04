@@ -31,11 +31,15 @@
         ];
       };
 
-      flake.nixosModules.example = {pkgs, ...}: {
-        imports = [
-          # Include the results of the hardware scan.
-          ./modules/hardware-configuration.nix
-        ];
+      flake.nixosModules.example = {
+        pkgs,
+        modulesPath,
+        ...
+      }: {
+        # imports = [
+        #   # Include the results of the hardware scan.
+        #   ./modules/hardware-configuration.nix
+        # ];
 
         nix.settings.experimental-features = ["nix-command" "flakes"];
         networking.hostName = "dendritic"; # Define your hostname.
@@ -85,6 +89,30 @@
         services.openssh.enable = true;
 
         system.stateVersion = "25.05";
+
+        # hardware-configuration.nix --------
+        imports = [
+          (modulesPath + "/profiles/qemu-guest.nix")
+        ];
+        boot.initrd.availableKernelModules = ["ata_piix" "uhci_hcd" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod"];
+        boot.initrd.kernelModules = [];
+        boot.kernelModules = [];
+        boot.extraModulePackages = [];
+
+        boot.loader.grub = {
+          devices = ["/dev/sda"];
+        };
+
+        fileSystems."/" = {
+          device = "/dev/disk/by-uuid/0119ab10-0458-4582-bb94-2a67176abcf2";
+          fsType = "ext4";
+        };
+
+        swapDevices = [
+          {device = "/dev/disk/by-uuid/cdf37e71-63a7-473e-9047-ba08b706f6ef";}
+        ];
+        networking.useDHCP = inputs.nixpkgs.lib.mkDefault true;
+        nixpkgs.hostPlatform = inputs.nixpkgs.lib.mkDefault "x86_64-linux";
       };
     };
 }

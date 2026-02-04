@@ -1,5 +1,5 @@
 {
-  flake.nixosModules.mainmain = {
+  flake.nixosModules.example = {
     inputs,
     config,
     lib,
@@ -36,6 +36,6 @@
     networking.useDHCP = lib.mkDefault true;
     # networking.interfaces.ens18.useDHCP = lib.mkDefault true;
 
-    inputs.nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+    nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   };
 }
