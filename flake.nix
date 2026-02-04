@@ -17,20 +17,19 @@
     # home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs:
-    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+  outputs = inputs @ {
+    self,
+    flake-parts,
+    ...
+  }:
+    flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux"];
 
-      flake.nixosConfigurations.example = {
-        inputs,
-        self,
-        ...
-      }:
-        inputs.nixpkgs.lib.nixosSystem {
-          modules = [
-            self.nixosModules.example
-          ];
-        };
+      flake.nixosConfigurations.example = inputs.nixpkgs.lib.nixosSystem {
+        modules = [
+          self.nixosModules.example
+        ];
+      };
 
       flake.nixosModules.example = {pkgs, ...}: {
         imports = [
