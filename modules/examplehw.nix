@@ -1,15 +1,12 @@
 {
-  flake.nixosModules.example = {
-    inputs,
-    config,
-    lib,
-    pkgs,
+  flake.nixosModules.examplehw = {
     modulesPath,
+    lib,
     ...
   }: {
-    # imports = [
-    #   (modulesPath + "/profiles/qemu-guest.nix")
-    # ];
+    imports = [
+      (modulesPath + "/profiles/qemu-guest.nix")
+    ];
 
     boot.initrd.availableKernelModules = ["ata_piix" "uhci_hcd" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod"];
     boot.initrd.kernelModules = [];
@@ -34,7 +31,7 @@
     # still possible to use this option, but it's recommended to use it in conjunction
     # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
     networking.useDHCP = lib.mkDefault true;
-    # networking.interfaces.ens18.useDHCP = lib.mkDefault true;
+    # networking.interfaces.ens18.useDHCP = inputs.nixpkgs.lib.mkDefault true;
 
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   };
