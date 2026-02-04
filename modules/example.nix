@@ -1,8 +1,4 @@
-{
-  self,
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   # ^^^^ NOTE: inputs should ONLY be imported AND used here, but not in
   # flake.nixosModules below, otherwise there will be an error:
   #
@@ -26,17 +22,21 @@
   #         686|           )
   #
   flake.nixosConfigurations.example = inputs.nixpkgs.lib.nixosSystem {
-    modules = [
-      self.nixosModules.example
-      self.nixosModules.examplehw
+    modules = with inputs.self.nixosModules; [
+      example
+      examplehw
+    ];
+  };
+  flake.homeConfigurations.example = inputs.home-manager.lib.homeManagerConfiguration {
+    # TODO: this will need to be repeated for every config, maybe we should
+    # write a function for this?
+    pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
+    modules = with inputs.self.homeModules; [
+      git
     ];
   };
 
-  flake.nixosModules.example = {
-    config,
-    pkgs,
-    ...
-  }: {
+  flake.nixosModules.example = {pkgs, ...}: {
     nix.settings.experimental-features = ["nix-command" "flakes"];
     networking.hostName = "dendritic"; # Define your hostname.
 

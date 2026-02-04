@@ -12,9 +12,9 @@
     # # Nixpkgs Unstable
     # nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
-    # # Home Manager - https://github.com/nix-community/home-manager
-    # home-manager.url = "github:nix-community/home-manager/release-25.11";
-    # home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    # Home Manager - https://github.com/nix-community/home-manager
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./modules);
 }
