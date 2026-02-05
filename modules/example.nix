@@ -27,6 +27,7 @@
       examplehw
     ];
   };
+
   flake.homeConfigurations.example = inputs.home-manager.lib.homeManagerConfiguration {
     # TODO: this will need to be repeated for every config, maybe we should
     # write a function for this?
@@ -37,6 +38,15 @@
   };
 
   flake.nixosModules.example = {pkgs, ...}: {
+    nixpkgs.overlays = [
+      (final: _prev: {
+        unstable = import inputs.nixpkgs-unstable {
+          inherit (final) config;
+          system = pkgs.stdenv.hostPlatform.system;
+        };
+      })
+    ];
+
     nix.settings.experimental-features = ["nix-command" "flakes"];
     networking.hostName = "dendritic"; # Define your hostname.
 
@@ -80,6 +90,7 @@
 
     environment.systemPackages = with pkgs; [
       vim
+      unstable.yazi
     ];
     # Enable the OpenSSH daemon.
     services.openssh.enable = true;

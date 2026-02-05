@@ -9,8 +9,8 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
 
-    # # Nixpkgs Unstable
-    # nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
+    # Nixpkgs Unstable
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
     # Home Manager - https://github.com/nix-community/home-manager
     home-manager.url = "github:nix-community/home-manager/release-25.11";
