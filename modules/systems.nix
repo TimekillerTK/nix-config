@@ -1,4 +1,4 @@
-{
+{inputs, ...}: {
   # Required to define systems, otherwise:
   #
   #  error: The option `systems' was accessed but has no value defined. Try setting the option.
@@ -14,8 +14,8 @@
   # https://github.com/Doc-Steve/dendritic-design-with-flake-parts/wiki/Basics#basics-for-usage-of-the-dendritic-pattern
   #
   # But is it really required? Need to check...
-  # imports = [
-  #   inputs.flake-parts.flakeModules.modules
-  #   inputs.home-manager.flakeModules.home-manager
-  # ];
+  imports = [
+    inputs.flake-parts.flakeModules.modules
+    # inputs.home-manager.flakeModules.home-manager
+  ];
 }

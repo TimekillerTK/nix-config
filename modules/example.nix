@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  # self,
+  ...
+}: {
   # ^^^^ NOTE: inputs should ONLY be imported AND used here, but not in
   # flake.nixosModules below, otherwise there will be an error:
   #
@@ -22,9 +26,9 @@
   #         686|           )
   #
   flake.nixosConfigurations.example = inputs.nixpkgs.lib.nixosSystem {
-    modules = with inputs.self.nixosModules; [
-      example
-      examplehw
+    modules = [
+      inputs.self.nixosModules.example
+      inputs.self.nixosModules.examplehw
     ];
   };
 
@@ -32,20 +36,21 @@
     # TODO: this will need to be repeated for every config, maybe we should
     # write a function for this?
     pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
-    modules = with inputs.self.homeModules; [
-      git
+    modules = [
+      inputs.self.homeModules.git
+      inputs.self.modules.generic.systemConstants
     ];
   };
 
   flake.nixosModules.example = {pkgs, ...}: {
-    nixpkgs.overlays = [
-      (final: _prev: {
-        unstable = import inputs.nixpkgs-unstable {
-          inherit (final) config;
-          system = pkgs.stdenv.hostPlatform.system;
-        };
-      })
-    ];
+    # nixpkgs.overlays = [
+    #   (final: _prev: {
+    #     unstable = import inputs.nixpkgs-unstable {
+    #       inherit (final) config;
+    #       system = pkgs.stdenv.hostPlatform.system;
+    #     };
+    #   })
+    # ];
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
     networking.hostName = "dendritic"; # Define your hostname.
@@ -90,7 +95,7 @@
 
     environment.systemPackages = with pkgs; [
       vim
-      unstable.yazi
+      # unstable.yazi
     ];
     # Enable the OpenSSH daemon.
     services.openssh.enable = true;
