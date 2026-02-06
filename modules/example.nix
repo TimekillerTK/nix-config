@@ -53,21 +53,15 @@
   flake.modules.homeManager.example = {
     imports = with inputs.self.modules.homeManager; [
       git
+      unstable
     ];
   };
 
-  flake.modules.nixos.example = {
-    pkgs,
-    # config,
-    ...
-  }: {
-    imports = with inputs.self.modules.nixos;
-      [
-        examplehw
-      ]
-      ++ (with inputs.self.modules.generic; [
-        systemConstants
-      ]);
+  flake.modules.nixos.example = {pkgs, ...}: {
+    imports = with inputs.self.modules.nixos; [
+      examplehw
+      unstable
+    ];
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
     networking.hostName = "dendritic"; # Define your hostname.
@@ -104,7 +98,9 @@
       isNormalUser = true;
       description = "tk";
       extraGroups = ["networkmanager" "wheel"];
-      packages = with pkgs; [];
+      packages = with pkgs; [
+        # unstable.devenv
+      ];
     };
 
     # Allow unfree packages
@@ -112,7 +108,7 @@
 
     environment.systemPackages = with pkgs; [
       vim
-      # unstable.yazi
+      unstable.yazi
     ];
     # Enable the OpenSSH daemon.
     services.openssh.enable = true;

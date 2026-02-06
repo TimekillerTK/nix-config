@@ -1,17 +1,5 @@
 {
-  flake.modules.homeManager.git = {
-    pkgs,
-    config,
-    ...
-  }: {
-    nixpkgs.overlays = [
-      (final: _prev: {
-        unstable = import config.systemConstants.nixpkgs-unstable {
-          inherit (final) config;
-          system = pkgs.stdenv.hostPlatform.system;
-        };
-      })
-    ];
+  flake.modules.homeManager.git = {pkgs, ...}: {
     programs.git = {
       enable = true;
     };

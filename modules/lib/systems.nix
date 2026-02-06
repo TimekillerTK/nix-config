@@ -13,7 +13,11 @@
   # This is part of the setup guide in
   # https://github.com/Doc-Steve/dendritic-design-with-flake-parts/wiki/Basics#basics-for-usage-of-the-dendritic-pattern
   #
-  # But is it really required? Need to check...
+  # It is not required per se, but it is required to be imported with
+  # the current way this repo is set up.
+  #
+  # If you want to skip these imports, see previous commits such as
+  # https://github.com/TimekillerTK/nix-config/tree/63e62b07b214b92a0d6cfee9701bb8eaae068100
   imports = [
     inputs.flake-parts.flakeModules.modules
     inputs.home-manager.flakeModules.home-manager

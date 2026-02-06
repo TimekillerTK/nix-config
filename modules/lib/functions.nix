@@ -3,15 +3,17 @@
   lib,
   ...
 }: {
-  # Helper functions for creating system / home-manager configurations
+  # Helper functions for creating nixos / home-manager configurations and others
 
-  # For explicit type declaration and description and more helpful
+  # This is for explicit type declaration and description and more helpful
   # error messages.
   options.flake.lib = lib.mkOption {
     type = lib.types.attrsOf lib.types.unspecified;
     default = {};
   };
 
+  # This is for helper functions which are used for defining nixos
+  # hosts and user homeManager configurations.
   config.flake.lib = {
     mkNixos = system: name: {
       ${name} = inputs.nixpkgs.lib.nixosSystem {
