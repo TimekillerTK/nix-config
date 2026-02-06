@@ -1,22 +1,22 @@
 {
   flake.modules.homeManager.git = {
     pkgs,
-    # config,
+    config,
     ...
   }: {
-    # nixpkgs.overlays = [
-    #   (final: _prev: {
-    #     unstable = import config.systemConstants.nixpkgs-unstable {
-    #       inherit (final) config;
-    #       system = pkgs.stdenv.hostPlatform.system;
-    #     };
-    #   })
-    # ];
+    nixpkgs.overlays = [
+      (final: _prev: {
+        unstable = import config.systemConstants.nixpkgs-unstable {
+          inherit (final) config;
+          system = pkgs.stdenv.hostPlatform.system;
+        };
+      })
+    ];
     programs.git = {
       enable = true;
     };
     home.packages = with pkgs; [
-      # unstable.devenv
+      unstable.devenv
     ];
     programs.home-manager.enable = true;
     home.username = "tk";

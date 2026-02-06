@@ -56,7 +56,11 @@
     ];
   };
 
-  flake.modules.nixos.example = {pkgs, ...}: {
+  flake.modules.nixos.example = {
+    pkgs,
+    # config,
+    ...
+  }: {
     imports = with inputs.self.modules.nixos;
       [
         examplehw
@@ -64,15 +68,6 @@
       ++ (with inputs.self.modules.generic; [
         systemConstants
       ]);
-
-    # nixpkgs.overlays = [
-    #   (final: _prev: {
-    #     unstable = import inputs.nixpkgs-unstable {
-    #       inherit (final) config;
-    #       system = pkgs.stdenv.hostPlatform.system;
-    #     };
-    #   })
-    # ];
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
     networking.hostName = "dendritic"; # Define your hostname.
