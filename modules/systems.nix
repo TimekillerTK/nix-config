@@ -16,6 +16,6 @@
   # But is it really required? Need to check...
   imports = [
     inputs.flake-parts.flakeModules.modules
-    # inputs.home-manager.flakeModules.home-manager
+    inputs.home-manager.flakeModules.home-manager
   ];
 }

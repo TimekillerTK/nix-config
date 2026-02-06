@@ -1,10 +1,6 @@
-{
-  inputs,
-  # self,
-  ...
-}: {
+{inputs, ...}: {
   # ^^^^ NOTE: inputs should ONLY be imported AND used here, but not in
-  # flake.nixosModules below, otherwise there will be an error:
+  # flake.nixosModules, otherwise there will be errors:
   #
   #      … while evaluating the module argument `pkgs' in "/nix/store/kgp2lkqawayipws2p64flyp06sgzzf0r-source/nixos/modules/services/hardware/bluetooth.nix":
 
@@ -25,24 +21,50 @@
   #            |             ^
   #         686|           )
   #
-  flake.nixosConfigurations.example = inputs.nixpkgs.lib.nixosSystem {
-    modules = [
-      inputs.self.nixosModules.example
-      inputs.self.nixosModules.examplehw
+  # ------ ------ ------ ------ ------ ------ ------ ------ ------ ------ ------ ------ ------
+  #
+  #        … while evaluating a branch condition
+  #          at /nix/store/kgp2lkqawayipws2p64flyp06sgzzf0r-source/lib/lists.nix:142:18:
+  #           141|       len = length list;
+  #           142|       fold' = n: if n == len then nul else op (elemat list n) (fold' (n + 1));
+  #              |                  ^
+  #           143|     in
+
+  #        … while calling the 'length' builtin
+  #          at /nix/store/kgp2lkqawayipws2p64flyp06sgzzf0r-source/lib/lists.nix:141:13:
+  #           140|     let
+  #           141|       len = length list;
+  #              |             ^
+  #           142|       fold' = n: if n == len then nul else op (elemat list n) (fold' (n + 1));
+
+  #        … while evaluating the module argument `inputs' in ":anon-1:anon-1:anon-1:anon-1:anon-1":
+
+  #        … noting that argument `inputs` is not externally provided, so querying `_module.args` instead, requiring `config`
+
+  #        … if you get an infinite recursion here, you probably reference `config` in `imports`. if you are trying to achieve a conditional import behavior dependent on `config`, consider importing unconditionally, and using `mkenableoption` and `mkif` to control its effect.
+
+  #        (stack trace truncated; use '--show-trace' to show the full, detailed trace)
+
+  #        error: infinite recursion encountered
+
+  flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "example";
+  flake.homeConfigurations = inputs.self.lib.mkHomeManager "x86_64-linux" "example";
+
+  flake.modules.homeManager.example = {
+    imports = with inputs.self.modules.homeManager; [
+      git
     ];
   };
 
-  flake.homeConfigurations.example = inputs.home-manager.lib.homeManagerConfiguration {
-    # TODO: this will need to be repeated for every config, maybe we should
-    # write a function for this?
-    pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
-    modules = [
-      inputs.self.homeModules.git
-      inputs.self.modules.generic.systemConstants
-    ];
-  };
+  flake.modules.nixos.example = {pkgs, ...}: {
+    imports = with inputs.self.modules.nixos;
+      [
+        examplehw
+      ]
+      ++ (with inputs.self.modules.generic; [
+        systemConstants
+      ]);
 
-  flake.nixosModules.example = {pkgs, ...}: {
     # nixpkgs.overlays = [
     #   (final: _prev: {
     #     unstable = import inputs.nixpkgs-unstable {
