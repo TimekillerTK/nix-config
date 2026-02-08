@@ -1,26 +1,27 @@
 {inputs, ...}: {
   # Using our elsewhere defined functions mkNixos and mkHomeManager
-  #
   flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "example";
   flake.homeConfigurations = inputs.self.lib.mkHomeManager "x86_64-linux" "example";
 
   flake.modules.homeManager.example = {pkgs, ...}: {
-    imports = with inputs.self.modules.homeManager; [
-      git
-      unstable
-      local-pkgs
+    imports = [
+      inputs.self.modules.homeManager.git
+      inputs.self.modules.generic.unstable
+      inputs.self.modules.generic.local-pkgs
     ];
 
+    # Using our locally defined (in this git repo)
+    # custom package
     home.packages = with pkgs; [
-      cwsy
+      local.custompkg
     ];
   };
 
   flake.modules.nixos.example = {pkgs, ...}: {
-    imports = with inputs.self.modules.nixos; [
-      examplehw
-      unstable
-      local-pkgs
+    imports = [
+      inputs.self.modules.nixos.examplehw
+      inputs.self.modules.generic.unstable
+      inputs.self.modules.generic.local-pkgs
     ];
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -59,7 +60,6 @@
       description = "tk";
       extraGroups = ["networkmanager" "wheel"];
       packages = with pkgs; [
-        # unstable.devenv
       ];
     };
 
@@ -69,7 +69,7 @@
     environment.systemPackages = with pkgs; [
       vim
       unstable.yazi
-      cwsy
+      local.custompkg
     ];
     # Enable the OpenSSH daemon.
     services.openssh.enable = true;

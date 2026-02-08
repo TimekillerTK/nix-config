@@ -1,7 +1,7 @@
-{pkgs, ...}:
+{pkgs ? import <nixpkgs> {}, ...}:
 # example package for wrapped cowsay
 pkgs.symlinkJoin {
-  name = "cowsay";
+  name = "custompkg";
 
   nativeBuildInputs = with pkgs; [
     makeWrapper

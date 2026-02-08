@@ -1,23 +1,21 @@
 {
-  # This module will allow unstable versions of nixpkgs to be used via
-  # pkgs.unstable.<packagename>, as long as either:
-  # - inputs.self.modules.nixos.unstable
-  # - inputs.self.modules.homeManager.unstable
-  #
-  # Are imported in the specific flake module
-  #
-  flake.modules.nixos.local-pkgs = {
-    nixpkgs.overlays = [
-      # This one brings our custom packages from the 'local-pkgs' directory
-      (final: prev: import ../../local-pkgs {pkgs = final;})
-    ];
+  inputs,
+  withSystem,
+  ...
+}: {
+  # This is a variable needed for pkgs-by-name-for-flake-parts,
+  # it refers to the inputs.packages which is defined in our
+  # flake.nix file
+  perSystem = {
+    pkgsDirectory = inputs.packages;
   };
 
-  # Same as above, but for home-manager
-  flake.modules.homeManager.local-pkgs = {
+  # config.pkgs is defined in the flake.nix file
+  flake.modules.generic.local-pkgs = {
     nixpkgs.overlays = [
-      # This one brings our custom packages from the 'local-pkgs' directory
-      (final: prev: import ../../local-pkgs {pkgs = final;})
+      (_final: prev: {
+        local = withSystem prev.stdenv.hostPlatform.system ({config, ...}: config.packages);
+      })
     ];
   };
 }

@@ -1,12 +1,13 @@
 {inputs, ...}: {
   # This module will allow unstable versions of nixpkgs to be used via
-  # pkgs.unstable.<packagename>, as long as either:
-  # - inputs.self.modules.nixos.unstable
-  # - inputs.self.modules.homeManager.unstable
+  # pkgs.unstable.<packagename>, as long as:
+  # - inputs.self.modules.generic.unstable
   #
-  # Are imported in the specific flake module
+  # Is imported in the specific flake module:
+  # - flake.modules.homeManager.<modulename>
+  # - flake.modules.nixos.<modulename>
   #
-  flake.modules.nixos.unstable = {pkgs, ...}: {
+  flake.modules.generic.unstable = {pkgs, ...}: {
     nixpkgs.overlays = [
       # _prev is underscored, because it is discarded, we
       # only care about final
@@ -26,18 +27,6 @@
           # Accepted way of passing the system string from pkgs
           # to our unstable nixpkgs, which we want to target for
           # the same architecture
-          system = pkgs.stdenv.hostPlatform.system;
-        };
-      })
-    ];
-  };
-
-  # Same as above, but for home-manager
-  flake.modules.homeManager.unstable = {pkgs, ...}: {
-    nixpkgs.overlays = [
-      (final: _prev: {
-        unstable = import inputs.nixpkgs-unstable {
-          inherit (final) config;
           system = pkgs.stdenv.hostPlatform.system;
         };
       })
