@@ -3,7 +3,7 @@
   #
   #  error: The option `systems' was accessed but has no value defined. Try setting the option.
   #
-  systems = ["x86_64-linux"];
+  systems = ["x86_64-linux" "aarch64-darwin"];
 
   # TODO: Look into this for nix configuration:
   # https://github.com/henrysipp/nix-setup/blob/48a93d0275eba0adf48977609fc100dce8f9b49c/modules/base/nix.nix
@@ -14,7 +14,14 @@
   # https://github.com/Doc-Steve/dendritic-design-with-flake-parts/wiki/Basics#basics-for-usage-of-the-dendritic-pattern
   #
   # It is not required per se, but it is required to be imported with
-  # the current way this repo is set up.
+  # the current way this repo is set up - if skipped:
+  #
+  # error: infinite recursion encountered
+  #        at /nix/store/zdfpzgjrlxmdiiydiv3vqgvbzbg5fkx0-source/lib/modules.nix:1256:41:
+  #          1255|
+  #          1256|     optionalValue = if isDefined then { value = mergedValue; } else { };
+  #              |                                         ^
+  #          1257|   };
   #
   # If you want to skip these imports, see previous commits such as
   # https://github.com/TimekillerTK/nix-config/tree/63e62b07b214b92a0d6cfee9701bb8eaae068100

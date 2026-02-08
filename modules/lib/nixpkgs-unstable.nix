@@ -13,7 +13,7 @@
       (final: _prev: {
         unstable = import inputs.nixpkgs-unstable {
           # ----------------------
-          # The imported nixpkgs function is passed the config
+          # The imported nixpkgs function (final) is passed the config
           # argument, where things such as allowUnfree = true are
           # specified.
           #
