@@ -23,6 +23,7 @@
       inputs.self.modules.nixos.secrets
       inputs.self.modules.generic.unstable
       inputs.self.modules.generic.local-pkgs
+      inputs.self.modules.generic.caddy_v284
     ];
 
     # Example SOPS Secret
@@ -78,6 +79,7 @@
       unstable.yazi
       local.custompkg
       local.renamer
+      caddy_v284.caddy
     ];
     # Enable the OpenSSH daemon.
     services.openssh.enable = true;
