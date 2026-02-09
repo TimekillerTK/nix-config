@@ -70,6 +70,7 @@
       vim
       unstable.yazi
       local.custompkg
+      local.renamer
     ];
     # Enable the OpenSSH daemon.
     services.openssh.enable = true;
