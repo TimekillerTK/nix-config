@@ -20,9 +20,16 @@
   flake.modules.nixos.example = {pkgs, ...}: {
     imports = [
       inputs.self.modules.nixos.examplehw
+      inputs.self.modules.nixos.secrets
       inputs.self.modules.generic.unstable
       inputs.self.modules.generic.local-pkgs
     ];
+
+    # Example SOPS Secret
+    sops = {
+      defaultSopsFile = ../secrets/example.yml;
+      secrets.hello = {};
+    };
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
     networking.hostName = "dendritic"; # Define your hostname.

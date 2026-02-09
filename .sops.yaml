@@ -7,28 +7,12 @@ keys:
   - &tailscale age1q8x3pn8vug94pj759n28e3nkt4yt39p30se978etn9497ass842sk8ge6l
   - &router age1k26plnlstgd0m7zaxrregh3nct6mqhlcw2tsld5arhsgv7c42y4qdrjzyg
   - &jellyfin age16jp9vq7tv6620gr60teel5l39cy8ucmulqm3p9ygg3hycu00ef9sazhtje
+  - &example age1f7r6gpqhchzyt4eh8uq7atpp6n0pzguh7je935hnkjmdv52z44wquez0yd
 creation_rules:
-  - path_regex: hosts/common/secrets.ya?ml$
+  - path_regex: secrets/example.ya?ml$
     key_groups:
-    - age:
-      - *mbp
-      - *anya
-      - *dockerhost
-      - *beltanimal
-      - *jellyfin
-  - path_regex: hosts/tailscale/secrets.ya?ml$
-    key_groups:
-    - age:
-      - *tailscale
-  - path_regex: hosts/hummingbird/secrets.ya?ml$
-    key_groups:
-    - age:
-      - *hummingbird
-      - *mbp
-  - path_regex: hosts/router/secrets.ya?ml$
-    key_groups:
-    - age:
-      - *mbp
-      - *anya
-      - *beltanimal
-      - *router
+      - age:
+          - *mbp
+          - *anya
+          - *beltanimal
+          - *example
