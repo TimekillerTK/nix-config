@@ -28,7 +28,7 @@
 
     # Example SOPS Secret
     sops = {
-      defaultSopsFile = ../secrets/example.yml;
+      defaultSopsFile = ../../../secrets/example.yml;
       secrets.hello = {};
     };
 
