@@ -7,6 +7,18 @@
   users,
   ...
 }: {
+  flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "anya";
+  flake.homeConfigurations = inputs.self.lib.mkHomeManager "x86_64-linux" "anya";
+
+  flake.modules.nixos.example = {pkgs, ...}: {
+    imports = [
+      inputs.self.modules.nixos.examplehw
+      inputs.self.modules.nixos.secrets
+      inputs.self.modules.generic.unstable
+      inputs.self.modules.generic.local-pkgs
+      inputs.self.modules.generic.caddy_v284
+    ];
+  };
   imports = [
     # Required for disk configuration
     inputs.disko.nixosModules.default
