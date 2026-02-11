@@ -14,7 +14,6 @@
       inputs.self.modules.nixos.zfs
       inputs.self.modules.nixos.bluetooth
       # inputs.self.modules.nixos.flatpak
-      # inputs.self.modules.nixos.anyahw
 
       inputs.self.modules.generic.unstable
       inputs.self.modules.generic.local-pkgs
