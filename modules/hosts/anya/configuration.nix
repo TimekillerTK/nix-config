@@ -12,8 +12,9 @@
 
       inputs.self.modules.nixos.secrets
       inputs.self.modules.nixos.zfs
+      inputs.self.modules.nixos.bluetooth
       # inputs.self.modules.nixos.flatpak
-      inputs.self.modules.nixos.anyahw
+      # inputs.self.modules.nixos.anyahw
 
       inputs.self.modules.generic.unstable
       inputs.self.modules.generic.local-pkgs
@@ -35,14 +36,14 @@
     #   ../common/global
     #   ../common/users/tk
     #   ../common/users/bb
-    # OK   ../common/optional/sops
-    #   ../common/optional/zfs
+    # OK  ../common/optional/sops
+    # OK  ../common/optional/zfs
     #   ../common/optional/kde-plasma6-wayland
     #   ../common/optional/input-remapper
     #   ../common/optional/minecraft-server
     #   ../common/optional/mount-media
     #   ../common/optional/mount-important
-    #   ../common/optional/disable-bt-handsfree
+    # OK  ../common/optional/disable-bt-handsfree
     #   ../common/optional/home-assistant-remote
     #   ../common/optional/nix-auto-update
     #   ../common/optional/prometheus-node-desktop
@@ -75,17 +76,6 @@
     # Actual SOPS keys
     sops.secrets.smbcred = {
       sopsFile = ../../../secrets/default.yml;
-    };
-
-    # Adding CA root & intermediate certs
-    security.pki.certificateFiles = [
-      ../../features/root-ca.pem
-    ];
-
-    # Bluetooth configuration
-    hardware.bluetooth = {
-      enable = true; # enables support for Bluetooth
-      powerOnBoot = true; # powers up the default Bluetooth controller on boot
     };
 
     # Add printer autodiscovery

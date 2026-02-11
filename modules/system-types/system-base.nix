@@ -8,6 +8,11 @@
     ];
     nixpkgs.config.allowUnfree = true;
 
+    # Adding custom homelab CA root cert
+    security.pki.certificateFiles = [
+      ../features/root-ca.pem
+    ];
+
     # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
     system.stateVersion = "25.11";
   };
