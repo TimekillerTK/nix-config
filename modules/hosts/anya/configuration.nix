@@ -13,6 +13,7 @@
       inputs.self.modules.nixos.secrets
       inputs.self.modules.nixos.zfs
       inputs.self.modules.nixos.bluetooth
+      inputs.self.modules.nixos.ssh
       # inputs.self.modules.nixos.flatpak
 
       inputs.self.modules.generic.unstable
