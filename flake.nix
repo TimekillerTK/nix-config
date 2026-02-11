@@ -19,6 +19,16 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
+    # NixOS Hardware
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    # Managing flatpaks declartively
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
+
+    # Disko (Disk Config)
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
     # dendritic pattern flakes
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";

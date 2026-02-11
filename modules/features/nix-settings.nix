@@ -1,5 +1,6 @@
 {
-  flake.modules.nixos.nix-settings = {
+  # This file defines nix specific settings
+  flake.modules.generic.nix-settings = {
     nix.settings = {
       substituters = [
         # NOTE: A cache/substituter typically has a priority value of 40 by default
