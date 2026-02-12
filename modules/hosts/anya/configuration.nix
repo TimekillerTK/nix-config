@@ -15,6 +15,7 @@
       inputs.self.modules.nixos.bluetooth
       inputs.self.modules.nixos.ssh
       inputs.self.modules.nixos.tk
+      inputs.self.modules.nixos.bb
       # inputs.self.modules.nixos.flatpak
 
       inputs.self.modules.generic.unstable
@@ -35,8 +36,8 @@
 
     #   # Repo Modules
     #   ../common/global
-    #   ../common/users/tk
-    #   ../common/users/bb
+    # OK  ../common/users/tk
+    # OK  ../common/users/bb
     # OK  ../common/optional/sops
     # OK  ../common/optional/zfs
     #   ../common/optional/kde-plasma6-wayland
