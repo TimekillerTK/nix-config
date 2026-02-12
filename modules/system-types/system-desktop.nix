@@ -29,8 +29,8 @@
     # Enable CUPS to print documents
     services.printing.enable = true;
     services.printing.drivers = [
-      pkgs.brother-mfcl3750cdw.driver
-      pkgs.brother-mfcl3750cdw.cupswrapper
+      pkgs.local.brother-mfcl3750cdw.driver
+      pkgs.local.brother-mfcl3750cdw.cupswrapper
     ];
 
     # Default shell used on desktops

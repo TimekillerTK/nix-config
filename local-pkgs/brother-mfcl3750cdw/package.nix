@@ -1,4 +1,5 @@
 {
+  pkgs ? import <nixpkgs> {},
   pkgsi686Linux,
   stdenv,
   fetchurl,
