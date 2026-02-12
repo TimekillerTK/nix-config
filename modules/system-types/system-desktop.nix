@@ -1,8 +1,36 @@
 {inputs, ...}: {
   # Things which all desktops need
-  flake.modules.nixos.system-desktop = {
+  flake.modules.nixos.system-desktop = {pkgs, ...}: {
     imports = [
-      inputs.self.modules.nixos.system-base
+      inputs.self.modules.nixos.system-cli
+      inputs.self.modules.nixos.kde-plasma
+    ];
+
+    # Configure keymap in Wayland
+    services.xserver.xkb = {
+      layout = "us";
+      variant = "";
+    };
+
+    # For USB Blu-Ray/DVD Players
+    boot.kernelModules = ["sg"];
+
+    # Enable sound with pipewire
+    security.rtkit.enable = true;
+    services.pulseaudio.enable = false;
+    services.pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      wireplumber.enable = true;
+    };
+
+    # Enable CUPS to print documents
+    services.printing.enable = true;
+    services.printing.drivers = [
+      pkgs.brother-mfcl3750cdw.driver
+      pkgs.brother-mfcl3750cdw.cupswrapper
     ];
 
     # Default shell used on desktops
