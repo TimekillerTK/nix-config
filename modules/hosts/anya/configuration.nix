@@ -8,12 +8,13 @@
       inputs.disko.nixosModules.default
       ./_disko.nix
 
-      inputs.self.modules.nixos.system-base
+      inputs.self.modules.nixos.system-desktop
 
       inputs.self.modules.nixos.secrets
       inputs.self.modules.nixos.zfs
       inputs.self.modules.nixos.bluetooth
       inputs.self.modules.nixos.ssh
+      inputs.self.modules.nixos.tk
       # inputs.self.modules.nixos.flatpak
 
       inputs.self.modules.generic.unstable

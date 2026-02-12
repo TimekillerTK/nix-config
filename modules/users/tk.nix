@@ -8,10 +8,10 @@
         initialPassword = "Hello123!";
         extraGroups = ["networkmanager" "wheel"];
         openssh.authorizedKeys.keys = [
-          (builtins.readFile ../../../../lib/ssh_keys/anya.pub)
-          (builtins.readFile ../../../../lib/ssh_keys/beltanimal.pub)
-          (builtins.readFile ../../../../lib/ssh_keys/mbp.pub)
-          (builtins.readFile ../../../../lib/ssh_keys/hummingbird.pub)
+          (builtins.readFile ../../ssh_keys/anya.pub)
+          (builtins.readFile ../../ssh_keys/beltanimal.pub)
+          (builtins.readFile ../../ssh_keys/mbp.pub)
+          (builtins.readFile ../../ssh_keys/hummingbird.pub)
         ];
       };
     };
