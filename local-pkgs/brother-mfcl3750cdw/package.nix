@@ -1,6 +1,5 @@
 {
   pkgs ? import <nixpkgs> {},
-  pkgsi686Linux,
   stdenv,
   fetchurl,
   dpkg,
@@ -21,7 +20,7 @@
   };
   reldir = "opt/brother/Printers/${model}/";
 in rec {
-  driver = pkgsi686Linux.stdenv.mkDerivation rec {
+  driver = pkgs.stdenv.mkDerivation rec {
     inherit src version;
     name = "${model}drv-${version}";
 
@@ -53,7 +52,7 @@ in rec {
       homepage = "http://www.brother.com/";
       sourceProvenance = with lib.sourceTypes; [binaryNativeCode];
       license = lib.licenses.unfree;
-      platforms = ["x86_64-linux" "i686-linux"];
+      platforms = ["x86_64-linux"];
       maintainers = [];
     };
   };
@@ -86,7 +85,7 @@ in rec {
       homepage = "http://www.brother.com/";
       sourceProvenance = with lib.sourceTypes; [binaryNativeCode];
       license = lib.licenses.gpl2;
-      platforms = ["x86_64-linux" "i686-linux"];
+      platforms = ["x86_64-linux"];
       maintainers = [];
     };
   };
