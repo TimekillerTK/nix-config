@@ -4,6 +4,7 @@
     imports = [
       inputs.self.modules.nixos.system-cli
       inputs.self.modules.nixos.kde-plasma
+      inputs.self.modules.nixos.input-remapper
     ];
 
     # Configure keymap in Wayland

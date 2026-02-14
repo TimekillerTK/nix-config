@@ -14,6 +14,8 @@
       inputs.self.modules.nixos.zfs
       inputs.self.modules.nixos.bluetooth
       inputs.self.modules.nixos.ssh
+      inputs.self.modules.nixos.input-remapper
+
       inputs.self.modules.nixos.tk
       inputs.self.modules.nixos.bb
       # inputs.self.modules.nixos.flatpak
@@ -40,12 +42,13 @@
     #   ./hardware-configuration.nix
 
     #   # Repo Modules
-    #   ../common/global
+    # OK  ../common/global
     # OK  ../common/users/tk
     # OK  ../common/users/bb
     # OK  ../common/optional/sops
     # OK  ../common/optional/zfs
-    #   ../common/optional/kde-plasma6-wayland
+    # OK  ../common/optional/kde-plasma6-wayland
+    # TODO: pkgs manual import for printer
     #   ../common/optional/input-remapper
     #   ../common/optional/minecraft-server
     #   ../common/optional/mount-media
