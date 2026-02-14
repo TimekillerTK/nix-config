@@ -28,6 +28,9 @@
         "flakes"
       ];
 
+      # Allow installing of unfree packages via nix build/nix shell
+      allow-unfree = true;
+
       # ------------------------------
       # NOTE: This will get rid of the warning that download buffer
       # being full during a rebuild, but this is fixed in Nix 2.33
