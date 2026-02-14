@@ -21,6 +21,11 @@
       inputs.self.modules.generic.unstable
       inputs.self.modules.generic.local-pkgs
     ];
+
+    # TODO: Don't forget to set ~/.config/nixpkgs/config.nix
+    # with home-manager so that unfree packages do not get
+    # an annoying warning when using `nix shell`
+    #
     # imports = [
     #   # Required for disk configuration
     #   inputs.disko.nixosModules.default
