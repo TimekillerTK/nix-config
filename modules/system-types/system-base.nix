@@ -5,6 +5,8 @@
     imports = [
       inputs.self.modules.nixos.locale
       inputs.self.modules.generic.nix-settings
+      inputs.self.modules.generic.unstable
+      inputs.self.modules.generic.local-pkgs
     ];
     nixpkgs.config.allowUnfree = true;
 

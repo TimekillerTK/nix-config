@@ -13,13 +13,13 @@
       inputs.self.modules.nixos.secrets
       inputs.self.modules.nixos.zfs
       inputs.self.modules.nixos.minecraft-server
+      (inputs.self.factory.home-assistant-remote {
+        bunny_user = "tk";
+      })
 
       inputs.self.modules.nixos.tk
       inputs.self.modules.nixos.bb
       # inputs.self.modules.nixos.flatpak
-
-      inputs.self.modules.generic.unstable
-      inputs.self.modules.generic.local-pkgs
     ];
 
     # TODO: Don't forget to set ~/.config/nixpkgs/config.nix

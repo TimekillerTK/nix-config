@@ -1,7 +1,5 @@
-# Settings for KDE Plasma 6 environment for Wayland with Pipewire
-# NOTE: Works on 24.11
-# -> https://github.com/NixOS/nixpkgs/issues/292632
 {
+  # Settings for KDE Plasma 6 environment for Wayland with GDM Login screen
   flake.modules.nixos.kde-plasma = {pkgs, ...}: {
     # Enable Plasma 6
     services.desktopManager.plasma6.enable = true;

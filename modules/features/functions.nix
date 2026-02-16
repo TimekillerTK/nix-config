@@ -7,7 +7,15 @@
 
   # This is for explicit type declaration and description and more helpful
   # error messages.
+  #
+  # These should also be seen as containers of other submodules.
   options.flake.lib = lib.mkOption {
+    type = lib.types.attrsOf lib.types.unspecified;
+    default = {};
+  };
+
+  # Factory is for flake modules which will accept parameters.
+  options.flake.factory = lib.mkOption {
     type = lib.types.attrsOf lib.types.unspecified;
     default = {};
   };
