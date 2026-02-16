@@ -1,11 +1,19 @@
 {inputs, ...}: {
-  # Things which all desktops need
+  # Things which all desktops need:
+  # - set up the CLI as it should be on all systems
+  # - KDE Plasma desktop selected
+  # - bluetooth options preselected
+  # - input remapper for remapping keyboard keys
+  # - flatpaks enabled
+  # - sound with pipewire
+  # - printer drivers and setup
   flake.modules.nixos.system-desktop = {pkgs, ...}: {
     imports = [
       inputs.self.modules.nixos.system-cli
       inputs.self.modules.nixos.kde-plasma
       inputs.self.modules.nixos.input-remapper
       inputs.self.modules.nixos.bluetooth
+      inputs.self.modules.nixos.flatpak
     ];
 
     # Configure keymap in Wayland

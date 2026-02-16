@@ -16,6 +16,9 @@
       (inputs.self.factory.home-assistant-remote {
         bunny_user = "tk";
       })
+      (inputs.self.factory.mount-cifs {
+        shareUsers = ["tk"];
+      })
 
       inputs.self.modules.nixos.tk
       inputs.self.modules.nixos.bb
@@ -28,16 +31,16 @@
     #
     # imports = [
     #   # Required for disk configuration
-    #   inputs.disko.nixosModules.default
+    # OK  inputs.disko.nixosModules.default
 
     #   # Required for nix-flatpak
-    #   inputs.nix-flatpak.nixosModules.nix-flatpak
+    # OK   inputs.nix-flatpak.nixosModules.nix-flatpak
 
     #   # Disko config
-    #   ./disko.nix
+    # OK  ./disko.nix
 
     #   # Generated (nixos-generate-config) hardware configuration
-    #   ./hardware-configuration.nix
+    # OK   ./hardware-configuration.nix
 
     #   # Repo Modules
     # OK  ../common/global
@@ -52,23 +55,11 @@
     #   ../common/optional/mount-media
     #   ../common/optional/mount-important
     # OK  ../common/optional/disable-bt-handsfree
-    #   ../common/optional/home-assistant-remote
+    # OK  ../common/optional/home-assistant-remote
     #   ../common/optional/nix-auto-update
     #   ../common/optional/prometheus-node-desktop
     #   # ../common/optional/tailscale-client
     # ];
-
-    # # Overlays
-    # nixpkgs = {
-    #   overlays = [
-    #     outputs.overlays.additions
-    #     outputs.overlays.modifications
-    #     outputs.overlays.other-packages
-    #   ];
-    #   config = {
-    #     allowUnfree = true;
-    #   };
-    # };
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
