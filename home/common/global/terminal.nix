@@ -3,39 +3,29 @@
   username,
   ...
 }: let
-  # Custom Alacritty Terminal dropdown script, needed to use it for
+  # Custom Wezterm/Alacritty Terminal dropdown script, needed to use it for
   # proper Wayland Copy/Paste support with Helix IDE, alternative
   # used 'tdrop' was X11/XWayland
-  alacritty_dropdown = pkgs.writeShellScriptBin "alacritty-dropdown" ''
+  # alacritty_dropdown = pkgs.writeShellScriptBin "alacritty-dropdown" ''
+  #   export KDOTOOL="${pkgs.kdotool}/bin/kdotool"
+  #   export ALACRITTY="${pkgs.alacritty}/bin/alacritty"
+  #   ${builtins.readFile ./alacritty-dropdown.sh}
+  # '';
+  wezterm_dropdown = pkgs.writeShellScriptBin "wezterm-dropdown" ''
     export KDOTOOL="${pkgs.kdotool}/bin/kdotool"
-    export ALACRITTY="${pkgs.alacritty}/bin/alacritty"
-    ${builtins.readFile ./alacritty-dropdown.sh}
+    export WEZTERM="${pkgs.unstable.wezterm}/bin/wezterm"
+    ${builtins.readFile ./wezterm-dropdown.sh}
   '';
 in {
-  # Alacritty Config (Fast GPU-Accelerated Terminal)
-  programs.alacritty = {
+  # WezTerm - powerful cross-platform terminal emulator with image support
+  programs.wezterm = {
     enable = true;
-    settings = {
-      window.decorations = "None";
-      window.opacity = 0.85;
-      font.normal.family = "CaskaydiaCove Nerd Font Mono";
-      font.normal.style = "Regular";
-      font.size = 11.0;
-      terminal.shell.program = "${pkgs.unstable.zellij}/bin/zellij";
-      terminal.shell.args = ["attach" "--create" username];
-      keyboard.bindings = [
-        {
-          key = "F";
-          mods = "Control";
-          mode = "~Search";
-          action = "SearchForward";
-        }
-      ];
-    };
+    package = pkgs.unstable.wezterm;
+    enableZshIntegration = true;
   };
 
   home.packages = [
-    alacritty_dropdown
+    wezterm_dropdown
   ];
 
   # Zellij config
@@ -47,13 +37,6 @@ in {
   # Config file for Zellij
   home.file = {
     ".config/zellij/config.kdl".source = ../../../dotfiles/zellij/config.kdl;
-  };
-
-  # WezTerm - powerful cross-platform terminal emulator with image support
-  programs.wezterm = {
-    enable = true;
-    package = pkgs.unstable.wezterm;
-    enableZshIntegration = true;
   };
 
   home.file = {
