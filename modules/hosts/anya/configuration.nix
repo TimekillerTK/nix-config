@@ -12,9 +12,7 @@
 
       inputs.self.modules.nixos.secrets
       inputs.self.modules.nixos.zfs
-      inputs.self.modules.nixos.bluetooth
-      inputs.self.modules.nixos.ssh
-      inputs.self.modules.nixos.input-remapper
+      inputs.self.modules.nixos.minecraft-server
 
       inputs.self.modules.nixos.tk
       inputs.self.modules.nixos.bb
@@ -49,8 +47,8 @@
     # OK  ../common/optional/zfs
     # OK  ../common/optional/kde-plasma6-wayland
     # TODO: pkgs manual import for printer
-    #   ../common/optional/input-remapper
-    #   ../common/optional/minecraft-server
+    # OK  ../common/optional/input-remapper
+    # OK  ../common/optional/minecraft-server
     #   ../common/optional/mount-media
     #   ../common/optional/mount-important
     # OK  ../common/optional/disable-bt-handsfree

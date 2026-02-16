@@ -3,6 +3,7 @@
   flake.modules.nixos.system-cli = {pkgs, ...}: {
     imports = [
       inputs.self.modules.nixos.system-base
+      inputs.self.modules.nixos.ssh
     ];
 
     # System Packages

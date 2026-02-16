@@ -5,6 +5,7 @@
       inputs.self.modules.nixos.system-cli
       inputs.self.modules.nixos.kde-plasma
       inputs.self.modules.nixos.input-remapper
+      inputs.self.modules.nixos.bluetooth
     ];
 
     # Configure keymap in Wayland
