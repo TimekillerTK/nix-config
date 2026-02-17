@@ -14,4 +14,9 @@
       nvd # Nix/NixOS package version diff tool
     ];
   };
+  flake.modules.homeManager.system-cli = {
+    imports = [
+      inputs.self.modules.homeManager.system-base
+    ];
+  };
 }

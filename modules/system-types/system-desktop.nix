@@ -47,4 +47,10 @@
     # Default shell used on desktops
     programs.zsh.enable = true;
   };
+  flake.modules.homeManager.system-desktop = {
+    imports = [
+      inputs.self.modules.homeManager.system-cli
+      inputs.self.modules.homeManager.input-remapper
+    ];
+  };
 }
