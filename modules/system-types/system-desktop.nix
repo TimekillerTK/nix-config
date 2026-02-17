@@ -1,12 +1,13 @@
 {inputs, ...}: {
   # Things which all desktops need:
-  # - set up the CLI as it should be on all systems
+  # - set up CLI on all systems
   # - KDE Plasma desktop selected
   # - bluetooth options preselected
   # - input remapper for remapping keyboard keys
   # - flatpaks enabled
   # - sound with pipewire
   # - printer drivers and setup
+  # - NAS fileshare mounts
   flake.modules.nixos.system-desktop = {pkgs, ...}: {
     imports = [
       inputs.self.modules.nixos.system-cli

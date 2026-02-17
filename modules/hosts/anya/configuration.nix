@@ -13,10 +13,16 @@
       inputs.self.modules.nixos.secrets
       inputs.self.modules.nixos.zfs
       inputs.self.modules.nixos.minecraft-server
+      inputs.self.modules.nixos.prometheus-node-desktop
       (inputs.self.factory.home-assistant-remote {
         bunny_user = "tk";
       })
       (inputs.self.factory.mount-cifs {
+        shareUsers = ["tk"];
+      })
+      (inputs.self.factory.mount-cifs {
+        shareName = "important";
+        shareLocalPath = "important";
         shareUsers = ["tk"];
       })
 
@@ -52,13 +58,13 @@
     # TODO: pkgs manual import for printer
     # OK  ../common/optional/input-remapper
     # OK  ../common/optional/minecraft-server
-    #   ../common/optional/mount-media
-    #   ../common/optional/mount-important
+    # OK  ../common/optional/mount-media
+    # OK  ../common/optional/mount-important
     # OK  ../common/optional/disable-bt-handsfree
     # OK  ../common/optional/home-assistant-remote
     #   ../common/optional/nix-auto-update
-    #   ../common/optional/prometheus-node-desktop
-    #   # ../common/optional/tailscale-client
+    # OK  ../common/optional/prometheus-node-desktop
+    # OK  # ../common/optional/tailscale-client
     # ];
 
     boot.loader.systemd-boot.enable = true;
