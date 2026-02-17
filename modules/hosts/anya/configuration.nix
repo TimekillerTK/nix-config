@@ -14,6 +14,8 @@
       inputs.self.modules.nixos.zfs
       inputs.self.modules.nixos.minecraft-server
       inputs.self.modules.nixos.prometheus-node-desktop
+      # inputs.self.modules.nixos.tailscale-client
+      # inputs.self.modules.nixos.nix-auto-update
       (inputs.self.factory.home-assistant-remote {
         bunny_user = "tk";
       })
@@ -28,7 +30,6 @@
 
       inputs.self.modules.nixos.tk
       inputs.self.modules.nixos.bb
-      # inputs.self.modules.nixos.flatpak
     ];
 
     # TODO: Don't forget to set ~/.config/nixpkgs/config.nix
@@ -62,7 +63,7 @@
     # OK  ../common/optional/mount-important
     # OK  ../common/optional/disable-bt-handsfree
     # OK  ../common/optional/home-assistant-remote
-    #   ../common/optional/nix-auto-update
+    # OK  ../common/optional/nix-auto-update
     # OK  ../common/optional/prometheus-node-desktop
     # OK  # ../common/optional/tailscale-client
     # ];
