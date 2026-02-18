@@ -20,9 +20,9 @@
     default = {};
   };
 
-  # This is for helper functions which are used for defining nixos
-  # hosts and user homeManager configurations.
   config.flake.lib = {
+    # This is for helper functions which are used for defining nixos
+    # hosts ...
     mkNixos = system: name: {
       ${name} = inputs.nixpkgs.lib.nixosSystem {
         modules = [
@@ -31,7 +31,7 @@
         ];
       };
     };
-
+    # ... and user homeManager configurations.
     mkHomeManager = system: name: {
       ${name} = inputs.home-manager.lib.homeManagerConfiguration {
         pkgs = inputs.nixpkgs.legacyPackages.${system};
@@ -41,5 +41,6 @@
         ];
       };
     };
+
   };
 }

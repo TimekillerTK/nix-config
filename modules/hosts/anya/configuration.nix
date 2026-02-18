@@ -28,10 +28,14 @@
         shareUsers = ["tk"];
       })
 
-      inputs.self.modules.nixos.tk
-      inputs.self.modules.nixos.bb
-    ];
+      inputs.self.modules.nixos.home-manager
 
+      inputs.self.modules.nixos.tk
+      # inputs.self.modules.nixos.bb
+    ];
+    home-manager.users.tk = {
+      ###
+    };
     # TODO: Don't forget to set ~/.config/nixpkgs/config.nix
     # with home-manager so that unfree packages do not get
     # an annoying warning when using `nix shell`
