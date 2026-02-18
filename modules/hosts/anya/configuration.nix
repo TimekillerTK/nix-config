@@ -33,55 +33,70 @@
       inputs.self.modules.nixos.tk
       # inputs.self.modules.nixos.bb
     ];
+
     home-manager.users.tk = {
-      ###
+      # Normal home-manager config stuff goes here
+      # Custom packages for this user
+      home.packages = with pkgs; [
+        sops # Mozilla SOPS
+        awscli2 # AWS CLI
+
+        # Python
+        python313
+        unstable.poetry
+        ruff
+        uv
+
+        # pwsh
+        powershell
+
+        # Rust
+        rustup
+        unstable.lld # better linker by LLVM
+        unstable.clang
+        unstable.mold # even better linker
+
+        # Desktop Applications
+        unstable.element-desktop # Matrix client
+        unstable.makemkv # DVD Ripper
+        handbrake # Media Transcoder
+        unstable.xivlauncher # FFXIV Launcher
+        rustdesk-flutter # TeamViewer alternative
+        unstable.drawio # Diagram-creating software
+        syncthingtray # Tray for Syncthing with Dolphin/Plasma integration
+
+        # Other
+        unstable.devenv # Nix powered dev environments
+        mono # for running .NET applications
+        granted # Switching AWS Accounts
+        brave # Chromium-based browser
+
+        # Games
+        unstable.openrct2 # RollerCoaster Tycoon 2
+        openttd # Transport Tycoon Deluxe
+        unstable.vintagestory # Vintage Story
+      ];
+
+      home.file = {
+        # VS Code Settings files as symlinks
+        ".config/Code/User/keybindings.json".source = ../../../dotfiles/vscode/keybindings.json;
+        ".config/Code/User/settings.json".source = ../../../dotfiles/vscode/settings.json;
+      };
     };
+
     # TODO: Don't forget to set ~/.config/nixpkgs/config.nix
-    # with home-manager so that unfree packages do not get
-    # an annoying warning when using `nix shell`
-    #
-    # imports = [
-    #   # Required for disk configuration
-    # OK  inputs.disko.nixosModules.default
-
-    #   # Required for nix-flatpak
-    # OK   inputs.nix-flatpak.nixosModules.nix-flatpak
-
-    #   # Disko config
-    # OK  ./disko.nix
-
-    #   # Generated (nixos-generate-config) hardware configuration
-    # OK   ./hardware-configuration.nix
-
-    #   # Repo Modules
-    # OK  ../common/global
-    # OK  ../common/users/tk
-    # OK  ../common/users/bb
-    # OK  ../common/optional/sops
-    # OK  ../common/optional/zfs
-    # OK  ../common/optional/kde-plasma6-wayland
     # TODO: pkgs manual import for printer
-    # OK  ../common/optional/input-remapper
-    # OK  ../common/optional/minecraft-server
-    # OK  ../common/optional/mount-media
-    # OK  ../common/optional/mount-important
-    # OK  ../common/optional/disable-bt-handsfree
-    # OK  ../common/optional/home-assistant-remote
-    # OK  ../common/optional/nix-auto-update
-    # OK  ../common/optional/prometheus-node-desktop
-    # OK  # ../common/optional/tailscale-client
-    # ];
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
     boot.loader.efi.efiSysMountPoint = "/boot";
 
-    # # Install Logseq
-    # services.flatpak.packages = [
-    #   # Temporarily installed due to
-    #   # https://github.com/logseq/logseq/issues/10851
-    #   "com.logseq.Logseq"
-    # ];
+    # Install Logseq
+    services.flatpak.packages = [
+      # Temporarily installed due to
+      # https://github.com/logseq/logseq/issues/10851
+      "com.logseq.Logseq"
+    ];
 
     # Actual SOPS keys
     sops.secrets.smbcred = {

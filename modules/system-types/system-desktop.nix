@@ -52,5 +52,6 @@
       inputs.self.modules.homeManager.system-cli
       inputs.self.modules.homeManager.input-remapper
     ];
+
   };
 }

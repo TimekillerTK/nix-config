@@ -12,6 +12,7 @@
       nmap # port scanner
       dig # DNS query tool
       nvd # Nix/NixOS package version diff tool
+      home-manager
     ];
   };
   flake.modules.homeManager.system-cli = {
