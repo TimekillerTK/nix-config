@@ -23,19 +23,6 @@
             (builtins.readFile ../../ssh_keys/hummingbird.pub)
           ];
         };
-
-        # # Passwordless Sudo
-        # security.sudo.extraRules = [
-        #   {
-        #     users = ["tk"];
-        #     commands = [
-        #       {
-        #         command = "ALL";
-        #         options = ["NOPASSWD"];
-        #       }
-        #     ];
-        #   }
-        # ];
       };
       homeManager.tk = {pkgs, ...}: {
         imports = [
