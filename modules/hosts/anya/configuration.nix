@@ -12,7 +12,6 @@
       inputs.self.modules.nixos.secrets
       inputs.self.modules.nixos.zfs
       inputs.self.modules.nixos.minecraft-server
-      inputs.self.modules.nixos.prometheus-node-desktop
       # inputs.self.modules.nixos.tailscale-client
       # inputs.self.modules.nixos.nix-auto-update
       (inputs.self.factory.home-assistant-remote {
@@ -153,6 +152,7 @@
     networking.hostId = "7d650d06"; # required for ZFS!
   };
 
+  # --- Collector Aspect ---
   # TODO: Once deployed, check if this is actually in the right place and
   # that it disappears when commented out
   flake.modules.homeManager.shell = {
@@ -161,5 +161,23 @@
       # Needed for Granted: https://docs.commonfate.io/granted/internals/shell-alias
       alias assume="source /home/tk/.nix-profile/bin/assume"
     '';
+  };
+
+  # --- Collector Aspect ---
+  flake.modules.homeManager.git = {
+    programs.git.settings = {
+      user.name = "TimekillerTK";
+      user.email = "38417175+TimekillerTK@users.noreply.github.com";
+      core.excludesfile = "/home/tk/.config/git/ignore";
+      safe.directory = ["/home/tk/spaghetti"];
+    };
+  };
+
+  flake.modules.homeManager.helix = {
+    programs.zsh.shellAliases = {
+      # VS Code CAN be absent or present, so we do not use a nix store path
+      # but we still want to ensure we can still run it with `vscode`.
+      vscode = "/home/tk/.nix-profile/bin/code";
+    };
   };
 }

@@ -1,0 +1,117 @@
+[[language]]
+name = "python"
+scope = "source.python"
+injection-regex = "python"
+file-types = ["py","pyi","py3","pyw",".pythonstartup",".pythonrc"]
+shebangs = ["python"]
+roots = [".", "pyproject.toml", "pyrightconfig.json"]
+comment-token = "#"
+language-servers = [
+  "pyright",
+  "ruff"
+]
+formatter = { command = "zsh", args = ["-c", "ruff check --fix --unfixable=F401 - | ruff format -"] }
+auto-format = true
+
+[language-server.pyright]
+command = "pyright-langserver"
+args = ["--stdio"]
+
+[language-server.pyright.config]
+reportMissingTypeStubs = false
+
+# This doesn't work atm, but this is apparently the key
+extraPaths = ["src"]
+
+[language-server.pyright.config.python.analysis]
+typeCheckingMode = "strict"
+autoImportCompletions = true
+
+[language-server.ruff]
+command = "ruff"
+args = ["server"]
+
+# ----------------------------
+
+[[language]]
+name = "json"
+language-servers = ["vscode-json-language-server"]
+auto-format = true
+indent = { tab-width = 2, unit = " " }
+formatter = { command = "prettier", args = ["--parser", "json"]}
+
+# Old setup before using prettier - may be handy
+# [language-server.vscode-json-language-server]
+# command = "vscode-json-language-server"
+# args = ["--stdio"]
+
+# [language-server.vscode-json-language-server.config]
+# json = { validate = { enable = true }, format = { enable = true } }
+# provideFormatter = true
+
+# ----------------------------
+
+[[language]]
+name = "rust"
+auto-format = true
+formatter = { command = "rustfmt"}
+
+# ----------------------------
+
+[[language]]
+name = "nix"
+auto-format = true
+formatter = { command = "alejandra"}
+
+# ----------------------------
+
+[[language]]
+name = "yaml"
+auto-format = true
+formatter = { command = "prettier", args = ["--parser", "yaml"]}
+
+[language-server.yaml-language-server.config.yaml]
+validation = true
+hover = true
+completion = true
+customTags = [
+    "!Ref scalar",
+    "!Ref sequence",
+    "!Ref mapping",
+    "!Sub scalar",
+    "!Sub sequence",
+    "!Sub mapping",
+    "!GetAtt scalar",
+    "!GetAtt sequence",
+    "!GetAtt mapping",
+    "!Join sequence",
+    "!FindInMap sequence",
+    "!Select sequence",
+    "!Split sequence",
+    "!ImportValue scalar",
+    "!ImportValue sequence",
+    "!ImportValue mapping",
+    "!GetAZs sequence"
+]
+
+# Various schemas for YAML
+[language-server.yaml-language-server.config.yaml.schemas]
+
+# Gitlab CI file
+"https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json" = [".gitlab-ci.yml", ".gitlab/*.gitlab-ci.yml", "gitlab-jobs/*.yml"]
+
+# Cloudformation
+# https://s3.amazonaws.com/cfn-resource-specifications-us-east-1-prod/schemas/2.15.0/all-spec.json
+# https://github.com/aws-cloudformation/cloudformation-template-schema
+
+# ----------------------------
+
+[[language]]
+name = "graphql"
+auto-format = true
+formatter = { command = "prettier", args = ["--parser", "graphql"] }
+language-servers = ["graphql-language-service"]
+
+[language-server.graphql-language-service]
+command = "graphql-lsp"
+args = ["server", "-m", "stream"]

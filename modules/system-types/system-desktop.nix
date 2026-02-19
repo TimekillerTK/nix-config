@@ -15,6 +15,7 @@
       inputs.self.modules.nixos.input-remapper
       inputs.self.modules.nixos.bluetooth
       inputs.self.modules.nixos.flatpak
+      inputs.self.modules.nixos.prometheus-node-desktop
     ];
 
     # Configure keymap in Wayland
@@ -52,6 +53,5 @@
       inputs.self.modules.homeManager.system-cli
       inputs.self.modules.homeManager.input-remapper
     ];
-
   };
 }

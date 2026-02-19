@@ -19,6 +19,8 @@
     imports = [
       inputs.self.modules.homeManager.system-base
       inputs.self.modules.homeManager.shell
+      inputs.self.modules.homeManager.git
+      inputs.self.modules.homeManager.helix
     ];
   };
 }

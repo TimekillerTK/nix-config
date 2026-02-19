@@ -1,0 +1,42 @@
+theme = "dark_plus"
+
+[editor]
+line-number = "relative"
+end-of-line-diagnostics = "hint"
+auto-save = true # only saves when changing focus, not regularly!
+trim-trailing-whitespace = true
+
+[editor.soft-wrap]
+enable = true
+
+[editor.inline-diagnostics]
+cursor-line = "warning"
+
+[editor.file-picker]
+hidden = false
+
+[editor.lsp]
+display-inlay-hints = true
+
+[keys.normal]
+C-e = [
+  ':sh rm -f /tmp/files2open',
+  ':set mouse false',
+  ':insert-output yazi "%{buffer_name}" --chooser-file=/tmp/files2open',
+  ':redraw',
+  ':set mouse true',
+  ':open /tmp/files2open',
+  'select_all',
+  'split_selection_on_newline',
+  'goto_file',
+  ':buffer-close! /tmp/files2open',
+]
+
+# Below the one recommended, but this breaks the mouse in the terminal
+# C-e = [
+#   ':sh rm -f /tmp/unique-file',
+#   ':insert-output yazi %{buffer_name} --chooser-file=/tmp/unique-file',
+#   ':insert-output echo "\x1b[?1049h\x1b[?2004h" > /dev/tty',
+#   ':open %sh{cat /tmp/unique-file}',
+#   ':redraw',
+# ]
