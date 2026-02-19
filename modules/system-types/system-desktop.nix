@@ -51,7 +51,9 @@
   flake.modules.homeManager.system-desktop = {
     imports = [
       inputs.self.modules.homeManager.system-cli
+      inputs.self.modules.homeManager.terminal
       inputs.self.modules.homeManager.input-remapper
+      inputs.self.modules.homeManager.home-packages
     ];
   };
 }

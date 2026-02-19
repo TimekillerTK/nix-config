@@ -21,6 +21,8 @@
       inputs.self.modules.homeManager.shell
       inputs.self.modules.homeManager.git
       inputs.self.modules.homeManager.helix
+      inputs.self.modules.homeManager.starship
+      inputs.self.modules.homeManager.yazi
     ];
   };
 }

@@ -8,6 +8,7 @@
   # Maybe need to open an issue if not
   #
   # If your anya setup works fine without it, maybe you should
+  # flake.homeConfigurations = inputs.self.lib.mkHomeManager "x86_64-linux" "tk";
 
   flake.modules = lib.mkMerge [
     (self.factory.user "tk" true)

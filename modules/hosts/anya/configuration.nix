@@ -29,7 +29,7 @@
       inputs.self.modules.nixos.home-manager
 
       inputs.self.modules.nixos.tk
-      # inputs.self.modules.nixos.bb
+      inputs.self.modules.nixos.bb
     ];
 
     home-manager.users.tk = {
