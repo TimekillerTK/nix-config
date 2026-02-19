@@ -1,6 +1,6 @@
 {
   # For defining the shell
-  config.flake.factory.homeManager.shell = {username}: {pkgs, ...}: let
+  flake.modules.homeManager.shell = {pkgs, ...}: let
     myAliases = {
       # Replacements for some GNU Utils
       top = "${pkgs.bottom}/bin/btm";
@@ -23,35 +23,27 @@
     # For when it's needed
     myEnvVars = {};
   in {
-    home-manager.users."${username}" = {
-      # Environment Variables
-      home.sessionVariables = myEnvVars;
+    # Environment Variables
+    home.sessionVariables = myEnvVars;
 
-      # Zoxide configuration (cd replacement)
-      programs.zoxide = {
-        enable = true;
-        enableZshIntegration = true;
-        package = pkgs.unstable.zoxide;
-      };
+    # Zoxide configuration (cd replacement)
+    programs.zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+      package = pkgs.unstable.zoxide;
+    };
 
-      programs.zsh = {
-        enable = true;
-        shellAliases = myAliases;
+    programs.zsh = {
+      enable = true;
+      shellAliases = myAliases;
 
-        # Added to end of ~/.zshrc
-        initContent = ''
-          # These fix zsh CTRL+LEFT & CTRL+RIGHT keybindings for
-          # jumping by word
-          bindkey '^[[1;5C' forward-word
-          bindkey '^[[1;5D' backward-word
-        '';
-
-        # Added to the end of ~/.zshenv
-        envExtra = ''
-          # Needed for Granted: https://docs.commonfate.io/granted/internals/shell-alias
-          alias assume="source /home/${username}/.nix-profile/bin/assume"
-        '';
-      };
+      # Added to end of ~/.zshrc before envExtra
+      initContent = ''
+        # These fix zsh CTRL+LEFT & CTRL+RIGHT keybindings for
+        # jumping by word
+        bindkey '^[[1;5C' forward-word
+        bindkey '^[[1;5D' backward-word
+      '';
     };
   };
 }

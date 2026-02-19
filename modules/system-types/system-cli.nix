@@ -1,10 +1,6 @@
 {inputs, ...}: {
   # Default for all systems
-  flake.modules.nixos.system-cli = {
-    pkgs,
-    username,
-    ...
-  }: {
+  flake.modules.nixos.system-cli = {pkgs, ...}: {
     imports = [
       inputs.self.modules.nixos.system-base
       inputs.self.modules.nixos.ssh
@@ -22,7 +18,7 @@
   flake.modules.homeManager.system-cli = {
     imports = [
       inputs.self.modules.homeManager.system-base
-      (inputs.self.modules.homeManager.shell "${username}")
+      inputs.self.modules.homeManager.shell
     ];
   };
 }

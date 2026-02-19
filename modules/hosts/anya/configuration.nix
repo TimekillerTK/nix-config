@@ -152,4 +152,14 @@
     # Generated with head -c4 /dev/urandom | od -A none -t x4
     networking.hostId = "7d650d06"; # required for ZFS!
   };
+
+  # TODO: Once deployed, check if this is actually in the right place and
+  # that it disappears when commented out
+  flake.modules.homeManager.shell = {
+    # Added to the end of ~/.zshenv after initContent
+    programs.zsh.envExtra = ''
+      # Needed for Granted: https://docs.commonfate.io/granted/internals/shell-alias
+      alias assume="source /home/tk/.nix-profile/bin/assume"
+    '';
+  };
 }
