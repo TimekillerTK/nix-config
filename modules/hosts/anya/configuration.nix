@@ -33,6 +33,9 @@
     ];
 
     home-manager.users.tk = {
+      imports = [
+        inputs.self.modules.homeManager.plasma-manager
+      ];
       # Normal home-manager config stuff goes here
       # Custom packages for this user
       home.packages = with pkgs; [

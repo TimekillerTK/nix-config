@@ -15,6 +15,11 @@
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    # For managing KDE Plasma 6
+    plasma-manager6.url = "github:nix-community/plasma-manager";
+    plasma-manager6.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-manager6.inputs.home-manager.follows = "home-manager";
+
     # Atomic, declarative, and reproducible secret provisioning for NixOS based on sops.
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
