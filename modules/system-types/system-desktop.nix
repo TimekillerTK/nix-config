@@ -8,7 +8,9 @@
   # - sound with pipewire
   # - printer drivers and setup
   # - NAS fileshare mounts
-  flake.modules.nixos.system-desktop = {pkgs, ...}: {
+  flake.modules.nixos.system-desktop = {pkgs, ...}: let
+    brother-mfcl3750cdw = pkgs.callPackage ../../local-pkgs/brother-mfcl3750cdw {};
+  in {
     imports = [
       inputs.self.modules.nixos.system-cli
       inputs.self.modules.nixos.kde-plasma
@@ -41,8 +43,8 @@
     # Enable CUPS to print documents
     services.printing.enable = true;
     services.printing.drivers = [
-      pkgs.local.brother-mfcl3750cdw-driver
-      pkgs.local.brother-mfcl3750cdw-cups
+      brother-mfcl3750cdw.driver
+      brother-mfcl3750cdw.cupswrapper
     ];
 
     # Default shell used on desktops
