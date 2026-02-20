@@ -11,7 +11,7 @@ local config = wezterm.config_builder()
 -- https://wezterm.org/config/lua/config/
 
 -- Font
-config.font_size = 15
+config.font_size = 13
 config.font = wezterm.font("CaskaydiaCove Nerd Font")
 config.font_rules = {
   -- This overrides the CaskaydiaCove Nerd Font ExtraLight, which is selected by default
@@ -169,7 +169,8 @@ config.keys = {
 
 -- Misc
 config.max_fps = 120
--- config.enable_wayland = true -- force native Wayland
+config.window_close_confirmation = 'NeverPrompt'
+config.enable_wayland = true -- force native Wayland
 config.default_prog = {
   nix_paths.zellij,
   "attach",

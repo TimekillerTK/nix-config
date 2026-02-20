@@ -224,6 +224,9 @@ load_plugins {
   // "https://example.com/my-plugin.wasm"
 }
 
+// Whether to enable mouse hover effects and multiple select functionality (pane grouping).
+advanced_mouse_actions false
+
 // Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP
 // eg. when terminal window with an active zellij session is closed
 // (Requires restart)
