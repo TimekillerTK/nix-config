@@ -21,7 +21,7 @@
     #
     # -> systemctl --user status wireplumber.service
     #     Drop-In will have a /nix/store path to overrides.conf. Catting
-    #     that file will show `Environment="XDG_DATA_DIRS` which willzfs
+    #     that file will show `Environment="XDG_DATA_DIRS` which will
     #     point to the config directory.
     # -> cat /nix/store/xxx-wireplumber-configs/share/wireplumber/wireplumber.conf.d/name-of-file.conf
     #     In /nix/store/xxx-wireplumber-configs/share follow the path to

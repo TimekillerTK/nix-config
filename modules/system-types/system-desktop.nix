@@ -20,6 +20,11 @@
       inputs.self.modules.nixos.prometheus-node-desktop
     ];
 
+    # Networking
+    networking.networkmanager = {
+      enable = true;
+    };
+
     # Configure keymap in Wayland
     services.xserver.xkb = {
       layout = "us";
@@ -40,22 +45,45 @@
       wireplumber.enable = true;
     };
 
-    # Enable CUPS to print documents
+    # Add printer autodiscovery
+    services.avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
+
+    # Enable CUPS to print documents and install printer drivers
     services.printing.enable = true;
     services.printing.drivers = [
       brother-mfcl3750cdw.driver
       brother-mfcl3750cdw.cupswrapper
     ];
 
+    # Steam
+    programs.steam.enable = true;
+
+    # Desktop Sharing and GameStreaming Server
+    services.sunshine = {
+      enable = true;
+      autoStart = true;
+      capSysAdmin = true; # only needed for Wayland -- omit this when using with Xorg
+      openFirewall = true;
+    };
+
     # Default shell used on desktops
     programs.zsh.enable = true;
   };
-  flake.modules.homeManager.system-desktop = {
+
+  flake.modules.homeManager.system-desktop = {pkgs, ...}: {
     imports = [
       inputs.self.modules.homeManager.system-cli
       inputs.self.modules.homeManager.terminal
       inputs.self.modules.homeManager.input-remapper
       inputs.self.modules.homeManager.home-packages
+    ];
+
+    home.packages = with pkgs; [
+      moonlight-qt # GameStreaming Client
     ];
   };
 }

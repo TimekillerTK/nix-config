@@ -83,7 +83,6 @@
     };
 
     # TODO: Don't forget to set ~/.config/nixpkgs/config.nix
-    # TODO: pkgs manual import for printer
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
@@ -101,37 +100,12 @@
       sopsFile = ../../../secrets/default.yml;
     };
 
-    # Add printer autodiscovery
-    services.avahi = {
-      enable = true;
-      nssmdns4 = true;
-      openFirewall = true;
-    };
-
-    # For game streaming
-    services.sunshine = {
-      enable = true;
-      autoStart = true;
-      capSysAdmin = true; # only needed for Wayland -- omit this when using with Xorg
-      openFirewall = true;
-    };
-
-    # Steam
-    programs.steam.enable = true;
-
-    # Hostname & Network Manager
+    # Hostname
     networking.hostName = "anya";
-    networking.networkmanager = {
-      enable = true;
-    };
 
     # Enable QMK support (Keychron)
     hardware.keyboard.qmk.enable = true;
     hardware.keyboard.qmk.keychronSupport = true;
-
-    # # Docker for when needed
-    # virtualisation.docker.enable = true;
-    # users.users.tk.extraGroups = lib.mkForce [ "networkmanager" "wheel" "docker" ];
 
     # TODO: This is for GDM Login Screen settings, should probably be adapted to the KDE plasma
     # module (and Gnome module) as its very specific to those configs.
@@ -173,6 +147,7 @@
     };
   };
 
+  # --- Collector Aspect ---
   flake.modules.homeManager.helix = {
     programs.zsh.shellAliases = {
       # VS Code CAN be absent or present, so we do not use a nix store path
