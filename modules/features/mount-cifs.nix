@@ -10,7 +10,7 @@
       members = shareUsers;
     };
     # Mounting fileshare
-    fileSystems.${shareLocalPath} = {
+    fileSystems."/mnt/${shareLocalPath}" = {
       device = "//truenas.cyn.internal/${shareName}";
       fsType = "cifs";
       options =
