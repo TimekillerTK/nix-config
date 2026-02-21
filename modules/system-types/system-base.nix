@@ -12,7 +12,7 @@
 
     # Adding custom homelab CA root cert
     security.pki.certificateFiles = [
-      ../features/root-ca.pem
+      ../../pub_keys/root-ca.pem
     ];
 
     # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion

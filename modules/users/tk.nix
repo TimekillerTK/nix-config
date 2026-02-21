@@ -17,10 +17,10 @@
         users.users.tk = {
           extraGroups = ["networkmanager"];
           openssh.authorizedKeys.keys = [
-            (builtins.readFile ../../ssh_keys/anya.pub)
-            (builtins.readFile ../../ssh_keys/beltanimal.pub)
-            (builtins.readFile ../../ssh_keys/mbp.pub)
-            (builtins.readFile ../../ssh_keys/hummingbird.pub)
+            (builtins.readFile ../../pub_keys/anya.pub)
+            (builtins.readFile ../../pub_keys/beltanimal.pub)
+            (builtins.readFile ../../pub_keys/mbp.pub)
+            (builtins.readFile ../../pub_keys/hummingbird.pub)
           ];
         };
       };

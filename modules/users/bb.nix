@@ -5,7 +5,7 @@
   ...
 }: {
   flake.modules = lib.mkMerge [
-    (self.factory.user "bb" true)
+    (self.factory.user "bb" false)
     {
       nixos.bb = {
         # Configure your system-wide user settings (groups, etc), add more users as needed.
@@ -13,10 +13,10 @@
           bb = {
             extraGroups = ["networkmanager"];
             openssh.authorizedKeys.keys = [
-              (builtins.readFile ../../ssh_keys/anya.pub)
-              (builtins.readFile ../../ssh_keys/beltanimal.pub)
-              (builtins.readFile ../../ssh_keys/mbp.pub)
-              (builtins.readFile ../../ssh_keys/hummingbird.pub)
+              (builtins.readFile ../../pub_keys/anya.pub)
+              (builtins.readFile ../../pub_keys/beltanimal.pub)
+              (builtins.readFile ../../pub_keys/mbp.pub)
+              (builtins.readFile ../../pub_keys/hummingbird.pub)
             ];
           };
         };
