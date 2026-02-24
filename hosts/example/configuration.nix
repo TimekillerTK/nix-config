@@ -38,9 +38,9 @@
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.tk = {
+  users.users.user = {
     isNormalUser = true;
-    description = "tk";
+    description = "user";
     extraGroups = ["networkmanager" "wheel"];
     packages = with pkgs; [
     ];
@@ -55,5 +55,5 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "23.11";
 }
