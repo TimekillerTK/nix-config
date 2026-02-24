@@ -41,141 +41,51 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    nix-flatpak,
-    ...
-  } @ inputs: let
-    inherit (self) outputs;
-    lib = nixpkgs.lib // home-manager.lib;
-
+  outputs = {nixpkgs, ...} @ inputs: let
+    # inherit (self) outputs;
+    # lib = nixpkgs.lib // home-manager.lib;
     # Supported systems for your flake packages, shell, etc.
-    systems = [
-      "aarch64-linux"
-      "i686-linux"
-      "x86_64-linux"
-      "aarch64-darwin"
-      "x86_64-darwin"
-    ];
-
-    # This is a function that generates an attribute by calling a function you
-    # pass to it, with each system as an argument
-    forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
-    pkgsFor = lib.genAttrs systems (system:
-      import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      });
+    # systems = [
+    #   "aarch64-linux"
+    #   "i686-linux"
+    #   "x86_64-linux"
+    #   "aarch64-darwin"
+    #   "x86_64-darwin"
+    # ];
+    # # This is a function that generates an attribute by calling a function you
+    # # pass to it, with each system as an argument
+    # forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
+    # pkgsFor = lib.genAttrs systems (system:
+    #   import nixpkgs {
+    #     inherit system;
+    #     config.allowUnfree = true;
+    #   });
   in {
-    inherit lib;
+    # inherit lib;
 
     # Reusable nixos modules you might want to export (shareable)
-    nixosModules = import ./modules/nixos;
-    homeManagerModules = import ./modules/home-manager;
+    # nixosModules = import ./modules/nixos;
+    # homeManagerModules = import ./modules/home-manager;
 
-    # Your custom packages and modifications, exported as overlays
-    overlays = import ./overlays {inherit inputs;};
+    # # Your custom packages and modifications, exported as overlays
+    # overlays = import ./overlays {inherit inputs;};
 
-    # Your custom packages
-    # Accessible through 'nix build', 'nix shell', etc
-    packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
+    # # Your custom packages
+    # # Accessible through 'nix build', 'nix shell', etc
+    # packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
 
-    # Formatter for your nix files, available through 'nix fmt'
-    formatter = forEachSystem (pkgs: pkgs.alejandra);
+    # # Formatter for your nix files, available through 'nix fmt'
+    # formatter = forEachSystem (pkgs: pkgs.alejandra);
 
-    # DevShells for each system
-    devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
+    # # DevShells for each system
+    # devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
 
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
-      example = lib.nixosSystem {
+      example = nixpkgs.lib.nixosSystem {
         modules = [./hosts/example/configuration.nix];
         specialArgs = {
-          inherit inputs outputs;
-        };
-      };
-    };
-
-    # Available through 'home-manager --flake .#your-username@your-hostname'
-    # NOTE: Home-manager requires a 'pkgs' instance
-    homeConfigurations = {
-      # For Testing
-      "tk@nix-test" = lib.homeManagerConfiguration {
-        modules = [./home/tk/nix-test.nix];
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {
-          username = "tk";
-          gitUser = "TimekillerTK";
-          gitEmail = "38417175+TimekillerTK@users.noreply.github.com";
-          inherit inputs outputs;
-        };
-      };
-
-      # Laptop
-      "tk@beltanimal" = lib.homeManagerConfiguration {
-        modules = [./home/tk/beltanimal.nix];
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {
-          username = "tk";
-          gitUser = "TimekillerTK";
-          gitEmail = "38417175+TimekillerTK@users.noreply.github.com";
-          inherit inputs outputs;
-        };
-      };
-      "astra@beltanimal" = lib.homeManagerConfiguration {
-        modules = [./home/astra/beltanimal.nix];
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {
-          username = "astra";
-          gitUser = "Astram00n";
-          gitEmail = "39217853+Astram00n@users.noreply.github.com";
-          inherit inputs outputs;
-        };
-      };
-      "bb@beltanimal" = lib.homeManagerConfiguration {
-        modules = [./home/bb/beltanimal.nix];
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {
-          username = "bb";
-          gitUser = "bb";
-          gitEmail = "nobody@example.com";
-          inherit inputs outputs;
-        };
-      };
-
-      # Desktop 1
-      "tk@anya" = lib.homeManagerConfiguration {
-        modules = [./home/tk/anya.nix];
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {
-          username = "tk";
-          gitUser = "TimekillerTK";
-          gitEmail = "38417175+TimekillerTK@users.noreply.github.com";
-          inherit inputs outputs;
-        };
-      };
-      "bb@anya" = lib.homeManagerConfiguration {
-        modules = [./home/bb/anya.nix];
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {
-          username = "bb";
-          gitUser = "bb";
-          gitEmail = "nobody@example.com";
-          inherit inputs outputs;
-        };
-      };
-
-      # Desktop 2
-      "astra@hummingbird" = lib.homeManagerConfiguration {
-        modules = [./home/astra/hummingbird.nix];
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {
-          username = "astra";
-          gitUser = "Astram00n";
-          gitEmail = "39217853+Astram00n@users.noreply.github.com";
-          inherit inputs outputs;
+          inherit inputs;
         };
       };
     };
