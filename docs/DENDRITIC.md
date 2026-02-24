@@ -105,3 +105,25 @@ To create a basic configuration for a NixOS host, you usually need to create a N
 ```
 
 You also need to add the host to your `flake.nix`
+
+`flake.nix`
+
+```nix
+{
+  description = "TK's Nix Configs";
+
+  inputs = {
+    # Nixpkgs Stable - https://github.com/NixOS/nixpkgs
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+  };
+
+  outputs = {nixpkgs, ...}: {
+    # Available through 'nixos-rebuild --flake .#your-hostname'
+    nixosConfigurations = {
+      example = nixpkgs.lib.nixosSystem {
+        modules = [./hosts/example/configuration.nix];
+      };
+    };
+  };
+}
+```
