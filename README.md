@@ -85,3 +85,4 @@ NIXPKGS_ALLOW_UNFREE=1 nix build .#nixosConfigurations.anya.config.system.build.
 
 > NOTE: This command will take into account both NixOS configurations and home-manager configurations **with this repository's setup specifically.**
 
+This repository was refactored to use the **dendritic pattern** with help from the excellent [Dendritic Design with Flake Parts](https://github.com/Doc-Steve/dendritic-design-with-flake-parts) repository as a guide.
