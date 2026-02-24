@@ -3,6 +3,9 @@
 - [Creating a New NixOS Host](#creating-a-new-nixos-host)
   - [Using the Dendritic pattern](#using-the-dendritic-pattern)
   - [Normal Nix Flake](#normal-nix-flake)
+- [Installing/Deploying a Host](#installingdeploying-a-host)
+  - [Using the Dendritic pattern](#using-the-dendritic-pattern-1)
+  - [Normal Nix Flake](#normal-nix-flake-1)
 
 This document describes how this repository uses the **dendritic pattern** to structure nix configs for NixOS hosts, home-manager configurations, and reusable features.
 
@@ -19,6 +22,8 @@ Case in point, while this repository was created based on [Dendritic Design with
 - ❌️ [agenix](https://github.com/ryantm/agenix) - using [sops](https://github.com/Mic92/sops-nix) instead
 - ❌️ `darwin-*` or `brew-*` - not needed because no `nix-darwin` configs
 
+The instructions below outline how to perform common operations in this repository, and how they differ from the norm.
+
 ## Creating a New NixOS Host
 
 ### Using the Dendritic pattern
@@ -31,25 +36,23 @@ To create a definition of a new NixOS host called `example`, at minimum create a
 
     ```nix
     {inputs, ...}: {
-    flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "example";
-
-    flake.modules.nixos.example = {pkgs, ...}: {
+      flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "example";
+      flake.modules.nixos.example = {pkgs, ...}: {
         imports = [
-        # NixOS module imports here...
+          # NixOS module imports here...
         ];
 
         # Hostname
         networking.hostName = "example";
 
         # other regular NixOS Hardware Configuration file contents here
-
         home-manager.users."example_user" = {
-        imports = [
+          imports = [
             # home-manager module mports here...
-        ];
-        # Normal home-manager config stuff goes here
+          ];
+          # Normal home-manager config stuff goes here
         };
-    };
+      };
     }
     ```
 
@@ -63,18 +66,18 @@ sudo nixos-generate-config --show-hardware-config > modules/hosts/example/hardwa
 
     ```nix
     {
-    flake.modules.nixos.example = {
+      flake.modules.nixos.example = {
         config,
         lib,
         pkgs,
         modulesPath,
         ...
-    }: {
+      }: {
         imports = [
             # NixOS module imports here
         ];
         # Normal NixOS Hardware Configuration file contents here
-    }
+      }
     }
     ```
 
@@ -86,15 +89,15 @@ To create a basic configuration for a NixOS host, you usually need to create a N
 
     ```nix
     {
-    inputs,
-    pkgs,
-    ...
+      inputs,
+      pkgs,
+      ...
     }: {
-    imports = [
+      imports = [
         ./hardware-configuration.nix
         # other NixOS module imports here
-    ];
-    # regular NixOS Configuration file contents here
+      ];
+      # regular NixOS Configuration file contents here
     }
     ```
 
@@ -102,60 +105,70 @@ To create a basic configuration for a NixOS host, you usually need to create a N
 
     ```nix
     {
-    inputs,
-    pkgs,
-    ...
+      inputs,
+      pkgs,
+      ...
     }: {
-    imports = [
-        # NixOS module imports here
-    ];
-    # regular NixOS Hardware Configuration file contents here
+      imports = [
+          # NixOS module imports here
+      ];
+      # regular NixOS Hardware Configuration file contents here
     }
     ```
 
-You also need to add the host to your `flake.nix`. Additionally, if you're using `home-manager` [as a NixOS module](https://home-manager.dev/manual/25.11/index.xhtml#sec-install-nixos-module), then you need to add that too and point it to a `home-manager` NixOS module, like the one shown below.
+Additionally, if you're using `home-manager` [as a NixOS module](https://home-manager.dev/manual/25.11/index.xhtml#sec-install-nixos-module), then you need to add that too and point it to a `home-manager` NixOS module, like the one shown below.
 
 - `home/example_user.nix`
 
     ```nix
     {pkgs, ...}: {
-    imports = [
+      imports = [
         # home-manager module imports here...
-    ];
-    # regular home-manager config stuff goes here
+      ];
+      # regular home-manager config stuff goes here
     }
     ```
+
+Finally, you also need to add the new host to your `flake.nix`, and specify the paths where the `NixOS` configuration and `home-manager` configurations are.
 
 - `flake.nix`
 
     ```nix
     {
-    inputs = {
-        # inputs here
-    };
+      inputs = {
+        # flake inputs here
+      };
 
-    outputs = {
+      outputs = {
         nixpkgs,
         home-manager,
         ...
-    }: {
+      }: {
         # Available through 'nixos-rebuild --flake .#your-hostname'
         nixosConfigurations = {
 
-        # This is our example NixOS host defined below
-        example = nixpkgs.lib.nixosSystem {
+          # This is our example NixOS host defined below
+          example = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = [
-            ./hosts/example/configuration.nix
-            home-manager.nixosModules.home-manager
-            {
+              ./hosts/example/configuration.nix
+              home-manager.nixosModules.home-manager
+              {
                 home-manager.users.user = import ./home/example_user.nix;
-            }
+              }
             ];
+          };
         };
-
-        };
-    };
+      };
     }
-
     ```
+
+## Installing/Deploying a Host
+
+These are instructions for deploying or freshly installing a NixOS configuration on a computer or virtual machine.
+
+### Using the Dendritic pattern
+
+
+
+### Normal Nix Flake
