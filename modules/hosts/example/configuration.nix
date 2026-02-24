@@ -24,7 +24,5 @@
       unstable.yazi
       local.renamer
     ];
-
-    system.stateVersion = "25.05";
   };
 }
