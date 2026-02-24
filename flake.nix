@@ -90,64 +90,8 @@
 
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
-      router = lib.nixosSystem {
-        modules = [./hosts/router];
-        specialArgs = {inherit inputs outputs;};
-      };
-      dockerhost = lib.nixosSystem {
-        modules = [./hosts/dockerhost];
-        specialArgs = {
-          users = ["tk"];
-          inherit inputs outputs;
-        };
-      };
-      beltanimal = lib.nixosSystem {
-        modules = [./hosts/beltanimal];
-        specialArgs = {
-          bunny_user = "astra";
-          users = ["tk" "astra"];
-          inherit inputs outputs;
-        };
-      };
-      anya = lib.nixosSystem {
-        modules = [./hosts/anya];
-        specialArgs = {
-          users = ["tk"];
-          bunny_user = "tk";
-          inherit inputs outputs;
-        };
-      };
-      hummingbird = lib.nixosSystem {
-        modules = [./hosts/hummingbird];
-        specialArgs = {
-          bunny_user = "astra";
-          users = ["astra"];
-          inherit inputs outputs;
-        };
-      };
-      tailscale = lib.nixosSystem {
-        modules = [./hosts/tailscale];
-        specialArgs = {inherit inputs outputs;};
-      };
-      ca = lib.nixosSystem {
-        modules = [./hosts/ca];
-        specialArgs = {inherit inputs outputs;};
-      };
-      jellyfin = lib.nixosSystem {
-        modules = [./hosts/jellyfin];
-        specialArgs = {
-          users = ["tk" "jellyfin"];
-          inherit inputs outputs;
-        };
-      };
-      eyeball = lib.nixosSystem {
-        modules = [./hosts/eyeball];
-        specialArgs = {
-          inherit inputs outputs;
-        };
-      };
-      vs-server = lib.nixosSystem {
-        modules = [./hosts/vs-server];
+      example = lib.nixosSystem {
+        modules = [./hosts/example/configuration.nix];
         specialArgs = {
           inherit inputs outputs;
         };
