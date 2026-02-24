@@ -14,6 +14,14 @@
       nvd # Nix/NixOS package version diff tool
       home-manager
     ];
+
+    # Networking
+    networking.networkmanager = {
+      enable = true;
+    };
+
+    # Default shell used on desktops
+    programs.zsh.enable = true;
   };
   flake.modules.homeManager.system-cli = {
     imports = [

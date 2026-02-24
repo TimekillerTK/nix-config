@@ -20,11 +20,6 @@
       inputs.self.modules.nixos.prometheus-node-desktop
     ];
 
-    # Networking
-    networking.networkmanager = {
-      enable = true;
-    };
-
     # Configure keymap in Wayland
     services.xserver.xkb = {
       layout = "us";
@@ -69,9 +64,6 @@
       capSysAdmin = true; # only needed for Wayland -- omit this when using with Xorg
       openFirewall = true;
     };
-
-    # Default shell used on desktops
-    programs.zsh.enable = true;
   };
 
   flake.modules.homeManager.system-desktop = {pkgs, ...}: {

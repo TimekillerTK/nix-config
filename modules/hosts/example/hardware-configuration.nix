@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.examplehw = {
+  flake.modules.nixos.example = {
     modulesPath,
     lib,
     ...
