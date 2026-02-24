@@ -1,4 +1,8 @@
-# Dendritic Nix for this repository
+# Dendritic Nix for this repository <!-- omit in toc -->
+
+- [Creating a New NixOS Host](#creating-a-new-nixos-host)
+  - [This repository](#this-repository)
+  - [Normal Nix Flake](#normal-nix-flake)
 
 This document describes how this repository uses the **dendritic pattern** to structure nix configs for NixOS hosts, home-manager configurations, and reusable features.
 
@@ -17,6 +21,10 @@ Case in point, while this repository was created based on [Dendritic Design with
 
 ## Creating a New NixOS Host
 
+
+
+### This repository
+
 To create a definition of a new NixOS host called `example`, at minimum create a `configuration.nix` file in `modules/hosts/example/`.
 
 > NOTE: location and file naming is arbitrary, because of `import-tree` and `flake-parts`, these files can be placed **anywhere** in `modules/`
@@ -32,7 +40,10 @@ To create a definition of a new NixOS host called `example`, at minimum create a
       # NixOS module imports here...
     ];
 
-    home-manager.users.tk = {
+    # Hostname
+    networking.hostName = "example";
+
+    home-manager.users."example_user" = {
       imports = [
         # home-manager module mports here...
       ];
@@ -66,3 +77,31 @@ sudo nixos-generate-config --show-hardware-config > modules/hosts/example/hardwa
   }
 }
 ```
+
+### Normal Nix Flake
+
+To create a basic configuration for a NixOS host, you usually need to create a Nix module, usually called `configuration.nix`, and have `hardware-configuration.nix` generated automatically for you.
+
+```nix
+{inputs, ...}: {
+  flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "example";
+
+  flake.modules.nixos.example = {pkgs, ...}: {
+    imports = [
+      # NixOS module imports here...
+    ];
+
+    # Hostname
+    networking.hostName = "example";
+
+    home-manager.users."example_user" = {
+      imports = [
+        # home-manager module mports here...
+      ];
+      # Normal home-manager config stuff goes here
+    };
+  };
+}
+```
+
+You also need to add the host to your `flake.nix`
