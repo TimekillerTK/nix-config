@@ -1,45 +1,58 @@
-{self, ...}: {
+{
+  self,
+  lib,
+  ...
+}: {
   # Convenient factory function for creating users with default settings
-  config.flake.factory.user = username: isAdmin: {
-    nixos."${username}" = {
-      lib,
-      pkgs,
-      ...
-    }: {
-      # User settings with default initial password, optionally
-      # added to wheel group if Admin
-      users.users."${username}" = {
-        isNormalUser = true;
-        shell = pkgs.zsh;
-        initialPassword = "Hello123!";
-        home = "/home/${username}";
-        extraGroups = lib.optionals isAdmin [
-          "wheel"
-        ];
-      };
-
-      # Passwordless Sudo for Admin
-      security.sudo.extraRules = lib.optionals isAdmin [
+  config.flake.factory.user = {
+    username,
+    isAdmin,
+    enableHomeManager,
+    ...
+  }: {
+    nixos."${username}" = {pkgs, ...}:
+      lib.mkMerge [
         {
-          users = ["${username}"];
-          commands = [
+          # User settings with default initial password, optionally
+          # added to wheel group if Admin
+          users.users."${username}" = {
+            isNormalUser = true;
+            shell = pkgs.zsh;
+            initialPassword = "Hello123!";
+            home = "/home/${username}";
+            extraGroups = lib.optionals isAdmin [
+              "wheel"
+            ];
+          };
+
+          # Passwordless Sudo for Admin
+          security.sudo.extraRules = lib.optionals isAdmin [
             {
-              command = "ALL";
-              options = ["NOPASSWD"];
+              users = ["${username}"];
+              commands = [
+                {
+                  command = "ALL";
+                  options = ["NOPASSWD"];
+                }
+              ];
             }
           ];
+
+          # Needed since it's our users default shell
+          programs.zsh.enable = true;
         }
+        (
+          if enableHomeManager
+          then {
+            # Mandatory part to make home-manager work with our configuration
+            home-manager.users."${username}" = {
+              imports = [
+                self.modules.homeManager."${username}"
+              ];
+            };
+          }
+          else {}
+        )
       ];
-
-      # Needed since it's our users default shell
-      programs.zsh.enable = true;
-
-      # Mandatory part to make home-manager work with our configuration
-      home-manager.users."${username}" = {
-        imports = [
-          self.modules.homeManager."${username}"
-        ];
-      };
-    };
   };
 }

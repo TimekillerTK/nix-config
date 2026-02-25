@@ -5,10 +5,14 @@
   ...
 }: {
   flake.modules = lib.mkMerge [
-    (self.factory.user "user" true)
+    (self.factory.user {
+      username = "usr";
+      isAdmin = true;
+      enableHomeManager = false;
+    })
     {
-      nixos.user = {
-        users.users.user = {
+      nixos.usr = {
+        users.users.usr = {
           extraGroups = ["networkmanager"];
           openssh.authorizedKeys.keys = [
             (builtins.readFile ../../pub_keys/anya.pub)
@@ -18,11 +22,11 @@
           ];
         };
       };
-      homeManager.user = {
+      homeManager.usr = enableHomeManager: {
         imports = [
           inputs.self.modules.homeManager.system-cli
         ];
-        home.username = "user";
+        home.username = "usr";
       };
     }
   ];

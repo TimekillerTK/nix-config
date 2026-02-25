@@ -7,7 +7,7 @@
       inputs.self.modules.nixos.system-minimal
       inputs.self.modules.nixos.secrets
 
-      inputs.self.modules.nixos.user
+      inputs.self.modules.nixos.usr
     ];
 
     # Example SOPS Secret
