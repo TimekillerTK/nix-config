@@ -4,6 +4,10 @@
 
   flake.modules.nixos.example = {pkgs, ...}: {
     imports = [
+      # Filesystems on this host are defined with disko
+      inputs.disko.nixosModules.default
+      ./_disko.nix
+
       inputs.self.modules.nixos.system-cli
       inputs.self.modules.nixos.secrets
 
