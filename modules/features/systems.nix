@@ -37,7 +37,7 @@
     ...
   }: let
     install_script = pkgs.writeShellScriptBin "install_script" ''
-      ../../scripts/disko-partition.sh
+      ${builtins.readFile ../../scripts/disko-partition.sh}
     '';
     commonPackages = with pkgs; [
       install_script
