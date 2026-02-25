@@ -11,6 +11,7 @@
       nmap # port scanner
       dig # DNS query tool
       nvd # Nix/NixOS package version diff tool
+      git
     ];
 
     # Networking
@@ -18,7 +19,15 @@
       enable = true;
     };
 
-    # Default shell used on desktops
-    programs.zsh.enable = true;
+    # Needed since it's our users default shell
+    programs.zsh = {
+      enable = true;
+      initContent = ''
+        # These fix zsh CTRL+LEFT & CTRL+RIGHT keybindings for
+        # jumping by word
+        bindkey '^[[1;5C' forward-word
+        bindkey '^[[1;5D' backward-word
+      '';
+    };
   };
 }
