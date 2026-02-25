@@ -46,6 +46,7 @@
       sops
       ssh-to-age
       age
+      disko # Nix disk partitioning/formatting
       nvd # Nix/NixOS package version diff tool
     ];
   in {

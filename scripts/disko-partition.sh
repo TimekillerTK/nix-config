@@ -21,7 +21,7 @@ if [ "$#" -ne 1 ]; then
 fi
 
 # Apply the disko config to the disks
-nix run github:nix-community/diskox --extra-experimental-features "nix-command flakes" -- --mode disko "./hosts/$1/_disko.nix"
+disko --extra-experimental-features "nix-command flakes" -- --mode disko "./hosts/$1/_disko.nix"
 
 # Copy the repository to /mnt and cd into it:
 cp -r ../nix-config /mnt/nix-config && cd /mnt/nix-config
