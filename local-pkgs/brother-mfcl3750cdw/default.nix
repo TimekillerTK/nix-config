@@ -1,7 +1,6 @@
 {
-  pkgsi686Linux,
+  pkgs,
   stdenv,
-  fetchurl,
   dpkg,
   makeWrapper,
   coreutils,
@@ -14,13 +13,13 @@
 }: let
   model = "mfcl3750cdw";
   version = "1.0.2-0";
-  src = fetchurl {
+  src = builtins.fetchurl {
     url = "https://download.brother.com/welcome/dlf103934/${model}pdrv-${version}.i386.deb";
     sha256 = "02srx2myyh8ix1xk5ymylk3r9hkf50vfyrl23gfqy835l84my39s";
   };
   reldir = "opt/brother/Printers/${model}/";
 in rec {
-  driver = pkgsi686Linux.stdenv.mkDerivation rec {
+  driver = pkgs.stdenv.mkDerivation rec {
     inherit src version;
     name = "${model}drv-${version}";
 
@@ -52,7 +51,7 @@ in rec {
       homepage = "http://www.brother.com/";
       sourceProvenance = with lib.sourceTypes; [binaryNativeCode];
       license = lib.licenses.unfree;
-      platforms = ["x86_64-linux" "i686-linux"];
+      platforms = ["x86_64-linux"];
       maintainers = [];
     };
   };
@@ -85,7 +84,7 @@ in rec {
       homepage = "http://www.brother.com/";
       sourceProvenance = with lib.sourceTypes; [binaryNativeCode];
       license = lib.licenses.gpl2;
-      platforms = ["x86_64-linux" "i686-linux"];
+      platforms = ["x86_64-linux"];
       maintainers = [];
     };
   };
