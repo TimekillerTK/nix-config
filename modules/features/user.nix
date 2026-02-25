@@ -39,7 +39,15 @@
           ];
 
           # Needed since it's our users default shell
-          programs.zsh.enable = true;
+          programs.zsh = {
+            enable = true;
+            initContent = ''
+              # These fix zsh CTRL+LEFT & CTRL+RIGHT keybindings for
+              # jumping by word
+              bindkey '^[[1;5C' forward-word
+              bindkey '^[[1;5D' backward-word
+            '';
+          };
         }
         (
           if enableHomeManager
