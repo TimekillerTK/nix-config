@@ -5,11 +5,7 @@
   ...
 }: {
   flake.modules = lib.mkMerge [
-    (self.factory.user {
-      username = "usr";
-      isAdmin = true;
-      enableHomeManager = false;
-    })
+    (self.factory.user "usr" true)
     {
       nixos.usr = {
         users.users.usr = {
@@ -22,7 +18,7 @@
           ];
         };
       };
-      homeManager.usr = enableHomeManager: {
+      homeManager.usr = {
         imports = [
           inputs.self.modules.homeManager.system-cli
         ];
