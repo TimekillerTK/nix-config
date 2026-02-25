@@ -24,7 +24,7 @@
     networking.hostName = "example"; # Define your hostname.
 
     environment.systemPackages = with pkgs; [
-      local.renamer
+      sl
     ];
   };
 }
