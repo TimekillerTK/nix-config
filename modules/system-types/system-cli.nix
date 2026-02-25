@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  # Default for all systems
+  # Setting up the system CLI, using home-manager
   flake.modules.nixos.system-cli = {pkgs, ...}: {
     imports = [
       inputs.self.modules.nixos.system-base

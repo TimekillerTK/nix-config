@@ -4,7 +4,7 @@
 
   flake.modules.nixos.example = {pkgs, ...}: {
     imports = [
-      inputs.self.modules.nixos.system-cli
+      inputs.self.modules.nixos.system-minimal
       inputs.self.modules.nixos.secrets
 
       inputs.self.modules.nixos.home-manager
@@ -20,8 +20,6 @@
     networking.hostName = "example"; # Define your hostname.
 
     environment.systemPackages = with pkgs; [
-      vim
-      unstable.yazi
       local.renamer
     ];
   };
