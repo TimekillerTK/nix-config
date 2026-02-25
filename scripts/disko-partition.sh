@@ -20,9 +20,6 @@ if [ "$#" -ne 1 ]; then
   exit 1
 fi
 
-# Clone the repository and cd into it
-git clone https://github.com/TimekillerTK/nix-config && cd nix-config
-
 # Apply the disko config to the disks
 nix run github:nix-community/diskox --extra-experimental-features "nix-command flakes" -- --mode disko "./hosts/$1/_disko.nix"
 
