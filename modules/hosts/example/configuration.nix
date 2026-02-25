@@ -7,7 +7,6 @@
       inputs.self.modules.nixos.system-minimal
       inputs.self.modules.nixos.secrets
 
-      inputs.self.modules.nixos.home-manager
       inputs.self.modules.nixos.user
     ];
 
