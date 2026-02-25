@@ -30,4 +30,39 @@
     inputs.home-manager.flakeModules.home-manager
     inputs.pkgs-by-name-for-flake-parts.flakeModule
   ];
+
+  perSystem = {
+    pkgs,
+    system,
+    ...
+  }: let
+    install_script = pkgs.writeShellScriptBin "install_script" ''
+      ../../scripts/disko-partition.sh
+    '';
+    commonPackages = with pkgs; [
+      install_script
+      home-manager
+      git
+      sops
+      ssh-to-age
+      age
+      nvd # Nix/NixOS package version diff tool
+    ];
+  in {
+    # Dev environment with everything you need, to use
+    # run `nix develop`
+    devShells.default = pkgs.mkShell {
+      packages = commonPackages;
+      shellHook = ''
+        export NIX_CONFIG="experimental-features = nix-command flakes"
+        echo "Welcome to the default dev shell for ${system}"
+      '';
+    };
+
+    # Package set for `nix shell`
+    packages.default = pkgs.buildEnv {
+      name = "default";
+      paths = commonPackages;
+    };
+  };
 }
