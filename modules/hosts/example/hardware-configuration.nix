@@ -15,8 +15,11 @@
 
     boot.loader.grub = {
       enable = true;
-      devices = ["/dev/sda"];
+      device = "nodev";
+      efiSupport = true;
     };
+    boot.loader.efi.canTouchEfiVariables = true;
+    boot.loader.efi.efiSysMountPoint = "/boot";
 
     fileSystems = {};
     swapDevices = [];
