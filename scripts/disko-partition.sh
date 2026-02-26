@@ -21,7 +21,7 @@ if [ "$#" -lt 1 ]; then
 fi
 
 DISKS=$(lsblk --nodeps --noheadings --include 8,259 --output NAME)
-DISK_COUNT=$(printf '%s\n' "$DISKS" | wc -l))
+DISK_COUNT=$(printf '%s\n' "$DISKS" | wc -l)
 
 case "$DISK_COUNT" in
   0)
