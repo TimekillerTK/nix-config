@@ -16,19 +16,19 @@
                 mountpoint = "/boot";
               };
             };
+            swap = {
+              size = "1G";
+              type = "8200";
+              content = {
+                type = "swap";
+              };
+            };
             root = {
               size = "100%";
               content = {
                 type = "filesystem";
                 format = "ext4";
                 mountpoint = "/";
-              };
-            };
-            swap = {
-              size = "1G";
-              type = "8200";
-              content = {
-                type = "swap";
               };
             };
           };
