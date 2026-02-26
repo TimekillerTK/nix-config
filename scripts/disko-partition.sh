@@ -45,7 +45,7 @@ case "$DISK_COUNT" in
 esac
 
 # Apply the disko config to the disks
-disko --mode disko "./modules/hosts/$1/_disko.nix"
+disko --mode destroy,format,mount "./modules/hosts/$1/_disko.nix"
 
 # Copy the repository to /mnt and cd into it:
 cp -r ../nix-config /mnt/nix-config && cd /mnt/nix-config
