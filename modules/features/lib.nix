@@ -1,19 +1,18 @@
-{inputs, ...}: {
+{
+  inputs,
+  lib,
+  ...
+}: {
   # Required to define systems, otherwise:
   #
   #  error: The option `systems' was accessed but has no value defined. Try setting the option.
   #
   systems = ["x86_64-linux" "aarch64-darwin"];
 
-  # TODO: Look into this for nix configuration:
-  # https://github.com/henrysipp/nix-setup/blob/48a93d0275eba0adf48977609fc100dce8f9b49c/modules/base/nix.nix
-  # ^^^ Fantastic defaults probably, but we need to first understand before we mindlessly
-  # copy-paste
-
-  # This is part of the setup guide in
+  # These imports are part of the setup guide in
   # https://github.com/Doc-Steve/dendritic-design-with-flake-parts/wiki/Basics#basics-for-usage-of-the-dendritic-pattern
   #
-  # It is not required per se, but it is required to be imported with
+  # Not required per se, but it is required to be imported with
   # the current way this repo is set up - if skipped:
   #
   # error: infinite recursion encountered
@@ -31,6 +30,7 @@
     inputs.pkgs-by-name-for-flake-parts.flakeModule
   ];
 
+  # ---- nix develop / nix shell ----
   perSystem = {
     pkgs,
     system,
@@ -64,6 +64,47 @@
     packages.default = pkgs.buildEnv {
       name = "default";
       paths = commonPackages;
+    };
+  };
+  # -------------------------------
+
+  # Helper functions for creating nixos / home-manager configurations and others
+
+  # This is for explicit type declaration and description and more helpful
+  # error messages.
+  #
+  # These should also be seen as containers of other submodules.
+  options.flake.lib = lib.mkOption {
+    type = lib.types.attrsOf lib.types.unspecified;
+    default = {};
+  };
+
+  # Factory is for flake modules which will accept parameters.
+  options.flake.factory = lib.mkOption {
+    type = lib.types.attrsOf lib.types.unspecified;
+    default = {};
+  };
+
+  config.flake.lib = {
+    # This is for helper functions which are used for defining nixos
+    # hosts ...
+    mkNixos = system: name: {
+      ${name} = inputs.nixpkgs.lib.nixosSystem {
+        modules = [
+          inputs.self.modules.nixos.${name}
+          {nixpkgs.hostPlatform = lib.mkDefault system;}
+        ];
+      };
+    };
+    # ... and user homeManager configurations.
+    mkHomeManager = system: name: {
+      ${name} = inputs.home-manager.lib.homeManagerConfiguration {
+        pkgs = inputs.nixpkgs.legacyPackages.${system};
+        modules = [
+          inputs.self.modules.homeManager.${name}
+          {nixpkgs.config.allowUnfree = true;}
+        ];
+      };
     };
   };
 }
