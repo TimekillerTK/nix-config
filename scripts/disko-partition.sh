@@ -50,11 +50,13 @@ disko --mode destroy,format,mount --yes-wipe-all-disks "./modules/hosts/$1/_disk
 # Copy the repository to /mnt and cd into it:
 cp -r ../nix-config /mnt/nix-config && cd /mnt/nix-config
 
+# Sanity checks to see if we have what we need for installing the bootloader
+mountpoint -q /mnt || { echo "/mnt not mounted"; exit 1; }
+mountpoint -q /mnt/boot || { echo "/mnt/boot not mounted"; exit 1; }
+[ -d "/sys/firmware/efi" ] || { echo "Not in UEFI mode"; exit 1; }
+
 # Install NixOS - bootloader sometimes has issues with installation
-# on the first try, so if it fails, we wait 5 seconds and try again
-if ! nixos-install --no-root-password --flake ".#$1"; then
-  sleep 5
-  nixos-install --no-root-password --flake ".#$1" || exit 1
-fi
+# on the first try, so if it fails, wait a bit and rerun this command and try again
+nixos-install --no-root-password --flake ".#$1"
 
 printf '\n\nInstallation completed, take your USB stick out and restart.'
