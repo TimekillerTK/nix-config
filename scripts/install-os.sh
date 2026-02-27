@@ -33,7 +33,7 @@ case "$DISK_COUNT" in
     ;;
   1)
     echo '------------------------------------------------------'
-    printf 'Wiping disk to prepare for installation: /dev/%s' "$DISKS"
+    printf 'Wiping disk to prepare for installation: /dev/%s\n' "$DISKS"
     wipefs --all "/dev/$DISKS"
     ;;
   *)
@@ -49,28 +49,28 @@ esac
 
 # Apply the disko config to the disks
 echo '------------------------------------------------------'
-printf 'Wiping, partitioning, formatting the disk & mounting partitions...'
+printf 'Wiping, partitioning, formatting the disk & mounting partitions...\n'
 disko --mode destroy,format,mount --yes-wipe-all-disks "./modules/hosts/$1/_disko.nix"
-printf 'Done!'
+printf 'Done!\n'
 
 # Copy the repository to /mnt:
 echo '------------------------------------------------------'
-printf 'Copying repository to install location...'
+printf 'Copying repository to install location...\n'
 cp -r ../nix-config /mnt/nix-config
-printf 'Done!'
+printf 'Done!\n'
 
 # Sanity checks to see if we have what we need for installing the bootloader
 echo '------------------------------------------------------'
-printf 'Sanity checking everything before installation...'
+printf 'Sanity checking everything before installation...\n'
 mountpoint -q /mnt || { echo "ERROR: /mnt not mounted"; exit 1; }
 mountpoint -q /mnt/boot || { echo "ERROR: /mnt/boot not mounted"; exit 1; }
 [ -d "/sys/firmware/efi" ] || { echo "ERROR: Not in UEFI mode"; exit 1; }
-printf 'Everything is OK!'
+printf 'Everything is OK!\n'
 
 # Install NixOS - bootloader sometimes has issues with installation
 # on the first try, so if it fails, wait a bit and rerun this command and try again
 echo '------------------------------------------------------'
-printf 'Installing Operating System NixOS flake "%s" ...' "$1"
+printf 'Installing Operating System NixOS flake "%s" ...\n' "$1"
 nixos-install --no-root-password --flake ".#$1"
 
-printf '\n\nInstallation completed, take your USB stick out and restart.'
+printf '\n\nInstallation completed, take your USB stick out and restart.\n'
