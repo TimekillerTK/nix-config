@@ -36,11 +36,11 @@
     system,
     ...
   }: let
-    install_script = pkgs.writeShellScriptBin "install_script" ''
-      ${builtins.readFile ../../scripts/disko-partition.sh}
+    install-os = pkgs.writeShellScriptBin "install-os" ''
+      ${builtins.readFile ../../scripts/install-os.sh}
     '';
     commonPackages = with pkgs; [
-      install_script
+      install-os
       home-manager
       git
       sops
@@ -56,7 +56,10 @@
       packages = commonPackages;
       shellHook = ''
         export NIX_CONFIG="experimental-features = nix-command flakes"
-        echo "Welcome to the default dev shell for ${system}"
+        echo "Welcome to the default dev shell for ${system}!"
+        echo ""
+        echo "To install NixOS on the current computer, use the"
+        echo "'install-os' command."
       '';
     };
 
