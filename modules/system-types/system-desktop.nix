@@ -18,6 +18,7 @@
       inputs.self.modules.nixos.bluetooth
       inputs.self.modules.nixos.flatpak
       inputs.self.modules.nixos.prometheus-node-desktop
+      inputs.self.modules.nixos.zfs
     ];
 
     # Configure keymap in Wayland
@@ -71,10 +72,22 @@
       inputs.self.modules.homeManager.system-cli
       inputs.self.modules.homeManager.terminal
       inputs.self.modules.homeManager.input-remapper
-      inputs.self.modules.homeManager.home-packages
     ];
 
     home.packages = with pkgs; [
+      # Common Desktop Applications
+      firefox # Firefox
+      brave # Chromium-based browser
+      vlc # VLC
+      unstable.vscode-fhs # Text Editor Desktop
+      unstable.signal-desktop # Messaging app
+      unstable.flameshot # Simple Screenshotting
+      pinta # Simple MS Paint replacement
+      tartube-yt-dlp # YT downloader
+      libreoffice-qt # Office Suite
+      unstable.lutris # Games Launcher
+      unstable.discord # Chat
+      rustdesk-flutter # TeamViewer alternative
       moonlight-qt # GameStreaming Client
     ];
   };

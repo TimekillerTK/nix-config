@@ -1,42 +1,32 @@
 {
-  flake.modules.homeManager.home-packages = {pkgs, ...}: {
-    # Common packages installed via Home Manager
+  flake.modules.homeManager.dev-packages = {pkgs, ...}: {
+    # Development packages for software dev specifically
     home.packages = with pkgs; [
-      # CLI
-      unstable.fd
-      unstable.eza
-      unstable.bat
-      unstable.dust
-      unstable.ripgrep
-      unstable.fzf
-
-      bottom # top/htop replacement
       jq # JSON parsing utility
-      tldr # man for dummies
       cachix # nix binary cache
 
-      # Desktop Applications
-      firefox
-      vlc # VLC
-      unstable.vscode-fhs
-      unstable.signal-desktop # Messaging app
-      unstable.flameshot # Simple Screenshotting
-      pinta # Simple MS Paint replacement
-      prismlauncher # FOSS Minecraft launcher
-      tartube-yt-dlp # YT downloader
-      libreoffice-qt # Office Suite
-      unstable.lutris # Games Launcher
-      # hunspell # Need spellcheck? https://wiki.nixos.org/wiki/LibreOffice
-      unstable.discord # Chat
+      # Python
+      python313
+      unstable.poetry
+      ruff
+      uv
+
+      # pwsh
+      powershell
+
+      # Rust
+      rustup
+      unstable.lld # better linker by LLVM
+      unstable.clang
+      unstable.mold # even better linker
 
       # Other
-      # NOTE: When adding, you might need to force rebuild the font cache with:
-      # -> fc-cache -f -v
-      nerd-fonts.caskaydia-cove # Windows Terminal Font :)
-      tdrop # terminal dropdown
+      unstable.devenv # Nix powered dev environments
+      mono # for running .NET applications
+      granted # Switching AWS Accounts
+      sops # Mozilla SOPS
+      awscli2 # AWS CLI
 
-      # Custom
-      local.renamer
     ];
   };
 }

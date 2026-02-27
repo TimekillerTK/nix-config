@@ -8,9 +8,6 @@
       ./_disko.nix
 
       inputs.self.modules.nixos.system-desktop
-
-      inputs.self.modules.nixos.secrets
-      inputs.self.modules.nixos.zfs
       inputs.self.modules.nixos.minecraft-server
       # inputs.self.modules.nixos.tailscale-client
       # inputs.self.modules.nixos.nix-auto-update
@@ -39,43 +36,22 @@
       # Normal home-manager config stuff goes here
       # Custom packages for this user
       home.packages = with pkgs; [
-        sops # Mozilla SOPS
-        awscli2 # AWS CLI
-
-        # Python
-        python313
-        unstable.poetry
-        ruff
-        uv
-
-        # pwsh
-        powershell
-
-        # Rust
-        rustup
-        unstable.lld # better linker by LLVM
-        unstable.clang
-        unstable.mold # even better linker
+        # Custom
+        local.renamer
 
         # Desktop Applications
         unstable.element-desktop # Matrix client
         unstable.makemkv # DVD Ripper
         handbrake # Media Transcoder
-        unstable.xivlauncher # FFXIV Launcher
-        rustdesk-flutter # TeamViewer alternative
         unstable.drawio # Diagram-creating software
-        syncthingtray # Tray for Syncthing with Dolphin/Plasma integration
-
-        # Other
-        unstable.devenv # Nix powered dev environments
-        mono # for running .NET applications
-        granted # Switching AWS Accounts
-        brave # Chromium-based browser
 
         # Games
+        unstable.xivlauncher # FFXIV Launcher
+        prismlauncher # FOSS Minecraft launcher
         unstable.openrct2 # RollerCoaster Tycoon 2
         openttd # Transport Tycoon Deluxe
         unstable.vintagestory # Vintage Story
+        devilutionx # Diablo I & Hellfire (best version)
       ];
 
       home.file = {
@@ -84,8 +60,6 @@
         ".config/Code/User/settings.json".source = ../../../dotfiles/vscode/settings.json;
       };
     };
-
-    # TODO: Don't forget to set ~/.config/nixpkgs/config.nix
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
@@ -121,7 +95,6 @@
 
     # System Packages
     environment.systemPackages = [
-      pkgs.devilutionx # Diablo I & Hellfire (best version)
       pkgs.kdePackages.kdialog # pops up dialogs
     ];
 

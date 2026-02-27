@@ -34,6 +34,9 @@
         services.syncthing = {
           enable = true;
         };
+        home.packages = with pkgs; [
+          syncthingtray
+        ];
 
         # DirEnv configuration
         programs.direnv = {

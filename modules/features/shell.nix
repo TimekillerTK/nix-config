@@ -1,18 +1,18 @@
 {
-  # For defining the shell
+  # For defining the shell and shell cli applications
   flake.modules.homeManager.shell = {pkgs, ...}: let
     myAliases = {
       # Replacements for some GNU Utils
-      top = "${pkgs.bottom}/bin/btm";
-      htop = "${pkgs.bottom}/bin/btm";
-      ls = "${pkgs.eza}/bin/eza --icons -F --group-directories-first --git --group";
+      top = "${pkgs.unstable.bottom}/bin/btm";
+      htop = "${pkgs.unstable.bottom}/bin/btm";
+      ls = "${pkgs.unstable.eza}/bin/eza --icons -F --group-directories-first --git --group";
       lt = "${pkgs.unstable.eza}/bin/eza --tree --level=2 --long --icons --git";
-      cat = "${pkgs.bat}/bin/bat -pp";
+      cat = "${pkgs.unstable.bat}/bin/bat -pp";
       du = "${pkgs.unstable.dust}/bin/dust";
       df = "${pkgs.unstable.duf}/bin/duf";
-      grep = "${pkgs.ripgrep}/bin/rg";
+      grep = "${pkgs.unstable.ripgrep}/bin/rg";
       rg = "${pkgs.unstable.ripgrep}/bin/rg";
-      vi = "${pkgs.vim}/bin/vim";
+      vi = "${pkgs.unstable.vim}/bin/vim";
       cd = "z"; # zoxide
       cdi = "zi"; # zoxide
 
@@ -25,6 +25,24 @@
   in {
     # Environment Variables
     home.sessionVariables = myEnvVars;
+
+    home.packages = with pkgs; [
+      # CLI
+      unstable.fd # find replacement
+      unstable.eza # cd replacement
+      unstable.bat # cat replacement
+      unstable.dust # du replacement
+      unstable.duf # df replacement
+      unstable.ripgrep # grep replacement
+      unstable.fzf # fuzzy finder
+      unstable.bottom # new top
+
+      # Other
+      # NOTE: When adding, you might need to force rebuild the font cache with:
+      # -> fc-cache -f -v
+      nerd-fonts.caskaydia-cove # Windows Terminal Font :)
+      tldr # man for dummies
+    ];
 
     # Zoxide configuration (cd replacement)
     programs.zoxide = {
