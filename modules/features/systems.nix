@@ -59,7 +59,7 @@
         echo "Welcome to the default dev shell for ${system}!"
         echo ""
         echo "To install NixOS on the current computer, use the"
-        echo "'install-os' command."
+        echo "'sudo install-os' command."
       '';
     };
 
