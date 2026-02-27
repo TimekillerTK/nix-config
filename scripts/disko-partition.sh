@@ -47,8 +47,8 @@ esac
 # Apply the disko config to the disks
 disko --mode destroy,format,mount --yes-wipe-all-disks "./modules/hosts/$1/_disko.nix"
 
-# Copy the repository to /mnt and cd into it:
-cp -r ../nix-config /mnt/nix-config && cd /mnt/nix-config
+# Copy the repository to /mnt:
+cp -r ../nix-config /mnt/nix-config
 
 # Sanity checks to see if we have what we need for installing the bootloader
 mountpoint -q /mnt || { echo "/mnt not mounted"; exit 1; }
