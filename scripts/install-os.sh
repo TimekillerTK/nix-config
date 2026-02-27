@@ -25,19 +25,19 @@ DISK_COUNT=$(printf '%s\n' "$DISKS" | wc -l)
 
 case "$DISK_COUNT" in
   0)
-    printf '--------------------------------------------------------'
+    echo '------------------------------------------------------'
     printf 'Cannot find a disk to install to, specify which disk to install to by supplying the'
     printf ' second argument:\n'
     printf '  install-os example /dev/sda\n'
     exit 1
     ;;
   1)
-    printf '--------------------------------------------------------'
+    echo '------------------------------------------------------'
     printf 'Wiping disk to prepare for installation: /dev/%s' "$DISKS"
     wipefs --all "/dev/$DISKS"
     ;;
   *)
-    printf '--------------------------------------------------------'
+    echo '------------------------------------------------------'
     printf 'Multiple disks detected:\n'
     printf '%s\n' "$disks"
     printf '\n\nRerun this command with two arguments, the first specifying the NixOS config name '
@@ -48,19 +48,19 @@ case "$DISK_COUNT" in
 esac
 
 # Apply the disko config to the disks
-printf '--------------------------------------------------------'
+echo '------------------------------------------------------'
 printf 'Wiping, partitioning, formatting the disk & mounting partitions...'
 disko --mode destroy,format,mount --yes-wipe-all-disks "./modules/hosts/$1/_disko.nix"
 printf 'Done!'
 
 # Copy the repository to /mnt:
-printf '--------------------------------------------------------'
+echo '------------------------------------------------------'
 printf 'Copying repository to install location...'
 cp -r ../nix-config /mnt/nix-config
 printf 'Done!'
 
 # Sanity checks to see if we have what we need for installing the bootloader
-printf '--------------------------------------------------------'
+echo '------------------------------------------------------'
 printf 'Sanity checking everything before installation...'
 mountpoint -q /mnt || { echo "ERROR: /mnt not mounted"; exit 1; }
 mountpoint -q /mnt/boot || { echo "ERROR: /mnt/boot not mounted"; exit 1; }
@@ -69,7 +69,7 @@ printf 'Everything is OK!'
 
 # Install NixOS - bootloader sometimes has issues with installation
 # on the first try, so if it fails, wait a bit and rerun this command and try again
-printf '--------------------------------------------------------'
+echo '------------------------------------------------------'
 printf 'Installing Operating System NixOS flake "%s" ...' "$1"
 nixos-install --no-root-password --flake ".#$1"
 
