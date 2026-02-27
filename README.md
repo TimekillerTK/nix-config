@@ -3,8 +3,10 @@
 - [Description](#description)
 - [Project layout](#project-layout)
 - [How to Use](#how-to-use)
+  - [Installing a nix configuration](#installing-a-nix-configuration)
   - [Applying a nix configuration](#applying-a-nix-configuration)
   - [Updating a NixOS system](#updating-a-nixos-system)
+  - [Rolling back to a previous configuration](#rolling-back-to-a-previous-configuration)
   - [Testing a nix configuration](#testing-a-nix-configuration)
 
 ## Description
@@ -25,7 +27,7 @@ This is a complete system configuration for multiple hosts, including servers, d
 │   # ^ config files NOT written in nix
 ├── local-pkgs/
 |   # ^ locally packaged software in nix, put outside
-|   # modules/ because it's not using flake-parts
+|   # modules/ because not using flake-parts
 ├── modules/
 │   ├── features/
 |   |   # ^ bluetooth settings, desktop configuration,
@@ -53,6 +55,25 @@ This is a complete system configuration for multiple hosts, including servers, d
 
 ## How to Use
 
+### Installing a nix configuration
+
+First download any NixOS ISO from https://nixos.org/download/ and put it on a USB drive. Boot into the NixOS installation live environment and then open a terminal:
+
+```sh
+# Clone this repository and cd into a directory
+git clone https://github.com/TimekillerTK/nix-config && cd nix-config
+
+# Enter the nix shell environment which will acquire needed dependencies for the installation
+./run-shell
+
+# Run the installation, where CONFIG is the name of the NixOS configuration to install
+sudo install-os CONFIG
+```
+
+After these steps are done, reboot and done!
+
+> NOTE: The initial password for login for all users is `Hello123!`
+
 ### Applying a nix configuration
 
 NixOS configurations for specific hosts are contained in `modules/hosts/`. To apply a specific configuration (in this example for `anya`):
@@ -73,11 +94,15 @@ nix flake update
 sudo nixos-rebuild switch --flake .#
 ```
 
+### Rolling back to a previous configuration
+
+...
+
 ### Testing a nix configuration
 
 When modifying nix code, it's nice to be able to check if your modifications are valid and usable.
 
-To test the nix configuration, run the following command to check if it can be built. Swap `anya` with the name of your target nixos configuration/hostname.
+To test the nix configuration, run the following command to check if it can be built. **If the command completes with no error, the configuration is valid**. Swap `anya` with the name of your target nixos configuration/hostname.
 
 ```sh
 NIXPKGS_ALLOW_UNFREE=1 nix build .#nixosConfigurations.anya.config.system.build.toplevel --impure

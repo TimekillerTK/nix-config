@@ -1,6 +1,6 @@
 # Dendritic Nix for this repository <!-- omit in toc -->
 
-- [Creating a New NixOS Host](#creating-a-new-nixos-host)
+- [Creating a New NixOS Host Configuration](#creating-a-new-nixos-host-configuration)
   - [Using the Dendritic pattern](#using-the-dendritic-pattern)
   - [Normal Nix Flake](#normal-nix-flake)
 - [Installing/Deploying a Host](#installingdeploying-a-host)
@@ -24,7 +24,7 @@ Case in point, while this repository was created based on [Dendritic Design with
 
 The instructions below outline how to perform common operations in this repository, and how they differ from the norm.
 
-## Creating a New NixOS Host
+## Creating a New NixOS Host Configuration
 
 ### Using the Dendritic pattern
 
