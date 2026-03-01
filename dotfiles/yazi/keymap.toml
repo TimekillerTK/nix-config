@@ -1,6 +1,6 @@
-[manager]
+[mgr]
 
-keymap = [
+prepend_keymap = [
   # NOTE: This is a reversal of both keybinds
   # Because we don't need to trash an item in Yazi
   { on = "d", run = "remove --permanently", desc = "Permanently delete selected files" },
