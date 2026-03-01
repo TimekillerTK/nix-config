@@ -1,4 +1,6 @@
 {
+  # yazi is a terminal file browser, this is the theming
+  # and config for it
   flake.modules.homeManager.yazi = {pkgs, ...}: let
     yaziFlavors = pkgs.fetchFromGitHub {
       owner = "yazi-rs";
@@ -19,5 +21,8 @@
 
     # Install the theme files into the expected path
     home.file.".config/yazi/flavors/catppuccin-mocha.yazi".source = "${yaziFlavors}/catppuccin-mocha.yazi";
+
+    # Install the config file into the expected path
+    home.file.".config/yazi/keymap.toml".source = ../../dotfiles/yazi/keymap.toml;
   };
 }
