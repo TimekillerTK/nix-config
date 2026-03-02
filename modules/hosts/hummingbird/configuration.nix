@@ -1,13 +1,13 @@
 {inputs, ...}: {
   flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "hummingbird";
 
-  flake.modules.nixos.humminbird = {pkgs, ...}: {
+  flake.modules.nixos.hummingbird = {pkgs, ...}: {
     imports = [
       # Filesystems on this host are defined with disko
       inputs.disko.nixosModules.default
       ./_disko.nix
 
-      # inputs.self.modules.nixos.system-desktop
+      inputs.self.modules.nixos.system-desktop
 
       # inputs.self.modules.nixos.tailscale-client
       # inputs.self.modules.nixos.nix-auto-update
