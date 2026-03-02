@@ -105,8 +105,6 @@
   };
 
   # --- Collector Aspect ---
-  # TODO: Once deployed, check if this is actually in the right place and
-  # that it disappears when commented out
   flake.modules.homeManager.shell = {
     # Added to the end of ~/.zshenv after initContent
     programs.zsh.envExtra = ''

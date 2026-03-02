@@ -34,36 +34,30 @@
       inputs.self.modules.nixos.bb
     ];
 
-    home-manager.users.tk = {
-      imports = [
-        inputs.self.modules.homeManager.plasma-manager
-      ];
-      # Normal home-manager config stuff goes here
-      # Custom packages for this user
-      home.packages = with pkgs; [
-        # Custom
-        local.renamer
-
-        # Desktop Applications
-        unstable.element-desktop # Matrix client
-        unstable.makemkv # DVD Ripper
-        handbrake # Media Transcoder
-        unstable.drawio # Diagram-creating software
-
-        # Games
-        unstable.xivlauncher # FFXIV Launcher
-        prismlauncher # FOSS Minecraft launcher
-        unstable.openrct2 # RollerCoaster Tycoon 2
-        openttd # Transport Tycoon Deluxe
-        unstable.vintagestory # Vintage Story
-        devilutionx # Diablo I & Hellfire (best version)
-      ];
-
-      home.file = {
+    home-manager.users = let
+      home-file-all-users = {
         # VS Code Settings files as symlinks
         ".config/Code/User/keybindings.json".source = ../../../dotfiles/vscode/keybindings.json;
         ".config/Code/User/settings.json".source = ../../../dotfiles/vscode/settings.json;
       };
+      home-imports-all-users = [
+        inputs.self.modules.homeManager.plasma-manager
+      ];
+    in {
+      tk.imports = home-imports-all-users;
+      tk.home.file = home-file-all-users;
+      tk.home.packages = with pkgs; [
+      ];
+
+      astra.imports = home-imports-all-users;
+      astra.home.file = home-file-all-users;
+      astra.home.packages = with pkgs; [
+      ];
+
+      bb.imports = home-imports-all-users;
+      bb.home.file = home-file-all-users;
+      bb.home.packages = with pkgs; [
+      ];
     };
 
     # Firmware Updates
@@ -109,6 +103,17 @@
     # System Packages
     environment.systemPackages = with pkgs; [
       kdePackages.kdialog # pops up dialogs
+
+      # Custom
+      local.renamer
+
+      # Games
+      unstable.xivlauncher # FFXIV Launcher
+      prismlauncher # FOSS Minecraft launcher
+      unstable.openrct2 # RollerCoaster Tycoon 2
+      openttd # Transport Tycoon Deluxe
+      unstable.vintagestory # Vintage Story
+      devilutionx # Diablo I & Hellfire (best version)
     ];
 
     # Generated with head -c4 /dev/urandom | od -A none -t x4
@@ -116,8 +121,6 @@
   };
 
   # --- Collector Aspect ---
-  # TODO: Once deployed, check if this is actually in the right place and
-  # that it disappears when commented out
   flake.modules.homeManager.shell = {
     # Added to the end of ~/.zshenv after initContent
     programs.zsh.envExtra = ''
