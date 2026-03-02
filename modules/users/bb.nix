@@ -21,9 +21,13 @@
           };
         };
       };
-      homeManager.bb = {
+      homeManager.bb = {pkgs, ...}: {
         imports = [
           inputs.self.modules.homeManager.system-desktop
+        ];
+        home.username = "bb";
+
+        home.packages = with pkgs; [
         ];
       };
     }

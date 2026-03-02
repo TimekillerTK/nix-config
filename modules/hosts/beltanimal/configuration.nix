@@ -20,11 +20,13 @@
         shareName = "mediasnek3";
         shareLocalPath = "mediasnek";
         shareUsers = ["tk" "astra"];
+        shareSecret = "tk";
       })
       (inputs.self.factory.mount-cifs {
         shareName = "important";
         shareLocalPath = "important";
         shareUsers = ["tk" "astra"];
+        shareSecret = "tk";
       })
 
       inputs.self.modules.nixos.home-manager
@@ -90,11 +92,6 @@
         Login.HandleLidSwitchDocked = "lock";
         Login.HandleLidSwitchExternalPower = "lock";
       };
-    };
-
-    # Actual SOPS keys
-    sops.secrets.smbcred = {
-      sopsFile = ../../../secrets/default.yml;
     };
 
     # Hostname

@@ -18,11 +18,13 @@
         shareName = "mediasnek3";
         shareLocalPath = "mediasnek";
         shareUsers = ["tk"];
+        shareSecret = "tk";
       })
       (inputs.self.factory.mount-cifs {
         shareName = "important";
         shareLocalPath = "important";
         shareUsers = ["tk"];
+        shareSecret = "tk";
       })
 
       inputs.self.modules.nixos.home-manager
@@ -73,11 +75,6 @@
       # https://github.com/logseq/logseq/issues/10851
       "com.logseq.Logseq"
     ];
-
-    # Actual SOPS keys
-    sops.secrets.smbcred = {
-      sopsFile = ../../../secrets/default.yml;
-    };
 
     # Hostname
     networking.hostName = "anya";

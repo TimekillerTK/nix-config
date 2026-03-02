@@ -17,6 +17,19 @@ creation_rules:
           - *beltanimal
           - *dockerhost
           - *jellyfin
+  - path_regex: secrets/tk.ya?ml$
+    key_groups:
+      - age:
+          - *mbp
+          - *anya
+          - *beltanimal
+  - path_regex: secrets/astra.ya?ml$
+    key_groups:
+      - age:
+          - *mbp
+          - *anya
+          - *beltanimal
+          - *hummingbird
   - path_regex: secrets/example.ya?ml$
     key_groups:
       - age:

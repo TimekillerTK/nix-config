@@ -4,11 +4,18 @@
     shareLocalPath,
     shareGroup ? "smbusers",
     shareUsers,
+    shareSecret ? "default",
   }: {
     users.groups.${shareGroup} = {
       name = "${shareGroup}";
       members = shareUsers;
     };
+
+    # Actual SOPS keys
+    sops.secrets.smbcred = {
+      sopsFile = ../../secrets/${shareSecret}.yml;
+    };
+
     # Mounting fileshare
     fileSystems."/mnt/${shareLocalPath}" = {
       device = "//truenas.cyn.internal/${shareName}";

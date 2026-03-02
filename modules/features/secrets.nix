@@ -3,10 +3,16 @@
   lib,
   ...
 }: {
-  flake.modules.nixos.secrets = {
+  flake.modules.nixos.secrets = {pkgs, ...}: {
     imports = [
       inputs.sops-nix.nixosModules.sops
     ];
+
+    # System Packages
+    environment.systemPackages = with pkgs; [
+      sops
+    ];
+
     sops = {
       defaultSopsFile = lib.mkDefault ../../secrets/default.yml;
       age = {

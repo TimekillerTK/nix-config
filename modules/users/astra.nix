@@ -8,22 +8,28 @@
     (self.factory.user "astra" true)
     {
       nixos.astra = {
-        # Configure your system-wide user settings (groups, etc), add more users as needed.
-        users.users = {
-          bb = {
-            extraGroups = ["networkmanager"];
-            openssh.authorizedKeys.keys = [
-              (builtins.readFile ../../pub_keys/anya.pub)
-              (builtins.readFile ../../pub_keys/beltanimal.pub)
-              (builtins.readFile ../../pub_keys/mbp.pub)
-              (builtins.readFile ../../pub_keys/hummingbird.pub)
-            ];
-          };
+        users.users.astra = {
+          extraGroups = ["networkmanager"];
+          openssh.authorizedKeys.keys = [
+            (builtins.readFile ../../pub_keys/anya.pub)
+            (builtins.readFile ../../pub_keys/beltanimal.pub)
+            (builtins.readFile ../../pub_keys/mbp.pub)
+            (builtins.readFile ../../pub_keys/hummingbird.pub)
+          ];
         };
       };
-      homeManager.astra = {
+      homeManager.astra = {pkgs, ...}: {
         imports = [
           inputs.self.modules.homeManager.system-desktop
+        ];
+        home.username = "astra";
+
+        home.packages = with pkgs; [
+          # Desktop Applications
+          onedrivegui # OneDrive GUI client
+          unstable.spotify # Music Streaming
+          brave # Backup Browser
+          gimp # Photoshop Alternative
         ];
       };
     }
