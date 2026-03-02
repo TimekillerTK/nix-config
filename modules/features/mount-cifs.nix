@@ -1,7 +1,7 @@
 {
   config.flake.factory.mount-cifs = {
-    shareName ? "mediasnek3",
-    shareLocalPath ? "mediasnek",
+    shareName,
+    shareLocalPath,
     shareGroup ? "smbusers",
     shareUsers,
   }: {

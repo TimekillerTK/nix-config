@@ -15,6 +15,8 @@
         bunny_user = "tk";
       })
       (inputs.self.factory.mount-cifs {
+        shareName = "mediasnek3";
+        shareLocalPath = "mediasnek";
         shareUsers = ["tk"];
       })
       (inputs.self.factory.mount-cifs {

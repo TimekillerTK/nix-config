@@ -17,6 +17,8 @@
         bunny_user = "astra";
       })
       (inputs.self.factory.mount-cifs {
+        shareName = "mediasnek3";
+        shareLocalPath = "mediasnek";
         shareUsers = ["tk" "astra"];
       })
       (inputs.self.factory.mount-cifs {
