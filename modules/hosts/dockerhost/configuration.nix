@@ -66,6 +66,9 @@
       '';
     };
 
+    # Hostname
+    networking.hostName = "dockerhost";
+
     # Open HTTP/HTTPS ports
     networking.firewall.allowedTCPPorts = [80 443];
 
