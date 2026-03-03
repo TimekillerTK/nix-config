@@ -23,6 +23,7 @@ creation_rules:
           - *mbp
           - *anya
           - *beltanimal
+          - *dockerhost
   - path_regex: secrets/astra.ya?ml$
     key_groups:
       - age:
