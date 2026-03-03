@@ -10,7 +10,6 @@
     pkgsDirectory = inputs.packages;
   };
 
-  # config.pkgs is defined in the flake.nix file
   flake.modules.generic.local-pkgs = {
     nixpkgs.overlays = [
       (_final: prev: {
