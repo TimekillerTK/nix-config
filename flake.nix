@@ -34,6 +34,9 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Nix Binary Cache
+    harmonia.url = "github:nix-community/harmonia";
+
     # dendritic pattern flake inputs
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
