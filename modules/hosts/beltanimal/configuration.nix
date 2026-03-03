@@ -44,12 +44,19 @@
       };
       home-imports-all-users = [
         inputs.self.modules.homeManager.plasma-manager
+        inputs.self.modules.homeManager.system-desktop
       ];
     in {
       tk.imports = home-imports-all-users;
       tk.home.file = home-file-all-users;
       tk.home.packages = with pkgs; [
+        syncthingtray
       ];
+
+      # Syncthing (personal cloud)
+      services.syncthing = {
+        enable = true;
+      };
 
       astra.imports = home-imports-all-users;
       astra.home.file = home-file-all-users;

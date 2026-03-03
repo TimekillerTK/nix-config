@@ -38,6 +38,7 @@
     home-manager.users.tk = {
       imports = [
         inputs.self.modules.homeManager.plasma-manager
+        inputs.self.modules.homeManager.system-desktop
       ];
       # Normal home-manager config stuff goes here
       # Custom packages for this user
@@ -58,7 +59,20 @@
         openttd # Transport Tycoon Deluxe
         unstable.vintagestory # Vintage Story
         devilutionx # Diablo I & Hellfire (best version)
+        syncthingtray
       ];
+
+      # Syncthing (personal cloud)
+      services.syncthing = {
+        enable = true;
+      };
+
+      # DirEnv configuration
+      programs.direnv = {
+        enable = true;
+        enableZshIntegration = true;
+        nix-direnv.enable = true;
+      };
 
       home.file = {
         # VS Code Settings files as symlinks

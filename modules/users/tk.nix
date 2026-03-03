@@ -20,24 +20,10 @@
       };
       homeManager.tk = {pkgs, ...}: {
         imports = [
-          inputs.self.modules.homeManager.system-desktop
+          inputs.self.modules.homeManager.system-cli
         ];
         home.username = "tk";
 
-        # Syncthing (personal cloud)
-        services.syncthing = {
-          enable = true;
-        };
-        home.packages = with pkgs; [
-          syncthingtray
-        ];
-
-        # DirEnv configuration
-        programs.direnv = {
-          enable = true;
-          enableZshIntegration = true;
-          nix-direnv.enable = true;
-        };
       };
     }
   ];
