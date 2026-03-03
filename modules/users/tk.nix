@@ -23,7 +23,6 @@
           inputs.self.modules.homeManager.system-cli
         ];
         home.username = "tk";
-
       };
     }
   ];

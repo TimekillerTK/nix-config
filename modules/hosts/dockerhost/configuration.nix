@@ -68,6 +68,7 @@
 
     # Hostname
     networking.hostName = "dockerhost";
+    users.users.tk.extraGroups = ["docker"];
 
     # Open HTTP/HTTPS ports
     networking.firewall.allowedTCPPorts = [80 443];
