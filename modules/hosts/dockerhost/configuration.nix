@@ -73,20 +73,20 @@
     # Open HTTP/HTTPS ports
     networking.firewall.allowedTCPPorts = [80 443];
 
-    # # systemd units
-    # systemd.services.docker-compose-app = {
-    #   description = "Running Docker-Compose";
-    #   after = ["network.target"];
+    # systemd units
+    systemd.services.docker-compose-app = {
+      description = "Running Docker-Compose";
+      after = ["network.target"];
 
-    #   serviceConfig = {
-    #     Type = "simple";
-    #     User = user;
-    #     WorkingDirectory = "/home/${user}/docker";
-    #     ExecStart = "${pkgs.docker}/bin/docker compose up";
-    #     ExecStop = "${pkgs.docker}/bin/docker compose down";
-    #   };
+      serviceConfig = {
+        Type = "simple";
+        User = user;
+        WorkingDirectory = "/home/${user}/docker";
+        ExecStart = "${pkgs.docker}/bin/docker compose up";
+        ExecStop = "${pkgs.docker}/bin/docker compose down";
+      };
 
-    #   wantedBy = ["multi-user.target"];
-    # };
+      wantedBy = ["multi-user.target"];
+    };
   };
 }
