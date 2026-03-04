@@ -19,9 +19,6 @@
         };
       };
       homeManager.astra = {pkgs, ...}: {
-        imports = [
-          inputs.self.modules.homeManager.system-desktop
-        ];
         home.username = "astra";
 
         home.packages = with pkgs; [

@@ -106,8 +106,8 @@
     environment.systemPackages = with pkgs; [
       kdePackages.kdialog # pops up dialogs
 
-      # Custom
-      local.renamer
+      # # Custom
+      # local.renamer
 
       # Games
       unstable.xivlauncher # FFXIV Launcher
