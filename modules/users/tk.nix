@@ -18,9 +18,9 @@
           ];
         };
       };
-      homeManager.tk = {pkgs, ...}: {
+      homeManager.tk = {
         imports = [
-          inputs.self.modules.homeManager.system-cli
+          # inputs.self.modules.homeManager.system-cli
         ];
         home.username = "tk";
       };
