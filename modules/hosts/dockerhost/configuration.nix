@@ -7,6 +7,7 @@
     imports = [
       inputs.self.modules.generic.caddy_v284
       inputs.self.modules.nixos.system-cli
+
       (inputs.self.factory.mount-cifs {
         shareName = "mediasnek3";
         shareLocalPath = "TrueNAS";
@@ -21,6 +22,9 @@
     # To activate the home manager modules for this user
     # for this host
     home-manager.users.tk = {
+      imports = [
+        inputs.self.modules.homeManager.system-cli
+      ];
     };
 
     # Newer LTS Kernel, pinned
