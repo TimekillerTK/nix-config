@@ -64,6 +64,9 @@
       virtualHosts."prometheus.cyn.internal".extraConfig = ''
         reverse_proxy 172.21.10.28:9090
       '';
+      virtualHosts."nix-cache.cyn.internal".extraConfig = ''
+        reverse_proxy anya.cyn.internal:5000
+      '';
     };
 
     # Hostname
