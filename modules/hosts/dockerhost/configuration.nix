@@ -18,6 +18,11 @@
       inputs.self.modules.nixos.tk
     ];
 
+    # To activate the home manager modules for this user
+    # for this host
+    home-manager.users.tk = {
+    };
+
     # Newer LTS Kernel, pinned
     boot.kernelPackages = pkgs.linuxPackages_6_18;
 
