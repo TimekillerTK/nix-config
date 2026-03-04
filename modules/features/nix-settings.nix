@@ -36,6 +36,8 @@
 
     nix.settings = {
       substituters = [
+        "http://anya.cyn.internal:5000?priority=20"
+
         # NOTE: A cache/substituter typically has a priority value of 40 by default
         # We set the priority to 30 for cache.nixos.org, since we always want it used
         # by default over cachix
@@ -47,6 +49,7 @@
       ];
 
       trusted-public-keys = [
+        "anya.cyn.internal:sDvrFASCqTq+GpkNUu/xnSMaVNPoL44GzyDetq04g5g="
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];

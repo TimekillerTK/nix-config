@@ -54,9 +54,7 @@
       ];
 
       # Syncthing (personal cloud)
-      services.syncthing = {
-        enable = true;
-      };
+      tk.services.syncthing.enable = true;
 
       astra.imports = home-imports-all-users;
       astra.home.file = home-file-all-users;
