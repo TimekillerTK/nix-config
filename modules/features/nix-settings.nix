@@ -36,7 +36,7 @@
 
     nix.settings = {
       substituters = [
-        "http://anya.cyn.internal:5000?priority=20"
+        "https://nix-cache.cyn.internal?priority=20"
 
         # NOTE: A cache/substituter typically has a priority value of 40 by default
         # We set the priority to 30 for cache.nixos.org, since we always want it used
