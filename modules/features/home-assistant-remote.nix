@@ -23,6 +23,7 @@
     systemd.tmpfiles.rules = [
       "d /homeassistant 770 homeassistant homeassistant -"
       "f /homeassistant/envvars 0660 homeassistant homeassistant -"
+      "f /homeassistant/logfile 0660 homeassistant homeassistant -"
     ];
 
     # homeassistant user for shutdown via SSH command and running scripts
@@ -84,6 +85,8 @@
       '';
     };
 
+    # NOTE: This must be a systemd.user service, otherwise this will fail when trying to rebuild,
+    # especially remotely, causing a janky experience via ssh
     # systemd service which exports users' environment variables
     systemd.user.services.bunny_envvars = {
       enable = true;
