@@ -84,17 +84,17 @@
       '';
     };
 
-    # systemd service which exports users' environment variables
-    systemd.services.bunny_envvars = {
-      enable = true;
-      description = "Dumps some EnvVars of user to a file, so we can leverage them for bunny-script. Runs when a user logs into a Wayland desktop.";
-      requires = ["systemd-logind.service"];
-      after = ["systemd-logind.service"];
-      wantedBy = ["multi-user.target"];
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart = "${bunny_envvars}/bin/bunny-envvars ${bunny_user}";
-      };
-    };
+    # # systemd service which exports users' environment variables
+    # systemd.services.bunny_envvars = {
+    #   enable = true;
+    #   description = "Dumps some EnvVars of user to a file, so we can leverage them for bunny-script. Runs when a user logs into a Wayland desktop.";
+    #   requires = ["systemd-logind.service"];
+    #   after = ["systemd-logind.service"];
+    #   wantedBy = ["multi-user.target"];
+    #   serviceConfig = {
+    #     Type = "oneshot";
+    #     ExecStart = "${bunny_envvars}/bin/bunny-envvars ${bunny_user}";
+    #   };
+    # };
   };
 }
