@@ -1,16 +1,19 @@
-{pkgs ? import <nixpkgs> {}, ...}:
+{
+  pkgs ? import <nixpkgs> {},
+  lib,
+  ...
+}:
 pkgs.rustPlatform.buildRustPackage {
   pname = "renamer";
-  version = "0.1.3";
+  version = "0.1.4";
 
-  # cargoLock.lockFile = "./Cargo.lock"; # <- when local
   src = pkgs.fetchFromGitHub {
     owner = "TimekillerTK";
     repo = "renamer";
-    rev = "main";
-    sha256 = "sha256-7tSF4PmZp5VGSCIq/8dzPwHCJW4XJqdoKRzz81oBbSw=";
+    rev = "f1b34156415f3099097b144dce0d52809530c0be";
+    sha256 = "sha256-c5dhU8BN83azEyGhim5MprmIXh2nps6Cf3/PTQ8eiVg=";
   };
 
   # cargoHash = lib.fakeHash; # <- generate fake hash
-  cargoHash = "sha256-edKQbvLprErcv6YxzZlWw6V//8nmuPFA0MH/T0mITDA=";
+  cargoHash = "sha256-TMw1e8cMpMX6woGxNeVHZ2QSiUFVx22tH9s/xbHpiKQ=";
 }
