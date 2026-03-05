@@ -35,8 +35,9 @@
     };
 
     nix.settings = {
+      # These substituters will be valid for root/sudo
       substituters = [
-        "http://anya.cyn.internal:5000?priority=20"
+        "https://nix-cache.cyn.internal?priority=20"
 
         # NOTE: A cache/substituter typically has a priority value of 40 by default
         # We set the priority to 30 for cache.nixos.org, since we always want it used
@@ -46,6 +47,11 @@
         # For prebuilt binaries for things that aren’t (or aren’t yet) on cache.nixos.org,
         # especially community overlays and/or fast‑moving packages.
         "https://nix-community.cachix.org"
+      ];
+
+      # These will be also valid for other users when using nix build
+      trusted-substituters = [
+        "https://nix-cache.cyn.internal?priority=20"
       ];
 
       trusted-public-keys = [
