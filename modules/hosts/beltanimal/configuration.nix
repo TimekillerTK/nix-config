@@ -107,7 +107,7 @@
       kdePackages.kdialog # pops up dialogs
 
       # # Custom
-      # local.renamer
+      local.renamer
 
       # Games
       unstable.xivlauncher # FFXIV Launcher
