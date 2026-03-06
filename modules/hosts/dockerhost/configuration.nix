@@ -73,8 +73,49 @@
       virtualHosts."prometheus.cyn.internal".extraConfig = ''
         reverse_proxy 172.21.10.28:9090
       '';
+
+      # For our nix-cache, if it's offline, it will cause issues with
+      # hosts trying to execute a nixos rebuild.
+      #
+      # This will instead change the 502s to 404s so that the fail will
+      # cause other caches to be used instead
       virtualHosts."nix-cache.cyn.internal".extraConfig = ''
-        reverse_proxy anya.cyn.internal:5000
+        @cacheInfo path /nix-cache-info
+        handle @cacheInfo {
+          respond `StoreDir: /nix/store
+          WantMassQuery: 1
+          Priority: 10` 200
+        }
+
+        @other path_regexp everything .*
+        handle @other {
+          reverse_proxy https://anya.cyn.internal:5000 {
+            transport http {
+              read_timeout 2s
+              dial_timeout 1s
+            }
+          }
+        }
+
+        handle_errors {
+          @bad502 expression `{http.error.status_code} == 502`
+          @bad503 expression `{http.error.status_code} == 503`
+          @bad504 expression `{http.error.status_code} == 504`
+
+          handle @bad502 {
+            respond 404
+          }
+          handle @bad503 {
+            respond 404
+          }
+          handle @bad504 {
+            respond 404
+          }
+
+          handle {
+            respond 500
+          }
+        }
       '';
     };
 
