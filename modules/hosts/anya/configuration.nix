@@ -116,32 +116,4 @@
     # Generated with head -c4 /dev/urandom | od -A none -t x4
     networking.hostId = "7d650d06"; # required for ZFS!
   };
-
-  # --- Collector Aspect ---
-  flake.modules.homeManager.shell = {
-    # Added to the end of ~/.zshenv after initContent
-    programs.zsh.envExtra = ''
-      # Needed for Granted: https://docs.commonfate.io/granted/internals/shell-alias
-      alias assume="source /home/tk/.nix-profile/bin/assume"
-    '';
-  };
-
-  # --- Collector Aspect ---
-  flake.modules.homeManager.git = {
-    programs.git.settings = {
-      user.name = "TimekillerTK";
-      user.email = "38417175+TimekillerTK@users.noreply.github.com";
-      core.excludesfile = "/home/tk/.config/git/ignore";
-      safe.directory = ["/home/tk/spaghetti"];
-    };
-  };
-
-  # --- Collector Aspect ---
-  flake.modules.homeManager.helix = {
-    programs.zsh.shellAliases = {
-      # VS Code CAN be absent or present, so we do not use a nix store path
-      # but we still want to ensure we can still run it with `vscode`.
-      vscode = "/home/tk/.nix-profile/bin/code";
-    };
-  };
 }
