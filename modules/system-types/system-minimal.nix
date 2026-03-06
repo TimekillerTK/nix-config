@@ -19,15 +19,20 @@
       enable = true;
     };
 
-    # Needed since it's our users default shell
-    programs.zsh = {
-      enable = true;
-      initContent = ''
-        # These fix zsh CTRL+LEFT & CTRL+RIGHT keybindings for
-        # jumping by word
-        bindkey '^[[1;5C' forward-word
-        bindkey '^[[1;5D' backward-word
-      '';
-    };
+    # # Needed since it's our users default shell
+    # programs.zsh = {
+    #   enable = true;
+    #   initContent = ''
+    #     # These fix zsh CTRL+LEFT & CTRL+RIGHT keybindings for
+    #     # jumping by word
+    #     bindkey '^[[1;5C' forward-word
+    #     bindkey '^[[1;5D' backward-word
+    #   '';
+    # };
+  };
+  flake.modules.homeManager.system-minimal = {
+    imports = [
+      inputs.self.modules.homeManager.system-base
+    ];
   };
 }
