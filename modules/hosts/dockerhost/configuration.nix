@@ -92,7 +92,7 @@
 
         @other path_regexp everything .*
         handle @other {
-          reverse_proxy https://anya.cyn.internal:5000 {
+          reverse_proxy http://anya.cyn.internal:5000 {
             transport http {
               read_timeout 2s
               dial_timeout 1s
