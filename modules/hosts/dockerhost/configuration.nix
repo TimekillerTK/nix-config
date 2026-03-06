@@ -79,6 +79,9 @@
       #
       # This will instead change the 502s to 404s so that the fail will
       # cause other caches to be used instead
+      #
+      # NOTE: This can be removed if there is a nice fix/workaround
+      # for this in nix, but currently there is not
       virtualHosts."nix-cache.cyn.internal".extraConfig = ''
         @cacheInfo path /nix-cache-info
         handle @cacheInfo {
