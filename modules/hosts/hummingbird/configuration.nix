@@ -51,6 +51,10 @@
       };
     };
 
+    # GrapheneOS install
+    programs.adb.enable = true;
+    users.users.astra.extraGroups = ["adbusers" "plugdev" "kvm"];
+
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
     boot.loader.efi.efiSysMountPoint = "/boot";
