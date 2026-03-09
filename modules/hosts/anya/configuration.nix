@@ -12,7 +12,7 @@
 
       inputs.self.modules.nixos.nix-binary-cache
       # inputs.self.modules.nixos.tailscale-client
-      # inputs.self.modules.nixos.nix-auto-update
+      inputs.self.modules.nixos.nix-auto-update
       (inputs.self.factory.home-assistant-remote {
         bunny_user = "tk";
       })
@@ -116,5 +116,4 @@
     # Generated with head -c4 /dev/urandom | od -A none -t x4
     networking.hostId = "7d650d06"; # required for ZFS!
   };
-
 }
