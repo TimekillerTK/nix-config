@@ -212,16 +212,16 @@
           inherit inputs outputs;
         };
       };
-      "bb@anya" = lib.homeManagerConfiguration {
-        modules = [./home/bb/anya.nix];
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {
-          username = "bb";
-          gitUser = "bb";
-          gitEmail = "nobody@example.com";
-          inherit inputs outputs;
-        };
-      };
+      # "bb@anya" = lib.homeManagerConfiguration {
+      #   modules = [./home/bb/anya.nix];
+      #   pkgs = pkgsFor.x86_64-linux;
+      #   extraSpecialArgs = {
+      #     username = "bb";
+      #     gitUser = "bb";
+      #     gitEmail = "nobody@example.com";
+      #     inherit inputs outputs;
+      #   };
+      # };
 
       # Desktop 2
       "astra@hummingbird" = lib.homeManagerConfiguration {
