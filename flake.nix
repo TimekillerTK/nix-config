@@ -222,6 +222,7 @@
       #     inherit inputs outputs;
       #   };
       # };
+      #
 
       # Desktop 2
       "astra@hummingbird" = lib.homeManagerConfiguration {
