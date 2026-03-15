@@ -60,6 +60,9 @@
         unstable.vintagestory # Vintage Story
         devilutionx # Diablo I & Hellfire (best version)
         syncthingtray
+
+        # Testing
+        sl
       ];
 
       # Syncthing (personal cloud)
