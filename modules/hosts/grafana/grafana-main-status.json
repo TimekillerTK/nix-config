@@ -62,7 +62,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               }
             ]
           }
@@ -90,6 +91,10 @@
                       "InProgress": {
                         "color": "yellow",
                         "index": 1
+                      },
+                      "UpdateFailed": {
+                        "color": "orange",
+                        "index": 3
                       }
                     },
                     "type": "value"
@@ -102,7 +107,7 @@
       },
       "gridPos": {
         "h": 10,
-        "w": 6,
+        "w": 24,
         "x": 0,
         "y": 1
       },
@@ -114,7 +119,9 @@
         "orientation": "auto",
         "percentChangeColorMode": "standard",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "/^status$/",
           "values": false
         },
@@ -122,7 +129,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.0.5",
+      "pluginVersion": "12.3.2",
       "repeat": "host",
       "repeatDirection": "h",
       "targets": [
@@ -152,7 +159,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 4
+        "y": 11
       },
       "id": 10,
       "panels": [],
@@ -175,6 +182,9 @@
               "type": "auto"
             },
             "filterable": false,
+            "footer": {
+              "reducers": []
+            },
             "inspect": false
           },
           "mappings": [],
@@ -182,7 +192,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -272,7 +283,8 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "green"
+                      "color": "green",
+                      "value": 0
                     },
                     {
                       "color": "orange",
@@ -331,9 +343,12 @@
                 "value": {
                   "applyToRow": false,
                   "mode": "gradient",
-                  "type": "color-background",
-                  "wrapText": false
+                  "type": "color-background"
                 }
+              },
+              {
+                "id": "custom.wrapText",
+                "value": false
               },
               {
                 "id": "thresholds",
@@ -341,7 +356,8 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "green"
+                      "color": "green",
+                      "value": 0
                     },
                     {
                       "color": "yellow",
@@ -362,23 +378,17 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 5
+        "y": 12
       },
       "id": 8,
       "options": {
         "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "enablePagination": false,
-          "fields": "",
-          "reducer": ["sum"],
-          "show": false
-        },
+        "enablePagination": false,
         "frameIndex": 0,
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "12.0.5",
+      "pluginVersion": "12.3.2",
       "targets": [
         {
           "datasource": {
@@ -534,7 +544,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 12
+        "y": 19
       },
       "id": 9,
       "panels": [],
@@ -558,6 +568,9 @@
               "type": "auto"
             },
             "filterable": true,
+            "footer": {
+              "reducers": []
+            },
             "inspect": false
           },
           "mappings": [],
@@ -566,7 +579,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               }
             ]
           }
@@ -588,7 +602,8 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "rgba(0, 0, 0, 0)"
+                      "color": "rgba(0, 0, 0, 0)",
+                      "value": 0
                     },
                     {
                       "color": "red",
@@ -659,7 +674,8 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "red"
+                      "color": "red",
+                      "value": 0
                     },
                     {
                       "color": "green",
@@ -693,7 +709,8 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "rgba(0, 0, 0, 0)"
+                      "color": "rgba(0, 0, 0, 0)",
+                      "value": 0
                     },
                     {
                       "color": "green",
@@ -764,7 +781,8 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "rgba(3, 3, 3, 0)"
+                      "color": "rgba(3, 3, 3, 0)",
+                      "value": 0
                     },
                     {
                       "color": "red",
@@ -802,7 +820,8 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "green"
+                      "color": "green",
+                      "value": 0
                     },
                     {
                       "color": "yellow",
@@ -848,7 +867,8 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "green"
+                      "color": "green",
+                      "value": 0
                     },
                     {
                       "color": "yellow",
@@ -922,21 +942,15 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 13
+        "y": 20
       },
       "id": 7,
       "options": {
         "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": ["sum"],
-          "show": false
-        },
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "12.0.5",
+      "pluginVersion": "12.3.2",
       "targets": [
         {
           "datasource": {
@@ -1141,7 +1155,7 @@
   ],
   "preload": false,
   "refresh": "5s",
-  "schemaVersion": 41,
+  "schemaVersion": 42,
   "tags": [],
   "templating": {
     "list": [
@@ -1216,5 +1230,5 @@
   "timezone": "browser",
   "title": "Main Status (Immutable)",
   "uid": "9a3b2b72-a32b-4e25-ab43-1e628ad1b574",
-  "version": 17
+  "version": 18
 }
