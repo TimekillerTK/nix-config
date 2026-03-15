@@ -34,8 +34,6 @@
       inputs.self.modules.nixos.tk
       # inputs.self.modules.nixos.bb
     ];
-    # Intentional Garbage for testing :)
-    fghsdfgfdgsdfgd
     home-manager.users.tk = {
       imports = [
         inputs.self.modules.homeManager.plasma-manager
