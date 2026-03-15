@@ -27,7 +27,7 @@
       };
       serviceConfig = {
         Type = "oneshot";
-        ExecStart = "${pkgs.local.nix-auto-update}/bin/nix-auto-update --repo https://github.com/TimekillerTK/nix-config --branch dendritic";
+        ExecStart = "${pkgs.local.nix-auto-update}/bin/nix-auto-update --source https://github.com/TimekillerTK/nix-config --branch dendritic";
         User = "root";
 
         # NOTE: Need to extend the timeout since compiling binaries on some systems
