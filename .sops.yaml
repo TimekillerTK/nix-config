@@ -15,6 +15,7 @@ creation_rules:
           - *mbp
           - *anya
           - *beltanimal
+          - *hummingbird
           - *dockerhost
           - *jellyfin
   - path_regex: secrets/tk.ya?ml$
