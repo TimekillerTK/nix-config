@@ -14,6 +14,7 @@
             (builtins.readFile ../../pub_keys/beltanimal.pub)
             (builtins.readFile ../../pub_keys/mbp.pub)
             (builtins.readFile ../../pub_keys/hummingbird.pub)
+            (builtins.readFile ../../pub_keys/builder_key.pub)
           ];
         };
       };
