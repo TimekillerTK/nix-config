@@ -3,8 +3,10 @@
   flake.modules.nixos.system-minimal = {pkgs, ...}: {
     imports = [
       inputs.self.modules.nixos.system-base
+      inputs.self.modules.nixos.secrets
       inputs.self.modules.nixos.ssh
     ];
+
     # System Packages
     environment.systemPackages = with pkgs; [
       unstable.helix # second best text editor

@@ -55,7 +55,7 @@
       ];
 
       trusted-public-keys = [
-        "anya.cyn.internal:sDvrFASCqTq+GpkNUu/xnSMaVNPoL44GzyDetq04g5g="
+        "nix-cache.cyn.internal:eYLqTgmDP958LN9vYY9nITHZrJ0vQ5Ymn6sYYW2/d6Y="
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];

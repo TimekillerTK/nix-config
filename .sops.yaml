@@ -39,3 +39,10 @@ creation_rules:
           - *anya
           - *beltanimal
           - *example
+  - path_regex: secrets/router.ya?ml$
+    key_groups:
+      - age:
+          - *mbp
+          - *anya
+          - *beltanimal
+          - *router

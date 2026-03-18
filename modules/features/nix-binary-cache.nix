@@ -19,6 +19,8 @@
       cache.enable = true;
       # This secret was generated following instructions on:
       # https://github.com/nix-community/harmonia/blob/4e9e03e04467b50575f6b05c8abee12407418106/README.md
+      #
+      # nix-store --generate-binary-cache-key nix-cache.cyn.internal /var/lib/secrets/harmonia.secret /var/lib/secrets/harmonia.pub
       cache.signKeyPaths = ["/var/lib/secrets/harmonia.secret"];
     };
   };
