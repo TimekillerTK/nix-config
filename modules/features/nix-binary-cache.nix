@@ -1,7 +1,9 @@
 {inputs, ...}: {
   # Nix Binary Cache implemented with harmonia
   flake.modules.nixos.nix-binary-cache = {
-    imports = [inputs.harmonia.nixosModules.harmonia];
+    imports = [
+      inputs.harmonia.nixosModules.harmonia
+    ];
 
     networking.firewall.allowedTCPPorts = [5000];
 
@@ -22,6 +24,34 @@
       #
       # nix-store --generate-binary-cache-key nix-cache.cyn.internal /var/lib/secrets/harmonia.secret /var/lib/secrets/harmonia.pub
       cache.signKeyPaths = ["/var/lib/secrets/harmonia.secret"];
+    };
+
+    # Setting up the server to send remote builds for x86_64-linux to another
+    # host
+    sops.secrets.builder_key = {};
+    nix.distributedBuilds = true;
+    nix.buildMachines = [
+      {
+        hostName = "anya.cyn.internal";
+        system = "x86_64-linux";
+        protocol = "ssh";
+        maxJobs = 4; # concurrent builds on builder
+        speedFactor = 2; # relative to local builds
+        supportedFeatures = [
+          "nixos-test"
+          "benchmark"
+          "big-parallel"
+          "kvm"
+        ];
+        mandatoryFeatures = [];
+        sshUser = "tk"; # user on the builder
+        sshKey = "/run/secrets/builder_key"; # private key used by nix daemon
+      }
+    ];
+
+    nix.settings = {
+      max-jobs = 0; # offload everything to our build machine
+      builders-use-substitutes = true; # let builder use caches, why not?
     };
   };
 }
