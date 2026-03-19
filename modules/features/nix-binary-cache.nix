@@ -50,7 +50,10 @@
     ];
 
     nix.settings = {
-      max-jobs = 0; # offload everything to our build machine
+      # WARNING: setting max-jobs to 0 will cause ALL builds to fail
+      # if the remote builder is unavailable. Keep at value != 0 to ensure
+      # we can still build if the remote builder is offline
+      max-jobs = "auto";
       builders-use-substitutes = true; # let builder use caches, why not?
     };
   };
