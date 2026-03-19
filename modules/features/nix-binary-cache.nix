@@ -27,13 +27,13 @@
     };
 
     # Setting up the server to send remote builds for x86_64-linux to another
-    # host
+    # host, which will be our builder
     sops.secrets.builder_key = {};
     nix.distributedBuilds = true;
     nix.buildMachines = [
       {
         hostName = "anya.cyn.internal";
-        system = "x86_64-linux";
+        system = "x86_64-linux"; # what arch builds to send
         protocol = "ssh";
         maxJobs = 4; # concurrent builds on builder
         speedFactor = 2; # relative to local builds

@@ -1,7 +1,11 @@
 {inputs, ...}: {
   flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "anya";
 
-  flake.modules.nixos.anya = {pkgs, ...}: {
+  flake.modules.nixos.anya = {
+    pkgs,
+    lib,
+    ...
+  }: {
     imports = [
       # Filesystems on this host are defined with disko
       inputs.disko.nixosModules.default
@@ -10,7 +14,6 @@
       inputs.self.modules.nixos.system-desktop
       inputs.self.modules.nixos.minecraft-server
 
-      # inputs.self.modules.nixos.nix-binary-cache
       # inputs.self.modules.nixos.tailscale-client
       inputs.self.modules.nixos.nix-auto-update
       (inputs.self.factory.home-assistant-remote {
@@ -82,6 +85,10 @@
         ".config/Code/User/settings.json".source = ../../../dotfiles/vscode/settings.json;
       };
     };
+
+    # TEST: post-build-hook
+    nix.settings.post-build-hook =
+      pkgs.writeShellScript "post-build-hook" (builtins.readFile ../../../scripts/post-build-hook.sh);
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
