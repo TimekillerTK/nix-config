@@ -10,7 +10,7 @@
       inputs.self.modules.nixos.system-desktop
       inputs.self.modules.nixos.minecraft-server
 
-      inputs.self.modules.nixos.nix-binary-cache
+      # inputs.self.modules.nixos.nix-binary-cache
       # inputs.self.modules.nixos.tailscale-client
       inputs.self.modules.nixos.nix-auto-update
       (inputs.self.factory.home-assistant-remote {
