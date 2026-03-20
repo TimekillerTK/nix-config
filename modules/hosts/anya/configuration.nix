@@ -86,8 +86,8 @@
       };
     };
 
-    # TEST: What if the cache host is offline? We need to proceed instead of
-    # erroring.
+    # This is a build machine for all of our x86-64_linux builds, so here's a
+    # post build hook for that purpose
     nix.settings.post-build-hook = pkgs.writeShellScript "post-build-hook" ''
       export TOOL_PING="${pkgs.iputils}/bin/ping"
       ${builtins.readFile ../../../scripts/post-build-hook.sh}

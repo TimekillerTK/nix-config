@@ -48,3 +48,18 @@ creation_rules:
           - *anya
           - *beltanimal
           - *router
+
+  # Everyone has access to the builder key, always add hosts here
+  - path_regex: secrets/builder_key.ya?ml$
+    key_groups:
+      - age:
+          - *mbp
+          - *anya
+          - *dockerhost
+          - *beltanimal
+          - *hummingbird
+          - *tailscale
+          - *router
+          - *jellyfin
+          - *example
+          - *nix-cache

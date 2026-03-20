@@ -28,7 +28,9 @@
 
     # Setting up the server to send remote builds for x86_64-linux to another
     # host, which will be our builder
-    sops.secrets.builder_key = {};
+    sops.secrets.builder_key = {
+      sopsFile = ../../secrets/builder_key.yml;
+    };
     nix.distributedBuilds = true;
     nix.buildMachines = [
       {
