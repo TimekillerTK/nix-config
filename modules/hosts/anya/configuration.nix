@@ -88,7 +88,7 @@
 
     # TEST: What if the cache host is offline? We need to proceed instead of
     # erroring.
-    nix.settings.post-build-hook = pkgs.writeShellScriptBin "post-build-hook" ''
+    nix.settings.post-build-hook = pkgs.writeShellScript "post-build-hook" ''
       export TOOL_PING="${pkgs.iputils}/bin/ping"
       ${builtins.readFile ../../../scripts/post-build-hook.sh}
     '';
