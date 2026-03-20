@@ -21,7 +21,7 @@ nix store sign --key-file /var/lib/secrets/harmonia.secret "$OUT_PATHS"
 # NOTE: Using the ssh key of my user since it already is configured, but should ideally
 # be it's own dedicated ssh key and user with limited permissions
 #
-if ping -c 1 $CACHE_HOST > /dev/null 2&>1; then
+if ping -c 1 $CACHE_HOST > /dev/null 2>&1; then
   echo "Uploading paths" "$OUT_PATHS"
   exec nix copy --to "ssh-ng://tk@$CACHE_HOST?ssh-key=/home/tk/.ssh/id_ed25519" "$OUT_PATHS"
 else
