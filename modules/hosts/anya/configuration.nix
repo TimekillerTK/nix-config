@@ -86,7 +86,8 @@
       };
     };
 
-    # TEST: post-build-hook
+    # TEST: What if the cache host is offline? We need to proceed instead of
+    # erroring.
     nix.settings.post-build-hook =
       pkgs.writeShellScript "post-build-hook" (builtins.readFile ../../../scripts/post-build-hook.sh);
 

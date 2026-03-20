@@ -92,7 +92,7 @@
 
         @other path_regexp everything .*
         handle @other {
-          reverse_proxy http://172.21.10.153:5000 {
+          reverse_proxy http://172.21.10.161:5000 {
             transport http {
               read_timeout 2s
               dial_timeout 1s
