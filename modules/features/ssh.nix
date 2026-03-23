@@ -6,7 +6,7 @@
       knownHosts = {
         "anya" = {
           hostNames = ["anya" "anya.cyn.internal"];
-          publicKey = "anya.cyn.internal ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIiYlYEljfXg8k5TzGkmaIyVGBS08ecklxGoozhLMpMj";
+          publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIiYlYEljfXg8k5TzGkmaIyVGBS08ecklxGoozhLMpMj";
         };
       };
       settings = {
