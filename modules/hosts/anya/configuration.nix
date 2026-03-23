@@ -107,12 +107,12 @@
           {
             # for `sudo nix build`
             command = "${pkgs.nix}/bin/nix";
-            options = ["NOPASSWD" "NOEXEC"];
+            options = ["NOPASSWD"];
           }
           {
             # for old `nix-build`
             command = "${pkgs.nix}/bin/nix-build";
-            options = ["NOPASSWD" "NOEXEC"];
+            options = ["NOPASSWD"];
           }
         ];
       }
