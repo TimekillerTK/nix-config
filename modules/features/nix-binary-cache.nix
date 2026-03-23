@@ -17,6 +17,7 @@
     #   nix store info --store https://nix-cache.cyn.internal
     #   curl "http://nix-cache.cyn.internal/5xp8g23q7ii1vn00j1ps9wi5cprj9zlp.narinfo"
     #   nix build nixpkgs#renamer --dry-run
+    #
     services.harmonia-dev = {
       cache.enable = true;
       # This secret was generated following instructions on:
