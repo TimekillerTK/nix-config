@@ -11,7 +11,7 @@ local config = wezterm.config_builder()
 -- https://wezterm.org/config/lua/config/
 
 -- Font
-config.font_size = 13
+config.font_size = 10
 config.font = wezterm.font("CaskaydiaCove Nerd Font")
 config.font_rules = {
   -- This overrides the CaskaydiaCove Nerd Font ExtraLight, which is selected by default
