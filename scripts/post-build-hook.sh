@@ -23,7 +23,7 @@ nix store sign --key-file /var/lib/secrets/harmonia.secret "$OUT_PATHS"
 #
 if $TOOL_PING -c 1 $CACHE_HOST > /dev/null 2>&1; then
   echo "Uploading paths" "$OUT_PATHS"
-  exec nix copy --to "ssh-ng://tk@$CACHE_HOST?ssh-key=/home/tk/.ssh/id_ed25519" "$OUT_PATHS"
+  exec nix copy --to "ssh://cache@$CACHE_HOST" "$OUT_PATHS"
 else
   echo "Ping to $CACHE_HOST failed, skipping upload." >&2
 fi
