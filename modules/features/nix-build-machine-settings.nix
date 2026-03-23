@@ -21,7 +21,7 @@
           "kvm"
         ];
         mandatoryFeatures = [];
-        sshUser = "tk"; # user on the builder
+        sshUser = "builder"; # user on the builder
         sshKey = "/run/secrets/builder_key"; # private key used by nix daemon
       }
     ];
