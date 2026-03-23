@@ -92,6 +92,31 @@
       export TOOL_PING="${pkgs.iputils}/bin/ping"
       ${builtins.readFile ../../../scripts/post-build-hook.sh}
     '';
+    nix.settings.allowed-users = ["builder"];
+    users.users.builder = {
+      shell = pkgs.zsh;
+      isNormalUser = true;
+      openssh.authorizedKeys.keys = [
+        (builtins.readFile ../../../pub_keys/builder_key.pub)
+      ];
+    };
+    security.sudo.extraRules = [
+      {
+        users = ["builder"];
+        commands = [
+          {
+            # for `sudo nix build`
+            command = "${pkgs.nix}/bin/nix";
+            options = ["NOPASSWD" "NOEXEC"];
+          }
+          {
+            # for old `nix-build`
+            command = "${pkgs.nix}/bin/nix-build";
+            options = ["NOPASSWD" "NOEXEC"];
+          }
+        ];
+      }
+    ];
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
