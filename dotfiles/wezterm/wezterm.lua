@@ -104,6 +104,11 @@ config.mouse_bindings = {
 
 -- Keybinds
 config.keys = {
+  {
+    key = 'q',
+    mods = 'CTRL',
+    action = wezterm.action.QuitApplication,
+  },
   -- These are for macOS, not needed on Linux
   -- {
   --   key = 'LeftArrow',
