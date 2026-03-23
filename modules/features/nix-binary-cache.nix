@@ -57,7 +57,10 @@
       # if the remote builder is unavailable. Keep at value != 0 to ensure
       # we can still build if the remote builder is offline
       max-jobs = "auto";
-      builders-use-substitutes = true; # let builder use caches, why not?
+
+      # NOTE: Setting this to true causes issues with the post-build-hook
+      # not copying anything to the nix store of the cache host
+      builders-use-substitutes = false;
     };
   };
 }
