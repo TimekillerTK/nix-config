@@ -121,7 +121,7 @@
     # ssh config on this machine
     programs.ssh.extraConfig = ''
       Host host.nix-cache.cyn.internal
-        User tk
+        User cache
         IdentityFile /var/lib/secrets/id_ed25519-nix-cache
         IdentitiesOnly yes
         Port 22
