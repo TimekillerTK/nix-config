@@ -163,7 +163,6 @@
     # System Packages
     environment.systemPackages = [
       pkgs.kdePackages.kdialog # pops up dialogs
-      pkgs.zmate
     ];
 
     # Generated with head -c4 /dev/urandom | od -A none -t x4
