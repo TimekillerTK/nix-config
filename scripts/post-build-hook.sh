@@ -1,5 +1,5 @@
-#!/bin/sh
-
+# ^^^^^ NOTE: Missing shebang, because it will be inserted by nix ^^^^^
+#
 # NOTE: Source for this is https://nix.dev/manual/nix/2.33/advanced-topics/post-build-hook.html
 #
 # NOTE: To skip this build hook during a nixos rebuild, an option can be passed with the

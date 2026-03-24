@@ -36,14 +36,15 @@
         commands = [
           {
             # for `sudo nix build`
-            command = "${pkgs.nix}/bin/nix";
+            # command = "${pkgs.nix}/bin/nix";
+            command = "ALL";
             options = ["NOPASSWD"];
           }
-          {
-            # for old `nix-build`
-            command = "${pkgs.nix}/bin/nix-build";
-            options = ["NOPASSWD"];
-          }
+          # {
+          #   # for old `nix-build`
+          #   command = "${pkgs.nix}/bin/nix-build";
+          #   options = ["NOPASSWD"];
+          # }
         ];
       }
     ];
