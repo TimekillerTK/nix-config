@@ -92,6 +92,9 @@
       export TOOL_PING="${pkgs.iputils}/bin/ping"
       ${builtins.readFile ../../../scripts/post-build-hook.sh}
     '';
+
+    # 'builder' user is for other machines to ssh into to
+    # execute remote builds
     nix.settings.allowed-users = ["builder"];
     users.users.builder = {
       shell = pkgs.zsh;
@@ -117,6 +120,9 @@
         ];
       }
     ];
+
+    # The 'cache' user is on the nix-cache server for our machine
+    # to upload nix packages to the /nix/store on the remote server
     # NOTE: This is not for OpenSSH server, it's for the local
     # ssh config on this machine
     programs.ssh.extraConfig = ''
@@ -157,6 +163,7 @@
     # System Packages
     environment.systemPackages = [
       pkgs.kdePackages.kdialog # pops up dialogs
+      pkgs.zmate
     ];
 
     # Generated with head -c4 /dev/urandom | od -A none -t x4
