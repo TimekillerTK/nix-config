@@ -117,13 +117,13 @@
         ];
       }
     ];
-    services.openssh.extraConfig = ''
-      Host host.nix-cache.cyn.internal
-        User tk
-        IdentityFile /var/lib/secrets/id_ed25519-nix-cache
-        IdentitiesOnly yes
-        Port 22
-    '';
+    # services.openssh.extraConfig = ''
+    #   Host host.nix-cache.cyn.internal
+    #     User tk
+    #     IdentityFile /var/lib/secrets/id_ed25519-nix-cache
+    #     IdentitiesOnly yes
+    #     Port 22
+    # '';
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
