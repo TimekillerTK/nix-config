@@ -15,7 +15,7 @@
       inputs.self.modules.nixos.minecraft-server
 
       # inputs.self.modules.nixos.tailscale-client
-      inputs.self.modules.nixos.nix-auto-update
+      # inputs.self.modules.nixos.nix-auto-update
       (inputs.self.factory.home-assistant-remote {
         bunny_user = "tk";
       })
@@ -86,52 +86,52 @@
       };
     };
 
-    # This is a build machine for all of our x86-64_linux builds, so here's a
-    # post build hook for that purpose
-    nix.settings.post-build-hook = pkgs.writeShellScript "post-build-hook" ''
-      export TOOL_PING="${pkgs.iputils}/bin/ping"
-      ${builtins.readFile ../../../scripts/post-build-hook.sh}
-    '';
+    # # This is a build machine for all of our x86-64_linux builds, so here's a
+    # # post build hook for that purpose
+    # nix.settings.post-build-hook = pkgs.writeShellScript "post-build-hook" ''
+    #   export TOOL_PING="${pkgs.iputils}/bin/ping"
+    #   ${builtins.readFile ../../../scripts/post-build-hook.sh}
+    # '';
 
     # 'builder' user is for other machines to ssh into to
     # execute remote builds
-    nix.settings.allowed-users = ["builder"];
-    users.users.builder = {
-      shell = pkgs.zsh;
-      isNormalUser = true;
-      openssh.authorizedKeys.keys = [
-        (builtins.readFile ../../../pub_keys/builder_key.pub)
-      ];
-    };
-    security.sudo.extraRules = [
-      {
-        users = ["builder"];
-        commands = [
-          {
-            # for `sudo nix build`
-            command = "${pkgs.nix}/bin/nix";
-            options = ["NOPASSWD"];
-          }
-          {
-            # for old `nix-build`
-            command = "${pkgs.nix}/bin/nix-build";
-            options = ["NOPASSWD"];
-          }
-        ];
-      }
-    ];
+    # nix.settings.allowed-users = ["builder"];
+    # users.users.builder = {
+    #   shell = pkgs.zsh;
+    #   isNormalUser = true;
+    #   openssh.authorizedKeys.keys = [
+    #     (builtins.readFile ../../../pub_keys/builder_key.pub)
+    #   ];
+    # };
+    # security.sudo.extraRules = [
+    #   {
+    #     users = ["builder"];
+    #     commands = [
+    #       {
+    #         # for `sudo nix build`
+    #         command = "${pkgs.nix}/bin/nix";
+    #         options = ["NOPASSWD"];
+    #       }
+    #       {
+    #         # for old `nix-build`
+    #         command = "${pkgs.nix}/bin/nix-build";
+    #         options = ["NOPASSWD"];
+    #       }
+    #     ];
+    #   }
+    # ];
 
-    # The 'cache' user is on the nix-cache server for our machine
-    # to upload nix packages to the /nix/store on the remote server
-    # NOTE: This is not for OpenSSH server, it's for the local
-    # ssh config on this machine
-    programs.ssh.extraConfig = ''
-      Host host.nix-cache.cyn.internal
-        User cache
-        IdentityFile /var/lib/secrets/id_ed25519-nix-cache
-        IdentitiesOnly yes
-        Port 22
-    '';
+    # # The 'cache' user is on the nix-cache server for our machine
+    # # to upload nix packages to the /nix/store on the remote server
+    # # NOTE: This is not for OpenSSH server, it's for the local
+    # # ssh config on this machine
+    # programs.ssh.extraConfig = ''
+    #   Host host.nix-cache.cyn.internal
+    #     User cache
+    #     IdentityFile /var/lib/secrets/id_ed25519-nix-cache
+    #     IdentitiesOnly yes
+    #     Port 22
+    # '';
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;

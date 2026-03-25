@@ -22,32 +22,32 @@
 
     # Cache user to allow uploading stuff to the nix store
     #
-    nix.settings.allowed-users = ["cache"];
-    users.users.cache = {
-      shell = pkgs.zsh;
-      isNormalUser = true;
-      openssh.authorizedKeys.keys = [
-        (builtins.readFile ../../../pub_keys/nix-cache-user.pub)
-      ];
-    };
-    security.sudo.extraRules = [
-      {
-        users = ["cache"];
-        commands = [
-          {
-            # for `sudo nix build`
-            # command = "${pkgs.nix}/bin/nix";
-            command = "ALL";
-            options = ["NOPASSWD"];
-          }
-          # {
-          #   # for old `nix-build`
-          #   command = "${pkgs.nix}/bin/nix-build";
-          #   options = ["NOPASSWD"];
-          # }
-        ];
-      }
-    ];
+    # nix.settings.allowed-users = ["cache"];
+    # users.users.cache = {
+    #   shell = pkgs.zsh;
+    #   isNormalUser = true;
+    #   openssh.authorizedKeys.keys = [
+    #     (builtins.readFile ../../../pub_keys/nix-cache-user.pub)
+    #   ];
+    # };
+    # security.sudo.extraRules = [
+    #   {
+    #     users = ["cache"];
+    #     commands = [
+    #       {
+    #         # for `sudo nix build`
+    #         # command = "${pkgs.nix}/bin/nix";
+    #         command = "ALL";
+    #         options = ["NOPASSWD"];
+    #       }
+    #       # {
+    #       #   # for old `nix-build`
+    #       #   command = "${pkgs.nix}/bin/nix-build";
+    #       #   options = ["NOPASSWD"];
+    #       # }
+    #     ];
+    #   }
+    # ];
 
     # Hostname
     networking.hostName = "nix-cache";
