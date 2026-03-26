@@ -28,12 +28,10 @@
       # Specifically the harmonia.secret
       cache.signKeyPaths = ["/run/secrets/harmonia_key"];
 
-      # Enable harmonia nix daemon replacement
+      # Enable nix daemon replacement
       daemon.enable = true;
     };
 
-    # Setting up the server to send remote builds for x86_64-linux to another
-    # host, which will be our builder
     sops.secrets.builder_key = {
       sopsFile = ../../secrets/builder_key.yml;
     };
@@ -41,6 +39,8 @@
       sopsFile = ../../secrets/harmonia_key.yml;
     };
 
+    # Setting up the builder user, which our build host will be able to use
+    # to nix copy packages to this nix cache server
     users.groups.builder = {};
     users.users.builder = {
       group = "builder";
@@ -48,6 +48,8 @@
       shell = pkgs.zsh;
       home = "/var/lib/builder";
       createHome = true;
+      # FIXME: Check if wheel is needed, chances are
+      # no, and then it should be removed
       extraGroups = [
         "wheel"
       ];
