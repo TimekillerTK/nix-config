@@ -95,7 +95,7 @@
         set -u # use of unset variables = error
         set -f # disable globbing
         export IFS=' '
-        export CACHE_HOST="upload-build-to-nix-cache-server"
+        export CACHE_HOST="host.nix-cache.cyn.internal"
 
         if ! ping -c 1 $CACHE_HOST > /dev/null 2>&1; then
           echo "Ping to $CACHE_HOST failed, skipping upload." >&2
@@ -108,7 +108,7 @@
 
           echo "Uploading $OUT_PATHS"
           printf "%s" "$OUT_PATHS" \
-          | xargs ts nix copy --to "ssh://$CACHE_HOST"
+          | xargs ts nix copy --to "ssh://upload-build-to-nix-cache-server"
         fi
       '';
     });
@@ -196,6 +196,7 @@
     # System Packages
     environment.systemPackages = [
       pkgs.kdePackages.kdialog # pops up dialogs
+      pkgs.pingu
     ];
 
     # Generated with head -c4 /dev/urandom | od -A none -t x4
