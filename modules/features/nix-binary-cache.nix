@@ -24,7 +24,9 @@
       # https://github.com/nix-community/harmonia/blob/4e9e03e04467b50575f6b05c8abee12407418106/README.md
       #
       # nix-store --generate-binary-cache-key nix-cache.cyn.internal /var/lib/secrets/harmonia.secret /var/lib/secrets/harmonia.pub
-      cache.signKeyPaths = ["/var/lib/secrets/harmonia.secret"];
+      #
+      # Specifically the harmonia.secret
+      cache.signKeyPaths = ["/run/secrets/harmonia_key"];
 
       # Enable harmonia nix daemon replacement
       daemon.enable = true;
@@ -34,6 +36,9 @@
     # host, which will be our builder
     sops.secrets.builder_key = {
       sopsFile = ../../secrets/builder_key.yml;
+    };
+    sops.secrets.harmonia_key = {
+      sopsFile = ../../secrets/harmonia_key.yml;
     };
     # nix.distributedBuilds = true;
     # nix.buildMachines = [
