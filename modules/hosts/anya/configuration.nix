@@ -86,17 +86,32 @@
       };
     };
 
-    # Secret Key for signing
+    # This is a build machine for all of our x86-64_linux builds, so here's a
+    # post build hook for that purpose
+    nix.settings.post-build-hook = lib.getExe (pkgs.writeShellApplication {
+      name = "post-build-hook";
+      runtimeInputs = with pkgs; [ts nix findutils];
+      text = ''
+        set -u # use of unset variables = error
+        set -f # disable globbing
+        export IFS=' '
+
+        if [[ -n "''${OUT_PATHS:-}" ]]; then
+          export TS_MAXFINISHED=1000
+          export TS_SLOTS=10
+
+          echo "Uploading $OUT_PATHS"
+          printf "%s" "$OUT_PATHS" \
+          | xargs ts nix copy --to "ssh-ng://tk@$CACHE_HOST?ssh-key=/home/tk/.ssh/id_ed25519"
+        fi
+      '';
+    });
+
+    # Secret Key for signing, important since we'll be building
+    # packages on this machine intended for the nix-cache server
     nix.settings.secret-key-files = [
       "/var/lib/secrets/harmonia.secret"
     ];
-
-    # # This is a build machine for all of our x86-64_linux builds, so here's a
-    # # post build hook for that purpose
-    # nix.settings.post-build-hook = pkgs.writeShellScript "post-build-hook" ''
-    #   export TOOL_PING="${pkgs.iputils}/bin/ping"
-    #   ${builtins.readFile ../../../scripts/post-build-hook.sh}
-    # '';
 
     # 'builder' user is for other machines to ssh into to
     # execute remote builds
