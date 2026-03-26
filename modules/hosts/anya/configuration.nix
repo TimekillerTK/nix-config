@@ -86,6 +86,11 @@
       };
     };
 
+    # Secret Key for signing
+    nix.settings.secret-key-files = [
+      "/var/lib/secrets/harmonia.secret"
+    ];
+
     # # This is a build machine for all of our x86-64_linux builds, so here's a
     # # post build hook for that purpose
     # nix.settings.post-build-hook = pkgs.writeShellScript "post-build-hook" ''
