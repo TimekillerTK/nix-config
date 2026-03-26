@@ -47,6 +47,7 @@
       isSystemUser = true;
       shell = pkgs.zsh;
       home = "/var/lib/builder";
+      createHome = true;
       extraGroups = [
         "wheel"
       ];
