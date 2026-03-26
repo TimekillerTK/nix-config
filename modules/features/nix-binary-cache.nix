@@ -25,6 +25,9 @@
       #
       # nix-store --generate-binary-cache-key nix-cache.cyn.internal /var/lib/secrets/harmonia.secret /var/lib/secrets/harmonia.pub
       cache.signKeyPaths = ["/var/lib/secrets/harmonia.secret"];
+
+      # Enable harmonia nix daemon replacement
+      daemon.enable = true;
     };
 
     # Setting up the server to send remote builds for x86_64-linux to another
