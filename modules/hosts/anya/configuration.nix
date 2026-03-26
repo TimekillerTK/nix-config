@@ -95,7 +95,7 @@
         set -u # use of unset variables = error
         set -f # disable globbing
         export IFS=' '
-        export CACHE_HOST="host.nix-cache.cyn.internal"
+        export CACHE_HOST="upload-build-to-nix-cache-server"
 
         if ! ping -c 1 $CACHE_HOST > /dev/null 2>&1; then
           echo "Ping to $CACHE_HOST failed, skipping upload." >&2
@@ -114,17 +114,26 @@
     });
 
     # Secret Key for signing, important since we'll be building
-    # packages on this machine intended for the nix-cache server
+    # packages on this machine intended for the harmonia nix-cache
+    # server
+    sops.secrets.harmonia_key = {
+      sopsFile = ../../secrets/harmonia_key.yml;
+    };
     nix.settings.secret-key-files = [
-      "/var/lib/secrets/harmonia.secret"
+      "/run/secrets/harmonia_key"
     ];
 
-    # NOTE: This is not for OpenSSH server, it's for the local
-    # ssh config on this machine accessible by ALL users
+    # NOTE: This is NOT for OpenSSH server, it's for the local
+    # ssh config on this machine accessible by ALL users, but
+    # still only usable by root :)
+    #
+    # SSH config used by nix daemon (which runs as root), to
+    # upload nix packages to the nix-cache server
     programs.ssh.extraConfig = ''
-      Host host.nix-cache.cyn.internal
-        User tk
-        IdentityFile /var/lib/secrets/id_ed25519-nix-cache
+      Host upload-build-to-nix-cache-server
+        HostName host.nix-cache.cyn.internal
+        User builder
+        IdentityFile /root/.ssh/id_ed25519
         IdentitiesOnly yes
         Port 22
     '';

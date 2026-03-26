@@ -1,6 +1,6 @@
 {inputs, ...}: {
   # Nix Binary Cache implemented with harmonia
-  flake.modules.nixos.nix-binary-cache = {
+  flake.modules.nixos.nix-binary-cache = {pkgs, ...}: {
     imports = [
       inputs.harmonia.nixosModules.harmonia
     ];
@@ -40,6 +40,21 @@
     sops.secrets.harmonia_key = {
       sopsFile = ../../secrets/harmonia_key.yml;
     };
+
+    users.groups.builder = {};
+    users.users.builder = {
+      group = "builder";
+      isSystemUser = true;
+      shell = pkgs.zsh;
+      home = "/var/lib/builder";
+      extraGroups = [
+        "wheel"
+      ];
+      openssh.authorizedKeys.keys = [
+        (builtins.readFile ../../pub_keys/anya-root-builder.pub)
+      ];
+    };
+    nix.settings.allowed-users = ["builder"];
     # nix.distributedBuilds = true;
     # nix.buildMachines = [
     #   {
