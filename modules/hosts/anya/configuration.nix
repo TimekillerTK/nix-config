@@ -90,11 +90,17 @@
     # post build hook for that purpose
     nix.settings.post-build-hook = lib.getExe (pkgs.writeShellApplication {
       name = "post-build-hook";
-      runtimeInputs = with pkgs; [ts nix findutils];
+      runtimeInputs = with pkgs; [ts nix findutils iputils];
       text = ''
         set -u # use of unset variables = error
         set -f # disable globbing
         export IFS=' '
+        export CACHE_HOST="host.nix-cache.cyn.internal"
+
+        if ! ping -c 1 $CACHE_HOST > /dev/null 2>&1; then
+          echo "Ping to $CACHE_HOST failed, skipping upload." >&2
+          exit 0
+        fi
 
         if [[ -n "''${OUT_PATHS:-}" ]]; then
           export TS_MAXFINISHED=1000
