@@ -119,6 +119,16 @@
       "/var/lib/secrets/harmonia.secret"
     ];
 
+    # NOTE: This is not for OpenSSH server, it's for the local
+    # ssh config on this machine accessible by ALL users
+    programs.ssh.extraConfig = ''
+      Host host.nix-cache.cyn.internal
+        User tk
+        IdentityFile /var/lib/secrets/id_ed25519-nix-cache
+        IdentitiesOnly yes
+        Port 22
+    '';
+
     # 'builder' user is for other machines to ssh into to
     # execute remote builds
     # nix.settings.allowed-users = ["builder"];
@@ -146,18 +156,6 @@
     #     ];
     #   }
     # ];
-
-    # # The 'cache' user is on the nix-cache server for our machine
-    # # to upload nix packages to the /nix/store on the remote server
-    # # NOTE: This is not for OpenSSH server, it's for the local
-    # # ssh config on this machine
-    # programs.ssh.extraConfig = ''
-    #   Host host.nix-cache.cyn.internal
-    #     User cache
-    #     IdentityFile /var/lib/secrets/id_ed25519-nix-cache
-    #     IdentitiesOnly yes
-    #     Port 22
-    # '';
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
@@ -189,7 +187,6 @@
     # System Packages
     environment.systemPackages = [
       pkgs.kdePackages.kdialog # pops up dialogs
-      pkgs.emacs
     ];
 
     # Generated with head -c4 /dev/urandom | od -A none -t x4
