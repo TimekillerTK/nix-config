@@ -108,7 +108,7 @@
 
           echo "Uploading $OUT_PATHS"
           printf "%s" "$OUT_PATHS" \
-          | xargs ts nix copy --to "ssh//$CACHE_HOST"
+          | xargs ts nix copy --to "ssh://$CACHE_HOST"
         fi
       '';
     });
