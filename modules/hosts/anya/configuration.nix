@@ -108,7 +108,7 @@
 
           echo "Uploading $OUT_PATHS"
           printf "%s" "$OUT_PATHS" \
-          | xargs ts nix copy --to "ssh-ng://tk@$CACHE_HOST?ssh-key=/home/tk/.ssh/id_ed25519"
+          | xargs ts nix copy --to "ssh//$CACHE_HOST"
         fi
       '';
     });
