@@ -35,7 +35,6 @@
       inputs.self.modules.nixos.home-manager
 
       inputs.self.modules.nixos.tk
-      # inputs.self.modules.nixos.bb
     ];
     home-manager.users.tk = {
       imports = [
@@ -196,7 +195,7 @@
     # System Packages
     environment.systemPackages = [
       pkgs.kdePackages.kdialog # pops up dialogs
-      pkgs.pingme
+      pkgs.pingtunnel
     ];
 
     # Generated with head -c4 /dev/urandom | od -A none -t x4
