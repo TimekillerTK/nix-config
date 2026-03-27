@@ -44,7 +44,7 @@
     # packages on this machine intended for the harmonia nix-cache
     # server
     sops.secrets.harmonia_key = {
-      sopsFile = ../../../secrets/harmonia_key.yml;
+      sopsFile = ../../secrets/harmonia_key.yml;
     };
     nix.settings.secret-key-files = [
       "/run/secrets/harmonia_key"
