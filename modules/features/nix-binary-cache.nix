@@ -48,6 +48,11 @@
       shell = pkgs.zsh;
       home = "/var/lib/builder";
       createHome = true;
+      # FIXME: Check if wheel is needed, chances are
+      # no, and then it should be removed
+      extraGroups = [
+        "wheel"
+      ];
       openssh.authorizedKeys.keys = [
         (builtins.readFile ../../pub_keys/anya-root-builder.pub)
       ];
