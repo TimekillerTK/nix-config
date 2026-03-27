@@ -1,11 +1,7 @@
 {inputs, ...}: {
   flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "anya";
 
-  flake.modules.nixos.anya = {
-    pkgs,
-    lib,
-    ...
-  }: {
+  flake.modules.nixos.anya = {pkgs, ...}: {
     imports = [
       # Filesystems on this host are defined with disko
       inputs.disko.nixosModules.default
@@ -13,6 +9,7 @@
 
       inputs.self.modules.nixos.system-desktop
       inputs.self.modules.nixos.minecraft-server
+      inputs.self.modules.nixos.nix-build-machine-settings
 
       # inputs.self.modules.nixos.tailscale-client
       # inputs.self.modules.nixos.nix-auto-update
@@ -84,61 +81,6 @@
         ".config/Code/User/settings.json".source = ../../../dotfiles/vscode/settings.json;
       };
     };
-
-    # This is a build machine for all of our x86-64_linux builds, so here's a
-    # post build hook for that purpose
-    nix.settings.post-build-hook = lib.getExe (pkgs.writeShellApplication {
-      name = "post-build-hook";
-      runtimeInputs = with pkgs; [ts nix findutils iputils];
-      text = ''
-        set -u # use of unset variables = error
-        set -f # disable globbing
-        export IFS=' '
-        export CACHE_HOST="host.nix-cache.cyn.internal"
-
-        if ! ping -c 1 $CACHE_HOST > /dev/null 2>&1; then
-          echo "Ping to $CACHE_HOST failed, skipping upload." >&2
-          exit 0
-        fi
-
-        if [[ -n "''${OUT_PATHS:-}" ]]; then
-          export TS_MAXFINISHED=1000
-          export TS_SLOTS=10
-
-          echo "Uploading $OUT_PATHS"
-          printf "%s" "$OUT_PATHS" \
-          | xargs ts nix copy --to "ssh://upload-build-to-nix-cache-server"
-        fi
-      '';
-    });
-
-    # NOTE: Must be the same as the cache.signKeyPaths for the harmonia
-    # nix-cache server
-    #
-    # Secret Key for signing, important since we'll be building
-    # packages on this machine intended for the harmonia nix-cache
-    # server
-    sops.secrets.harmonia_key = {
-      sopsFile = ../../../secrets/harmonia_key.yml;
-    };
-    nix.settings.secret-key-files = [
-      "/run/secrets/harmonia_key"
-    ];
-
-    # NOTE: This is NOT for OpenSSH server, it's for the local
-    # ssh config on this machine accessible by ALL users, but
-    # still only usable by root :)
-    #
-    # SSH config used by nix daemon (which runs as root), to
-    # upload nix packages to the nix-cache server
-    programs.ssh.extraConfig = ''
-      Host upload-build-to-nix-cache-server
-        HostName host.nix-cache.cyn.internal
-        User builder
-        IdentityFile /root/.ssh/id_ed25519
-        IdentitiesOnly yes
-        Port 22
-    '';
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;

@@ -1,37 +1,68 @@
-{inputs, ...}: {
-  # Defining one of our hosts as a build machine
+{...}: {
+  # For defining one of our hosts as a build machine
   flake.modules.nixos.nix-build-machine-settings = {
-    # Setting up the server to send remote builds for x86_64-linux to another
-    # host, which will be our builder
-    sops.secrets.builder_key = {
-      sopsFile = ../../secrets/builder_key.yml;
+    pkgs,
+    lib,
+    ...
+  }: let
+    cache_dns_name = "host.nix-cache.cyn.internal";
+    ssh_host_alias = "upload-build-to-nix-cache-server";
+  in {
+    # This is a build machine for all of our x86-64_linux builds, so here's a
+    # post build hook for that purpose
+    nix.settings.post-build-hook = lib.getExe (pkgs.writeShellApplication {
+      name = "post-build-hook";
+      runtimeInputs = with pkgs; [ts nix findutils iputils];
+      text = ''
+        set -u # use of unset variables = error
+        set -f # disable globbing
+        export IFS=' '
+        export CACHE_HOST="${cache_dns_name}"
+
+        # If our host is down, we still want everything to work as
+        # normal
+        if ! ping -c 1 $CACHE_HOST > /dev/null 2>&1; then
+          echo "Ping to $CACHE_HOST failed, skipping upload." >&2
+          exit 0
+        fi
+
+        if [[ -n "''${OUT_PATHS:-}" ]]; then
+          export TS_MAXFINISHED=1000
+          export TS_SLOTS=10
+
+          echo "Uploading $OUT_PATHS"
+          printf "%s" "$OUT_PATHS" \
+          | xargs ts nix copy --to "ssh://${ssh_host_alias}"
+        fi
+      '';
+    });
+
+    # NOTE: Must be the same as the cache.signKeyPaths for the harmonia
+    # nix-cache server
+    #
+    # Secret Key for signing, important since we'll be building
+    # packages on this machine intended for the harmonia nix-cache
+    # server
+    sops.secrets.harmonia_key = {
+      sopsFile = ../../../secrets/harmonia_key.yml;
     };
-    nix.distributedBuilds = true;
-    nix.buildMachines = [
-      {
-        hostName = "anya.cyn.internal";
-        system = "x86_64-linux"; # what arch builds to send
-        protocol = "ssh";
-        maxJobs = 4; # concurrent builds on builder
-        speedFactor = 2; # relative to local builds
-        supportedFeatures = [
-          "nixos-test"
-          "benchmark"
-          "big-parallel"
-          "kvm"
-        ];
-        mandatoryFeatures = [];
-        sshUser = "builder"; # user on the builder
-        sshKey = "/run/secrets/builder_key"; # private key used by nix daemon
-      }
+    nix.settings.secret-key-files = [
+      "/run/secrets/harmonia_key"
     ];
 
-    nix.settings = {
-      # WARNING: setting max-jobs to 0 will cause ALL builds to fail
-      # if the remote builder is unavailable. Keep at value != 0 to ensure
-      # we can still build if the remote builder is offline
-      max-jobs = "auto";
-      builders-use-substitutes = true; # let builder use caches, why not?
-    };
+    # NOTE: This is NOT for OpenSSH server, it's for the local
+    # ssh config on this machine accessible by ALL users, but
+    # still only usable by root :)
+    #
+    # SSH config used by nix daemon (which runs as root), to
+    # upload nix packages to the nix-cache server
+    programs.ssh.extraConfig = ''
+      Host ${ssh_host_alias}
+        HostName ${cache_dns_name}
+        User builder
+        IdentityFile /root/.ssh/id_ed25519
+        IdentitiesOnly yes
+        Port 22
+    '';
   };
 }
