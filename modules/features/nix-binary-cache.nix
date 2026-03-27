@@ -64,6 +64,10 @@
 
     # Auto-dedup - useful for space savings
     nix.settings.auto-optimise-store = true;
+    nix.optimise = {
+      automatic = true;
+      dates = "daily";
+    };
 
     # We want to run gc manually on the cache server,
     # otherwise our stuff will be cleaned up regularly,
