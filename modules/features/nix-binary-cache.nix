@@ -32,9 +32,6 @@
       daemon.enable = true;
     };
 
-    sops.secrets.builder_key = {
-      sopsFile = ../../secrets/builder_key.yml;
-    };
     sops.secrets.harmonia_key = {
       sopsFile = ../../secrets/harmonia_key.yml;
     };
@@ -73,36 +70,5 @@
     # otherwise our stuff will be cleaned up regularly,
     # and our nix-cache server has lots of space.... right?
     nix.gc.automatic = false;
-
-    # nix.distributedBuilds = true;
-    # nix.buildMachines = [
-    #   {
-    #     hostName = "anya.cyn.internal";
-    #     system = "x86_64-linux"; # what arch builds to send
-    #     protocol = "ssh";
-    #     maxJobs = 4; # concurrent builds on builder
-    #     speedFactor = 2; # relative to local builds
-    #     supportedFeatures = [
-    #       "nixos-test"
-    #       "benchmark"
-    #       "big-parallel"
-    #       "kvm"
-    #     ];
-    #     mandatoryFeatures = [];
-    #     sshUser = "tk"; # user on the builder
-    #     sshKey = "/run/secrets/builder_key"; # private key used by nix daemon
-    #   }
-    # ];
-
-    # nix.settings = {
-    #   # WARNING: setting max-jobs to 0 will cause ALL builds to fail
-    #   # if the remote builder is unavailable. Keep at value != 0 to ensure
-    #   # we can still build if the remote builder is offline
-    #   max-jobs = "auto";
-
-    #   # NOTE: Setting this to true causes issues with the post-build-hook
-    #   # not copying anything to the nix store of the cache host
-    #   builders-use-substitutes = false;
-    # };
   };
 }

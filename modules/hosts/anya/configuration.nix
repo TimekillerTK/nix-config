@@ -112,6 +112,9 @@
       '';
     });
 
+    # NOTE: Must be the same as the cache.signKeyPaths for the harmonia
+    # nix-cache server
+    #
     # Secret Key for signing, important since we'll be building
     # packages on this machine intended for the harmonia nix-cache
     # server
@@ -136,34 +139,6 @@
         IdentitiesOnly yes
         Port 22
     '';
-
-    # 'builder' user is for other machines to ssh into to
-    # execute remote builds
-    # nix.settings.allowed-users = ["builder"];
-    # users.users.builder = {
-    #   shell = pkgs.zsh;
-    #   isNormalUser = true;
-    #   openssh.authorizedKeys.keys = [
-    #     (builtins.readFile ../../../pub_keys/builder_key.pub)
-    #   ];
-    # };
-    # security.sudo.extraRules = [
-    #   {
-    #     users = ["builder"];
-    #     commands = [
-    #       {
-    #         # for `sudo nix build`
-    #         command = "${pkgs.nix}/bin/nix";
-    #         options = ["NOPASSWD"];
-    #       }
-    #       {
-    #         # for old `nix-build`
-    #         command = "${pkgs.nix}/bin/nix-build";
-    #         options = ["NOPASSWD"];
-    #       }
-    #     ];
-    #   }
-    # ];
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
