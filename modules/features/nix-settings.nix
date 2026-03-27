@@ -29,7 +29,7 @@
 
     # Nix automatic Garbage Collect
     nix.gc = {
-      automatic = true;
+      automatic = lib.mkDefault true;
       dates = "daily";
       options = "--delete-older-than 60d";
     };

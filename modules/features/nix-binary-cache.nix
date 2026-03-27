@@ -48,16 +48,28 @@
       shell = pkgs.zsh;
       home = "/var/lib/builder";
       createHome = true;
-      # FIXME: Check if wheel is needed, chances are
-      # no, and then it should be removed
-      extraGroups = [
-        "wheel"
-      ];
       openssh.authorizedKeys.keys = [
         (builtins.readFile ../../pub_keys/anya-root-builder.pub)
       ];
     };
+
+    # Users who are allowed to talk to the nix daemon
     nix.settings.allowed-users = ["builder"];
+
+    # Users who are root-equivalent
+    nix.settings.trusted-users = ["builder"];
+
+    nix.settings.keep-derivations = false;
+    nix.settings.keep-outputs = false;
+
+    # Auto-dedup - useful for space savings
+    nix.settings.auto-optimise-store = true;
+
+    # We want to run gc manually on the cache server,
+    # otherwise our stuff will be cleaned up regularly,
+    # and our nix-cache server has lots of space.... right?
+    nix.gc.automatic = false;
+
     # nix.distributedBuilds = true;
     # nix.buildMachines = [
     #   {
