@@ -49,8 +49,6 @@
         Restart = "always";
         PrivateTmp = true;
         ExecStart = ''
-          set -e
-
           # 1) Ensure server files are up-to-date
           ${pkgs.steamcmd}/bin/steamcmd \
             +@sSteamCmdForcePlatformType linux \
