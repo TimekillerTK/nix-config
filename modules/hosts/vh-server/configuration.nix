@@ -35,12 +35,23 @@
     users.groups.valheim = {};
 
     systemd.services.valheim = let
-      valheimDir = "/var/lib/steam-app-valheim";
+      steamApp = "896660";
+      valheimDir = "/var/lib/steam-app-${steamApp}";
     in {
       description = "Valheim dedicated server (update + run)";
       wantedBy = ["multi-user.target"];
       after = ["network-online.target"];
       wants = ["network-online.target"];
+
+      serviceConfig = {
+        Type = "simple";
+        User = "valheim";
+        WorkingDirectory = valheimDir;
+        Restart = "always";
+        PrivateTmp = true;
+        StateDirectory = "steam-app-${steamApp}";
+      };
+
       script = ''
         set -e
 
@@ -49,7 +60,7 @@
           +@sSteamCmdForcePlatformType linux \
           +force_install_dir ${valheimDir} \
           +login anonymous \
-          +app_update 896660 validate \
+          +app_update ${steamApp} validate \
           +quit
 
         # 2) Run the server under steam-run
@@ -65,13 +76,6 @@
           -public 0 \
           -backups 0
       '';
-      serviceConfig = {
-        Type = "simple";
-        User = "valheim";
-        WorkingDirectory = valheimDir;
-        Restart = "always";
-        PrivateTmp = true;
-      };
 
       environment = {
         # NOTE: This is the valheim game app ID,
