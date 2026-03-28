@@ -81,6 +81,7 @@
         # NOTE: This is the valheim game app ID,
         # 896660 is the dedicated server app
         SteamAppId = "892970";
+        LD_LIBRARY_PATH = "${valheimDir}/linux64:${pkgs.glibc}/lib";
       };
     };
   };
