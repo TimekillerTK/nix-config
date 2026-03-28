@@ -72,12 +72,11 @@
           -name "CynNeko" \
           -port 2456 \
           -world "Dedicated" \
-
+          -public 0 \
+          -backups 0
           # Don't need a password on LAN tbh,
           # only required when public 1
           # -password "testpassword" \
-          -public 0 \
-          -backups 0
       '';
 
       environment = {
