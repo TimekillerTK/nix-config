@@ -3,6 +3,10 @@
 
   flake.modules.nixos.vh-server = {pkgs, ...}: {
     imports = [
+      # Filesystems on this host are defined with disko
+      inputs.disko.nixosModules.default
+      ./_disko.nix
+
       inputs.self.modules.nixos.system-minimal
 
       inputs.self.modules.nixos.home-manager
