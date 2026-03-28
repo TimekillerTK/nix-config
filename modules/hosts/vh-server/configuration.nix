@@ -72,7 +72,10 @@
           -name "CynNeko" \
           -port 2456 \
           -world "Dedicated" \
-          -password "testpassword" \
+
+          # Don't need a password on LAN tbh,
+          # only required when public 1
+          # -password "testpassword" \
           -public 0 \
           -backups 0
       '';
@@ -81,6 +84,8 @@
         # NOTE: This is the valheim game app ID,
         # 896660 is the dedicated server app
         SteamAppId = "892970";
+
+        # Valheim needs linux64 in LD_LIBRARY_PATH
         LD_LIBRARY_PATH = "${valheimDir}/linux64:${pkgs.glibc}/lib";
       };
     };
