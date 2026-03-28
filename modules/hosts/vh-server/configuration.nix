@@ -73,9 +73,29 @@
           -port 2456 \
           -world "Dedicated" \
           -public 0 \
-          -backups 0
+          -backups 0 \
+          -modifier raids muchless \
+          -modifier combat hard \
+
+          # World Modifiers available:
+          #
+          # combat	veryeasy easy hard veryhard
+          # Adjusts combat difficulty
+          #
+          # deathpenalty	casual veryeasy easy hard hardcore
+          # Changes death penalty severity
+          #
+          # resources	muchless less more muchmore most
+          # Modifies resource drop rates
+          #
+          # raids	none muchless less more muchmore
+          # Controls raid frequency
+          #
+          # portals	casual hard veryhard
+          # Adjusts portal restrictions
+
           # Don't need a password on LAN tbh,
-          # only required when public 1
+          # only required when public=1
           # -password "testpassword" \
       '';
 
