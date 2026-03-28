@@ -41,35 +41,36 @@
       wantedBy = ["multi-user.target"];
       after = ["network-online.target"];
       wants = ["network-online.target"];
+      script = ''
+        set -e
 
+        # 1) Ensure server files are up-to-date
+        ${pkgs.steamcmd}/bin/steamcmd \
+          +@sSteamCmdForcePlatformType linux \
+          +force_install_dir ${valheimDir} \
+          +login anonymous \
+          +app_update 896660 validate \
+          +quit
+
+        # 2) Run the server under steam-run
+        exec ${pkgs.steam-run}/bin/steam-run \
+          ${valheimDir}/valheim_server.x86_64 \
+          -nographics \
+          -batchmode \
+          -savedir /var/lib/valheim/save \
+          -name "CynNeko" \
+          -port 2456 \
+          -world "Dedicated" \
+          -password "testpassword" \
+          -public 0 \
+          -backups 0
+      '';
       serviceConfig = {
         Type = "simple";
         User = "valheim";
         WorkingDirectory = valheimDir;
         Restart = "always";
         PrivateTmp = true;
-        ExecStart = ''
-          # 1) Ensure server files are up-to-date
-          ${pkgs.steamcmd}/bin/steamcmd \
-            +@sSteamCmdForcePlatformType linux \
-            +force_install_dir ${valheimDir} \
-            +login anonymous \
-            +app_update 896660 validate \
-            +quit
-
-          # 2) Run the server under steam-run
-          exec ${pkgs.steam-run}/bin/steam-run \
-            ${valheimDir}/valheim_server.x86_64 \
-            -nographics \
-            -batchmode \
-            -savedir /var/lib/valheim/save \
-            -name "CynNeko" \
-            -port 2456 \
-            -world "Dedicated" \
-            -password "testpassword" \
-            -public 0 \
-            -backups 0
-        '';
       };
 
       environment = {
