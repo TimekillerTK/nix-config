@@ -1,12 +1,44 @@
 {inputs, ...}: {
   flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "grafana";
 
-  flake.modules.nixos.grafana = {pkgs, ...}: {
+  flake.modules.nixos.grafana = {pkgs, ...}: let
+    dns_server_ip = "172.21.10.5";
+    nix_auto_update_targets = [
+      "http://anya.cyn.internal:9001/statefile.json"
+      "http://hummingbird.cyn.internal:9001/statefile.json"
+      "http://beltanimal-eth.cyn.internal:9001/statefile.json"
+    ];
+    zfs_targets = [
+      "anya.cyn.internal:9134"
+      "hummingbird.cyn.internal:9134"
+      "beltanimal-eth.cyn.internal:9134"
+    ];
+    node_systemd_targets = [
+      "localhost:9000"
+      "anya.cyn.internal:9000"
+      "hummingbird.cyn.internal:9000"
+      "beltanimal-eth.cyn.internal:9000"
+    ];
+    blackbox_targets = [
+      "https://cookbook.cyn.internal"
+      "https://pdf.cyn.internal"
+      "https://torrent.cyn.internal"
+      "https://jellyfin.cyn.internal"
+      "https://sync.cyn.internal"
+      "https://home.cyn.internal"
+      "https://torrent.cyn.internal"
+      "https://ca.cyn.internal/acme/acme/directory"
+    ];
+    blackbox_dns_targets = [
+      "1.1.1.1"
+      "8.8.8.8"
+      dns_server_ip
+    ];
+  in {
     imports = [
       inputs.self.modules.nixos.system-minimal
-
+      inputs.self.modules.nixos.nix-auto-update
       inputs.self.modules.nixos.home-manager
-      inputs.self.modules.nixos.nix-build-machine-settings
       inputs.self.modules.nixos.tk
     ];
 
@@ -34,11 +66,7 @@
           metrics_path = "/probe";
           static_configs = [
             {
-              targets = [
-                "http://anya.cyn.internal:9001/statefile.json"
-                "http://hummingbird.cyn.internal:9001/statefile.json"
-                "http://beltanimal-eth.cyn.internal:9001/statefile.json"
-              ];
+              targets = nix_auto_update_targets;
             } # What is serving target JSON file
           ];
           params = {
@@ -77,7 +105,7 @@
           job_name = "blocky_dns";
           static_configs = [
             {
-              targets = ["172.21.10.5:4000"];
+              targets = ["${dns_server_ip}:4000"];
             }
           ];
         }
@@ -87,11 +115,7 @@
           job_name = "zfs";
           static_configs = [
             {
-              targets = [
-                "anya.cyn.internal:9134"
-                "hummingbird.cyn.internal:9134"
-                "beltanimal-eth.cyn.internal:9134"
-              ];
+              targets = zfs_targets;
             }
           ];
         }
@@ -101,12 +125,7 @@
           job_name = "node-systemd";
           static_configs = [
             {
-              targets = [
-                "localhost:9000"
-                "anya.cyn.internal:9000"
-                "hummingbird.cyn.internal:9000"
-                "beltanimal-eth.cyn.internal:9000"
-              ];
+              targets = node_systemd_targets;
             }
           ];
         }
@@ -118,16 +137,7 @@
           params.module = ["https_ca"];
           static_configs = [
             {
-              targets = [
-                "https://cookbook.cyn.internal"
-                "https://pdf.cyn.internal"
-                "https://torrent.cyn.internal"
-                "https://jellyfin.cyn.internal"
-                "https://sync.cyn.internal"
-                "https://home.cyn.internal"
-                "https://torrent.cyn.internal"
-                "https://ca.cyn.internal/acme/acme/directory"
-              ];
+              targets = blackbox_targets;
             }
           ];
           relabel_configs = [
@@ -153,11 +163,7 @@
           params.module = ["dns_check"];
           static_configs = [
             {
-              targets = [
-                "1.1.1.1"
-                "8.8.8.8"
-                "172.21.10.5"
-              ];
+              targets = blackbox_dns_targets;
             }
           ];
           relabel_configs = [

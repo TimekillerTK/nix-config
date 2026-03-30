@@ -52,7 +52,7 @@
 
     # NOTE: This is NOT for OpenSSH server, it's for the local
     # ssh config on this machine accessible by ALL users, but
-    # still only usable by root :)
+    # still only usable by root
     #
     # SSH config used by nix daemon (which runs as root), to
     # upload nix packages to the nix-cache server
