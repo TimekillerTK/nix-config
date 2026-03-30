@@ -52,7 +52,7 @@
 
     # For accessing the WebUI remotely
     # TODO: Better way?
-    networking.firewall.allowedTCPPorts = [80 3000 9090 9000];
+    networking.firewall.allowedTCPPorts = [80 3000 9090 9000 9001];
 
     # Hostname
     networking.hostName = "grafana";
