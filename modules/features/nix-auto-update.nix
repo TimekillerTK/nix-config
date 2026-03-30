@@ -48,6 +48,10 @@
 
       # For exposing a JSON file with information about last
       # nix-auto-update
+      # NOTE: This is NOT secure to be deployed on a NixOS Network
+      # Router, it can potentially expose to the internet.
+      #
+      # So... don't use it outside the LAN.
       services.static-web-server = {
         enable = true;
         root = "/var/lib/nix-auto-update";
