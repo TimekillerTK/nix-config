@@ -7,6 +7,7 @@
       "http://anya.cyn.internal:9001/statefile.json"
       "http://hummingbird.cyn.internal:9001/statefile.json"
       "http://beltanimal-eth.cyn.internal:9001/statefile.json"
+      "http://localhost:9001/statefile.json"
     ];
     zfs_targets = [
       "anya.cyn.internal:9134"
