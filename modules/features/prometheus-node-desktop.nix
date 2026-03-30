@@ -4,7 +4,6 @@
   # and systemd metrics aside from a ton of other things
   flake.modules.nixos.prometheus-node-desktop = let
     node_exporter_port = 9000;
-    nau_exporter_port = 9001;
     zfs_exporter_port = 9134;
   in {
     services.prometheus = {
@@ -22,14 +21,5 @@
         openFirewall = true;
       };
     };
-
-    # For nix-auto-update
-    services.static-web-server = {
-      enable = true;
-      root = "/var/lib/nix-auto-update";
-      listen = "[::]:${toString nau_exporter_port}";
-      configuration.general.directory-listing = false;
-    };
-    networking.firewall.allowedTCPPorts = [nau_exporter_port];
   };
 }
