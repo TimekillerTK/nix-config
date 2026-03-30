@@ -94,8 +94,9 @@
         handle @other {
           reverse_proxy http://172.21.10.161:5000 {
             transport http {
-              read_timeout 2s
-              dial_timeout 1s
+              dial_timeout 5s
+              read_timeout 300s
+              response_header_timeout 30s
             }
           }
         }
