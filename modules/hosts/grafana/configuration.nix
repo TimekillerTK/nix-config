@@ -3,7 +3,7 @@
 
   flake.modules.nixos.grafana = {pkgs, ...}: let
     dns_server_ip = "172.21.10.5";
-    harmonia_target = ["https://nix-cache.cyn.internal"];
+    harmonia_target = ["host.nix-cache.cyn.internal:5000"];
     nix_auto_update_targets = [
       "http://anya.cyn.internal:9001/statefile.json"
       "http://hummingbird.cyn.internal:9001/statefile.json"
