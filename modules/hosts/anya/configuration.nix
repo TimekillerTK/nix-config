@@ -12,7 +12,7 @@
       inputs.self.modules.nixos.nix-build-machine-settings
 
       # inputs.self.modules.nixos.tailscale-client
-      inputs.self.modules.nixos.nix-auto-update
+      (inputs.self.factory.nix-auto-update {desktop = true;})
       (inputs.self.factory.home-assistant-remote {
         bunny_user = "tk";
       })

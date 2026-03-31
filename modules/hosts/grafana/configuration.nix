@@ -39,7 +39,7 @@
   in {
     imports = [
       inputs.self.modules.nixos.system-minimal
-      inputs.self.modules.nixos.nix-auto-update
+      (inputs.self.factory.nix-auto-update {})
       inputs.self.modules.nixos.home-manager
       inputs.self.modules.nixos.tk
     ];
