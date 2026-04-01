@@ -73,4 +73,11 @@
     # Generated with head -c4 /dev/urandom | od -A none -t x4
     networking.hostId = "16cc46d0"; # required for ZFS!
   };
+
+  # Adding this host to the prometheus targets for nix auto update
+  flake.modules.nixos.grafana = {
+    prometheusTargets = [
+      "http://hummingbird.cyn.internal:9001/statefile.json"
+    ];
+  };
 }

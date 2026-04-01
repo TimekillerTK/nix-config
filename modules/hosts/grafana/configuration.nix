@@ -8,12 +8,6 @@
   }: let
     dns_server_ip = "172.21.10.5";
     harmonia_target = ["host.nix-cache.cyn.internal:5000"];
-    # nix_auto_update_targets = [
-    #   "http://anya.cyn.internal:9001/statefile.json"
-    #   "http://hummingbird.cyn.internal:9001/statefile.json"
-    #   "http://beltanimal-eth.cyn.internal:9001/statefile.json"
-    #   "http://localhost:9001/statefile.json"
-    # ];
     zfs_targets = [
       "anya.cyn.internal:9134"
       "hummingbird.cyn.internal:9134"
@@ -55,6 +49,11 @@
       ];
       # Normal home-manager config stuff goes here
     };
+
+    # Adding this host to the prometheus targets for nix auto update
+    prometheusTargets = [
+      "http://localhost:9001/statefile.json"
+    ];
 
     # For accessing the WebUI remotely
     # TODO: Better way?
