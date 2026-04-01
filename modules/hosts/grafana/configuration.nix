@@ -1,15 +1,19 @@
 {inputs, ...}: {
   flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "grafana";
 
-  flake.modules.nixos.grafana = {pkgs, ...}: let
+  flake.modules.nixos.grafana = {
+    pkgs,
+    config,
+    ...
+  }: let
     dns_server_ip = "172.21.10.5";
     harmonia_target = ["host.nix-cache.cyn.internal:5000"];
-    nix_auto_update_targets = [
-      "http://anya.cyn.internal:9001/statefile.json"
-      "http://hummingbird.cyn.internal:9001/statefile.json"
-      "http://beltanimal-eth.cyn.internal:9001/statefile.json"
-      "http://localhost:9001/statefile.json"
-    ];
+    # nix_auto_update_targets = [
+    #   "http://anya.cyn.internal:9001/statefile.json"
+    #   "http://hummingbird.cyn.internal:9001/statefile.json"
+    #   "http://beltanimal-eth.cyn.internal:9001/statefile.json"
+    #   "http://localhost:9001/statefile.json"
+    # ];
     zfs_targets = [
       "anya.cyn.internal:9134"
       "hummingbird.cyn.internal:9134"
@@ -42,6 +46,7 @@
       (inputs.self.factory.nix-auto-update {})
       inputs.self.modules.nixos.home-manager
       inputs.self.modules.nixos.tk
+      inputs.self.modules.generic.prometheusTargets
     ];
 
     home-manager.users.tk = {
@@ -68,7 +73,7 @@
           metrics_path = "/probe";
           static_configs = [
             {
-              targets = nix_auto_update_targets;
+              targets = config.prometheusTargets;
             } # What is serving target JSON file
           ];
           params = {

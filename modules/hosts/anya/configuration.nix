@@ -118,4 +118,11 @@
     # Generated with head -c4 /dev/urandom | od -A none -t x4
     networking.hostId = "7d650d06"; # required for ZFS!
   };
+
+  flake.modules.nixos.grafana = {
+    # TEST: Does this work?
+    prometheusTargets = [
+      "http://anya.cyn.internal:9001/statefile.json"
+    ];
+  };
 }
