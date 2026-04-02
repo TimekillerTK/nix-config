@@ -74,10 +74,18 @@
     networking.hostId = "16cc46d0"; # required for ZFS!
   };
 
-  # Adding this host to the prometheus targets for nix auto update
+  # Adding this host to the prometheus targets for the grafana host
   flake.modules.nixos.grafana = {
-    prometheusTargets = [
-      "http://hummingbird.cyn.internal:9001/statefile.json"
-    ];
+    prometheusTargets = {
+      nix_auto_update = [
+        "http://hummingbird.cyn.internal:9001/statefile.json"
+      ];
+      zfs = [
+        "hummingbird.cyn.internal:9134"
+      ];
+      node_systemd = [
+        "hummingbird.cyn.internal:9000"
+      ];
+    };
   };
 }

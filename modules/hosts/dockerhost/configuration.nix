@@ -146,4 +146,20 @@
       wantedBy = ["multi-user.target"];
     };
   };
+
+  # Adding this host to the prometheus targets for the grafana host
+  flake.modules.nixos.grafana = {
+    prometheusTargets = {
+      blackbox_url = [
+        "https://cookbook.cyn.internal"
+        "https://pdf.cyn.internal"
+        "https://torrent.cyn.internal"
+        "https://jellyfin.cyn.internal"
+        "https://sync.cyn.internal"
+        "https://home.cyn.internal"
+        "https://torrent.cyn.internal"
+        "https://ca.cyn.internal/acme/acme/directory"
+      ];
+    };
+  };
 }

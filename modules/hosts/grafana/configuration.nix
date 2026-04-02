@@ -7,29 +7,7 @@
     ...
   }: let
     dns_server_ip = "172.21.10.5";
-    harmonia_target = ["host.nix-cache.cyn.internal:5000"];
-    zfs_targets = [
-      "anya.cyn.internal:9134"
-      "hummingbird.cyn.internal:9134"
-      "beltanimal-eth.cyn.internal:9134"
-    ];
-    node_systemd_targets = [
-      "localhost:9000"
-      "anya.cyn.internal:9000"
-      "hummingbird.cyn.internal:9000"
-      "beltanimal-eth.cyn.internal:9000"
-    ];
-    blackbox_targets = [
-      "https://cookbook.cyn.internal"
-      "https://pdf.cyn.internal"
-      "https://torrent.cyn.internal"
-      "https://jellyfin.cyn.internal"
-      "https://sync.cyn.internal"
-      "https://home.cyn.internal"
-      "https://torrent.cyn.internal"
-      "https://ca.cyn.internal/acme/acme/directory"
-    ];
-    blackbox_dns_targets = [
+    blackbox_dns = [
       "1.1.1.1"
       "8.8.8.8"
       dns_server_ip
@@ -51,9 +29,14 @@
     };
 
     # Adding this host to the prometheus targets for nix auto update
-    prometheusTargets = [
-      "http://localhost:9001/statefile.json"
-    ];
+    prometheusTargets = {
+      nix_auto_update = [
+        "http://localhost:9001/statefile.json"
+      ];
+      node_systemd = [
+        "localhost:9000"
+      ];
+    };
 
     # For accessing the WebUI remotely
     # TODO: Better way?
@@ -72,7 +55,7 @@
           metrics_path = "/probe";
           static_configs = [
             {
-              targets = config.prometheusTargets;
+              targets = config.prometheusTargets.nix_auto_update;
             } # What is serving target JSON file
           ];
           params = {
@@ -121,7 +104,7 @@
           job_name = "zfs";
           static_configs = [
             {
-              targets = zfs_targets;
+              targets = config.prometheusTargets.zfs;
             }
           ];
         }
@@ -131,19 +114,19 @@
           job_name = "node-systemd";
           static_configs = [
             {
-              targets = node_systemd_targets;
+              targets = config.prometheusTargets.node_systemd;
             }
           ];
         }
 
-        # Blackbox exporter - HTTPS
+        # Blackbox exporter - HTTPS (Health Checks for URLs)
         {
           job_name = "blackbox";
           metrics_path = "/probe";
           params.module = ["https_ca"];
           static_configs = [
             {
-              targets = blackbox_targets;
+              targets = config.prometheusTargets.blackbox_url;
             }
           ];
           relabel_configs = [
@@ -169,7 +152,7 @@
           params.module = ["dns_check"];
           static_configs = [
             {
-              targets = blackbox_dns_targets;
+              targets = blackbox_dns;
             }
           ];
           relabel_configs = [
@@ -193,7 +176,7 @@
           job_name = "harmonia";
           static_configs = [
             {
-              targets = harmonia_target;
+              targets = config.prometheusTargets.harmonia;
             }
           ];
         }

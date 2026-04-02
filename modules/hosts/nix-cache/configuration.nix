@@ -1,7 +1,7 @@
 {inputs, ...}: {
   flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "nix-cache";
 
-  flake.modules.nixos.nix-cache = {pkgs, ...}: {
+  flake.modules.nixos.nix-cache = {
     imports = [
       # Filesystems on this host are defined with disko
       inputs.disko.nixosModules.default
@@ -20,36 +20,16 @@
       # Normal home-manager config stuff goes here
     };
 
-    # Cache user to allow uploading stuff to the nix store
-    #
-    # nix.settings.allowed-users = ["cache"];
-    # users.users.cache = {
-    #   shell = pkgs.zsh;
-    #   isNormalUser = true;
-    #   openssh.authorizedKeys.keys = [
-    #     (builtins.readFile ../../../pub_keys/nix-cache-user.pub)
-    #   ];
-    # };
-    # security.sudo.extraRules = [
-    #   {
-    #     users = ["cache"];
-    #     commands = [
-    #       {
-    #         # for `sudo nix build`
-    #         # command = "${pkgs.nix}/bin/nix";
-    #         command = "ALL";
-    #         options = ["NOPASSWD"];
-    #       }
-    #       # {
-    #       #   # for old `nix-build`
-    #       #   command = "${pkgs.nix}/bin/nix-build";
-    #       #   options = ["NOPASSWD"];
-    #       # }
-    #     ];
-    #   }
-    # ];
-
     # Hostname
     networking.hostName = "nix-cache";
+  };
+
+  # Adding this host to the prometheus targets for the grafana host
+  flake.modules.nixos.grafana = {
+    prometheusTargets = {
+      harmonia = [
+        "host.nix-cache.cyn.internal:5000"
+      ];
+    };
   };
 }

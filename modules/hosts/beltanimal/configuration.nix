@@ -122,10 +122,18 @@
     networking.hostId = "75e25de8"; # required for ZFS!
   };
 
-  # Adding this host to the prometheus targets for nix auto update
+  # Adding this host to the prometheus targets for the grafana host
   flake.modules.nixos.grafana = {
-    prometheusTargets = [
-      "http://beltanimal-eth.cyn.internal:9001/statefile.json"
-    ];
+    prometheusTargets = {
+      nix_auto_update = [
+        "http://beltanimal-eth.cyn.internal:9001/statefile.json"
+      ];
+      zfs = [
+        "beltanimal-eth.cyn.internal:9134"
+      ];
+      node_systemd = [
+        "beltanimal-eth.cyn.internal:9000"
+      ];
+    };
   };
 }

@@ -119,10 +119,18 @@
     networking.hostId = "7d650d06"; # required for ZFS!
   };
 
-  # Adding this host to the prometheus targets for nix auto update
+  # Adding this host to the prometheus targets for the grafana host
   flake.modules.nixos.grafana = {
-    prometheusTargets = [
-      "http://anya.cyn.internal:9001/statefile.json"
-    ];
+    prometheusTargets = {
+      nix_auto_update = [
+        "http://anya.cyn.internal:9001/statefile.json"
+      ];
+      zfs = [
+        "anya.cyn.internal:9134"
+      ];
+      node_systemd = [
+        "anya.cyn.internal:9000"
+      ];
+    };
   };
 }
