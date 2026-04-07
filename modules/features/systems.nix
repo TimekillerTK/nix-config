@@ -39,16 +39,18 @@
     install-os = pkgs.writeShellScriptBin "install-os" ''
       ${builtins.readFile ../../scripts/install-os.sh}
     '';
-    commonPackages = with pkgs; [
-      install-os
-      home-manager
-      git
-      sops
-      ssh-to-age
-      age
-      disko # Nix disk partitioning/formatting
-      nvd # Nix/NixOS package version diff tool
-    ];
+    commonPackages = with pkgs;
+      [
+        git
+        sops
+        ssh-to-age
+        age
+        nvd # Nix/NixOS package version diff tool
+      ]
+      ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
+        disko # Nix disk partitioning/formatting
+        install-os
+      ];
   in {
     # Dev environment with everything you need, to use
     # run `nix develop`
@@ -60,6 +62,8 @@
         echo ""
         echo "To install NixOS on the current computer, use the"
         echo "'sudo install-os' command."
+        echo ""
+        echo "NOTE: ONLY AVAILABLE ON NIXOS INSTALLER (!)"
       '';
     };
 
