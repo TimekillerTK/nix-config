@@ -8,6 +8,16 @@
     cache_dns_name = "host.nix-cache.cyn.internal";
     ssh_host_alias = "upload-build-to-nix-cache-server";
   in {
+    # --------------------------------------------------------------------------
+    # NOTE: For debugging this build hook, run a test build command first:
+    #   nix build --impure --expr '(import <nixpkgs> {}).writeText "example" (builtins.toString builtins.currentTime)' -v --print-out-paths --print-build-logs
+    #
+    # Once completed, inspect the ts logs by first running (sudo because it is run as root):
+    #   sudo ts -l
+    #
+    # This will give a list of jobs. Simply find the relevant one, which has a path to the log
+    # file.
+    # --------------------------------------------------------------------------
     # This is a build machine for all of our x86-64_linux builds, so here's a
     # post build hook for that purpose
     nix.settings.post-build-hook = lib.getExe (pkgs.writeShellApplication {

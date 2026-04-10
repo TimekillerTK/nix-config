@@ -22,6 +22,18 @@
 
     # Hostname
     networking.hostName = "nix-cache";
+    # Actual SOPS keys
+    sops.secrets.id_ed25519 = {
+      sopsFile = ../../../secrets/host_keys/nix_cache.yml;
+    };
+
+    # TODO: Work in progress testing, checking if this hostkey is set correctly
+    services.openssh.hostKeys = [
+      {
+        path = "/run/secrets/id_ed25519";
+        type = "ed25519";
+      }
+    ];
   };
 
   # Adding this host to the prometheus targets for the grafana host
