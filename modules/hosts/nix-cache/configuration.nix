@@ -25,12 +25,16 @@
     # Actual SOPS keys
     sops.secrets.id_ed25519 = {
       sopsFile = ../../../secrets/host_keys/nix_cache.yml;
+      path = "/etc/ssh/ssh_host_ed25519_key";
+      owner = "root";
+      group = "root";
+      mode = "0600";
     };
 
     # TODO: Work in progress testing, checking if this hostkey is set correctly
     services.openssh.hostKeys = [
       {
-        path = "/run/secrets/id_ed25519";
+        path = "/etc/ssh/ssh_host_ed25519_key";
         type = "ed25519";
       }
     ];
