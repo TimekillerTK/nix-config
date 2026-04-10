@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  config,
+  ...
+}: {
   flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "nix-cache";
 
   flake.modules.nixos.nix-cache = {
@@ -34,7 +38,8 @@
     # TODO: Work in progress testing, checking if this hostkey is set correctly
     services.openssh.hostKeys = [
       {
-        path = "/etc/ssh/ssh_host_ed25519_key";
+        # path = "/etc/ssh/ssh_host_ed25519_key";
+        path = config.sops.secrets."id_ed25519".path;
         type = "ed25519";
       }
     ];
