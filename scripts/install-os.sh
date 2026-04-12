@@ -102,3 +102,8 @@ echo "$PUBLIC_HOST_KEY" > /mnt/etc/ssh/ssh_host_ed25519_key.pub
 chmod 600 /mnt/etc/ssh/ssh_host_ed25519_key
 chmod 644 /mnt/etc/ssh/ssh_host_ed25519_key.pub
 printf 'Done!\n'
+
+# Display warning
+printf '\nNOTE: Installing Operating System might have failed on the secrets '
+printf 'step - this is OK. Restart and reapply the config and the secrets will'
+printf 'be decrypted.\n'

@@ -17,11 +17,8 @@
       defaultSopsFile = lib.mkDefault ../../secrets/default.yml;
       age = {
         # This will automatically import SSH keys as age keys
+        # it will be done in-memory and won't persist on disk
         sshKeyPaths = lib.mkDefault ["/etc/ssh/ssh_host_ed25519_key"];
-        # This is using an age key that is expected to already be in the filesystem
-        keyFile = lib.mkDefault "/var/lib/sops-nix/key.txt";
-        # This will generate a new key if the key specified above does not exist
-        generateKey = lib.mkDefault true;
       };
     };
   };
