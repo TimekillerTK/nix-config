@@ -84,8 +84,7 @@ creation_rules:
           - *master
 
   # Host keys for all the other hosts below (for bootstrapping/installation)
-  - path_regex: secrets/host_keys/nix_cache.ya?ml$
+  - path_regex: secrets/host_keys/nix-cache.ya?ml$
     key_groups:
       - age:
           - *master
-          - *nix-cache
