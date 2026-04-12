@@ -84,7 +84,35 @@ creation_rules:
           - *master
 
   # Host keys for all the other hosts below (for bootstrapping/installation)
+  - path_regex: secrets/host_keys/anya.ya?ml$
+    key_groups:
+      - age:
+          - *master
+  - path_regex: secrets/host_keys/beltanimal.ya?ml$
+    key_groups:
+      - age:
+          - *master
+  - path_regex: secrets/host_keys/dockerhost.ya?ml$
+    key_groups:
+      - age:
+          - *master
+  - path_regex: secrets/host_keys/grafana.ya?ml$
+    key_groups:
+      - age:
+          - *master
+  - path_regex: secrets/host_keys/hummingbird.ya?ml$
+    key_groups:
+      - age:
+          - *master
   - path_regex: secrets/host_keys/nix-cache.ya?ml$
+    key_groups:
+      - age:
+          - *master
+  - path_regex: secrets/host_keys/router.ya?ml$
+    key_groups:
+      - age:
+          - *master
+  - path_regex: secrets/host_keys/vh-server.ya?ml$
     key_groups:
       - age:
           - *master
