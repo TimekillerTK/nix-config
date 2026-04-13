@@ -1,6 +1,5 @@
 keys:
   - &master age12rass7kjv34f2nhth4c0d4fr56g09c7lhmas0tftym43xdl2lgeqf6vgcx
-  - &mbp age1ampggagplvarh46cn05esrlwsn5nj0t9he9n7dxjdtk0vaz99e0q66wp5g
   - &anya age1jjssarkszlhjjhqnamse82rdl8yqwamjczlcya5dkqqltj43pp4qa0psj3
   - &dockerhost age1pe0vvrjeu8g5cgugxvrjcwlg75ls59g6uc0su0x4e2ypwmknu5jqj9nkj2
   - &beltanimal age1s42l4ucujcv59krzuxw3xmrqcyu8v5d8ctad6a0kmhlc4zttxfxqvtuy3l
@@ -11,11 +10,11 @@ keys:
   - &example age1f7r6gpqhchzyt4eh8uq7atpp6n0pzguh7je935hnkjmdv52z44wquez0yd
   - &nix-cache age1jszu95jrd579t9xe4ltfzsu5pvv0g4f70w96knmyuk9shwd259uqjx0zmn
   - &grafana age17gkh4s6mygaucya6d3x37mjpf0gq05tv9uzl65ry097dm08z99hsy0lx3w
+  - &vh-server age1se924xeguvpdxauqfpz0ulxnm6a5zf6rcj06yvexgmrnunr6n32sg7aeh5
 creation_rules:
   - path_regex: secrets/default.ya?ml$
     key_groups:
       - age:
-          - *mbp
           - *anya
           - *beltanimal
           - *hummingbird
@@ -26,7 +25,6 @@ creation_rules:
   - path_regex: secrets/tk.ya?ml$
     key_groups:
       - age:
-          - *mbp
           - *anya
           - *beltanimal
           - *dockerhost
@@ -34,52 +32,24 @@ creation_rules:
   - path_regex: secrets/astra.ya?ml$
     key_groups:
       - age:
-          - *mbp
-          - *anya
           - *beltanimal
           - *hummingbird
           - *master
   - path_regex: secrets/example.ya?ml$
     key_groups:
       - age:
-          - *mbp
-          - *anya
-          - *beltanimal
           - *example
           - *master
   - path_regex: secrets/router.ya?ml$
     key_groups:
       - age:
-          - *mbp
-          - *anya
-          - *beltanimal
           - *router
-          - *master
-
-  # Everyone has access to the builder key, always add hosts here
-  - path_regex: secrets/builder_key.ya?ml$
-    key_groups:
-      - age:
-          - *mbp
-          - *anya
-          - *dockerhost
-          - *beltanimal
-          - *hummingbird
-          - *tailscale
-          - *router
-          - *jellyfin
-          - *example
-          - *nix-cache
-          - *grafana
           - *master
 
   # For the nix cache server
   - path_regex: secrets/harmonia_key.ya?ml$
     key_groups:
       - age:
-          - *mbp
-          - *anya
-          - *beltanimal
           - *nix-cache
           - *master
 
