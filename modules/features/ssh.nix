@@ -1,8 +1,6 @@
 {
   flake.modules.nixos.ssh = {lib, ...}: {
-    # SSH Config
-    services.openssh = {
-      enable = true;
+    programs.ssh = {
       knownHosts = {
         "anya" = {
           hostNames = ["anya" "anya.cyn.internal"];
@@ -37,6 +35,10 @@
           publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHiojMVclIJ8rswJO+obzXFKCrL6lA2SLuM7LztpalZM";
         };
       };
+    };
+    # SSH Config
+    services.openssh = {
+      enable = true;
       settings = {
         PermitRootLogin = "no";
         PasswordAuthentication = lib.mkDefault false;
