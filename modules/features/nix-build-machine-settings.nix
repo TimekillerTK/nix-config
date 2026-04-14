@@ -53,12 +53,12 @@
     # Secret Key for signing, important since we'll be building
     # packages on this machine intended for the harmonia nix-cache
     # server
-    sops.secrets.harmonia_key = {
-      sopsFile = ../../secrets/harmonia_key.yml;
-    };
-    nix.settings.secret-key-files = [
-      "/run/secrets/harmonia_key"
-    ];
+    # sops.secrets.harmonia_key = {
+    #   sopsFile = ../../secrets/harmonia_key.yml;
+    # };
+    # nix.settings.secret-key-files = [
+    #   "/run/secrets/harmonia_key"
+    # ];
 
     # NOTE: This is NOT for OpenSSH server, it's for the local
     # ssh config on this machine accessible by ALL users, but
