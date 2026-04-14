@@ -1,6 +1,11 @@
 {
+  # SSH Config intended for all hosts, sets desired SSH settings
+  # and has a list of known hosts for easy ssh access
   flake.modules.nixos.ssh = {lib, ...}: {
+    # SSH Client Config
     programs.ssh = {
+      # NOTE: To easily/quickly get a public host key for a particular host run:
+      #   ssh-keyscan -t ssh-ed25519 hostname.cyn.internal
       knownHosts = {
         "anya" = {
           hostNames = ["anya" "anya.cyn.internal"];
@@ -36,7 +41,8 @@
         };
       };
     };
-    # SSH Config
+
+    # SSH Server Config
     services.openssh = {
       enable = true;
       settings = {
