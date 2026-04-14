@@ -51,6 +51,7 @@ creation_rules:
     key_groups:
       - age:
           - *nix-cache
+          - *anya
           - *master
 
   # Host keys for all the other hosts below (for bootstrapping/installation)
