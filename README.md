@@ -8,6 +8,7 @@
   - [Updating a NixOS system](#updating-a-nixos-system)
   - [Rolling back to a previous configuration](#rolling-back-to-a-previous-configuration)
   - [Testing a nix configuration](#testing-a-nix-configuration)
+- [Troubleshooting](#troubleshooting)
 
 ## Description
 
@@ -16,8 +17,6 @@ A reproducible, declarative way of managing my [NixOS](https://nixos.org/) Linux
 This repository follows the [dendritic Nix configuration pattern](https://github.com/Doc-Steve/dendritic-design-with-flake-parts/tree/main), which promotes a tree-like - or *dendritic* - structure of configuration parts.
 
 This is a complete system configuration for multiple hosts, including servers, desktops, laptops, etc.. using a single [git](https://git-scm.com/) repository.
-
-
 
 ## Project layout
 
@@ -111,3 +110,13 @@ NIXPKGS_ALLOW_UNFREE=1 nix build .#nixosConfigurations.anya.config.system.build.
 > NOTE: This command will take into account both NixOS configurations and home-manager configurations **with this repository's setup specifically.**
 
 This repository was refactored to use the **dendritic pattern** with help from the excellent [Dendritic Design with Flake Parts](https://github.com/Doc-Steve/dendritic-design-with-flake-parts) repository as a guide.
+
+## Troubleshooting
+
+This nix-config uses many things, sometimes it's useful to know how to override/disable them.
+
+- In case there are issues with a rebuild, it could be that the `post-build-hook` is responsible. To skip it, pass the relevant `--option`. Make sure to also skip the `secret-key-files` in case it's inaccessible.
+
+  ```rust
+  sudo nixos-rebuild switch -v --flake .# --option post-build-hook "" --option secret-key-files ""
+  ```
