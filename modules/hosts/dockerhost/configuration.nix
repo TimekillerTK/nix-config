@@ -7,6 +7,7 @@
     imports = [
       inputs.self.modules.generic.caddy_v284
       inputs.self.modules.nixos.system-cli
+      inputs.self.modules.nixos.prometheus-node-server
       (inputs.self.factory.nix-auto-update {})
 
       (inputs.self.factory.mount-cifs {
