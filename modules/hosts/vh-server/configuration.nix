@@ -10,6 +10,8 @@
       inputs.self.modules.nixos.system-minimal
 
       inputs.self.modules.nixos.home-manager
+      inputs.self.modules.nixos.prometheus-node-server
+      (inputs.self.factory.nix-auto-update {})
       inputs.self.modules.nixos.tk
     ];
 
@@ -107,6 +109,18 @@
         # Valheim needs linux64 in LD_LIBRARY_PATH
         LD_LIBRARY_PATH = "${valheimDir}/linux64:${pkgs.glibc}/lib";
       };
+    };
+  };
+
+  # Adding this host to the prometheus targets for the grafana host
+  flake.modules.nixos.grafana = {
+    prometheusTargets = {
+      nix_auto_update = [
+        "http://vh-server.cyn.internal:9001/statefile.json"
+      ];
+      node_systemd = [
+        "vh-server.cyn.internal:9000"
+      ];
     };
   };
 }
