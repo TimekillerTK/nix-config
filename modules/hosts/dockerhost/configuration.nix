@@ -7,6 +7,7 @@
     imports = [
       inputs.self.modules.generic.caddy_v284
       inputs.self.modules.nixos.system-cli
+      (inputs.self.factory.nix-auto-update {})
 
       (inputs.self.factory.mount-cifs {
         shareName = "mediasnek3";
@@ -159,6 +160,12 @@
         "https://home.cyn.internal"
         "https://torrent.cyn.internal"
         "https://ca.cyn.internal/acme/acme/directory"
+      ];
+      nix_auto_update = [
+        "http://dockerhost.cyn.internal:9001/statefile.json"
+      ];
+      node_systemd = [
+        "dockerhost.cyn.internal:9000"
       ];
     };
   };
