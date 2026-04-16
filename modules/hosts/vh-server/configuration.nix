@@ -36,28 +36,60 @@
     };
     users.groups.valheim = {};
 
+    # This exists so that we can send server commands to the
+    # systemd service via /run/valheim.cmd
+    #
+    # For example, to save the World State, run the command:
+    # > echo "save" | sudo -u valheim tee /run/valheim.cmd
+    #
+    # To see the command response, monitor the journal for the
+    # systemd service in another window/tab/pane
+    # > journalctl -fu valheim.service
+    #
+    systemd.sockets.valheim = {
+      description = "Command FIFO for Valheim server";
+      wantedBy = ["sockets.target"];
+
+      socketConfig = {
+        ListenFIFO = "/run/valheim.cmd";
+        SocketUser = "valheim";
+        SocketMode = "0660";
+        RemoveOnStop = true;
+      };
+    };
+
     systemd.services.valheim = let
       steamApp = "896660";
       valheimDir = "/var/lib/steam-app-${steamApp}";
     in {
-      description = "Valheim dedicated server (update + run)";
+      description = "Valheim dedicated server (update & run)";
+      after = [
+        "network.target"
+        "valheim.socket"
+      ];
+      wants = ["valheim.socket"];
       wantedBy = ["multi-user.target"];
-      after = ["network-online.target"];
-      wants = ["network-online.target"];
 
       serviceConfig = {
         Type = "simple";
         User = "valheim";
+        Group = "valheim";
         WorkingDirectory = valheimDir;
-        Restart = "always";
-        PrivateTmp = true;
         StateDirectory = "steam-app-${steamApp}";
+        Restart = "on-failure";
+
+        # stdin comes from the FIFO/socket
+        StandardInput = "socket";
+
+        # stdout to journal so we can follow the logs
+        StandardOutput = "journal";
+        StandardError = "journal";
       };
 
       script = ''
         set -e
 
-        # 1) Ensure server files are up-to-date
+        # Ensure server files are up-to-date
         ${pkgs.steamcmd}/bin/steamcmd \
           +@sSteamCmdForcePlatformType linux \
           +force_install_dir ${valheimDir} \
@@ -65,7 +97,7 @@
           +app_update ${steamApp} validate \
           +quit
 
-        # 2) Run the server under steam-run
+        # Run the server under steam-run
         exec ${pkgs.steam-run}/bin/steam-run \
           ${valheimDir}/valheim_server.x86_64 \
           -nographics \
