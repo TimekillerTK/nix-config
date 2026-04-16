@@ -58,7 +58,7 @@
         # We want this, because otherwise users may experience a rollback
         # on server reboot/shutdown.
         KillSignal = "SIGINT";
-        TimeoutStopSec = 300;
+        TimeoutStopSec = 60;
       };
 
       script = ''
