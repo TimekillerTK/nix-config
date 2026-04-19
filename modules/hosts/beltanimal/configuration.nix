@@ -11,7 +11,7 @@
       inputs.nixos-hardware.nixosModules.framework-16-7040-amd
 
       inputs.self.modules.nixos.system-desktop
-      # inputs.self.modules.nixos.tailscale-client
+      inputs.self.modules.nixos.tailscale-client
       (inputs.self.factory.nix-auto-update {desktop = true;})
       (inputs.self.factory.home-assistant-remote {
         bunny_user = "astra";
