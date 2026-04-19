@@ -102,6 +102,9 @@
     # Hostname
     networking.hostName = "beltanimal";
 
+    # tailscale activated on this machine
+    systemd.services.tailscaled.enable = true;
+
     # System Packages
     environment.systemPackages = with pkgs; [
       kdePackages.kdialog # pops up dialogs
