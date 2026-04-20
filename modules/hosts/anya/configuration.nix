@@ -1,7 +1,11 @@
 {inputs, ...}: {
   flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "anya";
 
-  flake.modules.nixos.anya = {pkgs, ...}: {
+  flake.modules.nixos.anya = {
+    pkgs,
+    config,
+    ...
+  }: {
     imports = [
       # Filesystems on this host are defined with disko
       inputs.disko.nixosModules.default

@@ -4,6 +4,7 @@
   flake.modules.nixos.system-base = {
     imports = [
       inputs.self.modules.nixos.locale
+      inputs.self.modules.nixos.boot-label
       inputs.self.modules.generic.nix-settings
       inputs.self.modules.generic.unstable
       inputs.self.modules.generic.local-pkgs
