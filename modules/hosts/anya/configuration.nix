@@ -41,6 +41,7 @@
       imports = [
         inputs.self.modules.homeManager.plasma-manager
         inputs.self.modules.homeManager.system-desktop
+        inputs.self.modules.homeManager.dev-packages
       ];
       # Normal home-manager config stuff goes here
       # Custom packages for this user

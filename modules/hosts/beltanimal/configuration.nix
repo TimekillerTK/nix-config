@@ -46,6 +46,7 @@
       home-imports-all-users = [
         inputs.self.modules.homeManager.plasma-manager
         inputs.self.modules.homeManager.system-desktop
+        inputs.self.modules.homeManager.dev-packages
       ];
     in {
       tk.imports = home-imports-all-users;
