@@ -9,9 +9,10 @@
       cfgShortRev =
         if cfgRev != "none"
         then builtins.substring 0 7 cfgRev
-        else "working-tree";
+        else "pending";
       # -----------------------------------------------
       # NOTE: Expected format:
+      #   label = "25.11.20260413.7e495b7.cfg:pending";
       #   label = "25.11.20260413.7e495b7.cfg:78c536f";
       #
       # Original label has this format:

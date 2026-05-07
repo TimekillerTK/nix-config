@@ -212,6 +212,14 @@
                   status: '{ .status }'
                 values:
                   status: 1 # dummy, static value
+              - name: nix_auto_update_last_run_timestamp
+                type: object
+                help: Last run timestamp (ISO8601 string)
+                path: '{ .last_run }'
+                labels:
+                  date: '{ .date }'
+                values:
+                  value: 1
         '';
       };
 
