@@ -218,6 +218,16 @@
                 path: '{ .last_run }'
                 labels:
                   date: '{ .date }'
+                values:
+                  value: 1
+              - name: nix_auto_update
+                type: object
+                help: Last run timestamp (ISO8601 string)
+                path: '{ .last_run }'
+                labels:
+                  date: '{ .date }'
+                values:
+                  date: 1
         '';
       };
 
