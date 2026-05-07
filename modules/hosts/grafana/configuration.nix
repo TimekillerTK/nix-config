@@ -212,22 +212,46 @@
                   status: '{ .status }'
                 values:
                   status: 1 # dummy, static value
-              - name: nix_auto_update_last_run_timestamp
-                type: object
-                help: Last run timestamp (ISO8601 string)
-                path: '{ .last_run }'
-                labels:
-                  date: '{ .date }'
-                values:
-                  value: 1
+
+              # Timestamp - Last Run
               - name: nix_auto_update
                 type: object
-                help: Last run timestamp (ISO8601 string)
+                help: Timestamp of last run
                 path: '{ .last_run }'
                 labels:
                   date: '{ .date }'
                 values:
-                  date: 1
+                  last_run_date: 1 # dummy, static value
+
+              # Last Update - Timestamp
+              - name: nix_auto_update
+                type: object
+                help: Timestamp of last update
+                path: '{ .last_update }'
+                labels:
+                  date: '{ .date }'
+                values:
+                  last_update_date: 1 # dummy, static value
+
+              # Last Update - Prev Commit SHA
+              - name: nix_auto_update
+                type: object
+                help: Timestamp of last update
+                path: '{ .last_update.prev_commit }'
+                labels:
+                  date: '{ .sha_short }'
+                values:
+                  last_update_prev_sha: 1 # dummy, static value
+
+              # Last Update - Current Commit SHA
+              - name: nix_auto_update
+                type: object
+                help: Timestamp of last update
+                path: '{ .last_update.current_commit }'
+                labels:
+                  date: '{ .sha_short }'
+                values:
+                  last_update_current_sha: 1 # dummy, static value
         '';
       };
 
