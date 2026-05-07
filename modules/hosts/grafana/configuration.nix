@@ -218,8 +218,6 @@
                 path: '{ .last_run }'
                 labels:
                   date: '{ .date }'
-                values:
-                  value: 1
         '';
       };
 
