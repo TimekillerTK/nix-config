@@ -105,8 +105,8 @@
     networking.hostName = "beltanimal";
 
     # TODO: Make this a specialization
-    # # tailscale activated on this machine
-    # systemd.services.tailscaled.enable = true;
+    # tailscale activated on this machine
+    systemd.services.tailscaled.enable = true;
 
     # System Packages
     environment.systemPackages = with pkgs; [
