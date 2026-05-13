@@ -12,7 +12,7 @@
 
       inputs.self.modules.nixos.system-desktop
       # NOTE: Specialization here later
-      # inputs.self.modules.nixos.tailscale-client
+      inputs.self.modules.nixos.tailscale-client
       (inputs.self.factory.nix-auto-update {desktop = true;})
       (inputs.self.factory.home-assistant-remote {
         bunny_user = "astra";
