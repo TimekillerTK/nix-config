@@ -2,11 +2,7 @@
   config.flake.factory.nix-auto-update = {
     desktop ? false,
     nau_exporter_port ? 9001,
-  }: {
-    pkgs,
-    lib,
-    ...
-  }: {
+  }: {pkgs, ...}: {
     # System Packages
     environment.systemPackages = [
       pkgs.local.nix-auto-update
@@ -16,18 +12,13 @@
     # that an update was applied.
     systemd.services.nix-auto-update = {
       description = "Keeps the system up-to-date";
-      environment = {
-        # Need to help the systemd service find the binaries
-        # we're using such as:
-        #
-        # - nix
-        # - nixos-rebuild
-        # - sudo
-        #
-        # We will use an absolute path for home-manager because
-        # that binary is usually in user home directories.
-        PATH = lib.mkForce "/run/current-system/sw/bin:/run/wrappers/bin";
-      };
+      path = [
+        pkgs.sudo
+        pkgs.nix
+        pkgs.nixos-rebuild
+        pkgs.home-manager
+        pkgs.hostname
+      ];
       serviceConfig = let
         cli_flag =
           if desktop
