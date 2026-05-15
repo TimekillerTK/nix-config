@@ -113,23 +113,243 @@
       },
       "id": 11,
       "options": {
-        "colorMode": "background_solid",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
+        "inlineEditing": true,
+        "panZoom": false,
+        "root": {
+          "background": {
+            "color": {
+              "fixed": "transparent"
+            }
+          },
+          "border": {
+            "color": {
+              "fixed": "dark-green"
+            }
+          },
+          "constraint": {
+            "horizontal": "left",
+            "vertical": "top"
+          },
+          "elements": [
+            {
+              "background": {
+                "color": {
+                  "field": "status",
+                  "fixed": "#D9D9D9"
+                }
+              },
+              "border": {
+                "color": {
+                  "fixed": "dark-green"
+                }
+              },
+              "config": {
+                "align": "center",
+                "color": {
+                  "fixed": "#000000"
+                },
+                "size": 20,
+                "text": {
+                  "field": "status",
+                  "fixed": "",
+                  "mode": "field"
+                },
+                "valign": "middle"
+              },
+              "constraint": {
+                "horizontal": "left",
+                "vertical": "top"
+              },
+              "links": [],
+              "name": "status",
+              "placement": {
+                "height": 85,
+                "left": 2,
+                "rotation": 0,
+                "top": 5,
+                "width": 365
+              },
+              "type": "metric-value"
+            },
+            {
+              "background": {
+                "color": {
+                  "field": "last_run_date",
+                  "fixed": "#D9D9D9"
+                }
+              },
+              "border": {
+                "color": {
+                  "fixed": "dark-green"
+                }
+              },
+              "config": {
+                "align": "center",
+                "color": {
+                  "fixed": "#000000"
+                },
+                "size": 20,
+                "text": {
+                  "field": "last_run_date",
+                  "fixed": "",
+                  "mode": "field"
+                },
+                "valign": "middle"
+              },
+              "constraint": {
+                "horizontal": "left",
+                "vertical": "top"
+              },
+              "links": [],
+              "name": "last_run_date",
+              "placement": {
+                "height": 50,
+                "left": 2,
+                "rotation": 0,
+                "top": 90,
+                "width": 365
+              },
+              "type": "metric-value"
+            },
+            {
+              "background": {
+                "color": {
+                  "field": "last_update_date",
+                  "fixed": "#D9D9D9"
+                }
+              },
+              "border": {
+                "color": {
+                  "fixed": "dark-green"
+                }
+              },
+              "config": {
+                "align": "center",
+                "color": {
+                  "fixed": "#000000"
+                },
+                "size": 20,
+                "text": {
+                  "field": "last_update_date",
+                  "fixed": "",
+                  "mode": "field"
+                },
+                "valign": "middle"
+              },
+              "constraint": {
+                "horizontal": "left",
+                "vertical": "top"
+              },
+              "links": [],
+              "name": "last_update_date",
+              "placement": {
+                "height": 50,
+                "left": 2,
+                "rotation": 0,
+                "top": 140,
+                "width": 365
+              },
+              "type": "metric-value"
+            },
+            {
+              "background": {
+                "color": {
+                  "field": "before_sha",
+                  "fixed": "#D9D9D9"
+                }
+              },
+              "border": {
+                "color": {
+                  "fixed": "dark-green"
+                }
+              },
+              "config": {
+                "align": "center",
+                "color": {
+                  "fixed": "#000000"
+                },
+                "size": 20,
+                "text": {
+                  "field": "before_sha",
+                  "fixed": "",
+                  "mode": "field"
+                },
+                "valign": "middle"
+              },
+              "constraint": {
+                "horizontal": "left",
+                "vertical": "top"
+              },
+              "links": [],
+              "name": "before_sha",
+              "placement": {
+                "height": 50,
+                "left": 2,
+                "rotation": 0,
+                "top": 190,
+                "width": 183
+              },
+              "type": "metric-value"
+            },
+            {
+              "background": {
+                "color": {
+                  "field": "current_sha",
+                  "fixed": "#D9D9D9"
+                }
+              },
+              "border": {
+                "color": {
+                  "fixed": "dark-green"
+                }
+              },
+              "config": {
+                "align": "center",
+                "color": {
+                  "fixed": "#000000"
+                },
+                "size": 20,
+                "text": {
+                  "field": "current_sha",
+                  "fixed": "",
+                  "mode": "field"
+                },
+                "valign": "middle"
+              },
+              "constraint": {
+                "horizontal": "left",
+                "vertical": "top"
+              },
+              "links": [],
+              "name": "after_sha",
+              "placement": {
+                "height": 50,
+                "left": 184,
+                "rotation": 0,
+                "top": 190,
+                "width": 183
+              },
+              "type": "metric-value"
+            }
           ],
-          "fields": "/^status$/",
-          "values": false
+          "name": "Element 1778823423662",
+          "placement": {
+            "height": 100,
+            "left": 0,
+            "rotation": 0,
+            "top": 0,
+            "width": 100
+          },
+          "type": "frame"
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "showAdvancedTypes": true,
+        "tooltip": {
+          "disableForOneClick": false,
+          "mode": "single"
+        },
+        "zoomToContent": false
       },
-      "pluginVersion": "12.3.2",
+      "pluginVersion": "12.3.6",
       "repeat": "host",
       "repeatDirection": "h",
       "targets": [
@@ -141,17 +361,129 @@
           "legendFormat": "__auto",
           "range": false,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "nix_auto_update_last_run_date{instance=~\"$host\"}",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "nix_auto_update_last_update_date{instance=~\"$host\"}",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "nix_auto_update_last_update_prev_sha{instance=~\"$host\"}",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "nix_auto_update_last_update_current_sha{instance=~\"$host\"}",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "E"
         }
       ],
       "title": "$host",
       "transformations": [
         {
           "id": "labelsToFields",
-          "options": {}
+          "options": {
+            "keepLabels": [
+              "instance",
+              "date",
+              "sha_short",
+              "status"
+            ]
+          }
+        },
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "instance",
+            "mode": "outerTabular"
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "status",
+                "date 1",
+                "date 2",
+                "sha_short 1",
+                "sha_short 2"
+              ]
+            }
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "date 1",
+            "renamePattern": "last_run_date"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "date 2",
+            "renamePattern": "last_update_date"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "sha_short 1",
+            "renamePattern": "before_sha"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "sha_short 2",
+            "renamePattern": "current_sha"
+          }
         }
       ],
       "transparent": true,
-      "type": "stat"
+      "type": "canvas"
     },
     {
       "collapsed": false,
@@ -388,7 +720,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "12.3.2",
+      "pluginVersion": "12.3.6",
       "targets": [
         {
           "datasource": {
@@ -950,7 +1282,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "12.3.2",
+      "pluginVersion": "12.3.6",
       "targets": [
         {
           "datasource": {
@@ -1230,5 +1562,5 @@
   "timezone": "browser",
   "title": "Main Status (Immutable)",
   "uid": "9a3b2b72-a32b-4e25-ab43-1e628ad1b574",
-  "version": 18
+  "version": 19
 }
