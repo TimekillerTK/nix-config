@@ -239,7 +239,7 @@
                 help: Timestamp of last update
                 path: '{ .last_update.prev_commit }'
                 labels:
-                  date: '{ .sha_short }'
+                  sha_short: '{ .sha_short }'
                 values:
                   last_update_prev_sha: 1 # dummy, static value
 
@@ -249,7 +249,7 @@
                 help: Timestamp of last update
                 path: '{ .last_update.current_commit }'
                 labels:
-                  date: '{ .sha_short }'
+                  sha_short: '{ .sha_short }'
                 values:
                   last_update_current_sha: 1 # dummy, static value
         '';
