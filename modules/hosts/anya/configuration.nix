@@ -72,14 +72,6 @@
       services.syncthing = {
         enable = true;
       };
-
-      # DirEnv configuration
-      programs.direnv = {
-        enable = true;
-        enableZshIntegration = true;
-        nix-direnv.enable = true;
-      };
-
       home.file = {
         # VS Code Settings files as symlinks
         ".config/Code/User/keybindings.json".source = ../../../dotfiles/vscode/keybindings.json;

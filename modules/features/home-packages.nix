@@ -26,7 +26,13 @@
       granted # Switching AWS Accounts
       sops # Mozilla SOPS
       awscli2 # AWS CLI
-
     ];
+
+    # DirEnv configuration
+    programs.direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
+    };
   };
 }
