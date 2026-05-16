@@ -54,7 +54,7 @@ formatter = { command = "prettier", args = ["--parser", "json"]}
 [[language]]
 name = "rust"
 auto-format = true
-formatter = { command = "rustfmt"}
+formatter = { command = "rustfmt", args = ["--edition", "2024"] }
 
 # ----------------------------
 
