@@ -5,13 +5,13 @@
 }:
 pkgs.rustPlatform.buildRustPackage {
   pname = "nix-auto-update";
-  version = "0.1.21";
+  version = "0.1.22";
 
   src = pkgs.fetchFromGitLab {
     owner = "TimekillerTK";
     repo = "nix-auto-update";
-    rev = "409891de59bf80bcdf16d450038d632f238045a5";
-    sha256 = "sha256-es8EZ459WPuU+6Q481zmgB47FOVnA7yb3yBD5BC+dp4=";
+    rev = "3138133c935cff39203d71c94370fcab6d165d8a";
+    sha256 = "sha256-wESSkNauWcbjbVvMiN1e+3bd+4yGhG6gMy38dU8ELqk=";
   };
 
   # Required for building the binary
@@ -35,5 +35,5 @@ pkgs.rustPlatform.buildRustPackage {
   };
 
   cargoFeatures = ["desktop-environment"];
-  cargoHash = "sha256-BUgVecsE/6Rgq26bZD8B69QxxXmT/4U2kCinXWjy4Bg=";
+  cargoHash = "sha256-7Nk7mVaiCS18l68YgQvgzhtIASeG8tAXLUoAZCqppYQ=";
 }

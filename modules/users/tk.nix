@@ -26,7 +26,7 @@
 
         programs.git.settings = {
           user.name = "TimekillerTK";
-          user.email = "38417175+TimekillerTK@users.noreply.github.com";
+          user.email = "8354689-TimekillerTK@users.noreply.gitlab.com";
           core.excludesfile = "/home/tk/.config/git/ignore";
           safe.directory = ["/home/tk/spaghetti"];
         };
