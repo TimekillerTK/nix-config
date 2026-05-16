@@ -10,6 +10,7 @@
           current=$(readlink -f /run/current-system)
           default=$(readlink -f /nix/var/nix/profiles/system)
 
+          echo "REMOVE THIS LINE - TESTING"
           echo "----- $(date) -----"
           echo "current is: $current"
           echo "default is: $default"
