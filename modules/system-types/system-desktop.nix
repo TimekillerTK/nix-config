@@ -8,13 +8,14 @@
   # - sound with pipewire
   # - printer drivers and setup
   # - NAS fileshare mounts
-  flake.modules.nixos.system-desktop = {
+  flake.modules.nixos.system-desktop = {pkgs, ...}: {
     imports = [
       inputs.self.modules.nixos.system-cli
       inputs.self.modules.nixos.kde-plasma
       inputs.self.modules.nixos.input-remapper
       inputs.self.modules.nixos.bluetooth
       inputs.self.modules.nixos.flatpak
+      inputs.self.modules.nixos.terminal
       inputs.self.modules.nixos.prometheus-node-desktop
       inputs.self.modules.nixos.zfs
     ];
