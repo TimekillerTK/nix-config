@@ -4,6 +4,7 @@
       inputs.self.modules.homeManager.kde-dropdown-terminal
     ];
 
+
     # WezTerm - powerful cross-platform terminal emulator with image support
     programs.wezterm = {
       enable = true;

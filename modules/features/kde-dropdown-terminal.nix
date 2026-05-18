@@ -1,6 +1,11 @@
 {
   # This feature provides dropdown terminal functionality, but specifically
   # for KDE Plasma.
+  # NOTE: In order to get rid of the title bar on terminal launch, right click on the titlebar
+  # of the terminal window -> More Actions -> Configure Special Window Settings
+  #
+  # Next, in the dialog Add a property:
+  #  Appearance & Fixes -> No titlebar and frame -> Force -> Enable/On/Yes
   flake.modules.homeManager.kde-dropdown-terminal = {pkgs, ...}: {
     home.packages = with pkgs; [
       local.kwin-toggleterminal
@@ -19,6 +24,11 @@
 
     # The actual shortcut
     programs.plasma.shortcuts.kwin."ToggleTerminal_0" = ["Alt+Space"];
+
+    # Actually enable the kwin-toggleterminal script
+    programs.plasma.configFile."kwinrc"."Plugins" = {
+      "toggleterminalEnabled".value = true;
+    };
   };
 
   flake.modules.nixos.kde-dropdown-terminal = {pkgs, ...}: {
