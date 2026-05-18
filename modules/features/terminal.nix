@@ -1,24 +1,15 @@
-{
-  flake.modules.homeManager.terminal = {pkgs, ...}: let
-    # Custom Wezterm/Alacritty Terminal dropdown script, needed to use it for
-    # proper Wayland Copy/Paste support with Helix IDE, alternative
-    # used 'tdrop' was X11/XWayland
-    wezterm_dropdown = pkgs.writeShellScriptBin "wezterm-dropdown" ''
-      export KDOTOOL="${pkgs.kdotool}/bin/kdotool"
-      export WEZTERM="${pkgs.unstable.wezterm}/bin/wezterm"
-      ${builtins.readFile ../../scripts/wezterm-dropdown.sh}
-    '';
-  in {
+{inputs, ...}: {
+  flake.modules.homeManager.terminal = {pkgs, ...}: {
+    imports = [
+      inputs.self.modules.homeManager.kde-dropdown-terminal
+    ];
+
     # WezTerm - powerful cross-platform terminal emulator with image support
     programs.wezterm = {
       enable = true;
       package = pkgs.unstable.wezterm;
       enableZshIntegration = true;
     };
-
-    home.packages = [
-      wezterm_dropdown
-    ];
 
     # Zellij config
     programs.zellij = {
@@ -48,5 +39,11 @@
 
       return M
     '';
+  };
+
+  flake.modules.nixos.terminal = {
+    imports = [
+      inputs.self.modules.nixos.kde-dropdown-terminal
+    ];
   };
 }

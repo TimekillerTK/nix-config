@@ -30,6 +30,7 @@
       # Helix IDE config files
       ".config/helix/config.toml".source = ../../dotfiles/helix/config.toml;
       ".config/helix/languages.toml".source = ../../dotfiles/helix/languages.toml;
+      ".config/helix/themes/dark_plus_transparent.toml".source = ../../dotfiles/helix/dark_plus_transparent.toml;
     };
   };
 }

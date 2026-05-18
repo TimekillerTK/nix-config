@@ -12,7 +12,7 @@
 
       inputs.self.modules.nixos.system-desktop
       # NOTE: Specialization here later
-      inputs.self.modules.nixos.tailscale-client
+      # inputs.self.modules.nixos.tailscale-client
       (inputs.self.factory.nix-auto-update {desktop = true;})
       (inputs.self.factory.home-assistant-remote {
         bunny_user = "astra";
@@ -104,9 +104,9 @@
     # Hostname
     networking.hostName = "beltanimal";
 
-    # TODO: Make this a specialization
-    # tailscale activated on this machine
-    systemd.services.tailscaled.enable = true;
+    # # TODO: Make this a specialization
+    # # tailscale activated on this machine
+    # systemd.services.tailscaled.enable = true;
 
     # System Packages
     environment.systemPackages = with pkgs; [
