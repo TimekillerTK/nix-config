@@ -58,13 +58,13 @@
       #   }
       # ];
 
-      # Dropdown Wezterm
-      hotkeys.commands."wezterm-dropdown" = {
-        name = "Launch Wezterm";
-        key = "Alt+Space";
-        # NOTE: This is a script defined in home/common/global/alacritty-dropdown.sh
-        command = lib.mkDefault ''wezterm-dropdown'';
-      };
+      # # Dropdown Wezterm
+      # hotkeys.commands."wezterm-dropdown" = {
+      #   name = "Launch Wezterm";
+      #   key = "Alt+Space";
+      #   # NOTE: This is a script defined in home/common/global/alacritty-dropdown.sh
+      #   command = lib.mkDefault ''wezterm-dropdown'';
+      # };
 
       # NOTE: Flameshot support for wayland is meh, especially for multi-monitor setups with fractional
       # scaling:

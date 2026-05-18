@@ -7,10 +7,20 @@
       enableZshIntegration = true;
     };
 
+    # TODO: Toggle terminal stuff (wip)
     home.packages = with pkgs; [
-      # local.dbus-app-launcher-bin
-      # wezterm_dropdown
+      local.kwin-toggleterminal
     ];
+    home.file.".local/share/kwin/scripts/toggleterminal".source = "${pkgs.local.kwin-toggleterminal}/share/kwin/scripts/toggleterminal";
+
+    # Hotkey configuration for kwin-toggleterminal KWin Hotkey #0
+    programs.plasma.configFile."kwinrc"."Script-toggleterminal" = {
+      "0_windowClass".value = "org.wezfurlong.wezterm";
+      "0_launchCommand".value = "/home/tk/.nix-profile/bin/wezterm";
+      "0_hideOnFocusLoss".value = true;
+    };
+
+    programs.plasma.shortcuts.kwin."ToggleTerminal_0" = ["Alt+Space"];
 
     # Zellij config
     programs.zellij = {
@@ -45,9 +55,14 @@
   flake.modules.nixos.terminal = {pkgs, ...}: {
     # This provides dropdown terminal functionality, but specifically
     # for KDE Plasma (probably doesn't work anywhere else)
-    environment.systemPackages = [
-      pkgs.local.dbus-app-launcher-bin
+    environment.systemPackages = with pkgs; [
+      local.dbus-app-launcher-bin
     ];
+
+    # # This adds the kwin-toggleterminal script available in KWin
+    # environment.pathsToLink = ["/share/kwin/scripts"];
+
+    # This makes dbus-app-launcher available on the dbus
     services.dbus = {
       enable = true;
       packages = [
