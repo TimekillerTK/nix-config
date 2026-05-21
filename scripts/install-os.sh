@@ -16,7 +16,7 @@ if [ -z "${SOPS_AGE_KEY:-}" ]; then
   printf 'The environment variable SOPS_AGE_KEY must be first set to proceed '
   printf 'with installation.\n\n'
   printf 'To set, run this command again with SOPS_AGE_KEY="<agekeypasswordhere>":\n'
-  printf '  sudo SOPS_AGE_KEY="<agekeypasswordhere>" install-os example\n\n'
+  printf '  sudo SOPS_AGE_KEY="AGE-SECRET-KEY-123ABCXYZ" install-os example\n\n'
   printf 'NOTE: The SOPS_AGE_KEY is in bitwarden.\n'
   exit 1
 fi
@@ -44,6 +44,16 @@ fi
 DISKS=$(lsblk --nodeps --noheadings --include 8,259 --output NAME)
 DISK_COUNT=$(printf '%s\n' "$DISKS" | wc -l)
 
+# FIXME: Add check for ZFS module being loaded. If it is not, then display error
+# which informs LTS kernel needs to be used or ZFS module needs to be added to
+# installer in advance or something
+#
+# FIXME: For ease of use, add a section which lists the valid disk options available
+# and how they can be used
+#
+# FIXME: Unbound variable error on $disks, supply multiple disks to reproduce
+# (this actually happens when installing via USB because you have the USB disk and
+# the disk you're installing on)
 case "$DISK_COUNT" in
   0)
     echo '------------------------------------------------------'
