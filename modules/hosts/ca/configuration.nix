@@ -5,7 +5,7 @@
     imports = [
       inputs.self.modules.nixos.system-minimal
       inputs.self.modules.nixos.prometheus-node-server
-      # (inputs.self.factory.nix-auto-update {})
+      (inputs.self.factory.nix-auto-update {})
 
       inputs.self.modules.nixos.home-manager
       inputs.self.modules.nixos.tk
