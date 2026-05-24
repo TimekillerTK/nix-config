@@ -54,7 +54,7 @@
       openFirewall = true;
       intermediatePasswordFile = "/root/password.txt";
       address = "ca.cyn.internal";
-      settings = builtins.fromJSON (builtins.readFile ../common/ca.json);
+      settings = builtins.fromJSON (builtins.readFile ./ca.json);
     };
   };
 }
