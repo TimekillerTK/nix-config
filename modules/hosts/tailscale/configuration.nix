@@ -17,9 +17,10 @@
       # Normal home-manager config stuff goes here
     };
 
-    # Actual SOPS keys
-    sops.defaultSopsFile = ./secrets.yml;
-    sops.secrets.tailscale = {};
+    # Secret key to authorize with tailscale
+    sops.secrets.tailscale = {
+      sopsFile = ../../../secrets/tailscale.yml;
+    };
 
     # Enable IPv4 forwarding
     # NOTE: Required for Tailscale subnet forwarding
