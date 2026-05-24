@@ -7,6 +7,7 @@
     ...
   }: let
     user = "tk";
+    shareLocalPath = "mediasnek";
   in {
     imports = [
       inputs.self.modules.nixos.system-cli
@@ -15,7 +16,7 @@
 
       (inputs.self.factory.mount-cifs {
         shareName = "mediasnek3";
-        shareLocalPath = "TrueNAS";
+        inherit shareLocalPath;
         shareUsers = [user];
         shareSecret = user;
       })
@@ -85,7 +86,7 @@
     # to be present each boot or nix config activation.
     systemd.tmpfiles.rules = [
       # Symlink to Media folder
-      "L /media - - - - ${config.mediaShare.mediaSharePath}/Media"
+      "L /media - - - - /mnt/${shareLocalPath}/Media"
 
       # Since jellyfin installation was migrated, there are still existing paths
       # in the database and other locations which point to old locations.
