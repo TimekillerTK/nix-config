@@ -63,8 +63,8 @@
     #   decode/encode), which is required for hardware transcoding.
     boot.kernelParams = ["i915.enable_guc=2"];
 
-    # Needed for Transcoding
-    users.users.jellyfin.extraGroups = ["video" "render"];
+    # # Needed for Transcoding
+    # users.users.jellyfin.extraGroups = ["video" "render"];
 
     # TODO: Testing, remove later if not needed (intel_gpu_top)
     boot.kernel.sysctl = {
