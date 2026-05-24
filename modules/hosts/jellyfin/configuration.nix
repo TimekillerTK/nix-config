@@ -1,7 +1,7 @@
 {inputs, ...}: {
   flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "jellyfin";
 
-  flake.modules.nixos.anya = {
+  flake.modules.nixos.jellyfin = {
     pkgs,
     config,
     ...
