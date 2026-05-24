@@ -47,11 +47,6 @@
     networking.hostName = "jellyfin";
     networking.networkmanager.enable = true;
 
-    # Adding CA root cert
-    security.pki.certificateFiles = [
-      ../common/root-ca.pem
-    ];
-
     hardware.graphics = {
       enable = true;
       extraPackages = with pkgs; [
@@ -87,9 +82,6 @@
       jellyfin-ffmpeg
       libva-utils # vainfo
       intel-gpu-tools # intel_gpu_top (for checking)
-
-      # others
-      bottom
     ];
 
     # Files/directories managed by systemd-tmpfiles - these files will be ensured
@@ -113,8 +105,5 @@
       enable = true;
       openFirewall = true;
     };
-
-    # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
-    system.stateVersion = "25.05";
   };
 }
