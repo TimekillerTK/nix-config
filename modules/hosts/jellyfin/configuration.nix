@@ -1,11 +1,7 @@
 {inputs, ...}: {
   flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "jellyfin";
 
-  flake.modules.nixos.jellyfin = {
-    pkgs,
-    config,
-    ...
-  }: let
+  flake.modules.nixos.jellyfin = {pkgs, ...}: let
     user = "tk";
     shareLocalPath = "mediasnek";
   in {
@@ -92,17 +88,17 @@
       # in the database and other locations which point to old locations.
       #
       # This will require database modification to update, so for now,
-      # just symlinks.
-      "d /config 770 jellyfin jellyfin -"
-      "L /config/data - - - - /var/lib/jellyfin"
-      "L /config/users - - - - /var/lib/jellyfin/config/users"
+      # # just symlinks.
+      # "d /config 770 jellyfin jellyfin -"
+      # "L /config/data - - - - /var/lib/jellyfin"
+      # "L /config/users - - - - /var/lib/jellyfin/config/users"
     ];
 
-    # Jellyfin config
-    services.jellyfin = {
-      enable = true;
-      openFirewall = true;
-    };
+    # # Jellyfin config
+    # services.jellyfin = {
+    #   enable = true;
+    #   openFirewall = true;
+    # };
   };
 
   # Adding this host to the prometheus targets for the grafana host
