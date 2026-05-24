@@ -24,6 +24,7 @@ creation_rules:
           - *dockerhost
           - *jellyfin
           - *nix-cache
+          - *tailscale
           - *master
   - path_regex: secrets/tk.ya?ml$
     key_groups:
@@ -47,6 +48,11 @@ creation_rules:
     key_groups:
       - age:
           - *router
+          - *master
+  - path_regex: secrets/tailscale.ya?ml$
+    key_groups:
+      - age:
+          - *tailscale
           - *master
 
   # For the nix cache server
@@ -92,6 +98,10 @@ creation_rules:
       - age:
           - *master
   - path_regex: secrets/host_keys/jellyfin.ya?ml$
+    key_groups:
+      - age:
+          - *master
+  - path_regex: secrets/host_keys/tailscale.ya?ml$
     key_groups:
       - age:
           - *master
