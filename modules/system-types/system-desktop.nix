@@ -80,7 +80,7 @@
       pinta # Simple MS Paint replacement
       tartube-yt-dlp # YT downloader
       libreoffice-qt # Office Suite
-      unstable.lutris # Games Launcher
+      lutris # Games Launcher
       unstable.discord # Chat
       rustdesk-flutter # TeamViewer alternative
       moonlight-qt # GameStreaming Client
