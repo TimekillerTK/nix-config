@@ -4,10 +4,11 @@
   flake.modules.nixos.ca = {pkgs, ...}: {
     imports = [
       inputs.self.modules.nixos.system-minimal
+      inputs.self.modules.nixos.prometheus-node-server
       (inputs.self.factory.nix-auto-update {})
+
       inputs.self.modules.nixos.home-manager
       inputs.self.modules.nixos.tk
-      inputs.self.modules.generic.prometheusTargets
     ];
     home-manager.users.tk = {
       imports = [
@@ -55,6 +56,18 @@
       intermediatePasswordFile = "/root/password.txt";
       address = "ca.cyn.internal";
       settings = builtins.fromJSON (builtins.readFile ./ca.json);
+    };
+  };
+
+  # Adding this host to the prometheus targets for the grafana host
+  flake.modules.nixos.grafana = {
+    prometheusTargets = {
+      nix_auto_update = [
+        "http://host.ca.cyn.internal:9001/statefile.json"
+      ];
+      node_systemd = [
+        "host.ca.cyn.internal:9000"
+      ];
     };
   };
 }
