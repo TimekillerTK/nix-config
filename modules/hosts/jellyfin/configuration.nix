@@ -63,8 +63,8 @@
     #   decode/encode), which is required for hardware transcoding.
     boot.kernelParams = ["i915.enable_guc=2"];
 
-    # # Needed for Transcoding
-    # users.users.jellyfin.extraGroups = ["video" "render"];
+    # Needed for Transcoding
+    users.users.jellyfin.extraGroups = ["video" "render"];
 
     # TODO: Testing, remove later if not needed (intel_gpu_top)
     boot.kernel.sysctl = {
@@ -88,17 +88,17 @@
       # in the database and other locations which point to old locations.
       #
       # This will require database modification to update, so for now,
-      # # just symlinks.
-      # "d /config 770 jellyfin jellyfin -"
-      # "L /config/data - - - - /var/lib/jellyfin"
-      # "L /config/users - - - - /var/lib/jellyfin/config/users"
+      # just symlinks.
+      "d /config 770 jellyfin jellyfin -"
+      "L /config/data - - - - /var/lib/jellyfin"
+      "L /config/users - - - - /var/lib/jellyfin/config/users"
     ];
 
-    # # Jellyfin config
-    # services.jellyfin = {
-    #   enable = true;
-    #   openFirewall = true;
-    # };
+    # Jellyfin config
+    services.jellyfin = {
+      enable = true;
+      openFirewall = true;
+    };
   };
 
   # Adding this host to the prometheus targets for the grafana host
