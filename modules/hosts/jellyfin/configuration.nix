@@ -36,8 +36,6 @@
 
     # Required for our user
     users.users.tk.extraGroups = [
-      "networkmanager"
-      "wheel"
       "video" # needed for vainfo
       "render" # needed for vainfo
       "jellyfin" # for easily browsing jellyfin owned directories
@@ -45,7 +43,6 @@
 
     # Hostname & Network Manager
     networking.hostName = "jellyfin";
-    networking.networkmanager.enable = true;
 
     hardware.graphics = {
       enable = true;
