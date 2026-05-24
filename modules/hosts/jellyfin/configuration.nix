@@ -106,4 +106,16 @@
       openFirewall = true;
     };
   };
+
+  # Adding this host to the prometheus targets for the grafana host
+  flake.modules.nixos.grafana = {
+    prometheusTargets = {
+      nix_auto_update = [
+        "http://host.jellyfin.cyn.internal:9001/statefile.json"
+      ];
+      node_systemd = [
+        "host.jellyfin.cyn.internal:9000"
+      ];
+    };
+  };
 }
