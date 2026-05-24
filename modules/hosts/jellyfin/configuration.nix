@@ -13,7 +13,7 @@
       (inputs.self.factory.mount-cifs {
         shareName = "mediasnek3";
         inherit shareLocalPath;
-        shareUsers = [user];
+        shareUsers = [user "jellyfin"];
         shareSecret = user;
       })
 
