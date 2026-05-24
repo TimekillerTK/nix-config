@@ -1,4 +1,7 @@
 keys:
+  # NOTE: To derive/confirm these, run:
+  #  > ssh-keyscan -t ed25519 hostname | ssh-to-age
+  #
   - &master age12rass7kjv34f2nhth4c0d4fr56g09c7lhmas0tftym43xdl2lgeqf6vgcx
   - &anya age1jjssarkszlhjjhqnamse82rdl8yqwamjczlcya5dkqqltj43pp4qa0psj3
   - &dockerhost age1pe0vvrjeu8g5cgugxvrjcwlg75ls59g6uc0su0x4e2ypwmknu5jqj9nkj2
@@ -55,6 +58,7 @@ creation_rules:
           - *master
 
   # Host keys for all the other hosts below (for bootstrapping/installation)
+  # NOTE: located at /etc/ssh/ssh_host_ed25519_key
   - path_regex: secrets/host_keys/anya.ya?ml$
     key_groups:
       - age:
@@ -84,6 +88,10 @@ creation_rules:
       - age:
           - *master
   - path_regex: secrets/host_keys/vh-server.ya?ml$
+    key_groups:
+      - age:
+          - *master
+  - path_regex: secrets/host_keys/jellyfin.ya?ml$
     key_groups:
       - age:
           - *master
