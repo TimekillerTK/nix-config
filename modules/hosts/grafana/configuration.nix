@@ -289,6 +289,21 @@
           http_port = 3000;
           enable_gzip = true; # recommended default
         };
+        # NOTE: Having this in the plain here is NOT a security concern at the time of writing
+        # because this WAS the default before all along in 25.11 and earlier. We have no
+        # data source secrets in the config, so it's not important - it can stay as it was.
+        #
+        # But, ideally in the future we should:
+        #   - generate a new secret key with `openssl rand -hex 32` (for example)
+        #   - create `secrets/grafana.yml` with the secret in question (call it secret_key for clarity)
+        #   - add this block to this config:
+        #       sops.secrets.secret_key  = {
+        #         sopsFile = ../../secrets/secret_key.yml;
+        #         owner = "grafana";
+        #       };
+        #   - set this option here to "$__file{/run/secrets/secret_key}"; (accepted by grafana)
+        #
+        security.secret_key = "SW2YcwTIb9zpOOhoPsMm";
       };
 
       # Delcarative configuration for Grafana

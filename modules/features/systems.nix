@@ -39,6 +39,11 @@
     install-os = pkgs.writeShellScriptBin "install-os" ''
       ${builtins.readFile ../../scripts/install-os.sh}
     '';
+    hostNames = builtins.attrNames inputs.self.nixosConfigurations;
+    checkAllScript = builtins.replaceStrings ["@hosts@"] [
+      (builtins.concatStringsSep " " hostNames)
+    ] (builtins.readFile ../../scripts/check-all.sh);
+    check-all = pkgs.writeShellScriptBin "check-all" checkAllScript;
     commonPackages = with pkgs;
       [
         git
@@ -46,6 +51,7 @@
         ssh-to-age
         age
         nvd # Nix/NixOS package version diff tool
+        check-all
       ]
       ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
         disko # Nix disk partitioning/formatting
@@ -59,6 +65,8 @@
       shellHook = ''
         export NIX_CONFIG="experimental-features = nix-command flakes"
         echo "Welcome to the default dev shell for ${system}!"
+        echo ""
+        echo "To validate all nixosConfigurations, run 'check-all'."
         echo ""
         echo "To install NixOS on the current computer, use the"
         echo "'sudo install-os' command."

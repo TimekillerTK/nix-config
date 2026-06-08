@@ -24,7 +24,10 @@
     # ZFS-compatible kernel here
     boot.kernelPackages = pkgs.linuxPackagesFor linux_7_0_6;
 
-    boot.zfs.devNodes = lib.mkDefault "/dev/disk/by-id";
+    boot.zfs = {
+      forceImportRoot = false;
+      devNodes = lib.mkDefault "/dev/disk/by-id";
+    };
 
     # Automatic Scrub schedule
     services.zfs.autoScrub = {

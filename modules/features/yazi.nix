@@ -17,6 +17,10 @@
           light = "catppuccin-mocha";
         };
       };
+      # NOTE: added because of evaluation warning when upgrading to 26.05
+      #
+      # The default value of `programs.yazi.shellWrapperName` has changed from `"yy"` to `"y"`.
+      shellWrapperName = "y";
     };
 
     # Install the theme files into the expected path
