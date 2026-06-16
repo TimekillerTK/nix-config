@@ -29,7 +29,7 @@
       ];
     };
 
-    boot.kernelPackages = pkgs.linuxPackages_6_18;
+    boot.kernelPackages = pkgs.linuxPackages_7_0;
 
     # Required for our user
     users.users.tk.extraGroups = [
