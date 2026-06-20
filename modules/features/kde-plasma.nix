@@ -18,7 +18,6 @@
         # NOTE: For numlock on login, go to (after logging in):
         #   Keyboard -> Numlock On -> Apply
         #   Login -> Apply Plasma Settings (IMPORTANT)
-        #
         plasma-login-manager.enable = true;
       };
     };
