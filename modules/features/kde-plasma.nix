@@ -15,27 +15,12 @@
         # default session, change it to 'plasmax11'.
         defaultSession = "plasma";
 
-        # SDDM doesn't support Wayland well, runs awful even
-        # on X11, has glitches and drives me bonkers, so
-        # using gdm instead.
-        gdm = {
-          enable = true;
-          autoSuspend = false;
-        };
+        # NOTE: For numlock on login, go to (after logging in):
+        #   Keyboard -> Numlock On -> Apply
+        #   Login -> Apply Plasma Settings (IMPORTANT)
+        plasma-login-manager.enable = true;
       };
     };
-
-    # Login Screen - Numlock auto "On"
-    programs.dconf.profiles.gdm.databases = [
-      {
-        settings = {
-          "org/gnome/desktop/peripherals/keyboard" = {
-            "numlock-state" = true;
-            "remember-numlock-state" = true;
-          };
-        };
-      }
-    ];
 
     # Enable KDE Connect
     programs.kdeconnect.enable = true;

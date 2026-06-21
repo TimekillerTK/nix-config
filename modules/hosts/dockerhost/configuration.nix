@@ -29,9 +29,6 @@
       ];
     };
 
-    # Newer LTS Kernel, pinned
-    boot.kernelPackages = pkgs.linuxPackages_6_18;
-
     # Enable Docker
     virtualisation.docker = {
       enable = true;

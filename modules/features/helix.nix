@@ -13,7 +13,7 @@
       bash-language-server # bash
       shfmt # shell/bash formatter
       alejandra # Nix Formatter
-      nodePackages.prettier # YAML formatter
+      prettier # YAML formatter
       typescript-language-server # TypeScript
       wl-clipboard # copy/paste support from system clipboard on Wayland
     ];
