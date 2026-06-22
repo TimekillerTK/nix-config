@@ -36,6 +36,7 @@
       inputs.self.modules.nixos.home-manager
 
       inputs.self.modules.nixos.tk
+      inputs.self.modules.nixos.builder
     ];
     home-manager.users.tk = {
       imports = [
