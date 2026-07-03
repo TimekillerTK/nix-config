@@ -42,6 +42,9 @@
       home.packages = with pkgs; [
         # Custom
         local.renamer
+
+        # Desktop Apps
+        scribus # Adobe InDesign Alternative
       ];
 
       home.file = {
