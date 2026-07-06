@@ -47,6 +47,7 @@
 
     services.prometheus = {
       enable = true;
+      retentionTime = "7d";
       globalConfig.scrape_interval = "5s";
       scrapeConfigs = [
         # JSON exporter metrics
