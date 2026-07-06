@@ -133,12 +133,3 @@ Avoid relying on `cat` or `ls` output format in scripts targeting these hosts.
 ### `check-all` is eval-only
 
 `check-all` (built in the devShell from `scripts/check-all.sh`) runs `nix eval` against each host, not `nix build`. It catches attribute errors and type mismatches but will not surface build failures or missing derivation inputs. Use `nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel --impure` for a full build check.
-
-## System type hierarchy
-
-```
-system-base     locale + nix settings + unstable overlay + local-pkgs overlay
-  system-minimal  + secrets (sops) + SSH
-    system-cli    + home-manager CLI (zsh, git, helix, starship, yazi)
-      system-desktop  + KDE Plasma + Bluetooth + ZFS + Flatpak + audio
-```
