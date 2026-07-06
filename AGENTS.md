@@ -54,7 +54,45 @@ sudo nixos-rebuild switch --flake .# --option post-build-hook "" --option secret
    Generate on a running system: `sudo nixos-generate-config --show-hardware-config`
 3. If using Disko, add `modules/hosts/<hostname>/_disko.nix`.
 4. If using ZFS, generate a unique `networking.hostId`: `head -c4 /dev/urandom | od -A none -t x4`
-5. Add the host's age pubkey to `.sops.yaml` and create `secrets/host_keys/<hostname>.yml`.
+5. Bootstrap the host's SSH key pair and wire it into SOPS — this is the most involved step:
+
+   a. Generate a new ed25519 key pair (no passphrase):
+      ```sh
+      ssh-keygen -t ed25519 -N "" -f /tmp/ssh_host_ed25519_key
+      ```
+   b. Derive the age pubkey from the SSH public key:
+      ```sh
+      ssh-to-age -i /tmp/ssh_host_ed25519_key.pub
+      ```
+   c. Add the age pubkey to `.sops.yaml` as a named anchor alongside the existing hosts:
+      ```yaml
+      - &<hostname> age1...
+      ```
+   d. Add a `path_regex` rule for the new host key file — **master key only** (the host key
+      doesn't exist yet at install time, so the host cannot be a recipient of its own key file):
+      ```yaml
+      - path_regex: secrets/host_keys/<hostname>.ya?ml$
+        key_groups:
+          - age:
+              - *master
+      ```
+   e. Grant the host access to whichever other secret files it needs by adding `*<hostname>`
+      to those `path_regex` entries in `.sops.yaml`, then re-encrypt each affected file:
+      ```sh
+      sops updatekeys secrets/<file>.yml
+      ```
+   f. Create the encrypted host key file (SOPS will use `.sops.yaml` to determine recipients):
+      ```sh
+      sops secrets/host_keys/<hostname>.yml
+      ```
+      The file must contain exactly two fields:
+      ```yaml
+      id_ed25519: |
+          <contents of /tmp/ssh_host_ed25519_key>
+      id_ed25519_pub: <contents of /tmp/ssh_host_ed25519_key.pub>
+      ```
+   g. Delete the plaintext key files from `/tmp`.
+
 6. `flake.nix` does **not** need to change. `import-tree` picks up the new files automatically.
 
 ## Gotchas
