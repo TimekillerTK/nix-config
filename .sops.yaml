@@ -14,6 +14,7 @@ keys:
   - &nix-cache age1jszu95jrd579t9xe4ltfzsu5pvv0g4f70w96knmyuk9shwd259uqjx0zmn
   - &grafana age17gkh4s6mygaucya6d3x37mjpf0gq05tv9uzl65ry097dm08z99hsy0lx3w
   - &vh-server age1se924xeguvpdxauqfpz0ulxnm6a5zf6rcj06yvexgmrnunr6n32sg7aeh5
+  - &pw-server age1PLACEHOLDER
 creation_rules:
   - path_regex: secrets/default.ya?ml$
     key_groups:
@@ -95,6 +96,10 @@ creation_rules:
       - age:
           - *master
   - path_regex: secrets/host_keys/vh-server.ya?ml$
+    key_groups:
+      - age:
+          - *master
+  - path_regex: secrets/host_keys/pw-server.ya?ml$
     key_groups:
       - age:
           - *master
