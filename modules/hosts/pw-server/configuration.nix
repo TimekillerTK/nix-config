@@ -65,6 +65,26 @@
       "L+ ${settingsFile} - - - - ${config.sops.templates."PalWorldSettings.ini".path}"
     ];
 
+    # Restart the server daily at 2AM - we can change the palworld service itself
+    # to run for a max of 24H, but then we cannot ensure that it always starts only
+    # at a specific time.
+    #
+    # Hence a separate service/timer
+    systemd.services.palworld-restart = {
+      description = "Daily restart of Palworld dedicated server";
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.systemd}/bin/systemctl restart palworld.service";
+      };
+    };
+    systemd.timers.palworld-restart = {
+      description = "Daily restart of Palworld dedicated server at 2AM";
+      wantedBy = ["timers.target"];
+      timerConfig = {
+        OnCalendar = "*-*-* 02:00:00";
+      };
+    };
+
     systemd.services.palworld = let
       steamApp = "2394010";
       palworldDir = "/var/lib/steam-app-${steamApp}";
