@@ -1,7 +1,11 @@
 {inputs, ...}: {
   flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "pw-server";
 
-  flake.modules.nixos.pw-server = {pkgs, ...}: {
+  flake.modules.nixos.pw-server = {
+    pkgs,
+    config,
+    ...
+  }: {
     imports = [
       # Filesystems on this host are defined with disko
       inputs.disko.nixosModules.default
@@ -26,7 +30,8 @@
     networking.hostName = "pw-server";
 
     # Required open ports
-    networking.firewall.allowedUDPPorts = [8211];
+    networking.firewall.allowedUDPPorts = [8211]; # Palworld Game Server
+    networking.firewall.allowedTCPPorts = [8212]; # Palworld REST API
 
     # User for running palworld
     users.users.palworld = {
@@ -37,11 +42,32 @@
     };
     users.groups.palworld = {};
 
+    # Decrypt the admin password secret at boot
+    sops.secrets.palworld_admin_password = {
+      sopsFile = ../../../secrets/pw-server.yml;
+      owner = "palworld";
+    };
+
+    # Render PalWorldSettings.ini with the decrypted admin password
+    sops.templates."PalWorldSettings.ini" = {
+      owner = "palworld";
+      content = ''
+        [/Script/Pal.PalGameWorldSettings]
+        OptionSettings=(ServerName="CynNeko",ServerDescription="",AdminPassword="${config.sops.placeholder.palworld_admin_password}",ServerPassword="",PublicPort=8211,PublicIP="",RCONEnabled=False,RCONPort=25575,RESTAPIEnabled=True,RESTAPIPort=8212,bUseAuth=True,bShowPlayerList=False)
+      '';
+    };
+
+    # Declaratively symlink the rendered settings file into the expected location
+    systemd.tmpfiles.rules = let
+      steamApp = "2394010";
+      settingsFile = "/var/lib/steam-app-${steamApp}/Pal/Saved/Config/LinuxServer/PalWorldSettings.ini";
+    in [
+      "L+ ${settingsFile} - - - - ${config.sops.templates."PalWorldSettings.ini".path}"
+    ];
+
     systemd.services.palworld = let
       steamApp = "2394010";
       palworldDir = "/var/lib/steam-app-${steamApp}";
-      settingsDir = "/var/lib/palworld/Pal/Saved/Config/LinuxServer";
-      settingsFile = "${settingsDir}/PalWorldSettings.ini";
     in {
       description = "Palworld dedicated server (update & run)";
       after = ["network.target"];
@@ -70,15 +96,6 @@
           +login anonymous \
           +app_update ${steamApp} validate \
           +quit
-
-        # Write default settings file with server name if it doesn't exist yet
-        if [ ! -f ${settingsFile} ]; then
-          mkdir -p ${settingsDir}
-          cat > ${settingsFile} <<'EOF'
-[/Script/Pal.PalGameWorldSettings]
-OptionSettings=(ServerName="CynNeko",ServerDescription="",AdminPassword="",ServerPassword="",PublicPort=8211,PublicIP="",RCONEnabled=False,RCONPort=25575,bUseAuth=True,bShowPlayerList=False)
-EOF
-        fi
 
         # Run the server under steam-run
         exec ${pkgs.steam-run}/bin/steam-run \

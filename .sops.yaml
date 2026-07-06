@@ -57,6 +57,13 @@ creation_rules:
           - *tailscale
           - *master
 
+  # Runtime secrets for pw-server (palworld)
+  - path_regex: secrets/pw-server.ya?ml$
+    key_groups:
+      - age:
+          - *pw-server
+          - *master
+
   # For the nix cache server
   - path_regex: secrets/harmonia_key.ya?ml$
     key_groups:
