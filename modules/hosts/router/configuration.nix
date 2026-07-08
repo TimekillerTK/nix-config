@@ -17,7 +17,8 @@
     iotPort = "iot"; # VLAN 90
 
     routerLanIpAddress = "192.168.0.100/24";
-    dnsServerIpAddress = "172.21.10.5";
+    dnsPrimaryServerIpAddress = "172.21.10.5";
+    dnsBackupServerIpAddress = "172.21.10.7";
   in {
     imports = [
       inputs.self.modules.nixos.system-minimal
@@ -131,7 +132,7 @@
           address = [
             "172.21.10.1/24"
           ];
-          dns = [dnsServerIpAddress];
+          dns = [dnsPrimaryServerIpAddress dnsBackupServerIpAddress];
           domains = ["cyn.internal"];
         };
 
@@ -210,10 +211,10 @@
           table ip nat {
             chain prerouting {
               type nat hook prerouting priority dstnat; policy accept;
-              iifname ${lanPort} ip daddr 8.8.8.8 udp dport 53 counter ct mark set 1 dnat to ${dnsServerIpAddress}:53
-              iifname ${lanPort} ip daddr 8.8.8.8 tcp dport 53 counter ct mark set 1 dnat to ${dnsServerIpAddress}:53
-              iifname ${lanPort} ip daddr 8.8.4.4 udp dport 53 counter ct mark set 1 dnat to ${dnsServerIpAddress}:53
-              iifname ${lanPort} ip daddr 8.8.4.4 tcp dport 53 counter ct mark set 1 dnat to ${dnsServerIpAddress}:53
+              iifname ${lanPort} ip daddr 8.8.8.8 udp dport 53 counter ct mark set 1 dnat to ${dnsPrimaryServerIpAddress}:53
+              iifname ${lanPort} ip daddr 8.8.8.8 tcp dport 53 counter ct mark set 1 dnat to ${dnsPrimaryServerIpAddress}:53
+              iifname ${lanPort} ip daddr 8.8.4.4 udp dport 53 counter ct mark set 1 dnat to ${dnsPrimaryServerIpAddress}:53
+              iifname ${lanPort} ip daddr 8.8.4.4 tcp dport 53 counter ct mark set 1 dnat to ${dnsPrimaryServerIpAddress}:53
             }
             chain postrouting {
               type nat hook postrouting priority 100; policy accept;
