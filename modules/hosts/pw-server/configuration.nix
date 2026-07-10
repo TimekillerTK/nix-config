@@ -97,6 +97,9 @@
           -X POST \
           -d '{"waittime":10,"message":"Server will shutdown in 10 seconds."}' \
           http://127.0.0.1:8212/v1/api/shutdown
+        # Wait for the server to complete its graceful shutdown. Can take ~60sec (?)
+        # The sleep is interrupted early by systemd if the binary exits sooner.
+        ${pkgs.coreutils}/bin/sleep 120
       '';
     in {
       description = "Palworld dedicated server (update & run)";
@@ -117,7 +120,7 @@
 
         # Palworld needs a clean shutdown to flush world saves
         KillSignal = "SIGINT";
-        TimeoutStopSec = 120;
+        TimeoutStopSec = 180;
       };
 
       script = ''
