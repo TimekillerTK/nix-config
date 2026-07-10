@@ -92,8 +92,7 @@
         PASSWORD=$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.palworld_admin_password.path})
         ${pkgs.curl}/bin/curl -s \
           -u "admin:$PASSWORD" \
-          -H "Content-Type: application/json" \
-          -X POST \
+          -d "" \
           http://127.0.0.1:8212/v1/api/save || true
         ${pkgs.curl}/bin/curl -s \
           -u "admin:$PASSWORD" \
