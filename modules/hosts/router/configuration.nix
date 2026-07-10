@@ -290,7 +290,7 @@
                 },
                 {
                   "name": "domain-name-servers",
-                  "data": "172.21.10.5"
+                  "data": "${dnsPrimaryServerIpAddress}, ${dnsBackupServerIpAddress}"
                 },
                 {
                   "name": "domain-search",
