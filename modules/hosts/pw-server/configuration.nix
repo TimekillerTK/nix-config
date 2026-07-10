@@ -102,9 +102,11 @@
           -d '{"waittime":10,"message":"Server will shutdown in 10 seconds."}' \
           http://127.0.0.1:8212/v1/api/shutdown
 
-        # Wait for the server to complete its graceful shutdown. Can take ~60sec (?)
-        # The sleep is interrupted early by systemd if the binary exits sooner.
-        ${pkgs.coreutils}/bin/sleep 60
+        # Wait for the main process to exit before returning.
+        # systemd will kill this script after TimeoutStopSec if it never exits.
+        while kill -0 $MAINPID 2>/dev/null; do
+          ${pkgs.coreutils}/bin/sleep 2
+        done
       '';
     in {
       description = "Palworld dedicated server (update & run)";
