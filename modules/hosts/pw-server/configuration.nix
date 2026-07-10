@@ -88,6 +88,16 @@
     systemd.services.palworld = let
       steamApp = "2394010";
       palworldDir = "/var/lib/steam-app-${steamApp}";
+      shutdownScript = pkgs.writeShellScript "palworld-shutdown" ''
+        set -e
+        PASSWORD=$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.palworld_admin_password.path})
+        ${pkgs.curl}/bin/curl -s \
+          -u "admin:$PASSWORD" \
+          -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"waittime":10,"message":"Server will shutdown in 10 seconds."}' \
+          http://127.0.0.1:8212/v1/api/shutdown
+      '';
     in {
       description = "Palworld dedicated server (update & run)";
       after = ["network.target"];
@@ -99,11 +109,15 @@
         Group = "palworld";
         WorkingDirectory = palworldDir;
         StateDirectory = "steam-app-${steamApp}";
+
+        # Shut down gracefully via REST API before systemd sends KillSignal
+        ExecStop = "-${shutdownScript}";
+
         Restart = "on-failure";
 
         # Palworld needs a clean shutdown to flush world saves
         KillSignal = "SIGINT";
-        TimeoutStopSec = 60;
+        TimeoutStopSec = 120;
       };
 
       script = ''
