@@ -5,7 +5,9 @@
     user = "tk";
   in {
     imports = [
-      inputs.self.modules.nixos.caddy-reverse-proxy
+      (inputs.self.factory.caddy-reverse-proxy {
+        dockerHost = "localhost";
+      })
       inputs.self.modules.nixos.system-cli
       inputs.self.modules.nixos.prometheus-node-server
       (inputs.self.factory.nix-auto-update {})

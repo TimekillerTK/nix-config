@@ -1,7 +1,9 @@
 {inputs, ...}: {
   # Sets up a reverse proxy on a host it's installed on which points to
   # specific hosts
-  flake.modules.nixos.caddy-reverse-proxy = {pkgs, ...}: {
+  config.flake.factory.caddy-reverse-proxy = {
+    dockerHost,
+  }: {pkgs, ...}: {
     imports = [
       inputs.self.modules.generic.caddy_v284
     ];
@@ -18,22 +20,22 @@
         respond "Hello, world on dockerhost.cyn.internal!"
       '';
       virtualHosts."whoami.cyn.internal".extraConfig = ''
-        reverse_proxy localhost:8010
+        reverse_proxy ${dockerHost}:8010
       '';
       virtualHosts."pdf.cyn.internal".extraConfig = ''
-        reverse_proxy localhost:8020
+        reverse_proxy ${dockerHost}:8020
       '';
       virtualHosts."torrent.cyn.internal".extraConfig = ''
-        reverse_proxy localhost:8030
+        reverse_proxy ${dockerHost}:8030
       '';
       virtualHosts."jellyfin.cyn.internal".extraConfig = ''
         reverse_proxy 172.21.10.47:8096
       '';
       virtualHosts."cookbook.cyn.internal".extraConfig = ''
-        reverse_proxy localhost:8050
+        reverse_proxy ${dockerHost}:8050
       '';
       virtualHosts."sync.cyn.internal".extraConfig = ''
-        reverse_proxy localhost:8060
+        reverse_proxy ${dockerHost}:8060
       '';
       virtualHosts."home.cyn.internal".extraConfig = ''
         reverse_proxy 172.21.10.80:8123
