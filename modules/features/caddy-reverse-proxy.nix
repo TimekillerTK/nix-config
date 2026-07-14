@@ -1,9 +1,7 @@
 {inputs, ...}: {
   # Sets up a reverse proxy on a host it's installed on which points to
   # specific hosts
-  config.flake.factory.caddy-reverse-proxy = {
-    dockerHost,
-  }: {pkgs, ...}: {
+  config.flake.factory.caddy-reverse-proxy = {dockerHost}: {pkgs, ...}: {
     imports = [
       inputs.self.modules.generic.caddy_v284
     ];
@@ -18,6 +16,9 @@
       '';
       virtualHosts."dockerhost.cyn.internal".extraConfig = ''
         respond "Hello, world on dockerhost.cyn.internal!"
+      '';
+      virtualHosts."backup-proxy.cyn.internal".extraConfig = ''
+        respond "Hello, world on backup-proxy.cyn.internal!"
       '';
       virtualHosts."whoami.cyn.internal".extraConfig = ''
         reverse_proxy ${dockerHost}:8010
