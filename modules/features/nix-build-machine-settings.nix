@@ -74,5 +74,9 @@
         IdentitiesOnly yes
         Port 22
     '';
+
+    # So this machine can build aarch64 (ARM) builds for linux
+    # even if this machine ix x86-64.
+    boot.binfmt.emulatedSystems = ["aarch64-linux"];
   };
 }
