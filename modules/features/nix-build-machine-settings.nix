@@ -77,6 +77,14 @@
 
     # So this machine can build aarch64 (ARM) builds for linux
     # even if this machine ix x86-64.
+    #
+    # NOTE: To apply a NixOS configuration remotely from the build machine, to a target
+    # `aarch64-linux` machine:
+    # > nixos-rebuild switch  --flake .#hostname \
+    #      --target-host tk@host.ip.or.dns.name \
+    #      --sudo \
+    #      --option sandbox false \
+    #      --option filter-syscalls false
     boot.binfmt.emulatedSystems = ["aarch64-linux"];
     nix.settings.extra-platforms = ["aarch64-linux"];
   };
