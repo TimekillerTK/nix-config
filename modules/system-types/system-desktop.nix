@@ -81,7 +81,6 @@
       tartube-yt-dlp # YT downloader
       libreoffice-qt # Office Suite
       lutris # Games Launcher
-      unstable.discord # Chat
       rustdesk-flutter # TeamViewer alternative
       moonlight-qt # GameStreaming Client
     ];

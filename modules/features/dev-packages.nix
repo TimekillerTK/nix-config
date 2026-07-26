@@ -7,7 +7,7 @@
 
       # Python
       python313
-      unstable.poetry
+      poetry
       ruff
       uv
 
