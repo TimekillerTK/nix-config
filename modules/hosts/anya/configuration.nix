@@ -32,6 +32,9 @@
         shareUsers = ["tk"];
         shareSecret = "tk";
       })
+      (inputs.self.factory.android-adb {
+        username = "tk";
+      })
 
       inputs.self.modules.nixos.home-manager
 

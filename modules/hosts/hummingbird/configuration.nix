@@ -26,6 +26,9 @@
         shareUsers = ["astra"];
         shareSecret = "astra";
       })
+      (inputs.self.factory.android-adb {
+        username = "astra";
+      })
 
       inputs.self.modules.nixos.home-manager
 
@@ -53,14 +56,6 @@
         ".config/Code/User/settings.json".source = ../../../dotfiles/vscode/settings.json;
       };
     };
-
-    # GrapheneOS install
-    #
-    # NOTE: The option definition `programs.adb' in ..., via option flake.modules.nixos.hummingbird' no longer has any effect; please remove it.
-    #        This option is no longer needed as systemd 258 handles uaccess rules automatically. Please add `pkgs.android-tools` to your system packages to get the adb command.
-    #
-    # programs.adb.enable = true;
-    # users.users.astra.extraGroups = ["adbusers" "plugdev" "kvm"];
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
