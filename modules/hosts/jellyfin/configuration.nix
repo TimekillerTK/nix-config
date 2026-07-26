@@ -29,8 +29,6 @@
       ];
     };
 
-    boot.kernelPackages = pkgs.linuxPackages_7_0;
-
     # Required for our user
     users.users.tk.extraGroups = [
       "video" # needed for vainfo
