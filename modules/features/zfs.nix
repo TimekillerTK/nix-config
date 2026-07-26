@@ -5,13 +5,13 @@
     ...
   }: let
     # NOTE: In case you need to pin a specific version of the linux kernel, EXAMPLE:
-    # linux_7_0_6 = pkgs.linux_7_0.override {
+    # linux_7_0_14 = pkgs.linux_7_0.override {
     #   argsOverride = rec {
-    #     version = "7.0.6";
+    #     version = "7.0.14";
     #     modDirVersion = version;
     #     src = pkgs.fetchurl {
     #       url = "mirror://kernel/linux/kernel/v7.x/linux-${version}.tar.xz";
-    #       hash = "sha256-y6REQKpXr/18ISQdxbwjSw31PEmfj/w+vCkN0zkKdSM=";
+    #       hash = lib.fakeHash;
     #     };
     #   };
     # };
@@ -20,7 +20,8 @@
     boot.supportedFilesystems = ["zfs"];
 
     # ZFS-compatible kernel here
-    boot.kernelPackages = pkgs.linuxPackages_7_0;
+    # NOTE: 7_0 is removed, and 7_1 is broken for ZFS
+    # boot.kernelPackages = linux_7_0_14;
 
     boot.zfs = {
       forceImportRoot = false;
