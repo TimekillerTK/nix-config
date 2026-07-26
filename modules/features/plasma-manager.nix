@@ -14,13 +14,14 @@
 
       shortcuts = {
         # Change default hotkey to CTRL+Space
-        "org.kde.krunner.desktop"."_launch" = ["Ctrl+Space" "Alt+F2" "Search"];
+        "org.kde.krunner.desktop"."_launch" = ["Alt+F2" "Search"];
 
         # Unbind conflicting keybindings
         "org.kde.spectacle.desktop"."_launch" = [];
         "org.kde.spectacle.desktop"."ActiveWindowScreenShot" = [];
         "org.kde.spectacle.desktop"."FullScreenScreenShot" = [];
         "org.kde.spectacle.desktop"."RectangularRegionScreenShot" = ["Ctrl+Alt+$" "Ctrl+Shift+C"]; # Ctrl+Alt+Shift+4
+        "org.kde.spectacle.desktop"."RecordRegion" = []; # Disable WIN+R
         "org.kde.spectacle.desktop"."WindowUnderCursorScreenShot" = [];
         kwin."Switch Window Left" = [];
         kwin."Switch Window Right" = [];
