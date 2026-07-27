@@ -6,7 +6,17 @@
       inputs.self.modules.generic.caddy_v284
     ];
 
-    # Caddy Config
+    # NOTE: On a fresh host using caddy, this may be an issue:
+    #
+    # The account exists in Caddy's local storage but the CA server no longer recognizes it. On the CA side, the account
+    # could have been deleted (Step CA DB corruption, server rebuild, etc.) or the account key may not match. When Caddy
+    # sends a newOrder signed with the stored key, Step CA can't verify the JWS signature against any known account and
+    # returns "malformed request."
+    #
+    # To fix, clear the ACME account state on dns-backup to force Caddy to re-register:
+    # ssh tk@ip-address sudo systemctl stop caddy
+    # ssh tk@ip-address sudo rm -rf /var/lib/caddy/.local/share/caddy/acme
+    # ssh tk@ip-address sudo systemctl start caddy
     services.caddy = {
       enable = true;
       package = pkgs.caddy_v284.caddy; # Pinned version 2.8.4
