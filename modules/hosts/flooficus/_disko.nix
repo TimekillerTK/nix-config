@@ -28,7 +28,31 @@
               type = "8200";
               content = {
                 type = "swap";
-                resumeDevice = true; # resume from hiberation
+              };
+            };
+          };
+        };
+      };
+      disk2 = {
+        type = "disk";
+        device = "/dev/sdb";
+        content = {
+          type = "gpt";
+          partitions = {
+            ESP = {
+              size = "1G"; # Recommended @ ArchWiki
+              type = "EF00";
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot-fallback";
+              };
+            };
+            zfs = {
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = "zroot";
               };
             };
           };
@@ -38,6 +62,7 @@
     zpool = {
       zroot = {
         type = "zpool";
+        mode = "mirror";
         rootFsOptions = {
           # ZFS Tuning Options
           # https://jrs-s.net/2018/08/17/zfs-tuning-cheat-sheet/

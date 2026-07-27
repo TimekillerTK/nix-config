@@ -29,6 +29,18 @@ in {
 
     # Hostname
     networking.hostName = hostName;
+
+    # Generated with head -c4 /dev/urandom | od -A none -t x4
+    networking.hostId = "e0383bfd"; # required for ZFS!
+
+    boot.loader.systemd-boot.enable = true;
+    boot.loader.efi.canTouchEfiVariables = true;
+    boot.loader.efi.efiSysMountPoint = "/boot";
+
+    # Keeping fallback bootloader in sync, just in case one of the disks fail
+    boot.loader.systemd-boot.extraInstallCommands = ''
+      ${pkgs.rsync}/bin/rsync -a --delete /boot/ /boot-fallback/
+    '';
   };
 
   # Adding this host to the prometheus targets for the grafana host
