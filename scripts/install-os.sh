@@ -66,7 +66,7 @@ case "$DISK_COUNT" in
   *)
     echo '------------------------------------------------------'
     printf 'Multiple disks detected:\n'
-    printf '%s\n' "$disks"
+    printf '%s\n' "$DISKS"
     printf '\n\nRerun this command with two arguments, the first specifying the NixOS config name '
     printf 'and the second one specifying the target disk to install to:\n'
     printf '  sudo install-os example /dev/sda\n'
