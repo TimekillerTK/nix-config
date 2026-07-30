@@ -36,6 +36,20 @@ in {
     # Generated with head -c4 /dev/urandom | od -A none -t x4
     networking.hostId = "e0383bfd"; # required for ZFS!
 
+    # Static IP for this host (important)
+    networking.useDHCP = false;
+    networking.interfaces.eth0 = {
+      useDHCP = false;
+      ipv4.addresses = [
+        {
+          address = "172.21.10.3";
+          prefixLength = 24;
+        }
+      ];
+    };
+    networking.defaultGateway = "172.21.10.1";
+    networking.nameservers = ["172.21.10.5" "172.21.10.7"];
+
     # Lanzaboote used here for redundant ESP partitions
     boot.loader.systemd-boot.enable = lib.mkForce false;
     environment.systemPackages = [pkgs.sbctl];

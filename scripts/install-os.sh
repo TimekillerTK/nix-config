@@ -44,10 +44,6 @@ fi
 DISKS=$(lsblk --nodeps --noheadings --include 8,259 --output NAME)
 DISK_COUNT=$(printf '%s\n' "$DISKS" | wc -l)
 
-# FIXME: Add check for ZFS module being loaded. If it is not, then display error
-# which informs LTS kernel needs to be used or ZFS module needs to be added to
-# installer in advance or something
-#
 # FIXME: For ease of use, add a section which lists the valid disk options available
 # and how they can be used
 #
@@ -77,6 +73,21 @@ case "$DISK_COUNT" in
     exit 1
     ;;
 esac
+
+# If the host's disko config uses ZFS, verify the ZFS kernel module is loaded
+if grep -qE 'zfs|zpool' "modules/hosts/$1/_disko.nix" 2>/dev/null; then
+  if ! lsmod | grep -q zfs; then
+    echo '------------------------------------------------------'
+    printf 'ERROR: The host "%s" requires ZFS but the ZFS kernel module is not loaded.\n\n' "$1"
+    printf 'The NixOS live ISO does not include ZFS by default. You have two options:\n\n'
+    printf '  1. Use a NixOS installer ISO with an LTS kernel, which includes ZFS support.\n'
+    printf '     Download the LTS ISO from: https://nixos.org/download\n\n'
+    printf '  2. Load the ZFS module manually on the current ISO:\n'
+    printf '     modprobe zfs\n\n'
+    printf 'Aborting installation.\n'
+    exit 1
+  fi
+fi
 
 # Apply the disko config to the disks
 echo '------------------------------------------------------'
