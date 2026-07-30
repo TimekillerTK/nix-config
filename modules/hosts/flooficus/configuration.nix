@@ -57,6 +57,7 @@ in {
       enable = true;
       pkiBundle = "/var/lib/sbctl";
       extraEfiSysMountPoints = ["/boot-fallback"];
+      autoGenerateKeys.enable = true;
     };
   };
 
