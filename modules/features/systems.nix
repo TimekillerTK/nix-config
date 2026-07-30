@@ -44,6 +44,9 @@
       (builtins.concatStringsSep " " hostNames)
     ] (builtins.readFile ../../scripts/check-all.sh);
     check-all = pkgs.writeShellScriptBin "check-all" checkAllScript;
+    ssh-to-age-key = pkgs.writeShellScriptBin "ssh-to-age-key" ''
+      ${builtins.readFile ../../scripts/ssh-to-age-key.sh}
+    '';
     commonPackages = with pkgs;
       [
         git
@@ -52,6 +55,7 @@
         age
         nvd # Nix/NixOS package version diff tool
         check-all
+        ssh-to-age-key
       ]
       ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
         disko # Nix disk partitioning/formatting
