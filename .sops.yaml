@@ -12,6 +12,7 @@ keys:
   - &jellyfin age16jp9vq7tv6620gr60teel5l39cy8ucmulqm3p9ygg3hycu00ef9sazhtje
   - &example age1f7r6gpqhchzyt4eh8uq7atpp6n0pzguh7je935hnkjmdv52z44wquez0yd
   - &nix-cache age1jszu95jrd579t9xe4ltfzsu5pvv0g4f70w96knmyuk9shwd259uqjx0zmn
+  - &flooficus age1degh4skdpdrcl932xsg0dl8sj22008ah2kt0g4p2jz7mryase40q5rls99
   - &grafana age17gkh4s6mygaucya6d3x37mjpf0gq05tv9uzl65ry097dm08z99hsy0lx3w
   - &vh-server age1se924xeguvpdxauqfpz0ulxnm6a5zf6rcj06yvexgmrnunr6n32sg7aeh5
   - &pw-server age10wasxq8kwcdcdy8r9j53jgdj8n3rey09f5rzy8hf3n2e8kvuc4zq9sp5hx
@@ -74,47 +75,7 @@ creation_rules:
 
   # Host keys for all the other hosts below (for bootstrapping/installation)
   # NOTE: located at /etc/ssh/ssh_host_ed25519_key
-  - path_regex: secrets/host_keys/anya.ya?ml$
-    key_groups:
-      - age:
-          - *master
-  - path_regex: secrets/host_keys/beltanimal.ya?ml$
-    key_groups:
-      - age:
-          - *master
-  - path_regex: secrets/host_keys/dockerhost.ya?ml$
-    key_groups:
-      - age:
-          - *master
-  - path_regex: secrets/host_keys/grafana.ya?ml$
-    key_groups:
-      - age:
-          - *master
-  - path_regex: secrets/host_keys/hummingbird.ya?ml$
-    key_groups:
-      - age:
-          - *master
-  - path_regex: secrets/host_keys/nix-cache.ya?ml$
-    key_groups:
-      - age:
-          - *master
-  - path_regex: secrets/host_keys/router.ya?ml$
-    key_groups:
-      - age:
-          - *master
-  - path_regex: secrets/host_keys/vh-server.ya?ml$
-    key_groups:
-      - age:
-          - *master
-  - path_regex: secrets/host_keys/pw-server.ya?ml$
-    key_groups:
-      - age:
-          - *master
-  - path_regex: secrets/host_keys/jellyfin.ya?ml$
-    key_groups:
-      - age:
-          - *master
-  - path_regex: secrets/host_keys/tailscale.ya?ml$
+  - path_regex: secrets/host_keys/.*\.ya?ml$
     key_groups:
       - age:
           - *master

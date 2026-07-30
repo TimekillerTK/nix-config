@@ -47,6 +47,9 @@
     ssh-to-age-key = pkgs.writeShellScriptBin "ssh-to-age-key" ''
       ${builtins.readFile ../../scripts/ssh-to-age-key.sh}
     '';
+    create-host-key = pkgs.writeShellScriptBin "create-host-key" ''
+      ${builtins.readFile ../../scripts/create-host-key.sh}
+    '';
     commonPackages = with pkgs;
       [
         git
@@ -56,6 +59,7 @@
         nvd # Nix/NixOS package version diff tool
         check-all
         ssh-to-age-key
+        create-host-key
       ]
       ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
         disko # Nix disk partitioning/formatting
