@@ -6,9 +6,12 @@ in {
   flake.modules.nixos."${hostName}" = {
     pkgs,
     config,
+    lib,
     ...
   }: {
     imports = [
+      inputs.lanzaboote.nixosModules.lanzaboote
+
       # Filesystems on this host are defined with disko
       inputs.disko.nixosModules.default
       ./_disko.nix
@@ -33,14 +36,14 @@ in {
     # Generated with head -c4 /dev/urandom | od -A none -t x4
     networking.hostId = "e0383bfd"; # required for ZFS!
 
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
-    boot.loader.efi.efiSysMountPoint = "/boot";
-
-    # Keeping fallback bootloader in sync, just in case one of the disks fail
-    boot.loader.systemd-boot.extraInstallCommands = ''
-      ${pkgs.rsync}/bin/rsync -a --delete /boot/ /boot-fallback/
-    '';
+    # Lanzaboote used here for redundant ESP partitions
+    boot.loader.systemd-boot.enable = lib.mkForce false;
+    environment.systemPackages = [pkgs.sbctl];
+    boot.lanzaboote = {
+      enable = true;
+      pkiBundle = "/var/lib/sbctl";
+      extraEfiSysMountPoints = ["/boot-fallback"];
+    };
   };
 
   # Adding this host to the prometheus targets for the grafana host

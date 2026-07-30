@@ -37,6 +37,10 @@
     # Nix Binary Cache
     harmonia.url = "github:nix-community/harmonia";
 
+    # Secure Boot for NixOS (plus ESP redundancy)
+    lanzaboote.url = "github:nix-community/lanzaboote/v1.1.0";
+    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
+
     # dendritic pattern flake inputs
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";

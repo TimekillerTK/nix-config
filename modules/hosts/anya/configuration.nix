@@ -113,6 +113,7 @@
     environment.systemPackages = [
       pkgs.kdePackages.kdialog # pops up dialogs
       pkgs.pingtunnel
+      pkgs.unstable.opencode
     ];
 
     # Generated with head -c4 /dev/urandom | od -A none -t x4
