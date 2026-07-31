@@ -52,6 +52,8 @@ in {
 
     # Lanzaboote used here for redundant ESP partitions
     boot.loader.systemd-boot.enable = lib.mkForce false;
+    boot.loader.efi.canTouchEfiVariables = true; # let lanzaboote manage NVRAM entries
+    boot.loader.efi.efiSysMountPoint = "/boot"; # primary ESP
     environment.systemPackages = [pkgs.sbctl];
     boot.lanzaboote = {
       enable = true;
