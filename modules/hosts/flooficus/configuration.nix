@@ -61,10 +61,6 @@ in {
       extraEfiSysMountPoints = ["/boot-fallback"];
       autoGenerateKeys.enable = true;
     };
-
-    # NOTE: Temporary, only for a VM, remove later for the full install
-    # Override ZFS device scan path for Proxmox VM (by-id symlinks may not be ready in initrd)
-    boot.zfs.devNodes = "/dev/disk/by-partlabel";
   };
 
   # Adding this host to the prometheus targets for the grafana host
