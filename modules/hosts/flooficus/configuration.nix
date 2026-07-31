@@ -51,10 +51,10 @@ in {
     networking.nameservers = ["172.21.10.5" "172.21.10.7"];
 
     # Lanzaboote used here for redundant ESP partitions
-    boot.loader.systemd-boot.enable = lib.mkForce true;
+    boot.loader.systemd-boot.enable = lib.mkForce false;
     environment.systemPackages = [pkgs.sbctl];
     boot.lanzaboote = {
-      enable = false;
+      enable = true;
       pkiBundle = "/var/lib/sbctl";
       extraEfiSysMountPoints = ["/boot-fallback"];
       autoGenerateKeys.enable = true;
