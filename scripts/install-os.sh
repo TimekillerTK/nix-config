@@ -140,6 +140,14 @@ chmod 600 /mnt/etc/ssh/ssh_host_ed25519_key
 chmod 644 /mnt/etc/ssh/ssh_host_ed25519_key.pub
 printf 'Done!\n'
 
+# Export any ZFS pools created during installation
+if [ -d /sys/module/zfs ]; then
+  echo '------------------------------------------------------'
+  printf 'Exporting ZFS pools...\n'
+  zpool export -a -f 2>/dev/null || true
+  printf 'Done!\n'
+fi
+
 # Display warning
 printf '\nNOTE: Installing Operating System might have failed on the secrets '
 printf 'step - this is OK. Restart and reapply the config and the secrets will'
