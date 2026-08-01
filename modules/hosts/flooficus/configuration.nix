@@ -50,17 +50,9 @@ in {
     networking.defaultGateway = "172.21.10.1";
     networking.nameservers = ["172.21.10.5" "172.21.10.7"];
 
-    # Lanzaboote used here for redundant ESP partitions
-    boot.loader.systemd-boot.enable = lib.mkForce false;
-    boot.loader.efi.canTouchEfiVariables = true; # let lanzaboote manage NVRAM entries
-    boot.loader.efi.efiSysMountPoint = "/boot"; # primary ESP
-    environment.systemPackages = [pkgs.sbctl];
-    boot.lanzaboote = {
-      enable = true;
-      pkiBundle = "/var/lib/sbctl";
-      extraEfiSysMountPoints = ["/boot-fallback"];
-      autoGenerateKeys.enable = true;
-    };
+    boot.loader.systemd-boot.enable = true;
+    boot.loader.efi.canTouchEfiVariables = true;
+    boot.loader.efi.efiSysMountPoint = "/boot";
   };
 
   # Adding this host to the prometheus targets for the grafana host
