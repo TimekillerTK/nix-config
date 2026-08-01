@@ -13,8 +13,10 @@ shift
 DISK_ARGS=("$@")
 
 # If the host's disko config uses ZFS, verify the ZFS kernel module is loaded
-if grep -qE 'zfs|zpool' "modules/hosts/$TARGET/_disko.nix" 2>/dev/null; then
-  if ! lsmod | grep -q zfs; then
+DISKO_FILE="modules/hosts/${TARGET}/_disko.nix"
+
+if [ -f "$DISKO_FILE" ] && grep -qE 'zfs|zpool' "$DISKO_FILE"; then
+  if [ ! -d /sys/module/zfs ]; then
     echo '------------------------------------------------------'
     printf 'ERROR: The host "%s" requires ZFS but the ZFS kernel module is not loaded.\n\n' "$TARGET"
     printf 'The NixOS live ISO does not include ZFS by default. You have two options:\n\n'

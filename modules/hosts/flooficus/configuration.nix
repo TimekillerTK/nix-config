@@ -54,7 +54,7 @@ in {
     boot.loader.efi.canTouchEfiVariables = true;
     boot.loader.efi.efiSysMountPoint = "/boot";
 
-    # NOTE: Needed probably to do stuff
+    # NOTE: This is necessary
     boot.zfs.forceImportRoot = lib.mkForce true;
   };
 
