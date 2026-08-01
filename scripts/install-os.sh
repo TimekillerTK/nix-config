@@ -144,8 +144,7 @@ printf 'Done!\n'
 if [ -d /sys/module/zfs ]; then
   echo '------------------------------------------------------'
   printf 'Exporting ZFS pools...\n'
-  umount /mnt/boot || true
-  umount /mnt | true
+  umount -R /mnt || true
   zpool export -a || zpool export -a -f
   printf 'Done!\n'
 fi
