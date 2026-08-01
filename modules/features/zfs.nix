@@ -24,7 +24,7 @@
     # boot.kernelPackages = linux_7_0_14;
 
     boot.zfs = {
-      forceImportRoot = false;
+      forceImportRoot = lib.mkDefault false;
       devNodes = lib.mkDefault "/dev/disk/by-id";
     };
 
