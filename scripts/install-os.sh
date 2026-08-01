@@ -144,7 +144,7 @@ printf 'Done!\n'
 if [ -d /sys/module/zfs ]; then
   echo '------------------------------------------------------'
   printf 'Exporting ZFS pools...\n'
-  zpool export -a -f 2>/dev/null || true
+  zpool export -a -f || printf 'WARNING: zpool export failed!'
   printf 'Done!\n'
 fi
 
