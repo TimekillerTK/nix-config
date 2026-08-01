@@ -38,7 +38,7 @@ if [ -z "${SOPS_AGE_KEY:-}" ]; then
   printf 'with installation.\n\n'
   printf 'To set, run this command again with SOPS_AGE_KEY="<agekeypasswordhere>":\n'
   printf '  sudo SOPS_AGE_KEY="AGE-SECRET-KEY-123ABCXYZ" install-os example\n\n'
-  printf 'NOTE: The SOPS_AGE_KEY is in bitwarden.\n'
+  printf 'NOTE: The SOPS_AGE_KEY is in your password/secrets manager.\n'
   exit 1
 fi
 
