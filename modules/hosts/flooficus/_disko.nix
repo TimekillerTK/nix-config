@@ -14,6 +14,8 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
+                # NOTE: We need nofail here because if one disk drops, the OS
+                # will still be expecting the OTHER boot partition otherwise
                 mountOptions = ["nofail"];
               };
             };
@@ -47,6 +49,8 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot-fallback";
+                # NOTE: We need nofail here because if one disk drops, the OS
+                # will still be expecting the OTHER boot partition otherwise
                 mountOptions = ["nofail"];
               };
             };
