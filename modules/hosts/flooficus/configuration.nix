@@ -53,6 +53,9 @@ in {
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
     boot.loader.efi.efiSysMountPoint = "/boot";
+
+    # NOTE: This is necessary
+    boot.zfs.forceImportRoot = lib.mkForce true;
   };
 
   # Adding this host to the prometheus targets for the grafana host
