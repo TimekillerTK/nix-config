@@ -14,6 +14,7 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
+                mountOptions = ["nofail"];
               };
             };
             zfs = {
@@ -46,6 +47,7 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot-fallback";
+                mountOptions = ["nofail"];
               };
             };
             zfs = {
