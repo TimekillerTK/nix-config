@@ -73,7 +73,7 @@
         echo "To validate all nixosConfigurations, run 'check-all'."
         echo ""
         echo "To install NixOS on the current computer, use the"
-        echo "'sudo install-os' command."
+        echo "'sudo SOPS_AGE_KEY=... install-os example' command."
         echo ""
         echo "NOTE: ONLY AVAILABLE ON NIXOS INSTALLER (!)"
       '';
