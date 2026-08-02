@@ -10,6 +10,14 @@
         config = {
           "core.https_address" = "0.0.0.0:8443";
         };
+        profiles = [
+          {
+            name = "default";
+            config = {
+              "security.secureboot" = false;
+            };
+          }
+        ];
       };
     };
 
