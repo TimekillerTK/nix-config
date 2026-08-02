@@ -34,8 +34,8 @@ in {
     # Hostname
     networking.hostName = hostName;
 
-    # Required to administrate the incus server
-    users.users.tk.extraGroups = ["incus-admin"];
+    # Required to administrate the incus server and for docker access
+    users.users.tk.extraGroups = ["incus-admin" "docker"];
 
     # Generated with head -c4 /dev/urandom | od -A none -t x4
     networking.hostId = "e0383bfd"; # required for ZFS!

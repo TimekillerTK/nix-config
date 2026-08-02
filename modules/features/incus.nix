@@ -1,15 +1,21 @@
 {
   flake.modules.nixos.incus = {pkgs, ...}: {
+    # KVM kernel module for VM acceleration
+    boot.kernelModules = ["kvm-amd"];
+
     virtualisation.incus = {
       enable = true;
       ui.enable = true;
       preseed = {
         config = {
-          # This makes the Incus WebUI listen on port 8443
           "core.https_address" = "0.0.0.0:8443";
         };
       };
     };
+
+    # Docker daemon for Docker container support
+    virtualisation.docker.enable = true;
+
     # Incus on NixOS is unsupported using iptables, therefore
     networking.nftables.enable = true;
 
@@ -19,11 +25,11 @@
     # source: https://wiki.nixos.org/wiki/Incus
     networking.nftables.flushRuleset = false;
 
-    # WebUI
+    # Incus WebUI
     networking.firewall.allowedTCPPorts = [8443];
 
     # NOTE: By default the NixOS firewall will block DHCP requests to the Incus network
     # source: https://wiki.nixos.org/wiki/Incus
-    networking.firewall.trustedInterfaces = ["incusbr0"];
+    networking.firewall.trustedInterfaces = ["incusbr0" "docker0"];
   };
 }
