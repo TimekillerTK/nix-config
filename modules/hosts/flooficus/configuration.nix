@@ -19,6 +19,7 @@ in {
       inputs.self.modules.nixos.system-minimal
       inputs.self.modules.nixos.prometheus-node-desktop
       inputs.self.modules.nixos.zfs
+      inputs.self.modules.nixos.incus
 
       inputs.self.modules.nixos.home-manager
       inputs.self.modules.nixos.tk
@@ -32,6 +33,9 @@ in {
 
     # Hostname
     networking.hostName = hostName;
+
+    # Required to administrate the incus server
+    users.users.tk.extraGroups = ["incus-admin"];
 
     # Generated with head -c4 /dev/urandom | od -A none -t x4
     networking.hostId = "e0383bfd"; # required for ZFS!
