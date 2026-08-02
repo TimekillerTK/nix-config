@@ -30,6 +30,6 @@
 
     # NOTE: By default the NixOS firewall will block DHCP requests to the Incus network
     # source: https://wiki.nixos.org/wiki/Incus
-    networking.firewall.trustedInterfaces = ["incusbr0" "docker0"];
+    networking.firewall.trustedInterfaces = ["incusbr0"];
   };
 }
