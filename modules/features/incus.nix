@@ -8,10 +8,14 @@
       ui.enable = true;
       preseed = {
         config = {
+          # Port we expose to access the Incus WebUI
           "core.https_address" = "0.0.0.0:8443";
         };
         profiles = [
           {
+            # The default profile enables secureboot by default
+            # this will not work with many VM images, so turning
+            # it off
             name = "default";
             config = {
               "security.secureboot" = false;
