@@ -1,5 +1,9 @@
 {
-  flake.modules.nixos.incus = {pkgs, ...}: {
+  flake.modules.nixos.incus = {
+    pkgs,
+    config,
+    ...
+  }: {
     # KVM kernel module for VM acceleration
     boot.kernelModules = ["kvm-amd"];
 
@@ -23,6 +27,30 @@
           }
         ];
       };
+    };
+
+    # Bootstrapping systemd service for the bridge networks - this
+    # service always runs when the Incus service runs, and creates
+    # the required bridge networks, if they don't exist.
+    systemd.services.incus-networks = {
+      description = "Create incus bridge networks";
+      after = ["incus.service"];
+      wants = ["incus.service"];
+      wantedBy = ["multi-user.target"];
+      serviceConfig.Type = "oneshot";
+      serviceConfig.RemainAfterExit = true;
+      path = [config.virtualisation.incus.package];
+      script = ''
+        incus network show incusbr0 >/dev/null 2>&1 || \
+          incus network create incusbr0 bridge.external=true
+        incus network show incusbr1 >/dev/null 2>&1 || \
+          incus network create incusbr1 \
+            ipv4.address=10.177.5.1/24 ipv4.nat=true \
+            ipv6.address=fd42:b747:5cf7:97a9::1/64 ipv6.nat=true
+        incus network show incusbr2 >/dev/null 2>&1 || \
+          incus network create incusbr2 \
+            ipv4.nat=false ipv6.address=none
+      '';
     };
 
     # Docker daemon for Docker container support
