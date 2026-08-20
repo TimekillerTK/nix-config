@@ -40,6 +40,24 @@
 
       inputs.self.modules.nixos.tk
     ];
+
+    # Pin linux-firmware to 20260622: the 20260810 bump ships a broken amdgpu
+    # VCN (video-decode) firmware for this Navi 22 GPU, causing color banding
+    # artifacts in hardware-decoded video (e.g. YouTube in Firefox/Brave).
+    nixpkgs.overlays = [
+      (final: prev: {
+        linux-firmware = prev.linux-firmware.overrideAttrs (old: {
+          version = "20260622";
+          src = prev.fetchFromGitLab {
+            owner = "kernel-firmware";
+            repo = "linux-firmware";
+            tag = "20260622";
+            hash = "sha256-nSoJhgI4hAxtNmnj5M6ticzuBSt9uNAYcmc1VR/yXxE=";
+          };
+        });
+      })
+    ];
+
     home-manager.users.tk = {
       imports = [
         inputs.self.modules.homeManager.plasma-manager
