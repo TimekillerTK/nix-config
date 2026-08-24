@@ -5,7 +5,7 @@
   // ~/.config/fastfetch/logo.png
   // for this to render; width/height are required by kitty-direct.
   "logo": {
-    "type": "kitty-direct",
+    "type": "kitty",
     "source": "/home/tk/.config/fastfetch/logo.png",
     "width": 30,
     "height": 15

@@ -71,7 +71,7 @@
         local.renamer
 
         # CLI Tools
-        fastfetch # System info tool
+        unstable.fastfetch # System info tool
 
         # Desktop Applications
         unstable.element-desktop # Matrix client
