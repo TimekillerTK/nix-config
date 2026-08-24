@@ -44,6 +44,9 @@
       (builtins.concatStringsSep " " hostNames)
     ] (builtins.readFile ../../scripts/check-all.sh);
     check-all = pkgs.writeShellScriptBin "check-all" checkAllScript;
+    create-host-key = pkgs.writeShellScriptBin "create-host-key" ''
+      ${builtins.readFile ../../scripts/create-host-key.sh}
+    '';
     commonPackages = with pkgs;
       [
         git
@@ -52,6 +55,7 @@
         age
         nvd # Nix/NixOS package version diff tool
         check-all
+        create-host-key
       ]
       ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
         disko # Nix disk partitioning/formatting
@@ -68,8 +72,8 @@
         echo ""
         echo "To validate all nixosConfigurations, run 'check-all'."
         echo ""
-        echo "To install NixOS on the current computer, use the"
-        echo "'sudo install-os' command."
+        echo "To install NixOS on the current computer, use the command:"
+        echo "sudo SOPS_AGE_KEY='xxx' install-os example"
         echo ""
         echo "NOTE: ONLY AVAILABLE ON NIXOS INSTALLER (!)"
       '';

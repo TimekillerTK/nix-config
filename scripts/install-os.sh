@@ -8,6 +8,27 @@ if [ "$#" -lt 1 ]; then
   exit 1
 fi
 
+TARGET="$1"
+shift
+DISK_ARGS=("$@")
+
+# If the host's disko config uses ZFS, verify the ZFS kernel module is loaded
+DISKO_FILE="modules/hosts/${TARGET}/_disko.nix"
+
+if [ -f "$DISKO_FILE" ] && grep -qE 'zfs|zpool' "$DISKO_FILE"; then
+  if [ ! -d /sys/module/zfs ]; then
+    echo '------------------------------------------------------'
+    printf 'ERROR: The host "%s" requires ZFS but the ZFS kernel module is not loaded.\n\n' "$TARGET"
+    printf 'The NixOS live ISO does not include ZFS by default. You have two options:\n\n'
+    printf '  1. Use a NixOS installer ISO with an LTS kernel, which includes ZFS support.\n'
+    printf '     Download the LTS ISO from: https://nixos.org/download\n\n'
+    printf '  2. Load the ZFS module manually on the current ISO:\n'
+    printf '     modprobe zfs\n\n'
+    printf 'Aborting installation.\n'
+    exit 1
+  fi
+fi
+
 # To install a host, we need the SOPS_AGE_KEY to be set to the
 # 'master password' so that we can set the host key for the host
 # in the last step to ensure everything works correctly with the
@@ -17,16 +38,16 @@ if [ -z "${SOPS_AGE_KEY:-}" ]; then
   printf 'with installation.\n\n'
   printf 'To set, run this command again with SOPS_AGE_KEY="<agekeypasswordhere>":\n'
   printf '  sudo SOPS_AGE_KEY="AGE-SECRET-KEY-123ABCXYZ" install-os example\n\n'
-  printf 'NOTE: The SOPS_AGE_KEY is in bitwarden.\n'
+  printf 'NOTE: The SOPS_AGE_KEY is in your password/secrets manager.\n'
   exit 1
 fi
 
 # Set environment variables first, checking if we can set them or not,
 # if the SOPS_AGE_KEY is invalid, it's pointless to continue, so error here
 echo '------------------------------------------------------'
-printf 'Acquiring PRIVATE/PUBLIC host keys for host "%s" from SOPS...\n' "$1"
-PRIVATE_HOST_KEY=$(sops --decrypt --extract '["id_ed25519"]' "secrets/host_keys/$1.yml")
-PUBLIC_HOST_KEY=$(sops --decrypt --extract '["id_ed25519_pub"]' "secrets/host_keys/$1.yml")
+printf 'Acquiring PRIVATE/PUBLIC host keys for host "%s" from SOPS...\n' "$TARGET"
+PRIVATE_HOST_KEY=$(sops --decrypt --extract '["id_ed25519"]' "secrets/host_keys/$TARGET.yml")
+PUBLIC_HOST_KEY=$(sops --decrypt --extract '["id_ed25519_pub"]' "secrets/host_keys/$TARGET.yml")
 printf 'Done!\n'
 
 # Only on NixOS, otherwise refuse to run
@@ -41,47 +62,53 @@ if ! findmnt -n -o FSTYPE,OPTIONS | grep -q 'squashfs.*ro'; then
   exit 1
 fi
 
-DISKS=$(lsblk --nodeps --noheadings --include 8,259 --output NAME)
-DISK_COUNT=$(printf '%s\n' "$DISKS" | wc -l)
+# Resolve target disks
+echo '------------------------------------------------------'
+if [ "${#DISK_ARGS[@]}" -gt 0 ]; then
+  for disk in "${DISK_ARGS[@]}"; do
+    if [ ! -b "$disk" ]; then
+      printf 'ERROR: "%s" is not a block device.\n' "$disk" >&2
+      exit 1
+    fi
+  done
+  printf 'Using specified disk(s): %s\n' "${DISK_ARGS[*]}"
+  for disk in "${DISK_ARGS[@]}"; do
+    printf 'Wiping disk to prepare for installation: %s\n' "$disk"
+    wipefs --all "$disk"
+  done
+else
+  DISKS=$(lsblk --nodeps --noheadings --include 8,259 --output NAME)
+  DISK_COUNT=$(printf '%s\n' "$DISKS" | wc -l)
 
-# FIXME: Add check for ZFS module being loaded. If it is not, then display error
-# which informs LTS kernel needs to be used or ZFS module needs to be added to
-# installer in advance or something
-#
-# FIXME: For ease of use, add a section which lists the valid disk options available
-# and how they can be used
-#
-# FIXME: Unbound variable error on $disks, supply multiple disks to reproduce
-# (this actually happens when installing via USB because you have the USB disk and
-# the disk you're installing on)
-case "$DISK_COUNT" in
-  0)
-    echo '------------------------------------------------------'
-    printf 'Cannot find a disk to install to, specify which disk to install to by supplying the'
-    printf ' second argument:\n'
-    printf '  sudo install-os example /dev/sda\n'
-    exit 1
-    ;;
-  1)
-    echo '------------------------------------------------------'
-    printf 'Wiping disk to prepare for installation: /dev/%s\n' "$DISKS"
-    wipefs --all "/dev/$DISKS"
-    ;;
-  *)
-    echo '------------------------------------------------------'
-    printf 'Multiple disks detected:\n'
-    printf '%s\n' "$disks"
-    printf '\n\nRerun this command with two arguments, the first specifying the NixOS config name '
-    printf 'and the second one specifying the target disk to install to:\n'
-    printf '  sudo install-os example /dev/sda\n'
-    exit 1
-    ;;
-esac
+  case "$DISK_COUNT" in
+    0)
+      printf 'No disks detected. Check that drives are connected.\n\n'
+      printf 'Specify target disk(s) as additional arguments:\n'
+      printf '  sudo install-os example /dev/sda\n'
+      printf '  sudo install-os example /dev/sda /dev/sdb\n'
+      exit 1
+      ;;
+    1)
+      printf 'Wiping disk to prepare for installation: /dev/%s\n' "$DISKS"
+      wipefs --all "/dev/$DISKS"
+      ;;
+    *)
+      printf 'Multiple viable disks detected:\n'
+      printf '%s\n' "$DISKS"
+      printf '\nAmbiguous: specify which disk(s) to use as additional arguments.\n'
+      printf 'For a single disk:\n'
+      printf '  sudo install-os %s /dev/sda\n' "$TARGET"
+      printf 'For multiple disks (mirrored vdev or RAID):\n'
+      printf '  sudo install-os %s /dev/sda /dev/sdb\n' "$TARGET"
+      exit 1
+      ;;
+  esac
+fi
 
 # Apply the disko config to the disks
 echo '------------------------------------------------------'
-printf 'Wiping, partitioning, formatting the disk & mounting partitions...\n'
-disko --mode destroy,format,mount --yes-wipe-all-disks "./modules/hosts/$1/_disko.nix"
+printf 'Wiping, partitioning, formatting the disk(s) & mounting partitions...\n'
+disko --mode destroy,format,mount --yes-wipe-all-disks "./modules/hosts/$TARGET/_disko.nix"
 printf 'Done!\n'
 
 # Copy the repository to /mnt:
@@ -101,17 +128,26 @@ printf 'Everything is OK!\n'
 # Install NixOS - bootloader sometimes has issues with installation
 # on the first try, so if it fails, wait a bit and rerun this command and try again
 echo '------------------------------------------------------'
-printf 'Installing Operating System NixOS flake "%s" ...\n' "$1"
-nixos-install --no-root-password --flake ".#$1"
+printf 'Installing Operating System NixOS flake "%s" ...\n' "$TARGET"
+nixos-install --no-root-password --flake ".#$TARGET"
 
 # Lastly, set the ssh host keys for the host
 echo '------------------------------------------------------'
-printf 'Setting the host keys for this host...\n' "$1"
+printf 'Setting the host keys for this host...\n' "$TARGET"
 echo "$PRIVATE_HOST_KEY" > /mnt/etc/ssh/ssh_host_ed25519_key
 echo "$PUBLIC_HOST_KEY" > /mnt/etc/ssh/ssh_host_ed25519_key.pub
 chmod 600 /mnt/etc/ssh/ssh_host_ed25519_key
 chmod 644 /mnt/etc/ssh/ssh_host_ed25519_key.pub
 printf 'Done!\n'
+
+# Export any ZFS pools created during installation
+if [ -d /sys/module/zfs ]; then
+  echo '------------------------------------------------------'
+  printf 'Exporting ZFS pools...\n'
+  umount -R /mnt || true
+  zpool export -a || zpool export -a -f
+  printf 'Done!\n'
+fi
 
 # Display warning
 printf '\nNOTE: Installing Operating System might have failed on the secrets '

@@ -4,12 +4,11 @@
       inputs.self.modules.homeManager.kde-dropdown-terminal
     ];
 
-
     # WezTerm - powerful cross-platform terminal emulator with image support
     programs.wezterm = {
       enable = true;
       package = pkgs.unstable.wezterm;
-      enableZshIntegration = true;
+      enableZshIntegration = false;
     };
 
     # Zellij config
