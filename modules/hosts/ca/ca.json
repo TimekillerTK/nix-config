@@ -37,7 +37,9 @@
           "enableSSHCA": true,
           "disableRenewal": false,
           "allowRenewalAfterExpiry": false,
-          "disableSmallstepExtensions": false
+          "disableSmallstepExtensions": false,
+          "defaultTLSCertDuration": "168h",
+          "maxTLSCertDuration": "168h"
         },
         "options": {
           "x509": {},
