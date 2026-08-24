@@ -1,8 +1,14 @@
 {
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
-  // Small logo instead of the full ASCII art, changing the overall layout
+  // Custom image logo via the Kitty graphics protocol, changing the overall
+  // layout from the default ASCII art. Drop an image at
+  // ~/.config/fastfetch/logo.png
+  // for this to render; width/height are required by kitty-direct.
   "logo": {
-    "type": "small"
+    "type": "kitty-direct",
+    "source": "~/.config/fastfetch/logo.png",
+    "width": 30,
+    "height": 15
   },
   "display": {
     "separator": " -> "
