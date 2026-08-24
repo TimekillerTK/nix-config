@@ -70,6 +70,9 @@
         # Custom
         local.renamer
 
+        # CLI Tools
+        fastfetch # System info tool
+
         # Desktop Applications
         unstable.element-desktop # Matrix client
         unstable.makemkv # DVD Ripper
@@ -97,6 +100,9 @@
         # VS Code Settings files as symlinks
         ".config/Code/User/keybindings.json".source = ../../../dotfiles/vscode/keybindings.json;
         ".config/Code/User/settings.json".source = ../../../dotfiles/vscode/settings.json;
+
+        # Fastfetch config as a symlink
+        ".config/fastfetch/config.jsonc".source = ../../../dotfiles/fastfetch/config.jsonc;
       };
     };
 
