@@ -113,6 +113,9 @@ keybinds clear-defaults=true {
         bind "Alt o" { SwitchToMode "Normal"; }
         bind "Alt k" { SwitchToMode "Scroll"; }
         bind "d" { Detach; }
+        bind "[" { FocusGuestSession; }
+        bind "]" { FocusHostSession; }
+        bind "f" { ToggleHostFullscreen; }
         bind "w" {
             LaunchOrFocusPlugin "session-manager" {
                 floating true
@@ -226,6 +229,11 @@ load_plugins {
 
 // Whether to enable mouse hover effects and multiple select functionality (pane grouping).
 advanced_mouse_actions false
+
+// What to do when a pane contains a nested (guest) Zellij session (eg. after ssh-ing
+// to a remote machine also running Zellij 0.45.0+).
+// Options: ask (default) | fullscreen | descend | never
+nested_session_handling "ask"
 
 // Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP
 // eg. when terminal window with an active zellij session is closed
