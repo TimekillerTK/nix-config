@@ -71,7 +71,7 @@
         local.renamer
 
         # CLI Tools
-        unstable.fastfetch # System info tool
+        (unstable.fastfetch.override {zfsSupport = true;}) # System info tool (zpool module)
 
         # Desktop Applications
         unstable.element-desktop # Matrix client

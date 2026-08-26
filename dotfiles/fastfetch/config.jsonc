@@ -16,9 +16,23 @@
   "modules": [
     "title",
     "separator",
+    "bios",
+    "board",
+    "zpool",
+    "terminalfont",
+    "uptime",
+    "wm",
+    "de",
+    "dns",
+    "editor",
+    "font",
+    "monitor",
+    "bootmgr",
+    "tpm",
+    "separator",
     "os",
-    "host",
     "kernel",
+    "host",
     "uptime",
     "packages",
     "shell",
@@ -26,7 +40,26 @@
     "cpu",
     "gpu",
     "memory",
-    "disk",
+    "swap",
+    {
+      "type": "physicaldisk",
+      "key": "Disk"
+    },
+    {
+      "type": "disk",
+      "key": "/boot",
+      "folders": [
+        "/boot"
+      ],
+      "hideFolders": [
+        ""
+      ]
+    },
+    {
+      "type": "command",
+      "key": "ZFS Pool",
+      "text": "zpool list -Ho name,size,alloc,free,cap zroot | awk '{printf \"%s: %s used / %s total, %s free (%s)\", $1, $3, $2, $4, $5}'"
+    },
     "break",
     "colors"
   ]
