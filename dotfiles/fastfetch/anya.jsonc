@@ -73,7 +73,7 @@
     {
       "type": "cpu",
       "key": "║{#cyan}│ {icon}  CPU       │{$4}│{#keys}║{$2}",
-      "showPeCoreCount": true
+      "format": "{name}"
     },
     {
       "type": "memory",
@@ -113,12 +113,16 @@
       "key": "║{#green}│ {icon}  Desktop   │{$4}│{#keys}║{$2}"
     },
     {
+      "type": "theme",
+      "key": "║{#green}│ {icon}  Theme     │{$4}│{#keys}║{$2}"
+    },
+    {
       "type": "wm",
       "key": "║{#green}│ {icon}  Session   │{$4}│{#keys}║{$2}"
     },
     {
       "type": "lm",
-      "key": "║{#green}│ {icon}  LoginMgr  │{$4}│{#keys}║{$2}"
+      "key": "║{#green}│ {icon}  Login     │{$4}│{#keys}║{$2}"
     },
     {
       "type": "bootmgr",
