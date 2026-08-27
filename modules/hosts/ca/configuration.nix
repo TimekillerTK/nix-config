@@ -5,7 +5,8 @@
     imports = [
       inputs.self.modules.nixos.system-minimal
       inputs.self.modules.nixos.prometheus-node-server
-      (inputs.self.factory.nix-auto-update {})
+      # NOTE: Too slow, must use build machine
+      # (inputs.self.factory.nix-auto-update {})
 
       inputs.self.modules.nixos.home-manager
       inputs.self.modules.nixos.tk
@@ -62,9 +63,10 @@
   # Adding this host to the prometheus targets for the grafana host
   flake.modules.nixos.grafana = {
     prometheusTargets = {
-      nix_auto_update = [
-        "http://host.ca.cyn.internal:9001/statefile.json"
-      ];
+      # NOTE: Too slow, must use build machine
+      # nix_auto_update = [
+      #   "http://host.ca.cyn.internal:9001/statefile.json"
+      # ];
       node_systemd = [
         "host.ca.cyn.internal:9000"
       ];
