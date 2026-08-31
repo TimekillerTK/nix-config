@@ -120,3 +120,9 @@ This nix-config uses many things, sometimes it's useful to know how to override/
   ```rust
   sudo nixos-rebuild switch -v --flake .# --option post-build-hook "" --option secret-key-files ""
   ```
+
+- In case the nix cache is inaccessible, you can skip it by pointing to substituters via cli (skipping the nix binary cache):
+
+  ```rust
+  sudo nixos-rebuild switch -v --flake .# --option substituters "https://cache.nixos.org?priority=30 https://nix-community.cachix.org https://cache.nixos.org/"
+  ```

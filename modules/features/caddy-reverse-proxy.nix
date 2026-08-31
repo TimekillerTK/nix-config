@@ -1,11 +1,42 @@
-{inputs, ...}: {
+{
   # Sets up a reverse proxy on a host it's installed on which points to
   # specific hosts
-  config.flake.factory.caddy-reverse-proxy = {dockerHost}: {pkgs, ...}: {
-    imports = [
-      inputs.self.modules.generic.caddy_v284
-    ];
+  config.flake.factory.caddy-reverse-proxy = {dockerHost}: {...}: let
+    # NOTE: This is set deliberately per each virtualHost, NOT a global
+    # `cert_issuer` or `acmeCA` option.
+    #
+    # Caddy's `caddyhttp/autohttps.go` decides whether a hostname needs the
+    # internal/self-signed issuer by checking whether it already has an EXPLICIT
+    # automation policy. The global `cert_issuer`/`acmeCA` option only ever
+    # produces a "catch-all" policy, which WILL never match.
+    #
+    # Every `.internal` name fails certmagic's public-cert qualification
+    # (`.internal` isn't a publicly issuable TLD) -> each one then gets silently
+    # reassigned to Caddy's internal CA with no warning or error.
+    #
+    # Putting `tls { issuer acme ... }` DIRECTLY in each virtualHost makes
+    # the automation policy explicit and named per host, which auto-HTTPS
+    # correctly recognizes, so it leaves the issuer alone.
+    #
+    # Works in Caddy v2.11.4 & confirmed via step-ca access logs (zero ACME
+    # requests reaching it under the old global-option config).
+    #
+    # ===================================================================
+    # Any new virtualHost added below -MUST- include this block,
+    # or it will silently get a self-signed cert instead of one from
+    # ca.cyn.internal (!)
+    # ===================================================================
+    acmeIssuer = ''
+      tls {
+        issuer acme https://ca.cyn.internal/acme/acme/directory
 
+        # Sets automatic renewal to be more frequent than default
+        # - cert max/default duration set in `modules/hosts/ca/ca.json`
+        # - cert renewal is set here (168h - 16h) / 168 = 0.904762
+        renewal_window_ratio 0.904762
+      }
+    '';
+  in {
     # NOTE: On a fresh host using caddy, this may be an issue:
     #
     # The account exists in Caddy's local storage but the CA server no longer recognizes it. On the CA side, the account
@@ -19,47 +50,58 @@
     # ssh tk@ip-address sudo systemctl start caddy
     services.caddy = {
       enable = true;
-      package = pkgs.caddy_v284.caddy; # Pinned version 2.8.4
-      acmeCA = "https://ca.cyn.internal/acme/acme/directory";
 
-      # Sets automatic renewal to be more frequent than default
-      # - cert max/default duration set in `modules/hosts/ca/ca.json`
-      # - cert renewal is set here (168h - 16h) / 168 = 0.904762
-      globalConfig = ''
-        renewal_window_ratio 0.904762
-      '';
+      # NOTE: Temporarily raised from the module's default (`level ERROR`)
+      # to `level INFO` so cert issuance/renewal activity is visible in the
+      # journal while verifying the per-virtualHost ACME issuer fix below.
+      logFormat = "level INFO";
 
       virtualHosts."dockerhost.cyn.internal".extraConfig = ''
+        ${acmeIssuer}
         respond "Hello, world on dockerhost.cyn.internal!"
       '';
-      virtualHosts."backup-proxy.cyn.internal".extraConfig = ''
-        respond "Hello, world on backup-proxy.cyn.internal!"
-      '';
+      # TODO: Reactivate later, removed while testing. Also has a
+      # separate/unrelated stale-ACME-account issue (see note above) that
+      # will need to be resolved first. When re-enabled, include
+      # `${acmeIssuer}` like the other virtualHosts below.
+      # virtualHosts."backup-proxy.cyn.internal".extraConfig = ''
+      #   ${acmeIssuer}
+      #   respond "Hello, world on backup-proxy.cyn.internal!"
+      # '';
       virtualHosts."whoami.cyn.internal".extraConfig = ''
+        ${acmeIssuer}
         reverse_proxy ${dockerHost}:8010
       '';
       virtualHosts."pdf.cyn.internal".extraConfig = ''
+        ${acmeIssuer}
         reverse_proxy ${dockerHost}:8020
       '';
       virtualHosts."torrent.cyn.internal".extraConfig = ''
+        ${acmeIssuer}
         reverse_proxy ${dockerHost}:8030
       '';
       virtualHosts."jellyfin.cyn.internal".extraConfig = ''
+        ${acmeIssuer}
         reverse_proxy 172.21.10.47:8096
       '';
       virtualHosts."cookbook.cyn.internal".extraConfig = ''
+        ${acmeIssuer}
         reverse_proxy ${dockerHost}:8050
       '';
       virtualHosts."sync.cyn.internal".extraConfig = ''
+        ${acmeIssuer}
         reverse_proxy ${dockerHost}:8060
       '';
       virtualHosts."home.cyn.internal".extraConfig = ''
+        ${acmeIssuer}
         reverse_proxy 172.21.10.80:8123
       '';
       virtualHosts."grafana.cyn.internal".extraConfig = ''
+        ${acmeIssuer}
         reverse_proxy 172.21.10.28:3000
       '';
       virtualHosts."prometheus.cyn.internal".extraConfig = ''
+        ${acmeIssuer}
         reverse_proxy 172.21.10.28:9090
       '';
 
@@ -72,6 +114,7 @@
       # NOTE: This can be removed if there is a nice fix/workaround
       # for this in nix, but currently there is not
       virtualHosts."nix-cache.cyn.internal".extraConfig = ''
+        ${acmeIssuer}
         @cacheInfo path /nix-cache-info
         handle @cacheInfo {
           respond `StoreDir: /nix/store
