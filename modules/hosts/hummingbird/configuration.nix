@@ -48,6 +48,9 @@
 
         # Desktop Apps
         scribus # Adobe InDesign Alternative
+
+        # For Label Printing (pdfjam)
+        texliveMedium
       ];
 
       home.file = {
