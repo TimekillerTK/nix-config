@@ -1,4 +1,4 @@
-{...}: {
+{
   # Sets up a reverse proxy on a host it's installed on which points to
   # specific hosts
   config.flake.factory.caddy-reverse-proxy = {dockerHost}: {...}: let
