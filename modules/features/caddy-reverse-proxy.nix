@@ -21,6 +21,14 @@
       enable = true;
       package = pkgs.caddy_v284.caddy; # Pinned version 2.8.4
       acmeCA = "https://ca.cyn.internal/acme/acme/directory";
+
+      # Sets automatic renewal to be more frequent than default
+      # - cert max/default duration set in `modules/hosts/ca/ca.json`
+      # - cert renewal is set here (168h - 16h) / 168 = 0.904762
+      globalConfig = ''
+        renewal_window_ratio 0.904762
+      '';
+
       virtualHosts."dockerhost.cyn.internal".extraConfig = ''
         respond "Hello, world on dockerhost.cyn.internal!"
       '';
