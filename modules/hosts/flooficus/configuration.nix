@@ -29,6 +29,15 @@ in {
         inputs.self.modules.homeManager.system-minimal
       ];
       # Normal home-manager config stuff goes here
+
+      home.packages = with pkgs; [
+        # CLI Tools
+        (unstable.fastfetch.override {zfsSupport = true;}) # System info tool (zpool module)
+      ];
+      home.file = {
+        # Fastfetch config as a symlink
+        ".config/fastfetch/config.jsonc".source = ../../../dotfiles/fastfetch/config.jsonc;
+      };
     };
 
     # Hostname
