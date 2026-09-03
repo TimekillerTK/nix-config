@@ -3,7 +3,7 @@
     disk = {
       disk1 = {
         type = "disk";
-        device = "/dev/sda";
+        device = "/dev/disk/by-id/nvme-CT500P3SSD8_240547096330";
         content = {
           type = "gpt";
           partitions = {
@@ -38,7 +38,7 @@
       };
       disk2 = {
         type = "disk";
-        device = "/dev/sdb";
+        device = "/dev/disk/by-id/nvme-CT500P3SSD8_2405470A2EF5";
         content = {
           type = "gpt";
           partitions = {
