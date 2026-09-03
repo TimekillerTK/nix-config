@@ -2,16 +2,19 @@
   flake.modules.nixos.flooficus = {
     modulesPath,
     lib,
+    config,
     ...
   }: {
     imports = [
-      (modulesPath + "/profiles/qemu-guest.nix")
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-    boot.initrd.availableKernelModules = ["ata_piix" "uhci_hcd" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod"];
-    boot.kernelModules = [];
+    boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod"];
+    boot.initrd.kernelModules = [];
+    boot.kernelModules = ["kvm-amd"];
     boot.extraModulePackages = [];
 
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+    hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   };
 }
