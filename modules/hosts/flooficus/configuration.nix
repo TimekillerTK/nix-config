@@ -42,7 +42,7 @@ in {
 
     # Static IP for this host (important)
     networking.useDHCP = false;
-    networking.bridges.incusbr0.interfaces = ["eth0"];
+    networking.bridges.incusbr0.interfaces = ["enp39s0"];
     networking.interfaces.incusbr0.ipv4.addresses = [
       {
         address = "172.21.10.3";
