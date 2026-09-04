@@ -56,7 +56,8 @@
     # Pub certificate for Incus WebUI
     # Generated along with the private key with:
     #
-    # openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:secp384r1 -nodes \
+    # openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:secp384r1 \
+    #   -pkeyopt ec_param_enc:named_curve -nodes \
     #   -days 3650 -keyout /tmp/incus-client.key -out /tmp/incus-client.crt \
     #   -subj "/CN=incus-flooficus-admin"
     #
