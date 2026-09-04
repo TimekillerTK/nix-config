@@ -53,6 +53,35 @@
       '';
     };
 
+    # Pub certificate for Incus WebUI
+    # Generated along with the private key with:
+    #
+    # openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:secp384r1 -nodes \
+    #   -days 3650 -keyout /tmp/incus-client.key -out /tmp/incus-client.crt \
+    #   -subj "/CN=incus-flooficus-admin"
+    #
+    environment.etc."incus/client.crt" = {
+      source = ../../pub_keys/incus-client.crt;
+      mode = "0644";
+    };
+
+    # Bootstrapping systemd service for the credentials for admin access
+    # login
+    systemd.services.incus-trust = {
+      description = "Trust the declarative Incus client certificate";
+      after = ["incus.service"];
+      wants = ["incus.service"];
+      wantedBy = ["multi-user.target"];
+      serviceConfig.Type = "oneshot";
+      serviceConfig.RemainAfterExit = true;
+      path = [config.virtualisation.incus.package];
+      script = ''
+        if ! incus config trust list --format csv | grep -q flooficus-admin; then
+          incus config trust add-certificate /etc/incus/client.crt --name flooficus-admin
+        fi
+      '';
+    };
+
     # Docker daemon for Docker container support
     virtualisation.docker.enable = true;
 
