@@ -61,6 +61,15 @@
     #   -days 3650 -keyout /tmp/incus-client.key -out /tmp/incus-client.crt \
     #   -subj "/CN=incus-flooficus-admin"
     #
+    # To use in a browser, bundle into a PKCS#12 (.p12) file
+    # with the command:
+    #
+    # openssl pkcs12 -export \
+    #   -inkey /tmp/incus-client.key \
+    #   -in    /tmp/incus-client.crt \
+    #   -out   ~/incus-client.p12 \
+    #   -name  "incus-admin"
+    #
     environment.etc."incus/client.crt" = {
       source = ../../pub_keys/incus-client.crt;
       mode = "0644";
