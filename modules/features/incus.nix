@@ -16,6 +16,8 @@
           "core.https_address" = "0.0.0.0:8443";
         };
         profiles = [
+          # Our default profile, selected automatically for new
+          # instances (can be changed)
           {
             # The default profile enables secureboot by default
             # this will not work with many VM images, so turning
@@ -24,6 +26,19 @@
             config = {
               "security.secureboot" = false;
             };
+            devices.root = {
+              type = "disk";
+              path = "/";
+              pool = "default";
+              size = "35GiB";
+            };
+          }
+        ];
+        storage_pools = [
+          {
+            name = "default";
+            driver = "zfs";
+            config = {source = "zroot/local/incus";};
           }
         ];
       };
