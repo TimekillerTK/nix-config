@@ -123,6 +123,12 @@
             options.mountpoint = "/data";
             options."com.sun:auto-snapshot" = "false";
           };
+
+          "local/incus" = {
+            type = "zfs_fs";
+            options.canmount = "off";
+            options."com.sun:auto-snapshot" = "false";
+          };
         };
       };
     };
