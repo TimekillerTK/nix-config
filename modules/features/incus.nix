@@ -26,10 +26,6 @@
             config = {
               "security.secureboot" = false;
             };
-            devices.eth0 = {
-              type = "nic";
-              network = "incusbr0";
-            };
             devices.root = {
               type = "disk";
               path = "/";
