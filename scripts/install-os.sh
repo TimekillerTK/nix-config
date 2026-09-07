@@ -75,7 +75,7 @@ fi
 wipe_disk() {
   local disk="$1"
   printf 'Wiping disk to prepare for installation: %s\n' "$disk"
-  blkdiscard --zeroout --force "$disk"
+  blkdiscard --force "$disk"
   wipefs --all --force "$disk"
 }
 
