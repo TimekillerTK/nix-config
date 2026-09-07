@@ -62,6 +62,24 @@ if ! findmnt -n -o FSTYPE,OPTIONS | grep -q 'squashfs.*ro'; then
   exit 1
 fi
 
+# Release any already-imported/importable ZFS pools before we start wiping,
+# so blkdiscard/disko won't hit "device busy"`.
+if command -v zpool >/dev/null 2>&1; then
+  echo '------------------------------------------------------'
+  printf 'Releasing any pre-existing ZFS pools...\n'
+  zpool import -f -a 2>/dev/null || true
+  zpool export -a -f 2>/dev/null || true
+fi
+
+# Fully erases a disk using the drive's own Write Zeroes command (fast,
+# near-instant on NVMe/SSD, deterministic zero-on-read guarantee)
+wipe_disk() {
+  local disk="$1"
+  printf 'Wiping disk to prepare for installation: %s\n' "$disk"
+  blkdiscard --zeroout --force "$disk"
+  wipefs --all --force "$disk"
+}
+
 # Resolve target disks
 echo '------------------------------------------------------'
 if [ "${#DISK_ARGS[@]}" -gt 0 ]; then
@@ -73,8 +91,7 @@ if [ "${#DISK_ARGS[@]}" -gt 0 ]; then
   done
   printf 'Using specified disk(s): %s\n' "${DISK_ARGS[*]}"
   for disk in "${DISK_ARGS[@]}"; do
-    printf 'Wiping disk to prepare for installation: %s\n' "$disk"
-    wipefs --all "$disk"
+    wipe_disk "$disk"
   done
 else
   DISKS=$(lsblk --nodeps --noheadings --include 8,259 --output NAME)
@@ -89,8 +106,7 @@ else
       exit 1
       ;;
     1)
-      printf 'Wiping disk to prepare for installation: /dev/%s\n' "$DISKS"
-      wipefs --all "/dev/$DISKS"
+      wipe_disk "/dev/$DISKS"
       ;;
     *)
       printf 'Multiple viable disks detected:\n'
@@ -103,6 +119,19 @@ else
       exit 1
       ;;
   esac
+fi
+
+# Safety net: verify the wipe actually worked before handing off to disko.
+if command -v zpool >/dev/null 2>&1; then
+  echo '------------------------------------------------------'
+  printf 'Verifying no stale ZFS pools remain importable...\n'
+  if ! zpool import 2>&1 | grep -q 'no pools available'; then
+    echo "ERROR: A ZFS pool is still importable after wiping the target disk(s)." >&2
+    echo "This would cause disko to silently reuse old data instead of creating a fresh pool." >&2
+    zpool import >&2 || true
+    exit 1
+  fi
+  printf 'OK - no importable pools found.\n'
 fi
 
 # Apply the disko config to the disks
