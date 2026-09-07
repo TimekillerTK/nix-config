@@ -124,10 +124,16 @@
             options."com.sun:auto-snapshot" = "false";
           };
 
-          "local/incus" = {
+          "local/incus_nosnapshot" = {
             type = "zfs_fs";
             options.canmount = "off";
             options."com.sun:auto-snapshot" = "false";
+          };
+
+          "local/incus_snapshot" = {
+            type = "zfs_fs";
+            options.canmount = "off";
+            options."com.sun:auto-snapshot" = "true";
           };
         };
       };

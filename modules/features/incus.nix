@@ -38,12 +38,12 @@
           {
             name = "default";
             driver = "zfs";
-            config = {source = "zroot/local/incus";};
+            config = {source = "zroot/local/incus_nosnapshot";};
           }
           {
-            name = "no_snapshot";
+            name = "snapshot";
             driver = "zfs";
-            config = {source = "zroot/local/data";};
+            config = {source = "zroot/local/incus_snapshot";};
           }
         ];
       };
