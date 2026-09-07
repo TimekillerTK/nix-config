@@ -67,7 +67,6 @@ fi
 if command -v zpool >/dev/null 2>&1; then
   echo '------------------------------------------------------'
   printf 'Releasing any pre-existing ZFS pools...\n'
-  zpool import -f -a 2>/dev/null || true
   zpool export -a -f 2>/dev/null || true
 fi
 
