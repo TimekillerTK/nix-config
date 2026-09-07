@@ -59,6 +59,7 @@
       ]
       ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
         disko # Nix disk partitioning/formatting
+        util-linux # lsblk, blkdiscard
         install-os
       ];
   in {
