@@ -40,6 +40,11 @@
             driver = "zfs";
             config = {source = "zroot/local/incus";};
           }
+          {
+            name = "no_snapshot";
+            driver = "zfs";
+            config = {source = "zroot/local/data";};
+          }
         ];
       };
     };
