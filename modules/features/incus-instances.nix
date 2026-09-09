@@ -10,6 +10,11 @@
   # idempotently creates each instance (from its committed YAML config) and
   # sets `boot.autostart`. Incus itself owns the runtime lifecycle.
   #
+  # Instances are created with `--no-profiles`, so no profile (including
+  # `default`) is applied. Each instance's YAML must therefore be fully
+  # self-contained: root disk, NICs, proxy devices, and any instance-level
+  # config (e.g. `security.secureboot=false` for VMs) must all be listed.
+  #
   # NOTE: Import this together with `inputs.self.modules.nixos.incus` (it
   # relies on `virtualisation.incus` being enabled).
   flake.modules.nixos.incus-instances = {
@@ -23,6 +28,10 @@
         by the `incus-instances` systemd unit, with its config applied from the
         referenced YAML file. The YAML file is the full instance configuration
         (see `incus config show <name> --expanded` for the syntax).
+
+        Instances are created with `--no-profiles`, so no profile is applied
+        and the YAML must be fully self-contained (root disk, NICs, devices,
+        and instance-level config).
       '';
       type = lib.types.attrsOf (lib.types.submodule ({name, ...}: {
         options = {
@@ -57,7 +66,7 @@
         inst = config.incusInstances.${name};
       in ''
         if ! incus info ${name} >/dev/null 2>&1; then
-          incus init ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
+          incus init --no-profiles ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
         fi
         incus config set ${name} boot.autostart ${lib.boolToString inst.autostart}
       '';

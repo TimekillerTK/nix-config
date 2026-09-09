@@ -3,9 +3,9 @@
 # It is applied at instance creation time by the `incus-instances` systemd unit
 # (modules/features/incus-instances.nix).
 #
-# NOTE: The `default` profile (defined in modules/features/incus.nix) still applies
-# on top of this, providing `security.secureboot=false`. The explicit `root` device
-# below overrides the default profile's 35GiB root disk (pool-default size instead).
+# NOTE: The instance is created with `--no-profiles` (see
+# `modules/features/incus-instances.nix`), so no profile is applied. Everything
+# below is self-contained — there is no `default` profile contribution.
 
 config:
   boot.autorestart: "true"
