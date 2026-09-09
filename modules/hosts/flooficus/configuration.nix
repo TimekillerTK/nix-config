@@ -20,10 +20,20 @@ in {
       inputs.self.modules.nixos.prometheus-node-desktop
       inputs.self.modules.nixos.zfs
       inputs.self.modules.nixos.incus
+      inputs.self.modules.nixos.incus-instances
 
       inputs.self.modules.nixos.home-manager
       inputs.self.modules.nixos.tk
     ];
+
+    # Declarative Incus app instances (OCI images). Each created
+    # idempotently at boot by the `incus-instances` unit.
+    incusInstances.mealie = {
+      image = "ghcr:mealie-recipes/mealie:v3.9.2";
+      configYaml = ./incus/mealie.yaml;
+      autostart = true;
+    };
+
     home-manager.users.tk = {
       imports = [
         inputs.self.modules.homeManager.system-minimal

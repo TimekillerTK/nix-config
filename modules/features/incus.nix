@@ -112,6 +112,24 @@
       '';
     };
 
+    # Bootstrapping systemd service for the OCI image remotes used by
+    # declarative instances (see `incus-instances.nix`).
+    systemd.services.incus-remotes = {
+      description = "Create incus OCI image remotes";
+      after = ["incus.service"];
+      wants = ["incus.service"];
+      wantedBy = ["multi-user.target"];
+      serviceConfig.Type = "oneshot";
+      serviceConfig.RemainAfterExit = true;
+      path = [config.virtualisation.incus.package];
+      script = ''
+        incus remote show ghcr >/dev/null 2>&1 || \
+          incus remote add ghcr https://ghcr.io --protocol=oci
+        incus remote show docker >/dev/null 2>&1 || \
+          incus remote add docker https://docker.io --protocol=oci
+      '';
+    };
+
     # Docker daemon for Docker container support
     virtualisation.docker.enable = true;
 

@@ -1,0 +1,50 @@
+# Mealie - Container (App)
+#
+# It is applied at instance creation time by the `incus-instances` systemd unit
+# (modules/features/incus-instances.nix).
+#
+# NOTE: The `default` profile (defined in modules/features/incus.nix) still applies
+# on top of this, providing `security.secureboot=false`. The explicit `root` device
+# below overrides the default profile's 35GiB root disk (pool-default size instead).
+
+config:
+  boot.autorestart: "true"
+  boot.autostart: "true"
+  environment.ALLOW_SIGNUP: "true"
+  environment.BASE_URL: https://cookbook.cyn.internal
+  environment.MAX_WORKERS: "1"
+  environment.PGID: "100"
+  environment.PUID: "1000"
+  environment.TOKEN_TIME: "2160"
+  environment.TZ: Europe/Amsterdam
+  environment.WEB_CONCURRENCY: "1"
+  limits.memory: 1000MiB
+
+devices:
+  eth0:
+    type: nic
+    network: incusbr1
+  http:
+    type: proxy
+    listen: tcp:0.0.0.0:8050
+    connect: tcp:127.0.0.1:9000
+  root:
+    type: disk
+    path: /
+    pool: default
+    size: 35GiB
+
+# TODO: TEST THIS THEORY BELOW ...
+#
+# Persistence: Mealie stores its data under /app/data. To keep it across
+# instance rebuilds, create a storage volume and mount it, e.g.:
+#
+#   incus storage volume create default mealie-data size=10GiB
+#
+# then add:
+#
+#   data:
+#     type: disk
+#     pool: default
+#     source: mealie-data
+#     path: /app/data
