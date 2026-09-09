@@ -1,0 +1,32 @@
+# Mealie - declarative Incus instance configuration
+#
+# This is the "expanded" instance config (see `incus config show mealie --expanded`).
+# It is applied at instance creation time by the `incus-instances` systemd unit
+# (modules/features/incus-instances.nix).
+#
+# NOTE: The `default` profile (defined in modules/features/incus.nix) still applies
+# on top of this, providing a 35GiB root disk and `security.secureboot=false`.
+# Add/override devices here as needed.
+
+config:
+  limits.cpu: "2"
+  limits.memory: 1GiB
+
+devices:
+  eth0:
+    type: nic
+    network: incusbr1
+    name: eth0
+
+# Persistence: Mealie stores its data under /app/data. To keep it across
+# instance rebuilds, create a storage volume and mount it, e.g.:
+#
+#   incus storage volume create default mealie-data size=10GiB
+#
+# then add:
+#
+#   data:
+#     type: disk
+#     pool: default
+#     source: mealie-data
+#     path: /app/data
