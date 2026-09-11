@@ -133,7 +133,9 @@
           "local/incus_snapshot" = {
             type = "zfs_fs";
             options.canmount = "off";
-            options."com.sun:auto-snapshot" = "true";
+            # NOTE: Automatic snapshotting is managed by Incus itself,
+            # so it's disabled here.
+            options."com.sun:auto-snapshot" = "false";
           };
         };
       };

@@ -36,6 +36,8 @@ in {
         name = "mealie-data";
         pool = "snapshot";
         size = "10GiB";
+        snapshotSchedule = "@daily";
+        snapshotExpiry = "1M";
       };
     };
 

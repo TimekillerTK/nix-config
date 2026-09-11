@@ -72,6 +72,31 @@
                   type = lib.types.str;
                   description = "Size/quota of the volume, e.g. `10GiB`.";
                 };
+                snapshotSchedule = lib.mkOption {
+                  type = lib.types.nullOr lib.types.str;
+                  default = null;
+                  description = ''
+                    Cron expression or schedule alias for automatic snapshots
+                    (e.g. `@daily`, `0 6 * * *`). Null disables automatic
+                    snapshots.
+                  '';
+                };
+                snapshotExpiry = lib.mkOption {
+                  type = lib.types.nullOr lib.types.str;
+                  default = null;
+                  description = ''
+                    Auto-expiry applied to newly created snapshots, e.g. `1M`
+                    (calendar month). Null keeps snapshots forever.
+                  '';
+                };
+                snapshotPattern = lib.mkOption {
+                  type = lib.types.nullOr lib.types.str;
+                  default = null;
+                  description = ''
+                    Pongo2 template for snapshot names (e.g. `mealie-%d`).
+                    Null uses Incus' default (`snap%d`).
+                  '';
+                };
               };
             });
             default = null;
@@ -96,8 +121,19 @@
           incus storage volume show ${inst.dataVolume.pool} ${inst.dataVolume.name} >/dev/null 2>&1 || \
             incus storage volume create ${inst.dataVolume.pool} ${inst.dataVolume.name} size=${inst.dataVolume.size}
         '';
+        configureVolume = lib.optionalString (inst.dataVolume != null) (
+          lib.concatStringsSep "\n" (
+            lib.optional (inst.dataVolume.snapshotSchedule != null)
+              "incus storage volume set ${inst.dataVolume.pool} ${inst.dataVolume.name} snapshots.schedule=${lib.escapeShellArg inst.dataVolume.snapshotSchedule}"
+            ++ lib.optional (inst.dataVolume.snapshotExpiry != null)
+              "incus storage volume set ${inst.dataVolume.pool} ${inst.dataVolume.name} snapshots.expiry=${lib.escapeShellArg inst.dataVolume.snapshotExpiry}"
+            ++ lib.optional (inst.dataVolume.snapshotPattern != null)
+              "incus storage volume set ${inst.dataVolume.pool} ${inst.dataVolume.name} snapshots.pattern=${lib.escapeShellArg inst.dataVolume.snapshotPattern}"
+          )
+        );
       in ''
         ${createVolume}
+        ${configureVolume}
         if ! incus info ${name} >/dev/null 2>&1; then
           incus init --no-profiles ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
         fi
