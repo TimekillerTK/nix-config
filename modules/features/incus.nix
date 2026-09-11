@@ -130,6 +130,10 @@
       '';
     };
 
+    environment.systemPackages = with pkgs; [
+      sshfs # for `incus file mount container/ /mnt/container`
+    ];
+
     # Docker daemon for Docker container support
     virtualisation.docker.enable = true;
 

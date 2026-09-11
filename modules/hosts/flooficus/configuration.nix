@@ -73,13 +73,18 @@ in {
 
     # Lanzaboote used here for redundant ESP partitions
     boot.loader.systemd-boot.enable = lib.mkForce false;
-    environment.systemPackages = [pkgs.sbctl];
     boot.lanzaboote = {
       enable = true;
       pkiBundle = "/var/lib/sbctl";
       extraEfiSysMountPoints = ["/boot-fallback"];
       autoGenerateKeys.enable = true;
     };
+
+    # System Packages
+    environment.systemPackages = with pkgs; [
+      sbctl # Secure Boot key manager (lanzaboote)
+      btop
+    ];
   };
 
   # Adding this host to the prometheus targets for the grafana host
