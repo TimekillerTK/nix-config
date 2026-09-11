@@ -41,6 +41,12 @@ in {
       };
     };
 
+    incusInstances.stirling-pdf = {
+      image = "docker:stirlingtools/stirling-pdf:2.4.0";
+      configYaml = ./incus/stirling-pdf.yaml;
+      autostart = true;
+    };
+
     home-manager.users.tk = {
       imports = [
         inputs.self.modules.homeManager.system-minimal

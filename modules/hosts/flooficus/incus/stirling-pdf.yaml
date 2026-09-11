@@ -1,0 +1,28 @@
+# Stirling-PDF - Container (App)
+#
+# It is applied at instance creation time by the `incus-instances` systemd unit
+# (modules/features/incus-instances.nix).
+#
+# NOTE: The instance is created with `--no-profiles` (see
+# `modules/features/incus-instances.nix`), so no profile is applied. Everything
+# below is self-contained — there is no `default` profile contribution.
+
+config:
+  boot.autorestart: "true"
+  boot.autostart: "true"
+  environment.DOCKER_ENABLE_SECURITY: "false"
+  limits.memory: 2GiB
+
+devices:
+  eth0:
+    type: nic
+    network: incusbr1
+  http:
+    type: proxy
+    listen: tcp:0.0.0.0:8020
+    connect: tcp:127.0.0.1:8080
+  root:
+    type: disk
+    path: /
+    pool: default
+    size: 20GiB
