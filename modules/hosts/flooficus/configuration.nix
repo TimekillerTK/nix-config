@@ -32,6 +32,11 @@ in {
       image = "ghcr:mealie-recipes/mealie:v3.9.2";
       configYaml = ./incus/mealie.yaml;
       autostart = true;
+      dataVolume = {
+        name = "mealie-data";
+        pool = "snapshot";
+        size = "10GiB";
+      };
     };
 
     home-manager.users.tk = {

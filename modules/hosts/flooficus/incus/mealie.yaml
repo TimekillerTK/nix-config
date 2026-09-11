@@ -33,18 +33,8 @@ devices:
     path: /
     pool: default
     size: 35GiB
-
-# TODO: TEST THIS THEORY BELOW ...
-#
-# Persistence: Mealie stores its data under /app/data. To keep it across
-# instance rebuilds, create a storage volume and mount it, e.g.:
-#
-#   incus storage volume create default mealie-data size=10GiB
-#
-# then add:
-#
-#   data:
-#     type: disk
-#     pool: default
-#     source: mealie-data
-#     path: /app/data
+  data:
+    type: disk
+    pool: snapshot
+    source: mealie-data
+    path: /app/data

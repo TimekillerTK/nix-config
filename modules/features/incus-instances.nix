@@ -56,6 +56,34 @@
               start via `incus start <name>`.
             '';
           };
+          dataVolume = lib.mkOption {
+            type = lib.types.nullOr (lib.types.submodule {
+              options = {
+                name = lib.mkOption {
+                  type = lib.types.str;
+                  description = "Name of the custom storage volume to create (and reference from the instance's YAML `source`).";
+                };
+                pool = lib.mkOption {
+                  type = lib.types.str;
+                  default = "default";
+                  description = "Storage pool in which to create the volume.";
+                };
+                size = lib.mkOption {
+                  type = lib.types.str;
+                  description = "Size/quota of the volume, e.g. `10GiB`.";
+                };
+              };
+            });
+            default = null;
+            description = ''
+              Optional custom storage volume, created (if missing) before the
+              instance itself so it can be referenced from the instance's
+              YAML as a `disk` device `source`. Unlike the instance's root
+              volume, this volume is not deleted when the instance is
+              deleted, so data survives instance recreation (e.g. image
+              upgrades).
+            '';
+          };
         };
       }));
       default = {};
@@ -64,7 +92,12 @@
     config = let
       mkInstanceEntry = name: let
         inst = config.incusInstances.${name};
+        createVolume = lib.optionalString (inst.dataVolume != null) ''
+          incus storage volume show ${inst.dataVolume.pool} ${inst.dataVolume.name} >/dev/null 2>&1 || \
+            incus storage volume create ${inst.dataVolume.pool} ${inst.dataVolume.name} size=${inst.dataVolume.size}
+        '';
       in ''
+        ${createVolume}
         if ! incus info ${name} >/dev/null 2>&1; then
           incus init --no-profiles ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
         fi
