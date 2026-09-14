@@ -85,8 +85,8 @@
                   type = lib.types.nullOr lib.types.str;
                   default = null;
                   description = ''
-                    Auto-expiry applied to newly created snapshots, e.g. `1M`
-                    (calendar month). Null keeps snapshots forever.
+                    Auto-expiry applied to newly created snapshots, e.g. `1m`
+                    (calendar month; note `M` = minute). Null keeps snapshots forever.
                   '';
                 };
                 snapshotPattern = lib.mkOption {

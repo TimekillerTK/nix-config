@@ -37,7 +37,7 @@ in {
         pool = "snapshot";
         size = "10GiB";
         snapshotSchedule = "@daily";
-        snapshotExpiry = "1M";
+        snapshotExpiry = "1m";
       };
     };
 
