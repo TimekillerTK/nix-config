@@ -7,8 +7,16 @@
   #
   # This module fills that gap with the same bootstrapping idiom used by
   # `incus.nix` for networks/trust: a single oneshot systemd unit that
-  # idempotently creates each instance (from its committed YAML config) and
-  # sets `boot.autostart`. Incus itself owns the runtime lifecycle.
+  # idempotently creates each instance (from its committed YAML config),
+  # recreates it whenever its definition changes, and sets `boot.autostart`.
+  # Incus itself owns the runtime lifecycle.
+  #
+  # Convergence works by baking a hash of the instance's `image` + YAML into
+  # the unit script. When either changes, the unit file changes and NixOS
+  # re-runs it on `switch`; the hash is compared against the instance's
+  # `user.nix-config-hash` marker and a mismatch triggers a delete + recreate.
+  # A custom `dataVolume` survives recreation (it is a separate volume), so
+  # app data persists across image/config upgrades.
   #
   # Instances are created with `--no-profiles`, so no profile (including
   # `default`) is applied. Each instance's YAML must therefore be fully
@@ -26,8 +34,11 @@
       description = ''
         Declarative Incus app instances. Each entry is created (if missing)
         by the `incus-instances` systemd unit, with its config applied from the
-        referenced YAML file. The YAML file is the full instance configuration
-        (see `incus config show <name> --expanded` for the syntax).
+        referenced YAML file. If the instance's `image` or YAML changes, the
+        instance is deleted and recreated on the next unit run, so the running
+        instance always matches the declaration. The YAML file is the full
+        instance configuration (see `incus config show <name> --expanded` for
+        the syntax).
 
         Instances are created with `--no-profiles`, so no profile is applied
         and the YAML must be fully self-contained (root disk, NICs, devices,
@@ -117,6 +128,7 @@
     config = let
       mkInstanceEntry = name: let
         inst = config.incusInstances.${name};
+        desiredHash = builtins.hashString "sha256" "${inst.image}\n${builtins.readFile inst.configYaml}";
         createVolume = lib.optionalString (inst.dataVolume != null) ''
           incus storage volume show ${inst.dataVolume.pool} ${inst.dataVolume.name} >/dev/null 2>&1 || \
             incus storage volume create ${inst.dataVolume.pool} ${inst.dataVolume.name} size=${inst.dataVolume.size}
@@ -135,8 +147,23 @@
         ${createVolume}
         ${configureVolume}
         if ! incus info ${name} >/dev/null 2>&1; then
+          echo "Creating Incus instance ${name}"
           incus init --no-profiles ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
+          ${lib.optionalString inst.autostart "incus start ${name}"}
+        elif [ "$(incus config get ${name} user.nix-config-hash)" != "${desiredHash}" ]; then
+          echo "Definition of Incus instance ${name} changed; recreating"
+          if [ "$(incus config get ${name} volatile.last_state.power)" = "RUNNING" ]; then
+            was_running=1
+          else
+            was_running=0
+          fi
+          incus delete --force ${name}
+          incus init --no-profiles ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
+          if [ "$was_running" = "1" ]; then
+            incus start ${name}
+          fi
         fi
+        incus config set ${name} user.nix-config-hash ${desiredHash}
         incus config set ${name} boot.autostart ${lib.boolToString inst.autostart}
       '';
     in {
