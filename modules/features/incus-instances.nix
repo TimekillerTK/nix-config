@@ -71,7 +71,6 @@
       #   inherit inst;
       #   desiredHash = builtins.hashString "sha256" "${inst.image}\n${builtins.readFile inst.configYaml}";
       # }) x'
-      #
       mkInstanceEntry = name: let
         inst = config.incusInstances.${name};
         desiredHash = builtins.hashString "sha256" "${inst.image}\n${builtins.readFile inst.configYaml}";
