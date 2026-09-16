@@ -21,6 +21,12 @@ in {
       inputs.self.modules.nixos.zfs
       inputs.self.modules.nixos.incus
       inputs.self.modules.nixos.incus-instances
+      (inputs.self.factory.mount-cifs {
+        shareName = "mediasnek3";
+        shareLocalPath = "TrueNAS";
+        shareUsers = ["tk"];
+        shareSecret = "tk";
+      })
 
       inputs.self.modules.nixos.home-manager
       inputs.self.modules.nixos.tk
