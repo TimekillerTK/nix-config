@@ -27,3 +27,8 @@ devices:
     path: /
     pool: default
     size: 20GiB
+  data:
+    type: disk
+    pool: snapshot
+    source: stirling-pdf-data
+    path: /configs

@@ -45,6 +45,13 @@ in {
       image = "docker:stirlingtools/stirling-pdf:2.4.0";
       configYaml = ./incus/stirling-pdf.yaml;
       autostart = true;
+      dataVolume = {
+        name = "stirling-pdf-data";
+        pool = "snapshot";
+        size = "10GiB";
+        snapshotSchedule = "@daily";
+        snapshotExpiry = "1m";
+      };
     };
 
     home-manager.users.tk = {
