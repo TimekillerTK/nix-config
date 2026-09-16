@@ -25,7 +25,6 @@ in {
         shareName = "mediasnek3";
         shareLocalPath = "TrueNAS";
         shareUsers = ["tk"];
-        shareSecret = "tk";
       })
 
       inputs.self.modules.nixos.home-manager
