@@ -7,6 +7,11 @@ set -euo pipefail
 # The Incus target (instance name, data volume name/pool, mount path(s)) is
 # derived from the `incusInstances` option in the NixOS configuration, so you
 # only need to point it at the docker service to migrate FROM.
+#
+# Data is copied by mounting the data volume's backing ZFS dataset directly on
+# the Incus host (the instance is stopped for the duration) and streaming a
+# tarball of each bind mount into it. This avoids `incus file push`, which only
+# writes into a stopped instance's root filesystem — not its mounted volumes.
 
 usage() {
   cat >&2 <<'EOF'
@@ -25,8 +30,10 @@ Options:
                          machine (default: cyn.internal).
   --ssh-user <user>      SSH user for the incus machine (default: tk).
   --instance <name>      Incus instance name (default: <service>).
-  --puid <uid>           Override ownership UID (default: parsed from compose).
-  --pgid <gid>           Override ownership GID (default: parsed from compose).
+  --puid <uid>           Override ownership UID (container-relative; default:
+                         parsed from compose).
+  --pgid <gid>           Override ownership GID (container-relative; default:
+                         parsed from compose).
   --skip-stop            Do not stop the docker container before copying.
   --start                Start the Incus instance when done.
   --dry-run              Print resolved commands without executing anything.
@@ -151,7 +158,7 @@ COMPOSE_PGID=$(printf '%s' "$COMPOSE_JSON" | jq -r --arg s "$SERVICE" '.services
 PUID="${PUID:-${COMPOSE_PUID:-1000}}"
 PGID="${PGID:-${COMPOSE_PGID:-1000}}"
 
-printf '  ownership: %s:%s\n' "$PUID" "$PGID"
+printf '  ownership (container): %s:%s\n' "$PUID" "$PGID"
 
 BINDS=()
 while IFS=$'\t' read -r src tgt; do
@@ -194,7 +201,7 @@ else
   run ssh "$SOURCE_HOST" "cd '$COMPOSE_DIR' && docker compose -f '$COMPOSE_BASE' stop '$SERVICE'"
 fi
 
-# --- Step 5: verify the Incus instance, map binds, transfer, write ----------
+# --- Step 5: stop the Incus instance, mount its ZFS volume, transfer --------
 
 printf 'Checking Incus instance %s on %s...\n' "$INSTANCE" "$INCUS_FQDN"
 if ! INFO_OUT=$(ssh "$INCUS_SSH" "incus info '$INSTANCE'" 2>&1); then
@@ -206,13 +213,50 @@ if printf '%s\n' "$INFO_OUT" | grep -q 'Status: RUNNING'; then
   run ssh "$INCUS_SSH" "incus stop '$INSTANCE'"
 fi
 
-TMP_ROOT="/tmp/migrate-${SERVICE}"
+# Resolve the ZFS dataset backing the data volume. Custom volumes live at
+# <pool-source>/custom/<project>_<volume>; match by volume name so we don't
+# have to hardcode the project prefix.
+POOL_SRC=$(ssh "$INCUS_SSH" "incus storage get '$POOL' source") \
+  || die "cannot resolve ZFS source for pool '$POOL'"
+DATASET=$(ssh "$INCUS_SSH" "zfs list -H -o name -t filesystem -r '$POOL_SRC'" \
+  | awk -v v="$VOLUME" 'index($0,"/custom/") && substr($0,length($0)-length(v)+1)==v {print; exit}') \
+  || die "cannot list ZFS datasets under '$POOL_SRC'"
+if [ -z "$DATASET" ]; then
+  die "no ZFS dataset found for volume '$VOLUME' in pool '$POOL'"
+fi
+printf '  zfs dataset: %s\n' "$DATASET"
 
-idx=0
+# Incus unprivileged containers store on-disk ownership using host IDs. The
+# active ID mapping lives in `volatile.idmap.current` (a JSON array of ranges);
+# map each container-relative PUID/PGID through its range to the host ID.
+IDMAP=$(ssh "$INCUS_SSH" "incus config get '$INSTANCE' volatile.idmap.current" 2>/dev/null || true)
+[ -z "$IDMAP" ] && IDMAP=$(ssh "$INCUS_SSH" "incus config get '$INSTANCE' volatile.idmap.next" 2>/dev/null || true)
+
+idmap_lookup() {
+  # $1 = uid|gid, $2 = container ID -> prints host ID (empty if unmapped)
+  local kind="$1" id="$2" flag
+  [ "$kind" = uid ] && flag="Isuid" || flag="Isgid"
+  printf '%s' "$IDMAP" | jq -r --argjson id "$id" --arg flag "$flag" \
+    '.[] | select(.[$flag] == true) | select(.Nsid <= $id and $id < (.Nsid + .Maprange))
+         | ($id + (.Hostid - .Nsid))' | head -n1
+}
+
+HOST_PUID=$(idmap_lookup uid "$PUID"); HOST_PUID="${HOST_PUID:-$PUID}"
+HOST_PGID=$(idmap_lookup gid "$PGID"); HOST_PGID="${HOST_PGID:-$PGID}"
+printf '  ownership (host): %s:%s\n' "$HOST_PUID" "$HOST_PGID"
+
+MNT="/tmp/migrate-${SERVICE}"
+cleanup() {
+  run ssh "$INCUS_SSH" "sudo umount '$MNT' 2>/dev/null || true; sudo rmdir '$MNT' 2>/dev/null || true"
+}
+trap cleanup EXIT
+
+printf 'Mounting %s at %s on %s...\n' "$DATASET" "$MNT" "$INCUS_FQDN"
+run ssh "$INCUS_SSH" "sudo mkdir -p '$MNT' && sudo mount -t zfs '$DATASET' '$MNT'"
+
 for b in "${BINDS[@]}"; do
   src="${b%%$'\t'*}"
   tgt="${b#*$'\t'}"
-  idx=$((idx + 1))
 
   ntgt="$(norm "$tgt")"
 
@@ -234,15 +278,16 @@ for b in "${BINDS[@]}"; do
     fi
   fi
 
-  local_dir="$TMP_ROOT/$idx"
-  remote_target="$mount_path"
+  remote_target="$MNT"
   [ -n "$subdir" ] && remote_target="$remote_target/$subdir"
 
   printf 'Transferring %s -> %s:%s ...\n' "$src" "$INSTANCE" "$remote_target"
 
+  run ssh "$INCUS_SSH" "sudo mkdir -p '$remote_target'"
+
   if [ "$DRY_RUN" -eq 1 ]; then
-    printf '  DRY-RUN: ssh %s "tar czf - -C %s ." | pv -s <size> -p -t -e -r | ssh %s "mkdir -p %s && tar xzf - -C %s"\n' \
-      "$SOURCE_HOST" "$src" "$INCUS_SSH" "$local_dir" "$local_dir" >&2
+    printf '  DRY-RUN: ssh %s "tar czf - -C %s ." | pv -s <size> -p -t -e -r | ssh %s "sudo tar xzf - -C %s"\n' \
+      "$SOURCE_HOST" "$src" "$INCUS_SSH" "$remote_target" >&2
   else
     if command -v pv >/dev/null 2>&1; then
       size="$(ssh "$SOURCE_HOST" "du -sb '$src'" 2>/dev/null | awk '{print $1}')"
@@ -251,20 +296,17 @@ for b in "${BINDS[@]}"; do
       pv_args+=(-p -t -e -r)
       ssh "$SOURCE_HOST" "tar czf - -C '$src' ." \
         | "${pv_args[@]}" \
-        | ssh "$INCUS_SSH" "mkdir -p '$local_dir' && tar xzf - -C '$local_dir'"
+        | ssh "$INCUS_SSH" "sudo tar xzf - -C '$remote_target'"
     else
       ssh "$SOURCE_HOST" "tar czf - -C '$src' ." \
-        | ssh "$INCUS_SSH" "mkdir -p '$local_dir' && tar xzf - -C '$local_dir'"
+        | ssh "$INCUS_SSH" "sudo tar xzf - -C '$remote_target'"
     fi
   fi
 
-  shopt -s dotglob nullglob
-  for entry in "$local_dir"/*; do
-    base="$(basename "$entry")"
-    run ssh "$INCUS_SSH" "incus file push -r -p --uid '$PUID' --gid '$PGID' '$local_dir/$base' '$INSTANCE$remote_target/'"
-  done
-  shopt -u dotglob nullglob
+  run ssh "$INCUS_SSH" "sudo chown -R '$HOST_PUID:$HOST_PGID' '$remote_target'"
 done
+
+run ssh "$INCUS_SSH" "sudo umount '$MNT' && sudo rmdir '$MNT'"
 
 # --- Step 6: optionally start the instance ----------------------------------
 
@@ -274,10 +316,5 @@ if [ "$START" -eq 1 ]; then
 else
   printf 'Instance %s left stopped; start it manually to verify.\n' "$INSTANCE"
 fi
-
-# --- Cleanup ----------------------------------------------------------------
-
-printf 'Cleaning up %s on %s...\n' "$TMP_ROOT" "$INCUS_FQDN"
-run ssh "$INCUS_SSH" "rm -rf '$TMP_ROOT'"
 
 printf 'Done.\n'
