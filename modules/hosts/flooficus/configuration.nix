@@ -29,7 +29,7 @@ in {
     # Declarative Incus app instances (OCI images). Each created
     # idempotently at boot by the `incus-instances` unit.
     incusInstances.mealie = {
-      image = "ghcr:mealie-recipes/mealie:v3.10.2";
+      image = "ghcr:mealie-recipes/mealie:v3.11.0";
       configYaml = ./incus/mealie.yaml;
       autostart = true;
       dataVolume = {
