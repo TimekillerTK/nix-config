@@ -35,7 +35,6 @@ Options:
   --pgid <gid>           Override ownership GID (container-relative; default:
                          parsed from compose).
   --skip-stop            Do not stop the docker container before copying.
-  --start                Start the Incus instance when done.
   --dry-run              Print resolved commands without executing anything.
   -h, --help             Show this help.
 EOF
@@ -54,7 +53,6 @@ INSTANCE=""
 PUID=""
 PGID=""
 SKIP_STOP=0
-START=0
 DRY_RUN=0
 
 while [ $# -gt 0 ]; do
@@ -69,7 +67,6 @@ while [ $# -gt 0 ]; do
     --puid)         PUID="$2"; shift 2 ;;
     --pgid)         PGID="$2"; shift 2 ;;
     --skip-stop)    SKIP_STOP=1; shift ;;
-    --start)        START=1; shift ;;
     --dry-run)      DRY_RUN=1; shift ;;
     -h|--help)      usage 0 ;;
     *) printf 'Unknown argument: %s\n' "$1" >&2; usage 1 ;;
@@ -105,6 +102,12 @@ norm() {
   printf '%s' "$1" | sed 's:/\{1,\}$::'
 }
 
+COMPOSE_DIR="$(dirname "$COMPOSE_FILE")"
+COMPOSE_BASE="$(basename "$COMPOSE_FILE")"
+compose() {
+  ssh "$SOURCE_HOST" "cd '$COMPOSE_DIR' && docker compose -f '$COMPOSE_BASE' $*"
+}
+
 # --- Step 1: discover the Incus target from the Nix config -----------------
 
 printf 'Discovering Incus target from Nix config (%s)...\n' "$NIXOS_HOST"
@@ -115,15 +118,11 @@ if ! NIX_JSON=$(nix eval --json --impure "$NIX_QUERY"); then
 fi
 
 CONFIG_YAML=$(printf '%s' "$NIX_JSON" | jq -r --arg i "$INSTANCE" '.[$i].configYaml // empty')
-if [ -z "$CONFIG_YAML" ] || [ "$CONFIG_YAML" = "null" ]; then
-  die "no incusInstances entry named '$INSTANCE' in $NIXOS_HOST"
-fi
+[ -n "$CONFIG_YAML" ] || die "no incusInstances entry named '$INSTANCE' in $NIXOS_HOST"
 
 VOLUME=$(printf '%s' "$NIX_JSON" | jq -r --arg i "$INSTANCE" '.[$i].dataVolume.name // empty')
 POOL=$(printf '%s' "$NIX_JSON" | jq -r --arg i "$INSTANCE" '.[$i].dataVolume.pool // empty')
-if [ -z "$VOLUME" ] || [ "$VOLUME" = "null" ]; then
-  die "instance '$INSTANCE' has no dataVolume; nothing to migrate into"
-fi
+[ -n "$VOLUME" ] || die "instance '$INSTANCE' has no dataVolume; nothing to migrate into"
 
 printf '  instance=%s  volume=%s/%s\n' "$INSTANCE" "$POOL" "$VOLUME"
 
@@ -135,9 +134,7 @@ while IFS= read -r p; do
 done < <(yq -o=json '.devices' "$CONFIG_YAML" \
            | jq -r --arg v "$VOLUME" 'to_entries[] | select(.value.source == $v) | .value.path')
 
-if [ "${#MOUNT_PATHS[@]}" -eq 0 ]; then
-  die "could not find a device in $CONFIG_YAML referencing volume '$VOLUME'"
-fi
+[ "${#MOUNT_PATHS[@]}" -gt 0 ] || die "could not find a device in $CONFIG_YAML referencing volume '$VOLUME'"
 
 printf '  mount path(s): %s\n' "${MOUNT_PATHS[*]}"
 
@@ -145,11 +142,7 @@ printf '  mount path(s): %s\n' "${MOUNT_PATHS[*]}"
 
 printf 'Parsing docker compose for service "%s" on %s...\n' "$SERVICE" "$SOURCE_HOST"
 
-COMPOSE_DIR="$(dirname "$COMPOSE_FILE")"
-COMPOSE_BASE="$(basename "$COMPOSE_FILE")"
-COMPOSE_CMD="cd '$COMPOSE_DIR' && docker compose -f '$COMPOSE_BASE' config --format json"
-
-if ! COMPOSE_JSON=$(ssh "$SOURCE_HOST" "$COMPOSE_CMD"); then
+if ! COMPOSE_JSON=$(compose config --format json); then
   die "failed to read $COMPOSE_FILE on $SOURCE_HOST"
 fi
 
@@ -169,9 +162,7 @@ while IFS=$'\t' read -r src tgt; do
     *) die "volume '$src' for service '$SERVICE' is a named docker volume, not a bind mount (not supported)" ;;
   esac
 
-  if [ -z "$tgt" ]; then
-    die "volume '$src' for service '$SERVICE' has no container target path"
-  fi
+  [ -n "$tgt" ] || die "volume '$src' for service '$SERVICE' has no container target path"
 
   BINDS+=("$src"$'\t'"$tgt")
 done < <(printf '%s' "$COMPOSE_JSON" | jq -r --arg s "$SERVICE" '
@@ -183,9 +174,7 @@ done < <(printf '%s' "$COMPOSE_JSON" | jq -r --arg s "$SERVICE" '
   | @tsv
 ')
 
-if [ "${#BINDS[@]}" -eq 0 ]; then
-  die "service '$SERVICE' has no bind-mounted volumes"
-fi
+[ "${#BINDS[@]}" -gt 0 ] || die "service '$SERVICE' has no bind-mounted volumes"
 
 printf '  bind mount(s):\n'
 for b in "${BINDS[@]}"; do
@@ -198,7 +187,7 @@ if [ "$SKIP_STOP" -eq 1 ]; then
   printf 'Skipping docker stop (--skip-stop).\n'
 else
   printf 'Stopping docker container %s...\n' "$SERVICE"
-  run ssh "$SOURCE_HOST" "cd '$COMPOSE_DIR' && docker compose -f '$COMPOSE_BASE' stop '$SERVICE'"
+  run compose stop "$SERVICE"
 fi
 
 # --- Step 5: stop the Incus instance, mount its ZFS volume, transfer --------
@@ -221,9 +210,7 @@ POOL_SRC=$(ssh "$INCUS_SSH" "incus storage get '$POOL' source") \
 DATASET=$(ssh "$INCUS_SSH" "zfs list -H -o name -t filesystem -r '$POOL_SRC'" \
   | awk -v v="$VOLUME" 'index($0,"/custom/") && substr($0,length($0)-length(v)+1)==v {print; exit}') \
   || die "cannot list ZFS datasets under '$POOL_SRC'"
-if [ -z "$DATASET" ]; then
-  die "no ZFS dataset found for volume '$VOLUME' in pool '$POOL'"
-fi
+[ -n "$DATASET" ] || die "no ZFS dataset found for volume '$VOLUME' in pool '$POOL'"
 printf '  zfs dataset: %s\n' "$DATASET"
 
 # Incus unprivileged containers store on-disk ownership using host IDs. The
@@ -232,17 +219,15 @@ printf '  zfs dataset: %s\n' "$DATASET"
 IDMAP=$(ssh "$INCUS_SSH" "incus config get '$INSTANCE' volatile.idmap.current" 2>/dev/null || true)
 [ -z "$IDMAP" ] && IDMAP=$(ssh "$INCUS_SSH" "incus config get '$INSTANCE' volatile.idmap.next" 2>/dev/null || true)
 
-idmap_lookup() {
-  # $1 = uid|gid, $2 = container ID -> prints host ID (empty if unmapped)
-  local kind="$1" id="$2" flag
-  [ "$kind" = uid ] && flag="Isuid" || flag="Isgid"
-  printf '%s' "$IDMAP" | jq -r --argjson id "$id" --arg flag "$flag" \
-    '.[] | select(.[$flag] == true) | select(.Nsid <= $id and $id < (.Nsid + .Maprange))
+map_id() {
+  # $1 = Isuid|Isgid, $2 = container ID -> prints host ID (empty if unmapped)
+  printf '%s' "$IDMAP" | jq -r --argjson id "$2" --arg f "$1" \
+    '.[] | select(.[$f] == true) | select(.Nsid <= $id and $id < (.Nsid + .Maprange))
          | ($id + (.Hostid - .Nsid))' | head -n1
 }
 
-HOST_PUID=$(idmap_lookup uid "$PUID"); HOST_PUID="${HOST_PUID:-$PUID}"
-HOST_PGID=$(idmap_lookup gid "$PGID"); HOST_PGID="${HOST_PGID:-$PGID}"
+HOST_PUID=$(map_id Isuid "$PUID"); HOST_PUID="${HOST_PUID:-$PUID}"
+HOST_PGID=$(map_id Isgid "$PGID"); HOST_PGID="${HOST_PGID:-$PGID}"
 printf '  ownership (host): %s:%s\n' "$HOST_PUID" "$HOST_PGID"
 
 MNT="/tmp/migrate-${SERVICE}"
@@ -257,25 +242,17 @@ run ssh "$INCUS_SSH" "sudo mkdir -p '$MNT' && sudo mount -t zfs '$DATASET' '$MNT
 for b in "${BINDS[@]}"; do
   src="${b%%$'\t'*}"
   tgt="${b#*$'\t'}"
-
   ntgt="$(norm "$tgt")"
 
-  mount_path=""
-  subdir=""
+  matched=0
   for p in "${MOUNT_PATHS[@]}"; do
-    if [ "$(norm "$p")" = "$ntgt" ]; then
-      mount_path="$(norm "$p")"
-      break
-    fi
+    [ "$(norm "$p")" = "$ntgt" ] && { matched=1; break; }
   done
 
-  if [ -z "$mount_path" ]; then
-    if [ "${#MOUNT_PATHS[@]}" -eq 1 ]; then
-      mount_path="$(norm "${MOUNT_PATHS[0]}")"
-      subdir="$(basename "$src")"
-    else
-      die "bind '$src -> $tgt' matches no mount path and there are multiple (${MOUNT_PATHS[*]})"
-    fi
+  subdir=""
+  if [ "$matched" -eq 0 ]; then
+    [ "${#MOUNT_PATHS[@]}" -eq 1 ] || die "bind '$src -> $tgt' matches no mount path and there are multiple (${MOUNT_PATHS[*]})"
+    subdir="$(basename "$src")"
   fi
 
   remote_target="$MNT"
@@ -286,35 +263,16 @@ for b in "${BINDS[@]}"; do
   run ssh "$INCUS_SSH" "sudo mkdir -p '$remote_target'"
 
   if [ "$DRY_RUN" -eq 1 ]; then
-    printf '  DRY-RUN: ssh %s "tar czf - -C %s ." | pv -s <size> -p -t -e -r | ssh %s "sudo tar xzf - -C %s"\n' \
-      "$SOURCE_HOST" "$src" "$INCUS_SSH" "$remote_target" >&2
+    printf '  DRY-RUN: transfer %s -> %s:%s\n' "$src" "$INSTANCE" "$remote_target" >&2
+  elif command -v pv >/dev/null 2>&1; then
+    size="$(ssh "$SOURCE_HOST" "du -sb '$src'" 2>/dev/null | awk '{print $1}')"
+    ssh "$SOURCE_HOST" "tar czf - -C '$src' ." | pv -p -t -e -r ${size:+-s $size} \
+      | ssh "$INCUS_SSH" "sudo tar xzf - -C '$remote_target'"
   else
-    if command -v pv >/dev/null 2>&1; then
-      size="$(ssh "$SOURCE_HOST" "du -sb '$src'" 2>/dev/null | awk '{print $1}')"
-      pv_args=(pv)
-      [ -n "$size" ] && pv_args+=(-s "$size")
-      pv_args+=(-p -t -e -r)
-      ssh "$SOURCE_HOST" "tar czf - -C '$src' ." \
-        | "${pv_args[@]}" \
-        | ssh "$INCUS_SSH" "sudo tar xzf - -C '$remote_target'"
-    else
-      ssh "$SOURCE_HOST" "tar czf - -C '$src' ." \
-        | ssh "$INCUS_SSH" "sudo tar xzf - -C '$remote_target'"
-    fi
+    ssh "$SOURCE_HOST" "tar czf - -C '$src' ." | ssh "$INCUS_SSH" "sudo tar xzf - -C '$remote_target'"
   fi
 
   run ssh "$INCUS_SSH" "sudo chown -R '$HOST_PUID:$HOST_PGID' '$remote_target'"
 done
 
-run ssh "$INCUS_SSH" "sudo umount '$MNT' && sudo rmdir '$MNT'"
-
-# --- Step 6: optionally start the instance ----------------------------------
-
-if [ "$START" -eq 1 ]; then
-  printf 'Starting Incus instance %s...\n' "$INSTANCE"
-  run ssh "$INCUS_SSH" "incus start '$INSTANCE'"
-else
-  printf 'Instance %s left stopped; start it manually to verify.\n' "$INSTANCE"
-fi
-
-printf 'Done.\n'
+printf 'Done. Instance %s left stopped.\n' "$INSTANCE"
