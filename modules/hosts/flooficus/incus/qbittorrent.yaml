@@ -1,0 +1,54 @@
+# qbittorrent - Container (App)
+#
+# It is applied at instance creation time by the `incus-instances` systemd unit
+# (modules/features/incus-instances.nix). Changing this file recreates the
+# instance (data survives on the separate volumes).
+#
+# NOTE: The instance is created with `--no-profiles` (see
+# `modules/features/incus-instances.nix`), so no profile is applied. Everything
+# below is self-contained — there is no `default` profile contribution.
+
+config:
+  boot.autorestart: "true"
+  boot.autostart: "true"
+  security.privileged: "false"
+  environment.PUID: "1000"
+  environment.PGID: "100"
+  environment.TZ: Europe/Amsterdam
+  limits.memory: 1500MiB
+
+  # NOTE: OCI's own internal DHCP client
+  # never gets DNS servers to write into resolv.conf -- set them
+  # explicitly via the native OCI DNS option instead.
+  oci.dns.nameservers: "1.1.1.1,9.9.9.9"
+
+  # Mapping host /mnt/TrueNAS/downloads permissions to
+  # container permissions
+  raw.idmap: |-
+    uid 1000 1000
+    gid 989 100
+
+devices:
+  eth0:
+    type: nic
+    network: incusbr2
+    ipv4.address: 10.177.6.2/24
+    ipv4.gateway: 10.177.6.1
+  http:
+    type: proxy
+    listen: tcp:0.0.0.0:8091
+    connect: tcp:127.0.0.1:8080
+  root:
+    type: disk
+    path: /
+    pool: default
+    size: 10GiB
+  config:
+    type: disk
+    pool: snapshot
+    source: qbittorrent-config
+    path: /config
+  downloads:
+    type: disk
+    source: /mnt/TrueNAS/downloads
+    path: /downloads

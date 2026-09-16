@@ -59,6 +59,29 @@ in {
       };
     };
 
+    incusInstances.qbt-wireguard = {
+      image = "docker:linuxserver/wireguard:latest";
+      configYaml = ./incus/qbt-wireguard.yaml;
+      autostart = true;
+      dataVolume = {
+        name = "qbt-wireguard-config";
+        pool = "snapshot";
+        size = "1GiB";
+      };
+    };
+
+    incusInstances.qbittorrent = {
+      image = "docker:linuxserver/qbittorrent:latest";
+      configYaml = ./incus/qbittorrent.yaml;
+      autostart = true;
+      dataVolume = {
+        name = "qbittorrent-config";
+        pool = "snapshot";
+        size = "5GiB";
+        snapshotSchedule = "@daily";
+        snapshotExpiry = "1m";
+      };
+    };
     home-manager.users.tk = {
       imports = [
         inputs.self.modules.homeManager.system-minimal
