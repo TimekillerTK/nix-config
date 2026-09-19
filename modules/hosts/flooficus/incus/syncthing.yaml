@@ -26,7 +26,8 @@ config:
 devices:
   eth0:
     type: nic
-    network: incusbr0
+    nictype: bridged
+    parent: incusbr0
 
     # NOTE: Pinned so a router DHCP reservation survives instance
     # recreation (a recreated instance would otherwise get a fresh
