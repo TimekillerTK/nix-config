@@ -74,11 +74,11 @@
       '';
       virtualHosts."pdf.cyn.internal".extraConfig = ''
         ${acmeIssuer}
-        reverse_proxy ${dockerHost}:8020
+        reverse_proxy 172.21.10.3:8020
       '';
       virtualHosts."torrent.cyn.internal".extraConfig = ''
         ${acmeIssuer}
-        reverse_proxy ${dockerHost}:8030
+        reverse_proxy 172.21.10.3:8091
       '';
       virtualHosts."jellyfin.cyn.internal".extraConfig = ''
         ${acmeIssuer}
@@ -86,7 +86,7 @@
       '';
       virtualHosts."cookbook.cyn.internal".extraConfig = ''
         ${acmeIssuer}
-        reverse_proxy ${dockerHost}:8050
+        reverse_proxy 172.21.10.3:8050
       '';
       virtualHosts."sync.cyn.internal".extraConfig = ''
         ${acmeIssuer}

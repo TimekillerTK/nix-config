@@ -69,7 +69,7 @@
             ipv6.address=fd42:b747:5cf7:97a9::1/64 ipv6.nat=true
         incus network show incusbr2 >/dev/null 2>&1 || \
           incus network create incusbr2 \
-            ipv4.nat=false ipv6.address=none
+            ipv4.address=10.177.6.254/24 ipv4.nat=false ipv4.dhcp=false ipv6.address=none
       '';
     };
 
@@ -123,9 +123,9 @@
       serviceConfig.RemainAfterExit = true;
       path = [config.virtualisation.incus.package];
       script = ''
-        incus remote show ghcr >/dev/null 2>&1 || \
+        incus remote list -f csv -c n | grep -qx ghcr || \
           incus remote add ghcr https://ghcr.io --protocol=oci
-        incus remote show docker >/dev/null 2>&1 || \
+        incus remote list -f csv -c n | grep -qx docker || \
           incus remote add docker https://docker.io --protocol=oci
       '';
     };
@@ -133,9 +133,6 @@
     environment.systemPackages = with pkgs; [
       sshfs # for `incus file mount container/ /mnt/container`
     ];
-
-    # Docker daemon for Docker container support
-    virtualisation.docker.enable = true;
 
     # Incus on NixOS is unsupported using iptables, therefore
     networking.nftables.enable = true;
@@ -152,5 +149,16 @@
     # NOTE: By default the NixOS firewall will block DHCP requests to the Incus network
     # source: https://wiki.nixos.org/wiki/Incus
     networking.firewall.trustedInterfaces = ["incusbr0" "incusbr1" "incusbr2"];
+
+    # NOTE: `qbt-wireguard` forwards traffic between `incusbr2`
+    # (LAN side) and its `wg0` tunnel (WAN side). Reply traffic
+    # re-entering the host on `incusbr2` carries a foreign source
+    # address, which strict reverse-path filtering drops.
+    #
+    # The host has no visibility into the tunnel's internal routing,
+    # so its per-interface check ALWAYS fail for this kind of traffic.
+    # "loose" mode still drops genuinely unroutable/spoofed sources,
+    # just not on strict per-interface basis.
+    networking.firewall.checkReversePath = "loose";
   };
 }

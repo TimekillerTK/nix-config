@@ -1,0 +1,41 @@
+# qbt-wireguard - Container (wireguard VPN gateway)
+#
+# It is applied at instance creation time by the `incus-instances` systemd unit
+# (modules/features/incus-instances.nix). Changing this file recreates the
+# instance (data survives on the separate `qbt-wireguard-config` volume).
+#
+# NOTE: The instance is created with `--no-profiles` (see
+# `modules/features/incus-instances.nix`), so no profile is applied. Everything
+# below is self-contained — there is no `default` profile contribution.
+
+config:
+  boot.autorestart: "true"
+  boot.autostart: "true"
+  # Unprivileged: linuxserver/wireguard only needs CAP_NET_ADMIN inside its own
+  # network namespace to bring up wg0, which Incus grants via the nic devices.
+  security.privileged: "false"
+  linux.kernel_modules: wireguard
+  linux.sysctl.net.ipv4.conf.all.src_valid_mark: "1" # Req for client mode
+  linux.sysctl.net.ipv4.ip_forward: "1"
+  limits.memory: 256MiB
+
+devices:
+  eth0:
+    type: nic
+    network: incusbr1
+    ipv4.address: 10.177.5.2/24
+    ipv4.gateway: 10.177.5.1
+  eth1:
+    type: nic
+    network: incusbr2
+    ipv4.address: 10.177.6.1/24
+  root:
+    type: disk
+    path: /
+    pool: default
+    size: 5GiB
+  config:
+    type: disk
+    pool: snapshot
+    source: qbt-wireguard-config
+    path: /config

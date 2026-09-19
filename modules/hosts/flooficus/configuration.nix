@@ -21,6 +21,11 @@ in {
       inputs.self.modules.nixos.zfs
       inputs.self.modules.nixos.incus
       inputs.self.modules.nixos.incus-instances
+      (inputs.self.factory.mount-cifs {
+        shareName = "mediasnek3";
+        shareLocalPath = "TrueNAS";
+        shareUsers = ["tk"];
+      })
 
       inputs.self.modules.nixos.home-manager
       inputs.self.modules.nixos.tk
@@ -29,7 +34,7 @@ in {
     # Declarative Incus app instances (OCI images). Each created
     # idempotently at boot by the `incus-instances` unit.
     incusInstances.mealie = {
-      image = "ghcr:mealie-recipes/mealie:v3.9.2";
+      image = "ghcr:mealie-recipes/mealie:v3.10.2";
       configYaml = ./incus/mealie.yaml;
       autostart = true;
       dataVolume = {
@@ -45,6 +50,50 @@ in {
       image = "docker:stirlingtools/stirling-pdf:2.4.0";
       configYaml = ./incus/stirling-pdf.yaml;
       autostart = true;
+      dataVolume = {
+        name = "stirling-pdf-data";
+        pool = "snapshot";
+        size = "10GiB";
+        snapshotSchedule = "@daily";
+        snapshotExpiry = "1m";
+      };
+    };
+
+    incusInstances.qbt-wireguard = {
+      image = "docker:linuxserver/wireguard:latest";
+      configYaml = ./incus/qbt-wireguard.yaml;
+      autostart = true;
+      dataVolume = {
+        name = "qbt-wireguard-config";
+        pool = "snapshot";
+        size = "1GiB";
+      };
+    };
+
+    incusInstances.qbittorrent = {
+      image = "docker:linuxserver/qbittorrent:latest";
+      configYaml = ./incus/qbittorrent.yaml;
+      autostart = true;
+      dataVolume = {
+        name = "qbittorrent-config";
+        pool = "snapshot";
+        size = "5GiB";
+        snapshotSchedule = "@daily";
+        snapshotExpiry = "1m";
+      };
+    };
+
+    incusInstances.syncthing = {
+      image = "docker:syncthing/syncthing:2.0.13";
+      configYaml = ./incus/syncthing.yaml;
+      autostart = true;
+      dataVolume = {
+        name = "syncthing-config";
+        pool = "snapshot";
+        size = "1GiB";
+        snapshotSchedule = "@daily";
+        snapshotExpiry = "1m";
+      };
     };
 
     home-manager.users.tk = {

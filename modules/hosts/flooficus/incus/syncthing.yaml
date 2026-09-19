@@ -1,0 +1,52 @@
+# Syncthing - Container (App)
+#
+# It is applied at instance creation time by the `incus-instances` systemd unit
+# (modules/features/incus-instances.nix). Changing this file recreates the
+# instance (data survives on the separate `syncthing-config` volume).
+#
+# NOTE: The instance is created with `--no-profiles` (see
+# `modules/features/incus-instances.nix`), so no profile is applied. Everything
+# below is self-contained — there is no `default` profile contribution.
+
+config:
+  boot.autorestart: "true"
+  boot.autostart: "true"
+  security.privileged: "false"
+  environment.PUID: "1000"
+  environment.PGID: "100"
+  environment.TZ: Europe/Amsterdam
+  environment.STHOMEDIR: /config
+  environment.HOME: /config
+  limits.memory: 1GiB
+
+  # Mapping host /mnt/TrueNAS permissions (uid=1000, gid=smbusers=989)
+  # to container permissions (PUID=1000, PGID=100)
+  raw.idmap: |-
+    uid 1000 1000
+    gid 989 100
+
+devices:
+  eth0:
+    type: nic
+    nictype: bridged
+    parent: incusbr0
+
+    # NOTE: Pinned so a router DHCP reservation survives instance
+    # recreation (a recreated instance would otherwise get a fresh
+    # random MAC).
+    hwaddr: "00:16:3e:5a:11:02"
+
+  root:
+    type: disk
+    path: /
+    pool: default
+    size: 5GiB
+  config:
+    type: disk
+    pool: snapshot
+    source: syncthing-config
+    path: /config
+  sync:
+    type: disk
+    source: /mnt/TrueNAS/Syncthing/Sync
+    path: /sync

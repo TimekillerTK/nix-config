@@ -27,6 +27,7 @@ creation_rules:
           - *jellyfin
           - *nix-cache
           - *tailscale
+          - *flooficus
           - *master
   - path_regex: secrets/tk.ya?ml$
     key_groups:
