@@ -82,6 +82,20 @@ in {
         snapshotExpiry = "1m";
       };
     };
+
+    incusInstances.syncthing = {
+      image = "docker:syncthing/syncthing:2.0.13";
+      configYaml = ./incus/syncthing.yaml;
+      autostart = true;
+      dataVolume = {
+        name = "syncthing-config";
+        pool = "snapshot";
+        size = "1GiB";
+        snapshotSchedule = "@daily";
+        snapshotExpiry = "1m";
+      };
+    };
+
     home-manager.users.tk = {
       imports = [
         inputs.self.modules.homeManager.system-minimal
