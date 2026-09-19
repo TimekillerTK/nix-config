@@ -108,8 +108,8 @@
             incus start ${name}
           fi
         fi
-        incus config set ${name} user.nix-config-hash ${desiredHash}
-        incus config set ${name} boot.autostart ${lib.boolToString inst.autostart}
+        incus config set ${name} user.nix-config-hash=${desiredHash}
+        incus config set ${name} boot.autostart=${lib.boolToString inst.autostart}
       '';
     in {
       # Expose each instance's YAML at a stable path for the unit below.
