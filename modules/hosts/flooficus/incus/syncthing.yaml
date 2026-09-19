@@ -32,7 +32,7 @@ devices:
     # NOTE: Pinned so a router DHCP reservation survives instance
     # recreation (a recreated instance would otherwise get a fresh
     # random MAC).
-    hwaddr: "00:16:3e:5a:11:01"
+    hwaddr: "00:16:3e:5a:11:02"
 
   root:
     type: disk
