@@ -1,5 +1,5 @@
 {
-  # Declarative Incus app instances (OCI images). Requires `modules.nixos.incus`.
+  # Declarative Incus instances (containers and virtual machines). Requires `modules.nixos.incus`.
   flake.modules.nixos.incus-instances = {
     config,
     lib,
@@ -9,9 +9,14 @@
       description = "Declarative Incus instances, created and reconciled by the `incus-instances` unit from each entry's YAML. Instances use `--no-profiles`, so the YAML must be fully self-contained.";
       type = lib.types.attrsOf (lib.types.submodule ({name, ...}: {
         options = {
+          type = lib.mkOption {
+            type = lib.types.enum ["container" "virtual-machine"];
+            default = "container";
+            description = "Instance type; `container` covers both OCI and LXC images. `virtual-machine` passes `--vm` to `incus init`.";
+          };
           image = lib.mkOption {
             type = lib.types.str;
-            description = "OCI image reference (e.g. `ghcr:mealie-recipes/mealie:v3.9.2`).";
+            description = "Image reference passed to `incus init`, e.g. `ghcr:mealie-recipes/mealie:v3.9.2` (OCI), `docker:linuxserver/qbittorrent:latest` (OCI), or `images:debian/12` (LXC/VM base image).";
           };
           configYaml = lib.mkOption {
             type = lib.types.path;
@@ -69,11 +74,12 @@
       # nix eval --json '.#nixosConfigurations.flooficus.config.incusInstances' \
       # --apply 'x: builtins.mapAttrs (name: inst: {
       #   inherit inst;
-      #   desiredHash = builtins.hashString "sha256" "${inst.image}\n${builtins.readFile inst.configYaml}";
+      #   desiredHash = builtins.hashString "sha256" "${inst.type}\n${inst.image}\n${builtins.readFile inst.configYaml}";
       # }) x'
       mkInstanceEntry = name: let
         inst = config.incusInstances.${name};
-        desiredHash = builtins.hashString "sha256" "${inst.image}\n${builtins.readFile inst.configYaml}";
+        desiredHash = builtins.hashString "sha256" "${inst.type}\n${inst.image}\n${builtins.readFile inst.configYaml}";
+        vmFlag = lib.optionalString (inst.type == "virtual-machine") "--vm";
         createVolume = lib.optionalString (inst.dataVolume != null) ''
           incus storage volume show ${inst.dataVolume.pool} ${inst.dataVolume.name} >/dev/null 2>&1 || \
             incus storage volume create ${inst.dataVolume.pool} ${inst.dataVolume.name} size=${inst.dataVolume.size}
@@ -93,7 +99,7 @@
         ${configureVolume}
         if ! incus info ${name} >/dev/null 2>&1; then
           echo "Creating Incus instance ${name}"
-          incus init --no-profiles ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
+          incus init --no-profiles ${vmFlag} ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
           ${lib.optionalString inst.autostart "incus start ${name}"}
         elif [ "$(incus config get ${name} user.nix-config-hash)" != "${desiredHash}" ]; then
           echo "Definition of Incus instance ${name} changed; recreating"
@@ -103,7 +109,7 @@
             was_running=0
           fi
           incus delete --force ${name}
-          incus init --no-profiles ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
+          incus init --no-profiles ${vmFlag} ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
           if [ "$was_running" = "1" ]; then
             incus start ${name}
           fi
@@ -118,7 +124,7 @@
         config.incusInstances);
 
       systemd.services.incus-instances = {
-        description = "Declaratively create Incus app instances";
+        description = "Declaratively create Incus instances";
         after = ["incus.service" "incus-networks.service" "incus-remotes.service"];
         wants = ["incus.service" "incus-networks.service" "incus-remotes.service"];
         wantedBy = ["multi-user.target"];
