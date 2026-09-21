@@ -1,47 +1,22 @@
 {
-  # Declarative Incus app instances (OCI images).
-  #
-  # nixpkgs' `virtualisation.incus` has no option for defining instances —
-  # `virtualisation.incus.preseed` only supports server-level entities
-  # (config, networks, storage_pools, profiles, projects), never containers/VMs.
-  #
-  # This module fills that gap with the same bootstrapping idiom used by
-  # `incus.nix` for networks/trust: a single oneshot systemd unit that
-  # idempotently creates each instance (from its committed YAML config) and
-  # sets `boot.autostart`. Incus itself owns the runtime lifecycle.
-  #
-  # Instances are created with `--no-profiles`, so no profile (including
-  # `default`) is applied. Each instance's YAML must therefore be fully
-  # self-contained: root disk, NICs, proxy devices, and any instance-level
-  # config (e.g. `security.secureboot=false` for VMs) must all be listed.
-  #
-  # NOTE: Import this together with `inputs.self.modules.nixos.incus` (it
-  # relies on `virtualisation.incus` being enabled).
+  # Declarative Incus instances (containers and virtual machines). Requires `modules.nixos.incus`.
   flake.modules.nixos.incus-instances = {
     config,
     lib,
     ...
   }: {
     options.incusInstances = lib.mkOption {
-      description = ''
-        Declarative Incus app instances. Each entry is created (if missing)
-        by the `incus-instances` systemd unit, with its config applied from the
-        referenced YAML file. The YAML file is the full instance configuration
-        (see `incus config show <name> --expanded` for the syntax).
-
-        Instances are created with `--no-profiles`, so no profile is applied
-        and the YAML must be fully self-contained (root disk, NICs, devices,
-        and instance-level config).
-      '';
+      description = "Declarative Incus instances, created and reconciled by the `incus-instances` unit from each entry's YAML. Instances use `--no-profiles`, so the YAML must be fully self-contained.";
       type = lib.types.attrsOf (lib.types.submodule ({name, ...}: {
         options = {
+          type = lib.mkOption {
+            type = lib.types.enum ["container" "virtual-machine"];
+            default = "container";
+            description = "Instance type; `container` covers both OCI and LXC images. `virtual-machine` passes `--vm` to `incus init`. Unlike containers, virtual machines are never automatically deleted/recreated on config drift -- see the `incus-instances` unit for details.";
+          };
           image = lib.mkOption {
             type = lib.types.str;
-            description = ''
-              OCI image reference, e.g. `ghcr:mealie-recipes/mealie:v3.9.2`.
-              The registry must be added as an OCI remote (the `ghcr`/`docker`
-              remotes are created by the `incus-remotes` unit in `incus.nix`).
-            '';
+            description = "Image reference passed to `incus init`, e.g. `ghcr:mealie-recipes/mealie:v3.9.2` (OCI), `docker:linuxserver/qbittorrent:latest` (OCI), or `images:debian/12` (LXC/VM base image).";
           };
           configYaml = lib.mkOption {
             type = lib.types.path;
@@ -50,18 +25,14 @@
           autostart = lib.mkOption {
             type = lib.types.bool;
             default = false;
-            description = ''
-              Whether the instance should auto-start on boot (maps to the
-              instance's `boot.autostart` config). Set to false for on-demand
-              start via `incus start <name>`.
-            '';
+            description = "Whether to auto-start on boot (maps to `boot.autostart`).";
           };
           dataVolume = lib.mkOption {
             type = lib.types.nullOr (lib.types.submodule {
               options = {
                 name = lib.mkOption {
                   type = lib.types.str;
-                  description = "Name of the custom storage volume to create (and reference from the instance's YAML `source`).";
+                  description = "Name of the custom volume to create (referenced from the instance YAML).";
                 };
                 pool = lib.mkOption {
                   type = lib.types.str;
@@ -75,39 +46,22 @@
                 snapshotSchedule = lib.mkOption {
                   type = lib.types.nullOr lib.types.str;
                   default = null;
-                  description = ''
-                    Cron expression or schedule alias for automatic snapshots
-                    (e.g. `@daily`, `0 6 * * *`). Null disables automatic
-                    snapshots.
-                  '';
+                  description = "Cron/schedule alias for snapshots (e.g. `@daily`). Null disables them.";
                 };
                 snapshotExpiry = lib.mkOption {
                   type = lib.types.nullOr lib.types.str;
                   default = null;
-                  description = ''
-                    Auto-expiry applied to newly created snapshots, e.g. `1m`
-                    (calendar month; note `M` = minute). Null keeps snapshots forever.
-                  '';
+                  description = "Auto-expiry for new snapshots (e.g. `1m` = one month). Null keeps forever.";
                 };
                 snapshotPattern = lib.mkOption {
                   type = lib.types.nullOr lib.types.str;
                   default = null;
-                  description = ''
-                    Pongo2 template for snapshot names (e.g. `mealie-%d`).
-                    Null uses Incus' default (`snap%d`).
-                  '';
+                  description = "Pongo2 template for snapshot names. Null uses Incus' default.";
                 };
               };
             });
             default = null;
-            description = ''
-              Optional custom storage volume, created (if missing) before the
-              instance itself so it can be referenced from the instance's
-              YAML as a `disk` device `source`. Unlike the instance's root
-              volume, this volume is not deleted when the instance is
-              deleted, so data survives instance recreation (e.g. image
-              upgrades).
-            '';
+            description = "Optional storage volume created before the instance for its data; survives instance recreation.";
           };
         };
       }));
@@ -115,8 +69,18 @@
     };
 
     config = let
+      # NOTE: To compute the desiredHash, run this command:
+      #
+      # nix eval --json '.#nixosConfigurations.flooficus.config.incusInstances' \
+      # --apply 'x: builtins.mapAttrs (name: inst: {
+      #   inherit inst;
+      #   desiredHash = builtins.hashString "sha256" "${inst.type}\n${inst.image}\n${builtins.readFile inst.configYaml}";
+      # }) x'
       mkInstanceEntry = name: let
         inst = config.incusInstances.${name};
+        desiredHash = builtins.hashString "sha256" "${inst.type}\n${inst.image}\n${builtins.readFile inst.configYaml}";
+        isVm = inst.type == "virtual-machine";
+        vmFlag = lib.optionalString isVm "--vm";
         createVolume = lib.optionalString (inst.dataVolume != null) ''
           incus storage volume show ${inst.dataVolume.pool} ${inst.dataVolume.name} >/dev/null 2>&1 || \
             incus storage volume create ${inst.dataVolume.pool} ${inst.dataVolume.name} size=${inst.dataVolume.size}
@@ -124,30 +88,67 @@
         configureVolume = lib.optionalString (inst.dataVolume != null) (
           lib.concatStringsSep "\n" (
             lib.optional (inst.dataVolume.snapshotSchedule != null)
-              "incus storage volume set ${inst.dataVolume.pool} ${inst.dataVolume.name} snapshots.schedule=${lib.escapeShellArg inst.dataVolume.snapshotSchedule}"
+            "incus storage volume set ${inst.dataVolume.pool} ${inst.dataVolume.name} snapshots.schedule=${lib.escapeShellArg inst.dataVolume.snapshotSchedule}"
             ++ lib.optional (inst.dataVolume.snapshotExpiry != null)
-              "incus storage volume set ${inst.dataVolume.pool} ${inst.dataVolume.name} snapshots.expiry=${lib.escapeShellArg inst.dataVolume.snapshotExpiry}"
+            "incus storage volume set ${inst.dataVolume.pool} ${inst.dataVolume.name} snapshots.expiry=${lib.escapeShellArg inst.dataVolume.snapshotExpiry}"
             ++ lib.optional (inst.dataVolume.snapshotPattern != null)
-              "incus storage volume set ${inst.dataVolume.pool} ${inst.dataVolume.name} snapshots.pattern=${lib.escapeShellArg inst.dataVolume.snapshotPattern}"
+            "incus storage volume set ${inst.dataVolume.pool} ${inst.dataVolume.name} snapshots.pattern=${lib.escapeShellArg inst.dataVolume.snapshotPattern}"
           )
         );
+        # Containers are stateless app instances (data lives in `dataVolume`,
+        # not the instance's own root fs), so it's safe to delete and
+        # re-init them whenever their definition changes.
+        recreateScript = ''
+          echo "Definition of Incus instance ${name} changed; recreating"
+          if [ "$(incus config get ${name} volatile.last_state.power)" = "RUNNING" ]; then
+            was_running=1
+          else
+            was_running=0
+          fi
+          incus delete --force ${name}
+          incus init --no-profiles ${vmFlag} ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
+          incus config set ${name} user.nix-config-hash=${desiredHash}
+          if [ "$was_running" = "1" ]; then
+            incus start ${name}
+          fi
+        '';
+        # Virtual machines host a full, stateful OS on their root disk, and
+        # boot far slower than containers. Deleting/re-initing one to apply a
+        # config change would destroy that disk and force a full cold boot,
+        # so instead we only warn and leave `user.nix-config-hash` untouched
+        # -- the warning will keep firing on every run until the drift is
+        # resolved manually (e.g. `incus config set`/`incus config device
+        # set` for in-place changes, or an intentional
+        # `incus stop && incus delete` for changes that require a fresh
+        # instance).
+        vmDriftWarningScript = ''
+          echo "WARNING: definition of Incus VM ${name} changed, but virtual machines are never auto-recreated (it would destroy the VM's disk and force a slow reboot). Skipping -- reconcile ${name} manually (e.g. 'incus config set'/'incus config device set', or an intentional 'incus stop ${name} && incus delete ${name}' to let this unit recreate it from scratch)."
+        '';
       in ''
         ${createVolume}
         ${configureVolume}
         if ! incus info ${name} >/dev/null 2>&1; then
-          incus init --no-profiles ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
+          echo "Creating Incus instance ${name}"
+          incus init --no-profiles ${vmFlag} ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
+          incus config set ${name} user.nix-config-hash=${desiredHash}
+          ${lib.optionalString inst.autostart "incus start ${name}"}
+        elif [ "$(incus config get ${name} user.nix-config-hash)" != "${desiredHash}" ]; then
+          ${
+          if isVm
+          then vmDriftWarningScript
+          else recreateScript
+        }
         fi
-        incus config set ${name} boot.autostart ${lib.boolToString inst.autostart}
+        incus config set ${name} boot.autostart=${lib.boolToString inst.autostart}
       '';
     in {
-      # Expose each instance's YAML config at a stable runtime path for the
-      # systemd unit below.
+      # Expose each instance's YAML at a stable path for the unit below.
       environment.etc = lib.mkMerge (lib.mapAttrsToList
         (name: inst: {"incus/instances/${name}.yaml".source = inst.configYaml;})
         config.incusInstances);
 
       systemd.services.incus-instances = {
-        description = "Declaratively create Incus app instances";
+        description = "Declaratively create Incus instances";
         after = ["incus.service" "incus-networks.service" "incus-remotes.service"];
         wants = ["incus.service" "incus-networks.service" "incus-remotes.service"];
         wantedBy = ["multi-user.target"];

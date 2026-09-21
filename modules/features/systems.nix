@@ -47,6 +47,9 @@
     create-host-key = pkgs.writeShellScriptBin "create-host-key" ''
       ${builtins.readFile ../../scripts/create-host-key.sh}
     '';
+    migrate-data = pkgs.writeShellScriptBin "migrate-data" ''
+      ${builtins.readFile ../../scripts/migrate-data.sh}
+    '';
     commonPackages = with pkgs;
       [
         git
@@ -54,8 +57,13 @@
         ssh-to-age
         age
         nvd # Nix/NixOS package version diff tool
+        jq # JSON parsing (used by migrate-data)
+        yq-go # YAML parsing (used by migrate-data)
+        openssh # ssh client (used by migrate-data)
+        pv # progress bar for migrate-data transfers
         check-all
         create-host-key
+        migrate-data
       ]
       ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
         disko # Nix disk partitioning/formatting

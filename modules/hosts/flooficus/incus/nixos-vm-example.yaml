@@ -1,0 +1,22 @@
+# nixos-vm-example - Virtual Machine (demonstrates `type = "virtual-machine"`
+# support in incus-instances)
+#
+# It is applied at instance creation time by the `incus-instances` systemd unit
+# (modules/features/incus-instances.nix). Changing this file recreates the
+# instance.
+
+config:
+  boot.autostart: "false"
+  security.secureboot: "false"
+  limits.cpu: "2"
+  limits.memory: 2GiB
+
+devices:
+  eth0:
+    type: nic
+    network: incusbr0
+  root:
+    type: disk
+    path: /
+    pool: default
+    size: 20GiB
