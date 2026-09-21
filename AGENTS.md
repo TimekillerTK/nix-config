@@ -2,6 +2,11 @@
 
 Personal multi-host NixOS configuration using the **dendritic pattern** with `flake-parts` and `import-tree`.
 
+## Agent tooling
+
+**Never use the AWS MCP server here.** It's configured in the environment but
+unrelated to this repo. Don't call `aws___*` tools.
+
 ## Orientation
 
 - `flake.nix` contains almost no logic. Its entire `outputs` is one line:
@@ -22,7 +27,10 @@ Personal multi-host NixOS configuration using the **dendritic pattern** with `fl
 # Enter the dev shell (provides git, sops, ssh-to-age, age, nvd, check-all, disko, install-os)
 ./run-shell
 
-# Validate all nixosConfigurations (eval only — catches type errors, not build failures)
+# Validate ONE nixosConfiguration after editing it (eval only — catches type errors, not build failures)
+NIXPKGS_ALLOW_UNFREE=1 nix eval ".#nixosConfigurations.<hostname>.config.system.build.toplevel" --impure
+
+# Validate ALL nixosConfigurations — only after `nix flake update` (eval only)
 check-all
 
 # Build a host config without applying it (requires NIXPKGS_ALLOW_UNFREE=1 for unfree packages)
@@ -168,6 +176,27 @@ On any host using `system-cli` (or `system-desktop`), these aliases are active:
 
 Avoid relying on `cat` or `ls` output format in scripts targeting these hosts.
 
-### `check-all` is eval-only
+### `check-all` is eval-only, and only for flake updates
 
-`check-all` (built in the devShell from `scripts/check-all.sh`) runs `nix eval` against each host, not `nix build`. It catches attribute errors and type mismatches but will not surface build failures or missing derivation inputs. Use `nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel --impure` for a full build check.
+`check-all` (built in the devShell from `scripts/check-all.sh`) runs `nix eval` against
+*every* host — reserve it for after `nix flake update`. When verifying a change to a
+specific host, eval just that one:
+`NIXPKGS_ALLOW_UNFREE=1 nix eval ".#nixosConfigurations.<hostname>.config.system.build.toplevel" --impure`.
+Either way this only catches attribute/type errors, not build failures — use
+`nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel --impure` for a full build check.
+
+### Incus host `flooficus`: `incusbr0` needs explicit bridged NIC + pinned MAC
+
+Attaching to the physical LAN via `incusbr0` requires the explicit bridged form
+(the `network: incusbr0` shorthand doesn't work on this bridge):
+
+```yaml
+eth0:
+  type: nic
+  nictype: bridged
+  parent: incusbr0
+```
+
+For **containers**, also pin `hwaddr:` — `incus-instances.nix` recreates the
+instance on YAML changes, which would otherwise assign a new random MAC and
+break DHCP reservations. See `modules/hosts/flooficus/incus/syncthing.yaml`.
