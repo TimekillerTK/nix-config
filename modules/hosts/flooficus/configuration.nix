@@ -27,6 +27,7 @@ in {
         shareUsers = ["tk"];
       })
 
+      inputs.self.modules.nixos.caddy-reverse-proxy
       inputs.self.modules.nixos.home-manager
       inputs.self.modules.nixos.tk
     ];

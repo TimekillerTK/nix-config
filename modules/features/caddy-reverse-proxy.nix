@@ -1,7 +1,7 @@
 {
   # Sets up a reverse proxy on a host it's installed on which points to
   # specific hosts
-  config.flake.factory.caddy-reverse-proxy = {dockerHost}: {...}: let
+  flake.modules.nixos.caddy-reverse-proxy = let
     # NOTE: This is set deliberately per each virtualHost, NOT a global
     # `cert_issuer` or `acmeCA` option.
     #
@@ -39,38 +39,29 @@
   in {
     # NOTE: On a fresh host using caddy, this may be an issue:
     #
-    # The account exists in Caddy's local storage but the CA server no longer recognizes it. On the CA side, the account
-    # could have been deleted (Step CA DB corruption, server rebuild, etc.) or the account key may not match. When Caddy
-    # sends a newOrder signed with the stored key, Step CA can't verify the JWS signature against any known account and
-    # returns "malformed request."
+    # The account exists in Caddy's local storage but the CA server no longer
+    # recognizes it. On the CA side, the account could have been deleted (Step
+    # CA DB corruption, server rebuild, etc.) or the account key may not match.
+    # When Caddy sends a newOrder signed with the stored key, Step CA can't
+    # verify the JWS signature against any known account and returns "malformed
+    # request."
     #
-    # To fix, clear the ACME account state on dns-backup to force Caddy to re-register:
+    # To fix, clear the ACME account state on dns-backup to force Caddy to
+    # re-register:
     # ssh tk@ip-address sudo systemctl stop caddy
     # ssh tk@ip-address sudo rm -rf /var/lib/caddy/.local/share/caddy/acme
     # ssh tk@ip-address sudo systemctl start caddy
     services.caddy = {
       enable = true;
 
-      # NOTE: Temporarily raised from the module's default (`level ERROR`)
+      # NOTE: Raised from the module's default (`level ERROR`)
       # to `level INFO` so cert issuance/renewal activity is visible in the
       # journal while verifying the per-virtualHost ACME issuer fix below.
       logFormat = "level INFO";
 
-      virtualHosts."dockerhost.cyn.internal".extraConfig = ''
+      virtualHosts."test.cyn.internal".extraConfig = ''
         ${acmeIssuer}
-        respond "Hello, world on dockerhost.cyn.internal!"
-      '';
-      # TODO: Reactivate later, removed while testing. Also has a
-      # separate/unrelated stale-ACME-account issue (see note above) that
-      # will need to be resolved first. When re-enabled, include
-      # `${acmeIssuer}` like the other virtualHosts below.
-      # virtualHosts."backup-proxy.cyn.internal".extraConfig = ''
-      #   ${acmeIssuer}
-      #   respond "Hello, world on backup-proxy.cyn.internal!"
-      # '';
-      virtualHosts."whoami.cyn.internal".extraConfig = ''
-        ${acmeIssuer}
-        reverse_proxy ${dockerHost}:8010
+        respond "Hello, world on test.cyn.internal!"
       '';
       virtualHosts."pdf.cyn.internal".extraConfig = ''
         ${acmeIssuer}
@@ -90,7 +81,7 @@
       '';
       virtualHosts."sync.cyn.internal".extraConfig = ''
         ${acmeIssuer}
-        reverse_proxy ${dockerHost}:8060
+        reverse_proxy 172.21.10.127:8384
       '';
       virtualHosts."home.cyn.internal".extraConfig = ''
         ${acmeIssuer}
