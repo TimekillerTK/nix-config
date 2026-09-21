@@ -14,7 +14,8 @@ config:
 devices:
   eth0:
     type: nic
-    network: incusbr0
+    nictype: bridged
+    parent: incusbr0
   root:
     type: disk
     path: /
