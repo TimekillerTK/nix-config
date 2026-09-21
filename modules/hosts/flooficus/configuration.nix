@@ -97,6 +97,14 @@ in {
       };
     };
 
+    # Example
+    incusInstances.nixos-vm-example = {
+      type = "virtual-machine";
+      image = "images:nixos/26.05";
+      configYaml = ./incus/nixos-vm-example.yaml;
+      autostart = false;
+    };
+
     home-manager.users.tk = {
       imports = [
         inputs.self.modules.homeManager.system-minimal
