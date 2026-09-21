@@ -59,39 +59,35 @@
       # journal while verifying the per-virtualHost ACME issuer fix below.
       logFormat = "level INFO";
 
-      virtualHosts."temp-test.cyn.internal".extraConfig = ''
-        ${acmeIssuer}
-        respond "Hello, world on test.cyn.internal!"
-      '';
-      virtualHosts."temp-pdf.cyn.internal".extraConfig = ''
+      virtualHosts."pdf.cyn.internal".extraConfig = ''
         ${acmeIssuer}
         reverse_proxy 172.21.10.3:8020
       '';
-      virtualHosts."temp-torrent.cyn.internal".extraConfig = ''
+      virtualHosts."torrent.cyn.internal".extraConfig = ''
         ${acmeIssuer}
         reverse_proxy 172.21.10.3:8091
       '';
-      virtualHosts."temp-jellyfin.cyn.internal".extraConfig = ''
+      virtualHosts."jellyfin.cyn.internal".extraConfig = ''
         ${acmeIssuer}
         reverse_proxy 172.21.10.47:8096
       '';
-      virtualHosts."temp-cookbook.cyn.internal".extraConfig = ''
+      virtualHosts."cookbook.cyn.internal".extraConfig = ''
         ${acmeIssuer}
         reverse_proxy 172.21.10.3:8050
       '';
-      virtualHosts."temp-sync.cyn.internal".extraConfig = ''
+      virtualHosts."sync.cyn.internal".extraConfig = ''
         ${acmeIssuer}
         reverse_proxy 172.21.10.127:8384
       '';
-      virtualHosts."temp-home.cyn.internal".extraConfig = ''
+      virtualHosts."home.cyn.internal".extraConfig = ''
         ${acmeIssuer}
         reverse_proxy 172.21.10.80:8123
       '';
-      virtualHosts."temp-grafana.cyn.internal".extraConfig = ''
+      virtualHosts."grafana.cyn.internal".extraConfig = ''
         ${acmeIssuer}
         reverse_proxy 172.21.10.28:3000
       '';
-      virtualHosts."temp-prometheus.cyn.internal".extraConfig = ''
+      virtualHosts."prometheus.cyn.internal".extraConfig = ''
         ${acmeIssuer}
         reverse_proxy 172.21.10.28:9090
       '';
@@ -104,7 +100,7 @@
       #
       # NOTE: This can be removed if there is a nice fix/workaround
       # for this in nix, but currently there is not
-      virtualHosts."temp-nix-cache.cyn.internal".extraConfig = ''
+      virtualHosts."nix-cache.cyn.internal".extraConfig = ''
         ${acmeIssuer}
         @cacheInfo path /nix-cache-info
         handle @cacheInfo {
