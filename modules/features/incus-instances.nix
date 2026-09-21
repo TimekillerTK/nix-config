@@ -12,7 +12,7 @@
           type = lib.mkOption {
             type = lib.types.enum ["container" "virtual-machine"];
             default = "container";
-            description = "Instance type; `container` covers both OCI and LXC images. `virtual-machine` passes `--vm` to `incus init`.";
+            description = "Instance type; `container` covers both OCI and LXC images. `virtual-machine` passes `--vm` to `incus init`. Unlike containers, virtual machines are never automatically deleted/recreated on config drift -- see the `incus-instances` unit for details.";
           };
           image = lib.mkOption {
             type = lib.types.str;
@@ -79,7 +79,8 @@
       mkInstanceEntry = name: let
         inst = config.incusInstances.${name};
         desiredHash = builtins.hashString "sha256" "${inst.type}\n${inst.image}\n${builtins.readFile inst.configYaml}";
-        vmFlag = lib.optionalString (inst.type == "virtual-machine") "--vm";
+        isVm = inst.type == "virtual-machine";
+        vmFlag = lib.optionalString isVm "--vm";
         createVolume = lib.optionalString (inst.dataVolume != null) ''
           incus storage volume show ${inst.dataVolume.pool} ${inst.dataVolume.name} >/dev/null 2>&1 || \
             incus storage volume create ${inst.dataVolume.pool} ${inst.dataVolume.name} size=${inst.dataVolume.size}
@@ -94,14 +95,10 @@
             "incus storage volume set ${inst.dataVolume.pool} ${inst.dataVolume.name} snapshots.pattern=${lib.escapeShellArg inst.dataVolume.snapshotPattern}"
           )
         );
-      in ''
-        ${createVolume}
-        ${configureVolume}
-        if ! incus info ${name} >/dev/null 2>&1; then
-          echo "Creating Incus instance ${name}"
-          incus init --no-profiles ${vmFlag} ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
-          ${lib.optionalString inst.autostart "incus start ${name}"}
-        elif [ "$(incus config get ${name} user.nix-config-hash)" != "${desiredHash}" ]; then
+        # Containers are stateless app instances (data lives in `dataVolume`,
+        # not the instance's own root fs), so it's safe to delete and
+        # re-init them whenever their definition changes.
+        recreateScript = ''
           echo "Definition of Incus instance ${name} changed; recreating"
           if [ "$(incus config get ${name} volatile.last_state.power)" = "RUNNING" ]; then
             was_running=1
@@ -110,11 +107,38 @@
           fi
           incus delete --force ${name}
           incus init --no-profiles ${vmFlag} ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
+          incus config set ${name} user.nix-config-hash=${desiredHash}
           if [ "$was_running" = "1" ]; then
             incus start ${name}
           fi
+        '';
+        # Virtual machines host a full, stateful OS on their root disk, and
+        # boot far slower than containers. Deleting/re-initing one to apply a
+        # config change would destroy that disk and force a full cold boot,
+        # so instead we only warn and leave `user.nix-config-hash` untouched
+        # -- the warning will keep firing on every run until the drift is
+        # resolved manually (e.g. `incus config set`/`incus config device
+        # set` for in-place changes, or an intentional
+        # `incus stop && incus delete` for changes that require a fresh
+        # instance).
+        vmDriftWarningScript = ''
+          echo "WARNING: definition of Incus VM ${name} changed, but virtual machines are never auto-recreated (it would destroy the VM's disk and force a slow reboot). Skipping -- reconcile ${name} manually (e.g. 'incus config set'/'incus config device set', or an intentional 'incus stop ${name} && incus delete ${name}' to let this unit recreate it from scratch)."
+        '';
+      in ''
+        ${createVolume}
+        ${configureVolume}
+        if ! incus info ${name} >/dev/null 2>&1; then
+          echo "Creating Incus instance ${name}"
+          incus init --no-profiles ${vmFlag} ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
+          incus config set ${name} user.nix-config-hash=${desiredHash}
+          ${lib.optionalString inst.autostart "incus start ${name}"}
+        elif [ "$(incus config get ${name} user.nix-config-hash)" != "${desiredHash}" ]; then
+          ${
+          if isVm
+          then vmDriftWarningScript
+          else recreateScript
+        }
         fi
-        incus config set ${name} user.nix-config-hash=${desiredHash}
         incus config set ${name} boot.autostart=${lib.boolToString inst.autostart}
       '';
     in {
