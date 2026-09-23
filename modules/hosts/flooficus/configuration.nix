@@ -64,6 +64,7 @@ in {
       image = "docker:linuxserver/wireguard:latest";
       configYaml = ./incus/qbt-wireguard.yaml;
       autostart = true;
+      startDelaySeconds = 15;
       dataVolume = {
         name = "qbt-wireguard-config";
         pool = "snapshot";
@@ -75,6 +76,7 @@ in {
       image = "docker:linuxserver/qbittorrent:latest";
       configYaml = ./incus/qbittorrent.yaml;
       autostart = true;
+      startAfter = "qbt-wireguard";
       dataVolume = {
         name = "qbittorrent-config";
         pool = "snapshot";

@@ -11,6 +11,7 @@
 config:
   boot.autorestart: "true"
   boot.autostart: "true"
+  boot.autostart.priority: "0"
   security.privileged: "false"
   environment.PUID: "1000"
   environment.PGID: "100"

@@ -11,6 +11,8 @@
 config:
   boot.autorestart: "true"
   boot.autostart: "true"
+  boot.autostart.priority: "10"
+  boot.autostart.delay: "15"
   # Unprivileged: linuxserver/wireguard only needs CAP_NET_ADMIN inside its own
   # network namespace to bring up wg0, which Incus grants via the nic devices.
   security.privileged: "false"

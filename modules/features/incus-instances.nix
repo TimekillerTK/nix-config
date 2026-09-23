@@ -6,13 +6,13 @@
     ...
   }: {
     options.incusInstances = lib.mkOption {
-      description = "Declarative Incus instances, created and reconciled by the `incus-instances` unit from each entry's YAML. Instances use `--no-profiles`, so the YAML must be fully self-contained.";
+      description = "Declarative Incus instances, reconciled from each entry's YAML (self-contained; uses `--no-profiles`).";
       type = lib.types.attrsOf (lib.types.submodule ({name, ...}: {
         options = {
           type = lib.mkOption {
             type = lib.types.enum ["container" "virtual-machine"];
             default = "container";
-            description = "Instance type; `container` covers both OCI and LXC images. `virtual-machine` passes `--vm` to `incus init`. Unlike containers, virtual machines are never automatically deleted/recreated on config drift -- see the `incus-instances` unit for details.";
+            description = "Instance type. VMs (`virtual-machine`) are never auto-recreated on config drift.";
           };
           image = lib.mkOption {
             type = lib.types.str;
@@ -63,6 +63,16 @@
             default = null;
             description = "Optional storage volume created before the instance for its data; survives instance recreation.";
           };
+          startAfter = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            default = null;
+            description = "Name of an instance to start before this one during reconciliation (not Incus's boot-time order).";
+          };
+          startDelaySeconds = lib.mkOption {
+            type = lib.types.ints.unsigned;
+            default = 0;
+            description = "Seconds to sleep after (re)starting this instance during reconciliation.";
+          };
         };
       }));
       default = {};
@@ -76,11 +86,23 @@
       #   inherit inst;
       #   desiredHash = builtins.hashString "sha256" "${inst.type}\n${inst.image}\n${builtins.readFile inst.configYaml}";
       # }) x'
+      # Deploy-time start order: respects each instance's `startAfter`, independent
+      # of Incus's own boot-time `boot.autostart.priority`/`boot.autostart.delay`
+      # (which only apply when incusd itself starts, e.g. on host reboot).
+      orderedNames = let
+        before = a: b: config.incusInstances.${b}.startAfter == a;
+        sorted = lib.toposort before (lib.attrNames config.incusInstances);
+      in
+        sorted.result or (throw "incusInstances: cycle detected in `startAfter`: ${lib.generators.toPretty {} sorted.cycle}");
+
       mkInstanceEntry = name: let
         inst = config.incusInstances.${name};
         desiredHash = builtins.hashString "sha256" "${inst.type}\n${inst.image}\n${builtins.readFile inst.configYaml}";
         isVm = inst.type == "virtual-machine";
         vmFlag = lib.optionalString isVm "--vm";
+        # Only pause here if this instance is actually (re)started below --
+        # a no-op reconcile run (nothing changed) shouldn't pay the delay.
+        sleepLine = lib.optionalString (inst.startDelaySeconds > 0) "sleep ${toString inst.startDelaySeconds}";
         createVolume = lib.optionalString (inst.dataVolume != null) ''
           incus storage volume show ${inst.dataVolume.pool} ${inst.dataVolume.name} >/dev/null 2>&1 || \
             incus storage volume create ${inst.dataVolume.pool} ${inst.dataVolume.name} size=${inst.dataVolume.size}
@@ -110,6 +132,7 @@
           incus config set ${name} user.nix-config-hash=${desiredHash}
           if [ "$was_running" = "1" ]; then
             incus start ${name}
+            ${sleepLine}
           fi
         '';
         # Virtual machines host a full, stateful OS on their root disk, and
@@ -131,7 +154,7 @@
           echo "Creating Incus instance ${name}"
           incus init --no-profiles ${vmFlag} ${inst.image} ${name} < /etc/incus/instances/${name}.yaml
           incus config set ${name} user.nix-config-hash=${desiredHash}
-          ${lib.optionalString inst.autostart "incus start ${name}"}
+          ${lib.optionalString inst.autostart "incus start ${name}\n${sleepLine}"}
         elif [ "$(incus config get ${name} user.nix-config-hash)" != "${desiredHash}" ]; then
           ${
           if isVm
@@ -156,7 +179,7 @@
         serviceConfig.RemainAfterExit = true;
         path = [config.virtualisation.incus.package];
         script = ''
-          ${lib.concatMapStringsSep "\n" mkInstanceEntry (lib.attrNames config.incusInstances)}
+          ${lib.concatMapStringsSep "\n" mkInstanceEntry orderedNames}
         '';
       };
     };
