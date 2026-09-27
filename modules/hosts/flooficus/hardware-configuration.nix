@@ -10,7 +10,8 @@
     ];
 
     boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod"];
-    boot.initrd.kernelModules = [];
+    boot.initrd.kernelModules = ["vfio_pci"];
+    boot.kernelParams = ["vfio-pci.ids=1000:0072"];
     boot.kernelModules = ["kvm-amd"];
     boot.extraModulePackages = [];
 
