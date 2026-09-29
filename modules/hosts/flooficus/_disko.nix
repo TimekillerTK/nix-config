@@ -64,8 +64,47 @@
           };
         };
       };
+      disk3 = {
+        type = "disk";
+        device = "/dev/disk/by-id/ata-KIOXIA-EXCERIA_SATA_SSD_45TB61Y3K1C5";
+        content = {
+          type = "zfs";
+          pool = "zroot2";
+        };
+      };
     };
     zpool = {
+      zroot2 = {
+        type = "zpool";
+        mode = "";
+        rootFsOptions = {
+          # ZFS Tuning Options
+          # https://jrs-s.net/2018/08/17/zfs-tuning-cheat-sheet/
+          # https://openzfs.github.io/openzfs-docs/Basic%20Concepts/Checksums.html
+          # https://www.high-availability.com/docs/ZFS-Tuning-Guide/#
+          xattr = "sa"; # set Extended Attributes directly in Inodes (+perf)
+          dnodesize = "auto"; # recommended with xattr = "sa"
+          compression = "lz4"; # (+perf & +space)
+          atime = "off"; # disables last file/directory access time updates
+          acltype = "posixacl"; # support for POSIX ACLs
+          canmount = "off"; # don't mount the pool by default, mount datasets instead
+          checksum = "edonr"; # most performant checksum for zfs
+          normalization = "formD"; # recommended default
+        };
+        mountpoint = null;
+        options = {
+          ashift = "12";
+          autotrim = "on";
+        };
+        datasets = {
+          incus_extra = {
+            type = "zfs_fs";
+            options.canmount = "off";
+            options."com.sun:auto-snapshot" = "false";
+          };
+        };
+      };
+
       zroot = {
         type = "zpool";
         mode = "mirror";

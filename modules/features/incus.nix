@@ -45,6 +45,11 @@
             driver = "zfs";
             config = {source = "zroot/local/incus_snapshot";};
           }
+          {
+            name = "extra";
+            driver = "zfs";
+            config = {source = "zroot2/incus_extra";};
+          }
         ];
       };
     };
