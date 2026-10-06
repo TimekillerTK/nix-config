@@ -1,7 +1,8 @@
 # Mealie - Container (App)
 #
 # It is applied at instance creation time by the `incus-instances` systemd unit
-# (modules/features/incus-instances.nix).
+# (modules/features/incus-instances.nix). Changing this file recreates the
+# instance (data survives on the separate `mealie-data` volume).
 #
 # NOTE: The instance is created with `--no-profiles` (see
 # `modules/features/incus-instances.nix`), so no profile is applied. Everything
