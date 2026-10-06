@@ -20,8 +20,7 @@
     boot.supportedFilesystems = ["zfs"];
 
     # ZFS-compatible kernel here
-    # NOTE: 7_0 is removed, and 7_1 is broken for ZFS
-    # boot.kernelPackages = linux_7_0_14;
+    boot.kernelPackages = pkgs.linuxPackages_7_2;
 
     boot.zfs = {
       forceImportRoot = lib.mkDefault false;
