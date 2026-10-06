@@ -58,6 +58,11 @@ creation_rules:
       - age:
           - *tailscale
           - *master
+  - path_regex: secrets/grafana.ya?ml$
+    key_groups:
+      - age:
+          - *grafana
+          - *master
 
   # Runtime secrets for pw-server (palworld)
   - path_regex: secrets/pw-server.ya?ml$
