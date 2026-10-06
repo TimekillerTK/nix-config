@@ -186,7 +186,8 @@
       exporters.node = {
         enable = true;
         port = 9000;
-        enabledCollectors = ["systemd"];
+        enabledCollectors = ["systemd" "textfile"];
+        extraFlags = ["--collector.textfile.directory=/var/lib/node-exporter-textfile"];
         openFirewall = true;
       };
 
@@ -278,6 +279,90 @@
                 preferred_ip_protocol: ip4
                 query_name: "example.com"
         '';
+      };
+    };
+
+    # TrueNAS Disk Monitoring
+    sops.secrets.truenas_ssh_key = {
+      sopsFile = ../../../secrets/grafana.yml;
+      key = "id_ed25519";
+      owner = "truenas-exporter";
+    };
+
+    # User for systemd service
+    users.users.truenas-exporter = {
+      isSystemUser = true;
+      group = "truenas-exporter";
+      home = "/var/lib/truenas-exporter";
+      createHome = true;
+    };
+    users.groups.truenas-exporter = {};
+
+    systemd.tmpfiles.rules = [
+      "d /var/lib/node-exporter-textfile 0755 truenas-exporter truenas-exporter -"
+    ];
+
+    systemd.services.truenas-disk-exporter = let
+      script = pkgs.writeShellScript "truenas-disk-exporter" ''
+        set -euo pipefail
+
+        key="${config.sops.secrets.truenas_ssh_key.path}"
+        out="/var/lib/node-exporter-textfile/truenas_disks.prom"
+        tmp="''${out}.tmp"
+
+        ssh_args=(
+          -i "''${key}"
+          -o IdentitiesOnly=yes
+          -o BatchMode=yes
+          -o ConnectTimeout=5
+          -o StrictHostKeyChecking=accept-new
+          -o UserKnownHostsFile=/var/lib/truenas-exporter/known_hosts
+          grafana@truenas.cyn.internal
+        )
+
+        if ! zpool_json="$(ssh "''${ssh_args[@]}" /usr/sbin/zpool status -j 2>/dev/null)"; then
+          printf 'truenas_exporter_up{host="truenas.cyn.internal"} 0\n' > "''${tmp}"
+          mv "''${tmp}" "''${out}"
+          exit 0
+        fi
+
+        lsblk_json="$(ssh "''${ssh_args[@]}" lsblk -o NAME,SERIAL,PARTUUID --json 2>/dev/null)"
+
+        serials="$(printf '%s' "''${lsblk_json}" | jq -c '[.blockdevices[] | . as $d | ($d.children // [])[] | select(.partuuid != null) | {key: (.partuuid|ascii_downcase), value: ($d.serial // $d.name)}] | from_entries')"
+
+        printf '%s' "''${zpool_json}" | jq -r --argjson serials "''${serials}" '
+          .pools | to_entries[]
+          | .key as $pool
+          | .value.vdevs | .. | objects
+          | select(.vdev_type == "disk")
+          | select(.path | startswith("/dev/disk/by-partuuid/"))
+          | .partuuid = (.name | ascii_downcase)
+          | .serial = ($serials[.partuuid] // .name)
+          | .state = (.state // "UNKNOWN")
+          | "truenas_disk_state{disk=\"" + .serial + "\",pool=\"" + $pool + "\",partuuid=\"" + .partuuid + "\",state=\"" + .state + "\"} " + (if .state == "ONLINE" then "1" else "0" end)
+        ' > "''${tmp}"
+
+        printf 'truenas_exporter_up{host="truenas.cyn.internal"} 1\n' >> "''${tmp}"
+        mv "''${tmp}" "''${out}"
+      '';
+    in {
+      description = "Export TrueNAS ZFS disk health to node_exporter textfile";
+      after = ["network.target"];
+      path = [pkgs.openssh pkgs.jq pkgs.coreutils];
+      serviceConfig = {
+        Type = "oneshot";
+        User = "truenas-exporter";
+        Group = "truenas-exporter";
+        ExecStart = "${script}/bin/truenas-disk-exporter";
+      };
+    };
+
+    systemd.timers.truenas-disk-exporter = {
+      description = "Update TrueNAS ZFS disk health every minute";
+      wantedBy = ["timers.target"];
+      timerConfig = {
+        OnCalendar = "*:0/1";
+        Persistent = true;
       };
     };
 
