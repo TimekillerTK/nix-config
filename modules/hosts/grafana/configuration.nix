@@ -353,7 +353,7 @@
         Type = "oneshot";
         User = "truenas-exporter";
         Group = "truenas-exporter";
-        ExecStart = "${script}/bin/truenas-disk-exporter";
+        ExecStart = "${script}";
       };
     };
 
