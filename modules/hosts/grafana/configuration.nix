@@ -308,6 +308,7 @@
 
         key="${config.sops.secrets.truenas_ssh_key.path}"
         out="/var/lib/node-exporter-textfile/truenas_disks.prom"
+        cache="/var/lib/truenas-exporter/disk_serials.json"
         tmp="''${out}.tmp"
 
         ssh_args=(
@@ -326,11 +327,24 @@
           exit 0
         fi
 
-        lsblk_json="$(ssh "''${ssh_args[@]}" lsblk -o NAME,SERIAL,PARTUUID --json 2>/dev/null)"
+        if lsblk_json="$(ssh "''${ssh_args[@]}" lsblk -o NAME,SERIAL,PARTUUID --json 2>/dev/null)"; then
+          live="$(printf '%s' "''${lsblk_json}" | jq -c '[.blockdevices[] | . as $d | ($d.children // [])[] | select(.partuuid != null) | {key: (.partuuid|ascii_downcase), value: ($d.serial // $d.name)}] | from_entries')"
+        else
+          live="{}"
+        fi
 
-        serials="$(printf '%s' "''${lsblk_json}" | jq -c '[.blockdevices[] | . as $d | ($d.children // [])[] | select(.partuuid != null) | {key: (.partuuid|ascii_downcase), value: ($d.serial // $d.name)}] | from_entries')"
+        cached="$(jq -c . "''${cache}" 2>/dev/null || printf '{}')"
 
-        printf '%s' "''${zpool_json}" | jq -r --argjson serials "''${serials}" '
+        merged="$(jq -cn --argjson c "''${cached}" --argjson l "''${live}" '$c * $l')"
+
+        present="$(printf '%s' "''${zpool_json}" | jq -c '[.pools[].vdevs | .. | objects | select(.vdev_type == "disk") | select(.path | startswith("/dev/disk/by-partuuid/")) | (.name | ascii_downcase)] | unique')"
+
+        pruned="$(jq -cn --argjson m "''${merged}" --argjson p "''${present}" '$m | with_entries(select(.key as $k | $p | index($k)))')"
+
+        printf '%s\n' "''${pruned}" > "''${cache}.tmp"
+        mv "''${cache}.tmp" "''${cache}"
+
+        printf '%s' "''${zpool_json}" | jq -r --argjson serials "''${merged}" '
           .pools | to_entries[]
           | .key as $pool
           | .value.vdevs | .. | objects
