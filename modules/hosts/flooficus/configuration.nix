@@ -169,6 +169,18 @@ in {
       node_systemd = [
         "${hostName}.cyn.internal:9000"
       ];
+      blackbox_url = [
+        "https://flooficus.cyn.internal:8443"
+        "https://truenas.cyn.internal"
+        "https://nix-cache.cyn.internal"
+        "https://jellyfin.cyn.internal"
+        "https://cookbook.cyn.internal"
+        "https://pdf.cyn.internal"
+        "https://sync.cyn.internal"
+        "https://home.cyn.internal"
+        "https://torrent.cyn.internal"
+        "https://ca.cyn.internal/acme/acme/directory"
+      ];
     };
   };
 }
