@@ -424,12 +424,7 @@
         {
           "id": "labelsToFields",
           "options": {
-            "keepLabels": [
-              "instance",
-              "date",
-              "sha_short",
-              "status"
-            ]
+            "keepLabels": ["instance", "date", "sha_short", "status"]
           }
         },
         {
@@ -1549,11 +1544,9 @@
         "minVizHeight": 8,
         "minVizWidth": 0,
         "namePlacement": "auto",
-        "orientation": "horizontal",
+        "orientation": "vertical",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
