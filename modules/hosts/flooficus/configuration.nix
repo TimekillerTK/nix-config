@@ -170,8 +170,6 @@ in {
         "${hostName}.cyn.internal:9000"
       ];
       blackbox_url = [
-        "https://flooficus.cyn.internal:8443"
-        "https://truenas.cyn.internal"
         "https://nix-cache.cyn.internal"
         "https://jellyfin.cyn.internal"
         "https://cookbook.cyn.internal"
@@ -180,6 +178,10 @@ in {
         "https://home.cyn.internal"
         "https://torrent.cyn.internal"
         "https://ca.cyn.internal/acme/acme/directory"
+      ];
+      blackbox_insecure_url = [
+        "https://flooficus.cyn.internal:8443"
+        "https://truenas.cyn.internal"
       ];
     };
   };

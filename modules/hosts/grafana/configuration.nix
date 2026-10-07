@@ -146,6 +146,32 @@
           ];
         }
 
+        # Blackbox exporter - HTTPS (Health Checks for URLs with untrusted certs)
+        {
+          job_name = "blackbox";
+          metrics_path = "/probe";
+          params.module = ["https_insecure"];
+          static_configs = [
+            {
+              targets = config.prometheusTargets.blackbox_insecure_url;
+            }
+          ];
+          relabel_configs = [
+            {
+              source_labels = ["__address__"];
+              target_label = "__param_target";
+            }
+            {
+              source_labels = ["__param_target"];
+              target_label = "instance";
+            }
+            {
+              target_label = "__address__";
+              replacement = "localhost:9115";
+            }
+          ];
+        }
+
         # Blackbox exporter - DNS
         {
           job_name = "blackbox-dns";
@@ -271,6 +297,14 @@
               http:
                 method: GET
                 fail_if_not_ssl: true
+            https_insecure: # <- arbitrary
+              prober: http
+              timeout: 5s
+              http:
+                method: GET
+                fail_if_not_ssl: true
+                tls_config:
+                  insecure_skip_verify: true
             dns_check: # <- arbitrary
               prober: dns
               timeout: 5s

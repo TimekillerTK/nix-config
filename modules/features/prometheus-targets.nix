@@ -63,6 +63,12 @@
             description = "List of URLs to monitor with prometheus blackbox exporter, expected
               format https://<host>";
           };
+          blackbox_insecure_url = lib.mkOption {
+            type = with lib.types; listOf str;
+            default = [];
+            description = "List of URLs to monitor with prometheus blackbox exporter without
+              certificate verification, expected format https://<host>";
+          };
         };
       };
       default = {};
