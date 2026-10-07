@@ -124,36 +124,14 @@
         {
           job_name = "blackbox";
           metrics_path = "/probe";
-          params.module = ["https_ca"];
           static_configs = [
             {
               targets = config.prometheusTargets.blackbox_url;
+              labels.blackbox_module = "https_ca";
             }
-          ];
-          relabel_configs = [
-            {
-              source_labels = ["__address__"];
-              target_label = "__param_target";
-            }
-            {
-              source_labels = ["__param_target"];
-              target_label = "instance";
-            }
-            {
-              target_label = "__address__";
-              replacement = "localhost:9115";
-            }
-          ];
-        }
-
-        # Blackbox exporter - HTTPS (Health Checks for URLs with untrusted certs)
-        {
-          job_name = "blackbox";
-          metrics_path = "/probe";
-          params.module = ["https_insecure"];
-          static_configs = [
             {
               targets = config.prometheusTargets.blackbox_insecure_url;
+              labels.blackbox_module = "https_insecure";
             }
           ];
           relabel_configs = [
@@ -162,12 +140,20 @@
               target_label = "__param_target";
             }
             {
+              source_labels = ["blackbox_module"];
+              target_label = "__param_module";
+            }
+            {
               source_labels = ["__param_target"];
               target_label = "instance";
             }
             {
               target_label = "__address__";
               replacement = "localhost:9115";
+            }
+            {
+              action = "labeldrop";
+              regex = "blackbox_module";
             }
           ];
         }
