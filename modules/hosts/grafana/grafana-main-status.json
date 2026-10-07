@@ -1540,18 +1540,17 @@
       },
       "id": 14,
       "options": {
-        "displayMode": "gradient",
-        "minVizHeight": 8,
-        "minVizWidth": 0,
-        "namePlacement": "auto",
-        "orientation": "vertical",
+        "colorMode": "background_solid",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
         "reduceOptions": {
           "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
-        "showUnfilled": true,
-        "valueMode": "text"
+        "textMode": "value_and_name",
+        "wideLayout": true
       },
       "pluginVersion": "12.3.6",
       "targets": [
@@ -1570,7 +1569,7 @@
       ],
       "title": "Disk status",
       "transparent": true,
-      "type": "bargauge"
+      "type": "stat"
     }
   ],
   "preload": false,
