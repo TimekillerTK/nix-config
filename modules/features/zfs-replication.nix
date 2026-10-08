@@ -7,7 +7,11 @@
   # the remote user as root-equivalent and never prefixes `sudo` to remote `zfs`
   # commands. Local (source) ZFS permission delegation is handled automatically
   # by services.syncoid itself.
-  flake.modules.nixos.zfs-replication = {config, lib, ...}: let
+  flake.modules.nixos.zfs-replication = {
+    config,
+    lib,
+    ...
+  }: let
     cfg = config.zfsReplication;
   in {
     options.zfsReplication = {
@@ -49,12 +53,18 @@
         enable = true;
         interval = cfg.interval;
         sshKey = cfg.sshKeyFile;
-        commands = lib.listToAttrs (map (ds: lib.nameValuePair ds {
-          source = ds;
-          target = "${cfg.targetUser}@${cfg.targetHost}:${cfg.targetPool}/${config.networking.hostName}/${ds}";
-          recursive = true;
-          extraArgs = lib.optionals cfg.mirror ["--delete-target-snapshots"];
-        }) cfg.datasets);
+        commands = lib.listToAttrs (map (ds:
+          lib.nameValuePair ds {
+            source = ds;
+            target = "${cfg.targetUser}@${cfg.targetHost}:${cfg.targetPool}/${config.networking.hostName}/${ds}";
+            recursive = true;
+            recvOptions = "u"; # disable auto-mount on zfs receive
+
+            # also disable compression because target does not have lzop
+            # TODO: Add `lzop` for compression later on?
+            extraArgs = ["--compress=none"] ++ lib.optionals cfg.mirror ["--delete-target-snapshots"];
+          })
+        cfg.datasets);
       };
     };
   };
