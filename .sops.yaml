@@ -63,6 +63,11 @@ creation_rules:
       - age:
           - *grafana
           - *master
+  - path_regex: secrets/flooficus.ya?ml$
+    key_groups:
+      - age:
+          - *flooficus
+          - *master
 
   # Runtime secrets for pw-server (palworld)
   - path_regex: secrets/pw-server.ya?ml$
