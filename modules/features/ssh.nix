@@ -35,6 +35,10 @@
           hostNames = ["172.21.10.1" "router" "router.cyn.internal"];
           publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMv2PcJmfab9tBOtlB0VcI3vPgBDGFSn/h4+uw0Z3cqm";
         };
+        "truenas" = {
+          hostNames = ["truenas" "truenas.cyn.internal"];
+          publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILYoMDK2IOlDRdRhpilkhDmEW2nJcS5M6G86YBBiCwTx";
+        };
         "vh-server" = {
           hostNames = ["vh-server" "vh-server.cyn.internal"];
           publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHiojMVclIJ8rswJO+obzXFKCrL6lA2SLuM7LztpalZM";

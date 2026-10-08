@@ -21,6 +21,7 @@ in {
       inputs.self.modules.nixos.zfs
       inputs.self.modules.nixos.incus
       inputs.self.modules.nixos.incus-instances
+      inputs.self.modules.nixos.zfs-replication
       (inputs.self.factory.mount-cifs {
         shareName = "mediasnek3";
         shareLocalPath = "TrueNAS";
@@ -105,6 +106,27 @@ in {
       image = "images:nixos/26.05";
       configYaml = ./incus/nixos-vm-example.yaml;
       autostart = false;
+    };
+
+    # Push ZFS snapshots of the Incus snapshot-aware pools to TrueNAS
+    zfsReplication = {
+      enable = true;
+      targetHost = "truenas.cyn.internal";
+      targetUser = "backup_user";
+      targetPool = "zfs-backup";
+      sshKeyFile = config.sops.secrets.zfs_replication_ssh_key.path;
+      interval = ["00:00:00" "12:00:00"];
+      mirror = true;
+      datasets = [
+        "zroot/local/incus_snapshot"
+        "zroot2/incus_extra"
+      ];
+    };
+
+    sops.secrets.zfs_replication_ssh_key = {
+      sopsFile = ../../../secrets/flooficus.yml;
+      key = "id_ed25519";
+      owner = "syncoid";
     };
 
     home-manager.users.tk = {
