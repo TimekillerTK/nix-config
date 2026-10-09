@@ -148,6 +148,43 @@ in {
     # Hostname
     networking.hostName = hostName;
 
+    # Node exporter textfile collector for qbt-wireguard tunnel metrics.
+    # Scoped to this host only (merges additively with the shared
+    # prometheus-node-desktop module, which sets enabledCollectors = ["systemd"]).
+    services.prometheus.exporters.node = {
+      enabledCollectors = ["textfile"];
+      extraFlags = ["--collector.textfile.directory=/var/lib/node-exporter-textfile"];
+    };
+    systemd.tmpfiles.rules = [
+      "d /var/lib/node-exporter-textfile 0755 root root -"
+    ];
+
+    # Export qbt-wireguard tunnel health + leak-check metrics as a Prometheus
+    # textfile for the node exporter textfile collector to pick up.
+    systemd.services.wireguard-tunnel-exporter = let
+      script = pkgs.writeShellScript "wireguard-tunnel-exporter" ''
+        ${builtins.readFile ../../../scripts/wireguard-tunnel-exporter.sh}
+      '';
+    in {
+      description = "Export qbt-wireguard tunnel health + leak-check metrics to node_exporter textfile";
+      after = ["incus.service" "incus-instances.service"];
+      wants = ["incus.service" "incus-instances.service"];
+      path = [config.virtualisation.incus.package pkgs.curl];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${script}";
+      };
+    };
+
+    systemd.timers.wireguard-tunnel-exporter = {
+      description = "Run wireguard-tunnel-exporter every minute";
+      wantedBy = ["timers.target"];
+      timerConfig = {
+        OnCalendar = "*:0/1";
+        Persistent = true;
+      };
+    };
+
     # Required to administrate the incus server and for docker access
     users.users.tk.extraGroups = ["incus-admin" "docker"];
 
