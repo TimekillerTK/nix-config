@@ -32,9 +32,9 @@ curl_ip() {
     printf 'wireguard_interface_up{interface="wg0"} 0\n'
   fi
 
-  host_ip="$(curl_ip "")"
-  wg_ip="$(curl_ip qbt-wireguard)"
-  qbt_ip="$(curl_ip qbittorrent)"
+  host_ip="$(curl_ip "" || true)"
+  wg_ip="$(curl_ip qbt-wireguard || true)"
+  qbt_ip="$(curl_ip qbittorrent || true)"
 
   if [ -n "${host_ip}" ] && [ -n "${wg_ip}" ] && [ -n "${qbt_ip}" ]; then
     printf 'wireguard_leak_check_up 1\n'
