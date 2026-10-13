@@ -25,7 +25,7 @@
         };
         "hummingbird" = {
           hostNames = ["hummingbird" "hummingbird.cyn.internal"];
-          publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPfUJfTn9XMuue/W7Pm1T9UpqDBMq3grqyl0+hql+yGc";
+          publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOlifc4pGPlqdT3dOO1vbMti1s1H/Kmg7aCGJxZCZRpE";
         };
         "nix-cache" = {
           hostNames = ["host.nix-cache.cyn.internal"];
