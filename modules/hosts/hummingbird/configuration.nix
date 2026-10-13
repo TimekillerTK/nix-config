@@ -41,10 +41,16 @@
         inputs.self.modules.homeManager.system-desktop
       ];
       # Normal home-manager config stuff goes here
+      fonts.fontconfig.enable = true;
+
       # Custom packages for this user
       home.packages = with pkgs; [
         # Custom
         local.renamer
+
+        # Fonts
+        local.bebas-neue
+        local.poetsen-one
 
         # Desktop Apps
         scribus # Adobe InDesign Alternative
