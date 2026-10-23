@@ -1,6 +1,18 @@
 {
   # World of Warcraft 3.3.5a client for the ChromieCraft.
   #
+  # To use:
+  # - put the 3.3.5a client zip somewhere (your desktop or your NAS).
+  # - in the imports statement of your host, add the following:
+  #
+  # (inputs.self.factory.chromiecraft {
+  #   zip = "/path/to/ChromieCraft_3.3.5a.zip";
+  #   installdir = "/path/to/whereyouwantit/folder";
+  # })
+  #
+  # Then just run `chromiecraft` in cli or run the ChromieCraft desktop
+  # entry.
+  #
   # NOTE: The client deliberately does NOT live in /nix/store: WoW writes to its own
   # directory (WTF/, Interface/AddOns/, Cache/, Screenshots/) and the Wine
   # prefix must be writable as well.
