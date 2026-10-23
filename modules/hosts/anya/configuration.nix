@@ -12,6 +12,10 @@
       ./_disko.nix
 
       inputs.self.modules.nixos.system-desktop
+      (inputs.self.factory.chromiecraft {
+        zip = "/home/tk/Downloads/ChromieCraft_3.3.5a.zip";
+        installdir = "/data/chromiecraft";
+      })
       inputs.self.modules.nixos.minecraft-server
       inputs.self.modules.nixos.nix-build-machine-settings
 

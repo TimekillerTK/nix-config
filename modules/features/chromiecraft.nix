@@ -1,0 +1,62 @@
+{
+  # World of Warcraft 3.3.5a client for the ChromieCraft.
+  #
+  # NOTE: The client deliberately does NOT live in /nix/store: WoW writes to its own
+  # directory (WTF/, Interface/AddOns/, Cache/, Screenshots/) and the Wine
+  # prefix must be writable as well.
+  #
+  # The client zip is only read once, on the first launch.
+  config.flake.factory.chromiecraft = {
+    zip,
+    installdir,
+  }: {pkgs, ...}: let
+    launch = pkgs.writeShellApplication {
+      name = "chromiecraft";
+      runtimeInputs = [
+        pkgs.unstable.wineWow64Packages.stagingFull
+        pkgs.libarchive
+      ];
+      text = ''
+        zip=${zip}
+        installdir=${installdir}
+        gamedir=$installdir/ChromieCraft_3.3.5a
+
+        wtf=$gamedir/WTF/Config.wtf
+
+        export WINEPREFIX=$installdir/wineprefix
+        export WINEDEBUG=-all
+
+        if [ ! -f "$gamedir/Wow.exe" ]; then
+          echo "ChromieCraft client not found, extracting $zip to $installdir"
+          echo "This only happens once and can take a few minutes."
+          mkdir -p "$installdir"
+          bsdtar -xvf "$zip" -C "$installdir"
+        fi
+
+        # NOTE: WoW's default true-fullscreen mode is broken under Wine on Wayland
+        # (renders into only part of the window); seed windowed defaults.
+        if [ ! -f "$wtf" ]; then
+          mkdir -p "$gamedir/WTF"
+          printf 'SET gxWindow "1"\n' > "$wtf"
+        fi
+
+        cd "$gamedir"
+        exec wine Wow.exe "$@"
+      '';
+    };
+  in {
+    environment.systemPackages = [
+      pkgs.unstable.wineWow64Packages.stagingFull
+      pkgs.unstable.winetricks
+      launch
+      (pkgs.makeDesktopItem {
+        name = "chromiecraft";
+        desktopName = "ChromieCraft (WoW 3.3.5a)";
+        comment = "World of Warcraft 3.3.5a client for ChromieCraft";
+        exec = "${launch}/bin/chromiecraft";
+        icon = "${./chromiecraft.png}";
+        categories = ["Game"];
+      })
+    ];
+  };
+}
