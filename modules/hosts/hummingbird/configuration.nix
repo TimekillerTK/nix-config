@@ -14,6 +14,10 @@
       (inputs.self.factory.home-assistant-remote {
         bunny_user = "astra";
       })
+      (inputs.self.factory.chromiecraft {
+        zip = "/mnt/mediasnek/ChromieCraft_3.3.5a.zip";
+        installdir = "/data/chromiecraft";
+      })
       (inputs.self.factory.mount-cifs {
         shareName = "mediasnek3";
         shareLocalPath = "mediasnek";
