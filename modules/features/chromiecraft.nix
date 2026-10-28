@@ -27,6 +27,7 @@
       runtimeInputs = [
         pkgs.unstable.wineWow64Packages.stagingFull
         pkgs.libarchive
+        pkgs.local.wow-large-address-aware
       ];
       text = ''
         zip=${zip}
@@ -43,6 +44,9 @@
           echo "This only happens once and can take a few minutes."
           mkdir -p "$installdir"
           bsdtar -xvf "$zip" -C "$installdir"
+
+          # Enable Large Address Aware so the 32-bit client can use >2GB RAM.
+          wow-large-address-aware "$gamedir/Wow.exe"
         fi
 
         # NOTE: WoW's default true-fullscreen mode is broken under Wine on Wayland
@@ -60,6 +64,7 @@
     environment.systemPackages = [
       pkgs.unstable.wineWow64Packages.stagingFull
       pkgs.unstable.winetricks
+      pkgs.local.wow-large-address-aware
       launch
       (pkgs.makeDesktopItem {
         name = "chromiecraft";
